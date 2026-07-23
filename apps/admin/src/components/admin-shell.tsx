@@ -108,7 +108,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`cursor-pointer rounded-[var(--mj-radius-md)] px-3 py-2 text-sm transition-colors ${
+                className={`mj-nav-item cursor-pointer rounded-[var(--mj-radius-md)] px-3 py-2 text-sm ${
                   active
                     ? 'bg-[var(--mj-accent)] font-semibold text-[var(--mj-accent-fg)]'
                     : 'hover:bg-[var(--mj-muted)]'
@@ -139,7 +139,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
           <div className="flex items-center gap-3">
             <button
               type="button"
-              className="inline-flex h-9 cursor-pointer items-center rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] px-3 text-sm font-medium hover:bg-[var(--mj-muted)]"
+              className="mj-btn inline-flex h-9 cursor-pointer items-center rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] px-3 text-sm font-medium"
               onClick={() => setLocale(locale === 'fa' ? 'en' : 'fa')}
             >
               {locale === 'fa' ? 'EN' : 'فا'}

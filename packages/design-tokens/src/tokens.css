@@ -3,6 +3,8 @@
  * Import via: `@import "@megajs/design-tokens/css";` or copy into app globals.
  */
 
+@import "./motion.css";
+
 :root {
   --mj-yellow: #ffd400;
   --mj-ink: #1a1a1a;
@@ -22,8 +24,12 @@
   --mj-radius-lg: 20px;
   --mj-motion-fast: 150ms;
   --mj-motion-base: 220ms;
-  --mj-motion-slow: 300ms;
-  --mj-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --mj-motion-slow: 380ms;
+  --mj-motion-reveal: 520ms;
+  --mj-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --mj-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --mj-ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+  --mj-ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
   --mj-touch: 48px;
 }
 

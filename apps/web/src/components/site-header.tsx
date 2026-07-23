@@ -40,7 +40,7 @@ export function SiteHeader({
             <Link
               key={link.href}
               href={link.href}
-              className="cursor-pointer rounded-[var(--mj-radius-md)] px-3 py-2 text-sm font-medium text-[var(--mj-muted-fg)] transition-colors duration-[var(--mj-motion-base)] hover:bg-[var(--mj-muted)] hover:text-[var(--mj-fg)]"
+              className="mj-nav-item cursor-pointer rounded-[var(--mj-radius-md)] px-3 py-2 text-sm font-medium text-[var(--mj-muted-fg)] hover:bg-[var(--mj-muted)] hover:text-[var(--mj-fg)]"
             >
               {link.label}
             </Link>
@@ -50,7 +50,7 @@ export function SiteHeader({
           <Link
             href={switchedPath}
             hrefLang={other}
-            className="inline-flex h-11 cursor-pointer items-center rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] px-3 text-sm font-medium transition-colors hover:bg-[var(--mj-muted)]"
+            className="mj-btn inline-flex h-11 cursor-pointer items-center rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] px-3 text-sm font-medium"
           >
             {other === 'fa' ? 'فا' : 'EN'}
           </Link>
@@ -58,14 +58,14 @@ export function SiteHeader({
           {authed ? (
             <Link
               href={`${base}/profile`}
-              className="inline-flex h-11 cursor-pointer items-center rounded-[var(--mj-radius-md)] bg-[var(--mj-accent)] px-4 text-sm font-semibold text-[var(--mj-accent-fg)] transition-opacity hover:opacity-90"
+              className="mj-btn mj-btn--primary inline-flex h-11 cursor-pointer items-center rounded-[var(--mj-radius-md)] bg-[var(--mj-accent)] px-4 text-sm font-semibold text-[var(--mj-accent-fg)]"
             >
               {dict.nav.profile}
             </Link>
           ) : (
             <Link
               href={`${base}/login`}
-              className="inline-flex h-11 cursor-pointer items-center rounded-[var(--mj-radius-md)] bg-[var(--mj-accent)] px-4 text-sm font-semibold text-[var(--mj-accent-fg)] transition-opacity hover:opacity-90"
+              className="mj-btn mj-btn--primary inline-flex h-11 cursor-pointer items-center rounded-[var(--mj-radius-md)] bg-[var(--mj-accent)] px-4 text-sm font-semibold text-[var(--mj-accent-fg)]"
             >
               {dict.nav.login}
             </Link>

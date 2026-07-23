@@ -87,31 +87,3 @@ input.font-mono {
     scroll-behavior: auto !important;
   }
 }
-
-@keyframes mj-fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes mj-hero-wash {
-  from {
-    opacity: 0.4;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.mj-fade-up {
-  animation: mj-fade-up var(--mj-motion-slow) var(--mj-ease) both;
-}
-
-.mj-hero-wash {
-  animation: mj-hero-wash 900ms var(--mj-ease) both;
-}

@@ -37,7 +37,7 @@ export default function ProfileLayout({ children }: { children: ReactNode }) {
               <Link
                 key={l.href}
                 href={l.href}
-                className={`cursor-pointer rounded-[var(--mj-radius-md)] px-3 py-2 text-sm transition-colors ${
+                className={`mj-nav-item cursor-pointer rounded-[var(--mj-radius-md)] px-3 py-2 text-sm ${
                   active
                     ? 'bg-[var(--mj-accent)] font-semibold text-[var(--mj-accent-fg)]'
                     : 'hover:bg-[var(--mj-muted)]'

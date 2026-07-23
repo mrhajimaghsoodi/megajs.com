@@ -10,7 +10,8 @@
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
-    "./css": "./src/tokens.css"
+    "./css": "./src/tokens.css",
+    "./motion.css": "./src/motion.css"
   },
   "files": ["dist", "src"],
   "scripts": {

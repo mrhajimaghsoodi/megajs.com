@@ -77,13 +77,13 @@ export default async function HomePage({
             <div className="flex flex-wrap gap-3">
               <Link
                 href={`/${locale}/login`}
-                className="inline-flex h-12 cursor-pointer items-center rounded-[var(--mj-radius-md)] bg-[var(--mj-accent)] px-5 text-sm font-semibold text-[var(--mj-accent-fg)] transition-opacity hover:opacity-90"
+                className="mj-btn mj-btn--primary inline-flex h-12 cursor-pointer items-center rounded-[var(--mj-radius-md)] bg-[var(--mj-accent)] px-5 text-sm font-semibold text-[var(--mj-accent-fg)]"
               >
                 {dict.ctaStart}
               </Link>
               <Link
                 href={`/${locale}/learn`}
-                className="inline-flex h-12 cursor-pointer items-center rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-card)] px-5 text-sm font-semibold transition-colors hover:bg-[var(--mj-muted)]"
+                className="mj-btn inline-flex h-12 cursor-pointer items-center rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-card)] px-5 text-sm font-semibold"
               >
                 {dict.ctaPath}
               </Link>
@@ -116,7 +116,7 @@ learn(today);`}</pre>
           <h2 className="font-display text-3xl font-bold">{dict.sections.roadmapTitle}</h2>
           <p className="mt-3 text-[var(--mj-muted-fg)]">{dict.sections.roadmapBody}</p>
         </div>
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <div className="mj-stagger grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {(tracks.length
             ? tracks
             : [
@@ -133,7 +133,7 @@ learn(today);`}</pre>
             <Link
               key={track.slug}
               href={`/${locale}/learn/${track.slug}`}
-              className="group cursor-pointer rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-card)] p-5 transition-transform duration-[var(--mj-motion-base)] hover:-translate-y-0.5"
+              className="mj-card-motion group cursor-pointer rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-card)] p-5"
             >
               <div className="mb-3 flex items-center justify-between gap-3">
                 <span className="font-mono text-xs text-[var(--mj-muted-fg)]">
@@ -155,7 +155,7 @@ learn(today);`}</pre>
       </section>
 
       <section className="border-y border-[var(--mj-border)] bg-[var(--mj-muted)]">
-        <div className="mx-auto grid max-w-6xl gap-8 px-4 py-16 sm:px-6 lg:grid-cols-3">
+        <div className="mj-stagger mx-auto grid max-w-6xl gap-8 px-4 py-16 sm:px-6 lg:grid-cols-3">
           {[
             {
               title: dict.sections.dailyTitle,
@@ -170,7 +170,7 @@ learn(today);`}</pre>
               body: `${dict.sections.free} · ${dict.sections.sub} · ${dict.sections.paid}`,
             },
           ].map((item) => (
-            <div key={item.title}>
+            <div key={item.title} className="mj-card-motion rounded-[var(--mj-radius-md)] p-1">
               <h2 className="font-display text-2xl font-bold">{item.title}</h2>
               <p className="mt-3 text-[var(--mj-muted-fg)]">{item.body}</p>
             </div>

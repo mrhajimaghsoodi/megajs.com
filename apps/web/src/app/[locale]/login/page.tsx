@@ -2,6 +2,7 @@
 
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
+import { Button, Collapse, PageEnter } from '@/components/ui/motion';
 import { getDictionary } from '@/i18n/dictionaries';
 import { API_BASE, isLocale, type Locale } from '@/lib/utils';
 
@@ -16,6 +17,7 @@ export default function LoginPage() {
   const [token, setToken] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
 
   async function requestOtp() {
     setLoading(true);
@@ -57,7 +59,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="mx-auto flex max-w-md flex-col gap-6 px-4 py-16 sm:px-6">
+    <PageEnter className="mx-auto flex max-w-md flex-col gap-6 px-4 py-16 sm:px-6">
       <h1 className="font-display text-3xl font-bold">{l.title}</h1>
       <p className="text-sm text-[var(--mj-muted-fg)]">{l.subtitle}</p>
       <label className="grid gap-2 text-sm">
@@ -65,61 +67,60 @@ export default function LoginPage() {
         <input
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
-          className="h-12 rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-card)] px-3"
+          className="h-12 rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-card)] px-3 font-mono transition-[border-color,box-shadow] duration-[var(--mj-motion-fast)] focus:border-[var(--mj-accent)] focus:outline-none focus:ring-2 focus:ring-[var(--mj-accent)]/40"
           dir="ltr"
         />
       </label>
-      <button
-        type="button"
-        disabled={loading}
-        onClick={requestOtp}
-        className="h-12 cursor-pointer rounded-[var(--mj-radius-md)] bg-[var(--mj-accent)] font-semibold text-[var(--mj-accent-fg)] disabled:opacity-60"
-      >
-        {loading ? dict.loading : l.sendCode}
-      </button>
-      {devCode ? (
-        <>
+      <Button loading={loading} onClick={() => void requestOtp()} className="h-12 w-full">
+        {l.sendCode}
+      </Button>
+      <Collapse open={Boolean(devCode)}>
+        <div className="space-y-2 pb-1">
           <p className="font-mono text-sm text-[var(--mj-muted-fg)]">DEV CODE: {devCode}</p>
           <p className="text-xs text-[var(--mj-muted-fg)]">{l.hint}</p>
-        </>
-      ) : null}
+        </div>
+      </Collapse>
       <label className="grid gap-2 text-sm">
         <span>{l.code}</span>
         <input
           value={code}
           onChange={(e) => setCode(e.target.value)}
-          className="h-12 rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-card)] px-3"
+          className="h-12 rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-card)] px-3 font-mono transition-[border-color,box-shadow] duration-[var(--mj-motion-fast)] focus:border-[var(--mj-accent)] focus:outline-none focus:ring-2 focus:ring-[var(--mj-accent)]/40"
           dir="ltr"
         />
       </label>
+      <Button
+        variant="secondary"
+        loading={loading}
+        onClick={() => void verifyOtp()}
+        className="h-12 w-full"
+      >
+        {l.verify}
+      </Button>
+      {error ? (
+        <p className="mj-slide-down text-sm text-[var(--mj-danger)]">{error}</p>
+      ) : null}
+      <Collapse open={Boolean(token)}>
+        <p className="rounded-[var(--mj-radius-md)] bg-[var(--mj-muted)] p-3 text-sm">{l.success}</p>
+      </Collapse>
+
       <button
         type="button"
-        disabled={loading}
-        onClick={verifyOtp}
-        className="h-12 cursor-pointer rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] font-semibold hover:bg-[var(--mj-muted)] disabled:opacity-60"
+        className="mj-btn text-start text-sm font-medium text-[var(--mj-muted-fg)] underline-offset-4 hover:underline"
+        onClick={() => setMoreOpen((v) => !v)}
       >
-        {loading ? dict.loading : l.verify}
+        {moreOpen ? '▾' : '▸'} {locale === 'fa' ? 'روش‌های دیگر' : 'Other methods'}
       </button>
-      {error ? <p className="text-sm text-[var(--mj-danger)]">{error}</p> : null}
-      {token ? (
-        <p className="rounded-[var(--mj-radius-md)] bg-[var(--mj-muted)] p-3 text-sm">{l.success}</p>
-      ) : null}
-      <div className="grid gap-2">
-        <button
-          type="button"
-          className="h-11 cursor-pointer rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] text-sm opacity-60"
-          disabled
-        >
-          Google (phase M1 wiring)
-        </button>
-        <button
-          type="button"
-          className="h-11 cursor-pointer rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] text-sm opacity-60"
-          disabled
-        >
-          GitHub (phase M1 wiring)
-        </button>
-      </div>
-    </div>
+      <Collapse open={moreOpen}>
+        <div className="grid gap-2 pb-1">
+          <Button variant="secondary" disabled className="w-full opacity-60">
+            Google
+          </Button>
+          <Button variant="secondary" disabled className="w-full opacity-60">
+            GitHub
+          </Button>
+        </div>
+      </Collapse>
+    </PageEnter>
   );
 }

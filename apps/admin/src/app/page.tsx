@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { adminFetch } from '@/components/admin-shell';
+import { PageEnter, SkeletonPanel, Stagger } from '@/components/ui/motion';
 import { useAdminLocale } from '@/i18n/locale-context';
 
 type Dash = {
@@ -30,6 +31,10 @@ export default function AdminDashboard() {
       .catch((e) => setError(e.message));
   }, []);
 
+  if (!data && !error) {
+    return <SkeletonPanel cards={9} />;
+  }
+
   const cards = data
     ? [
         [d.users, data.users],
@@ -46,7 +51,7 @@ export default function AdminDashboard() {
     : [];
 
   return (
-    <div className="space-y-6">
+    <PageEnter className="space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 className="font-display text-3xl font-bold">{d.title}</h1>
@@ -54,7 +59,7 @@ export default function AdminDashboard() {
         </div>
         <Link
           href="/support"
-          className="inline-flex h-10 items-center rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] px-3 text-sm hover:border-[var(--mj-accent)]"
+          className="mj-btn inline-flex h-10 items-center rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] px-3 text-sm hover:border-[var(--mj-accent)]"
         >
           {d.ticketsInbox}
           {data ? (
@@ -64,18 +69,18 @@ export default function AdminDashboard() {
           ) : null}
         </Link>
       </div>
-      {error ? <p className="text-sm text-[var(--mj-danger)]">{error}</p> : null}
-      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+      {error ? <p className="mj-slide-down text-sm text-[var(--mj-danger)]">{error}</p> : null}
+      <Stagger className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
         {cards.map(([label, value]) => (
           <article
             key={String(label)}
-            className="rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-card)] p-5"
+            className="mj-card-motion rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-card)] p-5"
           >
             <div className="text-sm text-[var(--mj-muted-fg)]">{label}</div>
             <div className="mt-2 font-mono text-3xl font-bold">{value}</div>
           </article>
         ))}
-      </div>
-    </div>
+      </Stagger>
+    </PageEnter>
   );
 }

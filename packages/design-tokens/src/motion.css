@@ -1,0 +1,348 @@
+/**
+ * MEGA JS motion system — import via design-tokens/css (bundled in tokens.css)
+ */
+
+:root {
+  --mj-motion-fast: 150ms;
+  --mj-motion-base: 220ms;
+  --mj-motion-slow: 380ms;
+  --mj-motion-reveal: 520ms;
+  --mj-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --mj-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --mj-ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+  --mj-ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---------- Keyframes ---------- */
+
+@keyframes mj-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes mj-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes mj-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes mj-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes mj-hero-wash {
+  from {
+    opacity: 0.35;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes mj-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes mj-pulse-soft {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@keyframes mj-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes mj-press-ripple {
+  from {
+    transform: scale(0);
+    opacity: 0.35;
+  }
+  to {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+@keyframes mj-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+/* ---------- Utility classes ---------- */
+
+.mj-fade-up {
+  animation: mj-fade-up var(--mj-motion-reveal) var(--mj-ease-out) both;
+}
+
+.mj-fade-in {
+  animation: mj-fade-in var(--mj-motion-base) var(--mj-ease) both;
+}
+
+.mj-scale-in {
+  animation: mj-scale-in var(--mj-motion-slow) var(--mj-ease-out) both;
+}
+
+.mj-slide-down {
+  animation: mj-slide-down var(--mj-motion-slow) var(--mj-ease-out) both;
+}
+
+.mj-hero-wash {
+  animation: mj-hero-wash 900ms var(--mj-ease) both;
+}
+
+.mj-stagger > * {
+  animation: mj-fade-up var(--mj-motion-reveal) var(--mj-ease-out) both;
+}
+.mj-stagger > *:nth-child(1) {
+  animation-delay: 40ms;
+}
+.mj-stagger > *:nth-child(2) {
+  animation-delay: 90ms;
+}
+.mj-stagger > *:nth-child(3) {
+  animation-delay: 140ms;
+}
+.mj-stagger > *:nth-child(4) {
+  animation-delay: 190ms;
+}
+.mj-stagger > *:nth-child(5) {
+  animation-delay: 240ms;
+}
+.mj-stagger > *:nth-child(6) {
+  animation-delay: 290ms;
+}
+.mj-stagger > *:nth-child(7) {
+  animation-delay: 340ms;
+}
+.mj-stagger > *:nth-child(8) {
+  animation-delay: 390ms;
+}
+.mj-stagger > *:nth-child(9) {
+  animation-delay: 440ms;
+}
+.mj-stagger > *:nth-child(10) {
+  animation-delay: 490ms;
+}
+.mj-stagger > *:nth-child(n + 11) {
+  animation-delay: 520ms;
+}
+
+/* Scroll / mount reveal (toggled by JS) */
+.mj-reveal {
+  opacity: 0;
+  transform: translateY(18px) scale(0.985);
+  transition:
+    opacity var(--mj-motion-reveal) var(--mj-ease-out),
+    transform var(--mj-motion-reveal) var(--mj-ease-out);
+  will-change: opacity, transform;
+}
+.mj-reveal.is-in {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Cards / interactive surfaces */
+.mj-card-motion {
+  transition:
+    transform var(--mj-motion-base) var(--mj-ease),
+    border-color var(--mj-motion-fast) var(--mj-ease),
+    box-shadow var(--mj-motion-base) var(--mj-ease),
+    background-color var(--mj-motion-fast) var(--mj-ease);
+}
+.mj-card-motion:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px color-mix(in oklab, var(--mj-ink) 8%, transparent);
+}
+.mj-card-motion:active {
+  transform: translateY(-1px) scale(0.995);
+}
+
+/* Buttons */
+.mj-btn {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    transform var(--mj-motion-fast) var(--mj-ease-spring),
+    opacity var(--mj-motion-fast) var(--mj-ease),
+    background-color var(--mj-motion-fast) var(--mj-ease),
+    border-color var(--mj-motion-fast) var(--mj-ease),
+    box-shadow var(--mj-motion-base) var(--mj-ease);
+}
+.mj-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+.mj-btn:active:not(:disabled) {
+  transform: translateY(1px) scale(0.97);
+}
+.mj-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.mj-btn--primary:hover:not(:disabled) {
+  box-shadow: 0 8px 20px color-mix(in oklab, var(--mj-accent) 45%, transparent);
+}
+.mj-btn__ripple {
+  position: absolute;
+  inset: auto;
+  width: 12px;
+  height: 12px;
+  margin: -6px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--mj-fg) 25%, transparent);
+  pointer-events: none;
+  animation: mj-press-ripple 520ms var(--mj-ease-out) forwards;
+}
+.mj-btn--primary .mj-btn__ripple {
+  background: color-mix(in oklab, var(--mj-ink) 22%, transparent);
+}
+
+/* Skeleton */
+.mj-skeleton {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--mj-radius-md);
+  background: color-mix(in oklab, var(--mj-muted) 90%, var(--mj-border));
+  background-image: linear-gradient(
+    105deg,
+    transparent 30%,
+    color-mix(in oklab, var(--mj-fg) 8%, transparent) 50%,
+    transparent 70%
+  );
+  background-size: 200% 100%;
+  animation: mj-shimmer 1.35s var(--mj-ease-soft) infinite;
+}
+.dark .mj-skeleton {
+  background-image: linear-gradient(
+    105deg,
+    transparent 30%,
+    color-mix(in oklab, white 10%, transparent) 50%,
+    transparent 70%
+  );
+}
+
+.mj-spinner {
+  width: 1.1em;
+  height: 1.1em;
+  border: 2px solid color-mix(in oklab, currentColor 25%, transparent);
+  border-top-color: currentColor;
+  border-radius: 999px;
+  animation: mj-spin 0.7s linear infinite;
+  display: inline-block;
+  vertical-align: -0.15em;
+}
+
+/* Collapse panel (height animation via grid) */
+.mj-collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--mj-motion-slow) var(--mj-ease-out);
+}
+.mj-collapse.is-open {
+  grid-template-rows: 1fr;
+}
+.mj-collapse__inner {
+  overflow: hidden;
+  min-height: 0;
+}
+.mj-collapse__content {
+  opacity: 0;
+  transform: translateY(-6px);
+  transition:
+    opacity var(--mj-motion-base) var(--mj-ease),
+    transform var(--mj-motion-slow) var(--mj-ease-out);
+}
+.mj-collapse.is-open .mj-collapse__content {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 40ms;
+}
+
+/* Nav / sidebar active pill */
+.mj-nav-item {
+  transition:
+    background-color var(--mj-motion-fast) var(--mj-ease),
+    color var(--mj-motion-fast) var(--mj-ease),
+    transform var(--mj-motion-fast) var(--mj-ease-spring);
+}
+.mj-nav-item:hover {
+  transform: translateX(2px);
+}
+[dir='rtl'] .mj-nav-item:hover {
+  transform: translateX(-2px);
+}
+.mj-nav-item:active {
+  transform: scale(0.98);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mj-fade-up,
+  .mj-fade-in,
+  .mj-scale-in,
+  .mj-slide-down,
+  .mj-hero-wash,
+  .mj-stagger > *,
+  .mj-skeleton,
+  .mj-spinner,
+  .mj-btn__ripple {
+    animation: none !important;
+  }
+  .mj-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .mj-card-motion:hover,
+  .mj-btn:hover:not(:disabled),
+  .mj-btn:active:not(:disabled),
+  .mj-nav-item:hover {
+    transform: none !important;
+  }
+  .mj-collapse {
+    transition: none !important;
+  }
+}
