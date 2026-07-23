@@ -1,0 +1,22 @@
+services:
+  # Production-like database (optional). Local default uses SQLite.
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: megajs
+      POSTGRES_PASSWORD: megajs
+      POSTGRES_DB: megajs
+    ports:
+      - "5432:5432"
+    volumes:
+      - megajs_pg:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+volumes:
+  megajs_pg:

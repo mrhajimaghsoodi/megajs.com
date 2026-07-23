@@ -1,0 +1,20 @@
+@import "tailwindcss";
+@import "@megajs/design-tokens/css";
+
+@theme inline {
+  --color-background: var(--mj-bg);
+  --color-foreground: var(--mj-fg);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-persian: var(--font-persian);
+}
+
+body {
+  background: var(--mj-bg);
+  color: var(--mj-fg);
+  font-family: var(--font-persian), var(--font-body), system-ui, sans-serif;
+}
+
+.font-display {
+  font-family: var(--font-display), var(--font-persian), sans-serif;
+}

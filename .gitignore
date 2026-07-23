@@ -1,0 +1,21 @@
+# Dependencies
+node_modules
+.pnpm-store
+.turbo
+dist
+.next
+.expo
+out
+coverage
+*.log
+.env
+.env.local
+.env.*.local
+apps/api/prisma/*.db
+apps/api/prisma/*.db-journal
+.DS_Store
+*.tsbuildinfo
+playwright-report
+test-results
+apps/api/prisma/dev.db
+apps/api/prisma/dev.db-journal

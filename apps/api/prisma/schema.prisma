@@ -1,0 +1,478 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+
+
+
+
+
+
+
+
+model User {
+  id            String         @id @default(cuid())
+  displayName   String?
+  email         String?        @unique
+  phone         String?        @unique
+  phoneVerified Boolean        @default(false)
+  avatarUrl     String?
+  locale        String         @default("fa")
+  theme         String         @default("light")
+  role          String           @default("user")
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  identities    AuthIdentity[]
+  sessions      Session[]
+  wallet        Wallet?
+  enrollments   Enrollment[]
+  progress      LessonProgress[]
+  submissions   Submission[]
+  orders        Order[]
+  subscriptions Subscription[]
+  liveRegs      LiveRegistration[]
+  otpCodes      OtpCode[]
+}
+
+model AuthIdentity {
+  id             String       @id @default(cuid())
+  userId         String
+  provider       String
+  providerUserId String
+  createdAt      DateTime     @default(now())
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerUserId])
+  @@index([userId])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  tokenHash String   @unique
+  client    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model OtpCode {
+  id        String   @id @default(cuid())
+  userId    String?
+  phone     String
+  codeHash  String
+  expiresAt DateTime
+  consumed  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([phone])
+}
+
+model Track {
+  id        String        @id @default(cuid())
+  slug      String        @unique
+  yearPlan  Int
+  status    String @default("draft")
+  sortOrder Int           @default(0)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  i18n      TrackI18n[]
+  courses   Course[]
+  seo       SeoMeta?
+}
+
+model TrackI18n {
+  id          String @id @default(cuid())
+  trackId     String
+  locale      String
+  title       String
+  summary     String
+  description String @default("")
+  track       Track  @relation(fields: [trackId], references: [id], onDelete: Cascade)
+
+  @@unique([trackId, locale])
+}
+
+model Course {
+  id                   String        @id @default(cuid())
+  trackId              String
+  slug                 String        @unique
+  status               String @default("draft")
+  accessTier           String    @default("paid")
+  priceCents           Int           @default(0)
+  currency             String        @default("IRT")
+  sortOrder            Int           @default(0)
+  estimatedMinutes     Int           @default(0)
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+  track                Track         @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  i18n                 CourseI18n[]
+  modules              Module[]
+  enrollments          Enrollment[]
+  seo                  SeoMeta?
+}
+
+model CourseI18n {
+  id          String @id @default(cuid())
+  courseId    String
+  locale      String
+  title       String
+  summary     String
+  description String @default("")
+  course      Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([courseId, locale])
+}
+
+model Module {
+  id        String   @id @default(cuid())
+  courseId  String
+  slug      String
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  i18n      ModuleI18n[]
+  lessons   Lesson[]
+
+  @@unique([courseId, slug])
+}
+
+model ModuleI18n {
+  id       String @id @default(cuid())
+  moduleId String
+  locale   String
+  title    String
+  module   Module @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+
+  @@unique([moduleId, locale])
+}
+
+model Lesson {
+  id                   String        @id @default(cuid())
+  moduleId             String
+  slug                 String
+  status               String @default("draft")
+  isFreePreview        Boolean       @default(false)
+  sortOrder            Int           @default(0)
+  durationSeconds      Int           @default(0)
+  youtubeUrl           String?
+  aparatUrl            String?
+  podcastUrl           String?
+  instagramPermalink   String?
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+  module               Module        @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  i18n                 LessonI18n[]
+  assets               ContentAsset[]
+  progress             LessonProgress[]
+  seo                  SeoMeta?
+
+  @@unique([moduleId, slug])
+}
+
+model LessonI18n {
+  id       String @id @default(cuid())
+  lessonId String
+  locale   String
+  title    String
+  summary  String @default("")
+  bodyMdx  String @default("")
+  lesson   Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([lessonId, locale])
+}
+
+model ContentAsset {
+  id       String    @id @default(cuid())
+  lessonId String?
+  type     String
+  url      String
+  mimeType String?
+  metaJson String    @default("{}")
+  lesson   Lesson?   @relation(fields: [lessonId], references: [id], onDelete: SetNull)
+}
+
+model Article {
+  id        String        @id @default(cuid())
+  slug      String        @unique
+  status    String @default("draft")
+  publishedAt DateTime?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  i18n      ArticleI18n[]
+  seo       SeoMeta?
+}
+
+model ArticleI18n {
+  id        String  @id @default(cuid())
+  articleId String
+  locale    String
+  title     String
+  summary   String
+  bodyMdx   String
+  article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+
+  @@unique([articleId, locale])
+}
+
+model PodcastEpisode {
+  id          String        @id @default(cuid())
+  slug        String        @unique
+  status      String @default("draft")
+  audioUrl    String
+  durationSec Int           @default(0)
+  publishedAt DateTime?
+  createdAt   DateTime      @default(now())
+  i18n        PodcastI18n[]
+  seo         SeoMeta?
+}
+
+model PodcastI18n {
+  id        String         @id @default(cuid())
+  podcastId String
+  locale    String
+  title     String
+  summary   String
+  podcast   PodcastEpisode @relation(fields: [podcastId], references: [id], onDelete: Cascade)
+
+  @@unique([podcastId, locale])
+}
+
+model SeoMeta {
+  id              String  @id @default(cuid())
+  locale          String
+  entityType      String
+  entityId        String
+  metaTitle       String
+  metaDescription String
+  canonicalPath   String?
+  ogImageUrl      String?
+  noIndex         Boolean @default(false)
+  schemaJson      String  @default("{}")
+
+  trackId   String? @unique
+  courseId  String? @unique
+  lessonId  String? @unique
+  articleId String? @unique
+  podcastId String? @unique
+  liveId    String? @unique
+
+  track   Track?          @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  course  Course?         @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lesson  Lesson?         @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  article Article?        @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  podcast PodcastEpisode? @relation(fields: [podcastId], references: [id], onDelete: Cascade)
+  live    LiveEvent?      @relation(fields: [liveId], references: [id], onDelete: Cascade)
+
+  @@index([entityType, entityId, locale])
+}
+
+model Enrollment {
+  id        String   @id @default(cuid())
+  userId    String
+  courseId  String
+  source    String   @default("purchase")
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, courseId])
+}
+
+model LessonProgress {
+  id             String   @id @default(cuid())
+  userId         String
+  lessonId       String
+  completed      Boolean  @default(false)
+  progressPct    Int      @default(0)
+  lastPositionSec Int     @default(0)
+  updatedAt      DateTime @updatedAt
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson         Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonId])
+}
+
+model Plan {
+  id           String   @id @default(cuid())
+  code         String   @unique
+  intervalDays Int
+  priceCents   Int
+  currency     String   @default("IRT")
+  active       Boolean  @default(true)
+  i18nJson     String   @default("{}")
+  subscriptions Subscription[]
+}
+
+model Subscription {
+  id        String   @id @default(cuid())
+  userId    String
+  planId    String
+  status    String
+  startsAt  DateTime
+  endsAt    DateTime
+  autoRenew Boolean  @default(true)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan      Plan     @relation(fields: [planId], references: [id])
+
+  @@index([userId, status])
+}
+
+model Order {
+  id          String   @id @default(cuid())
+  userId      String
+  kind        String
+  amountCents Int
+  tokenSpent  Int      @default(0)
+  currency    String   @default("IRT")
+  status      String
+  metaJson    String   @default("{}")
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Wallet {
+  id        String        @id @default(cuid())
+  userId    String        @unique
+  balance   Int           @default(0)
+  updatedAt DateTime      @updatedAt
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ledger    LedgerEntry[]
+}
+
+model LedgerEntry {
+  id        String     @id @default(cuid())
+  walletId  String
+  type      String
+  amount    Int
+  reason    String
+  refType   String?
+  refId     String?
+  createdAt DateTime   @default(now())
+  wallet    Wallet     @relation(fields: [walletId], references: [id], onDelete: Cascade)
+
+  @@index([walletId, createdAt])
+}
+
+model Challenge {
+  id          String        @id @default(cuid())
+  slug        String        @unique
+  status      String @default("draft")
+  difficulty  String        @default("easy")
+  language    String        @default("javascript")
+  points      Int           @default(100)
+  timeLimitMs Int           @default(5000)
+  createdAt   DateTime      @default(now())
+  i18n        ChallengeI18n[]
+  tests       TestCase[]
+  submissions Submission[]
+}
+
+model ChallengeI18n {
+  id          String    @id @default(cuid())
+  challengeId String
+  locale      String
+  title       String
+  promptMdx   String
+  starterCode String    @default("")
+  challenge   Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+
+  @@unique([challengeId, locale])
+}
+
+model TestCase {
+  id          String    @id @default(cuid())
+  challengeId String
+  inputJson   String
+  outputJson  String
+  isHidden    Boolean   @default(false)
+  sortOrder   Int       @default(0)
+  challenge   Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+}
+
+model Submission {
+  id          String   @id @default(cuid())
+  userId      String
+  challengeId String
+  code        String
+  passed      Boolean  @default(false)
+  score       Int      @default(0)
+  tokensEarned Int     @default(0)
+  resultJson  String   @default("{}")
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  challenge   Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+
+  @@index([userId, challengeId])
+}
+
+model LiveEvent {
+  id            String        @id @default(cuid())
+  slug          String        @unique
+  status        String    @default("scheduled")
+  startsAt      DateTime
+  endsAt        DateTime?
+  ingestUrl     String?
+  playbackUrl   String?
+  recordingUrl  String?
+  destinationsJson String     @default("[]")
+  externalUrlsJson String     @default("{}")
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  i18n          LiveI18n[]
+  registrations LiveRegistration[]
+  seo           SeoMeta?
+}
+
+model LiveI18n {
+  id          String    @id @default(cuid())
+  liveId      String
+  locale      String
+  title       String
+  summary     String
+  description String    @default("")
+  live        LiveEvent @relation(fields: [liveId], references: [id], onDelete: Cascade)
+
+  @@unique([liveId, locale])
+}
+
+model LiveRegistration {
+  id        String    @id @default(cuid())
+  userId    String
+  liveId    String
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  live      LiveEvent @relation(fields: [liveId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, liveId])
+}
+
+model Redirect {
+  id       String @id @default(cuid())
+  fromPath String @unique
+  toPath   String
+  code     Int    @default(301)
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  actorId   String?
+  action    String
+  entity    String
+  entityId  String?
+  metaJson  String   @default("{}")
+  createdAt DateTime @default(now())
+
+  @@index([entity, entityId])
+}

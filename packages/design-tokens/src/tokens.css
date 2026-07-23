@@ -1,0 +1,42 @@
+/**
+ * CSS custom properties for MEGA JS.
+ * Import via: `@import "@megajs/design-tokens/css";` or copy into app globals.
+ */
+
+:root {
+  --mj-yellow: #ffd400;
+  --mj-ink: #1a1a1a;
+  --mj-bg: #ffffff;
+  --mj-fg: #1a1a1a;
+  --mj-muted: #f4f4f5;
+  --mj-muted-fg: #52525b;
+  --mj-border: #e4e4e7;
+  --mj-accent: #ffd400;
+  --mj-accent-fg: #1a1a1a;
+  --mj-success: #16a34a;
+  --mj-danger: #dc2626;
+  --mj-ring: #ffd400;
+  --mj-card: #ffffff;
+  --mj-radius-sm: 6px;
+  --mj-radius-md: 12px;
+  --mj-radius-lg: 20px;
+  --mj-motion-fast: 150ms;
+  --mj-motion-base: 220ms;
+  --mj-motion-slow: 300ms;
+  --mj-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --mj-touch: 48px;
+}
+
+.dark {
+  --mj-bg: #1a1a1a;
+  --mj-fg: #ffffff;
+  --mj-muted: #27272a;
+  --mj-muted-fg: #a1a1aa;
+  --mj-border: #3f3f46;
+  --mj-accent: #ffd400;
+  --mj-accent-fg: #1a1a1a;
+  --mj-success: #22c55e;
+  --mj-danger: #ef4444;
+  --mj-ring: #ffd400;
+  --mj-card: #242424;
+}
