@@ -65,6 +65,8 @@ docs/             Architecture & onboarding for hired engineers
 
 Start here: [`docs/README.md`](docs/README.md)
 
+Production deploy (private repo + VPS + domain): [`docs/guides/DEPLOYMENT.md`](docs/guides/DEPLOYMENT.md)
+
 ## License
 
 Private — MEGA JS

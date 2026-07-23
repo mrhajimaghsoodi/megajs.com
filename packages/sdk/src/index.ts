@@ -44,7 +44,7 @@ export function createApiClient(options: ApiClientOptions) {
     },
     auth: {
       requestOtp: (phone: string) =>
-        request<{ ok: boolean }>(options, '/auth/otp/request', {
+        request<{ ok: boolean; devCode?: string }>(options, '/auth/otp/request', {
           method: 'POST',
           body: JSON.stringify({ phone }),
         }),
@@ -52,6 +52,33 @@ export function createApiClient(options: ApiClientOptions) {
         request<{ accessToken: string }>(options, '/auth/otp/verify', {
           method: 'POST',
           body: JSON.stringify({ phone, code }),
+        }),
+      me: () => request<unknown>(options, '/auth/me'),
+    },
+    wallet: {
+      get: () => request<{ balance: number }>(options, '/wallet'),
+      ledger: () => request<unknown[]>(options, '/wallet/ledger'),
+      redeem: (tokens: number, target: 'subscription' | 'course', targetId: string) =>
+        request<unknown>(options, '/wallet/redeem', {
+          method: 'POST',
+          body: JSON.stringify({ tokens, target, targetId }),
+        }),
+    },
+    practice: {
+      list: (locale = 'fa') =>
+        request<unknown[]>(options, `/practice/challenges?locale=${locale}`),
+      submit: (slug: string, code: string) =>
+        request<unknown>(options, `/practice/challenges/${slug}/submit`, {
+          method: 'POST',
+          body: JSON.stringify({ code }),
+        }),
+    },
+    billing: {
+      plans: () => request<unknown[]>(options, '/billing/plans'),
+      checkoutSubscription: (planCode: string, tokenSpend = 0) =>
+        request<unknown>(options, '/billing/checkout/subscription', {
+          method: 'POST',
+          body: JSON.stringify({ planCode, tokenSpend }),
         }),
     },
   };

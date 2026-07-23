@@ -19,3 +19,6 @@ playwright-report
 test-results
 apps/api/prisma/dev.db
 apps/api/prisma/dev.db-journal
+docker/certbot/conf/live/
+docker/certbot/conf/archive/
+.env.production

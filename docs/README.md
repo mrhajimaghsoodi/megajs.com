@@ -12,6 +12,7 @@ This folder is the onboarding source for any engineer joining the project.
 | [guides/DESIGN_SYSTEM.md](guides/DESIGN_SYSTEM.md) | Brand + UI/UX Pro Max + tokens |
 | [guides/CONTRIBUTING.md](guides/CONTRIBUTING.md) | Conventions for PRs and modules |
 | [guides/SKILLS.md](guides/SKILLS.md) | Installed agent skills inventory |
+| [guides/DEPLOYMENT.md](guides/DEPLOYMENT.md) | Private repo + VPS/domain + CI/CD deploy |
 
 Design source of truth also lives in:
 

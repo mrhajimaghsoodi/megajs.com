@@ -1,0 +1,33 @@
+# syntax=docker/dockerfile:1
+
+FROM node:22-bookworm-slim AS base
+RUN corepack enable
+WORKDIR /app
+
+FROM base AS deps
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml .npmrc turbo.json ./
+COPY packages ./packages
+COPY apps/web/package.json ./apps/web/package.json
+RUN pnpm install --frozen-lockfile
+
+FROM deps AS build
+COPY apps/web ./apps/web
+COPY packages ./packages
+ARG NEXT_PUBLIC_API_BASE_URL=https://megajs.com/api
+ARG NEXT_PUBLIC_SITE_URL=https://megajs.com
+ENV NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
+ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
+RUN pnpm --filter @megajs/design-tokens build \
+ && pnpm --filter @megajs/domain build \
+ && pnpm --filter @megajs/sdk build \
+ && pnpm --filter @megajs/web build
+
+FROM base AS runner
+ENV NODE_ENV=production
+ENV PORT=3000
+WORKDIR /app
+COPY --from=build /app/apps/web/.next/standalone ./
+COPY --from=build /app/apps/web/.next/static ./apps/web/.next/static
+COPY --from=build /app/apps/web/public ./apps/web/public
+EXPOSE 3000
+CMD ["node", "apps/web/server.js"]
