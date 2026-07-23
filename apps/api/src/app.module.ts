@@ -8,6 +8,7 @@ import { HealthController } from './health/health.controller';
 import { LiveModule } from './live/live.module';
 import { PracticeModule } from './practice/practice.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { SupportModule } from './support/support.module';
 import { UsersModule } from './users/users.module';
 import { WalletModule } from './wallet/wallet.module';
 
@@ -23,6 +24,7 @@ import { WalletModule } from './wallet/wallet.module';
     LiveModule,
     AdminModule,
     UsersModule,
+    SupportModule,
   ],
   controllers: [HealthController],
 })

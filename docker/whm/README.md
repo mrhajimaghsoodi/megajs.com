@@ -18,7 +18,7 @@ WHM → **EasyApache 4** → ensure these are installed:
 1. In WHM create subdomain: `app.megajs.com` (and `admin.megajs.com`).
 2. Point DNS A records for `app` and `admin` to this VPS IP.
 3. AutoSSL for both.
-4. Attach proxy includes (see below) to **those** vhosts first.
+4. Attach `docker/whm/app.megajs.com.conf` and `admin.megajs.com.conf` to those vhosts.
 5. Set env:
    - `WEB_ORIGIN=https://app.megajs.com`
    - `ADMIN_ORIGIN=https://admin.megajs.com`

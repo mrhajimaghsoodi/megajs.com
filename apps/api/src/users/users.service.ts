@@ -6,7 +6,7 @@ export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
 
   async dashboard(userId: string) {
-    const [user, progressCount, completed, enrollments, submissions, liveRegs, orders] =
+    const [user, progressCount, completed, enrollments, submissions, liveRegs, orders, openTickets] =
       await Promise.all([
         this.prisma.user.findUnique({
           where: { id: userId },
@@ -25,6 +25,9 @@ export class UsersService {
         this.prisma.submission.count({ where: { userId } }),
         this.prisma.liveRegistration.count({ where: { userId } }),
         this.prisma.order.count({ where: { userId } }),
+        this.prisma.ticket.count({
+          where: { userId, status: { in: ['open', 'pending', 'answered'] } },
+        }),
       ]);
 
     return {
@@ -36,6 +39,7 @@ export class UsersService {
         submissions,
         liveRegistrations: liveRegs,
         orders,
+        openTickets,
         streakPlaceholder: completed > 0 ? Math.min(completed, 30) : 0,
       },
     };

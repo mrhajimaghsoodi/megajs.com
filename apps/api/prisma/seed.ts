@@ -386,7 +386,7 @@ async function main() {
   });
 
   // Staff admin for panel (OTP login with this phone in non-prod)
-  await prisma.user.upsert({
+  const admin = await prisma.user.upsert({
     where: { phone: '+989120000000' },
     create: {
       phone: '+989120000000',
@@ -401,8 +401,53 @@ async function main() {
     update: { role: 'super_admin', phoneVerified: true, displayName: 'MEGA Admin' },
   });
 
+  const demoUser = await prisma.user.upsert({
+    where: { phone: '+989121111111' },
+    create: {
+      phone: '+989121111111',
+      phoneVerified: true,
+      displayName: 'Demo Learner',
+      role: 'user',
+      identities: {
+        create: { provider: 'phone', providerUserId: '+989121111111' },
+      },
+      wallet: { create: { balance: 12 } },
+    },
+    update: { displayName: 'Demo Learner', phoneVerified: true },
+  });
+
+  const existingTicket = await prisma.ticket.findFirst({
+    where: { userId: demoUser.id, subject: 'سوال درباره اشتراک' },
+  });
+  if (!existingTicket) {
+    await prisma.ticket.create({
+      data: {
+        userId: demoUser.id,
+        assignedToId: admin.id,
+        subject: 'سوال درباره اشتراک',
+        category: 'billing',
+        priority: 'normal',
+        status: 'answered',
+        messages: {
+          create: [
+            {
+              authorId: demoUser.id,
+              body: 'سلام، تفاوت پلن ماهانه و سالانه چیست؟',
+              isStaff: false,
+            },
+            {
+              authorId: admin.id,
+              body: 'سلام! پلن سالانه دو ماه هدیه دارد و همه وبینارها را شامل می‌شود.',
+              isStaff: true,
+            },
+          ],
+        },
+      },
+    });
+  }
+
   // eslint-disable-next-line no-console
-  console.log('Seed completed (admin phone +989120000000)');
+  console.log('Seed completed (admin +989120000000, demo +989121111111)');
 }
 
 main()

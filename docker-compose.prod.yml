@@ -47,6 +47,7 @@ services:
       DATABASE_URL: postgresql://${POSTGRES_USER:-megajs}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-megajs}?schema=public
       WEB_ORIGIN: ${WEB_ORIGIN:-https://megajs.com}
       ADMIN_ORIGIN: ${ADMIN_ORIGIN:-https://admin.megajs.com}
+      WEB_ORIGIN_ALT: ${WEB_ORIGIN_ALT:-}
       JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET}
       SMS_PROVIDER: ${SMS_PROVIDER:-}
       SMS_API_KEY: ${SMS_API_KEY:-}

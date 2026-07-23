@@ -16,6 +16,7 @@ export class AdminService {
       liveScheduled,
       liveNow,
       tokenBalance,
+      ticketsOpen,
     ] = await Promise.all([
       this.prisma.user.count(),
       this.prisma.course.count(),
@@ -28,6 +29,9 @@ export class AdminService {
       this.prisma.liveEvent.count({ where: { status: 'scheduled' } }),
       this.prisma.liveEvent.count({ where: { status: 'live' } }),
       this.prisma.wallet.aggregate({ _sum: { balance: true } }),
+      this.prisma.ticket.count({
+        where: { status: { in: ['open', 'pending', 'answered'] } },
+      }),
     ]);
 
     return {
@@ -40,6 +44,7 @@ export class AdminService {
       liveScheduled,
       liveNow,
       totalTokensInWallets: tokenBalance._sum.balance ?? 0,
+      ticketsOpen,
       generatedAt: new Date().toISOString(),
     };
   }

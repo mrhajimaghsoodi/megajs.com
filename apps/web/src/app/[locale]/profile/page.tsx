@@ -66,6 +66,7 @@ export default function ProfileOverviewPage() {
           [fa ? 'ثبت‌نام دوره' : 'Enrollments', stats?.enrollments ?? '—'],
           [fa ? 'ارسال تمرین' : 'Submissions', stats?.submissions ?? '—'],
           [fa ? 'لایو ثبت‌شده' : 'Live regs', stats?.liveRegistrations ?? '—'],
+          [fa ? 'تیکت باز' : 'Open tickets', stats?.openTickets ?? '—'],
         ].map(([label, value]) => (
           <article
             key={String(label)}
@@ -87,6 +88,28 @@ export default function ProfileOverviewPage() {
             </p>
           ))
         )}
+      </section>
+      <section className="grid gap-3 sm:grid-cols-2">
+        <Link
+          href={`/${locale}/profile/support`}
+          className="rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-card)] p-5 transition-colors hover:border-[var(--mj-accent)]"
+        >
+          <h2 className="font-display text-lg font-semibold">{fa ? 'پشتیبانی' : 'Support'}</h2>
+          <p className="mt-2 text-sm text-[var(--mj-muted-fg)]">
+            {fa
+              ? `${stats?.openTickets ?? 0} تیکت باز — ثبت و پیگیری درخواست`
+              : `${stats?.openTickets ?? 0} open — create and track tickets`}
+          </p>
+        </Link>
+        <Link
+          href={`/${locale}/profile/learning`}
+          className="rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-card)] p-5 transition-colors hover:border-[var(--mj-accent)]"
+        >
+          <h2 className="font-display text-lg font-semibold">{fa ? 'ادامه یادگیری' : 'Continue learning'}</h2>
+          <p className="mt-2 text-sm text-[var(--mj-muted-fg)]">
+            {fa ? 'دوره‌ها و پیشرفت شما' : 'Your courses and progress'}
+          </p>
+        </Link>
       </section>
     </div>
   );

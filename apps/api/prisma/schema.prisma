@@ -38,6 +38,9 @@ model User {
   subscriptions Subscription[]
   liveRegs      LiveRegistration[]
   otpCodes      OtpCode[]
+  tickets      Ticket[]        @relation("TicketAuthor")
+  assignedTickets Ticket[]     @relation("TicketAssignee")
+  ticketMessages TicketMessage[]
 }
 
 model AuthIdentity {
@@ -475,4 +478,40 @@ model AuditLog {
   createdAt DateTime @default(now())
 
   @@index([entity, entityId])
+}
+
+/// Support / helpdesk ticket
+model Ticket {
+  id           String    @id @default(cuid())
+  userId       String
+  assignedToId String?
+  subject      String
+  category     String    @default("other")
+  priority     String    @default("normal")
+  status       String    @default("open")
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  closedAt     DateTime?
+
+  user      User            @relation("TicketAuthor", fields: [userId], references: [id], onDelete: Cascade)
+  assignee  User?           @relation("TicketAssignee", fields: [assignedToId], references: [id], onDelete: SetNull)
+  messages  TicketMessage[]
+
+  @@index([userId, status])
+  @@index([status, updatedAt])
+  @@index([assignedToId])
+}
+
+model TicketMessage {
+  id        String   @id @default(cuid())
+  ticketId  String
+  authorId  String
+  body      String
+  isStaff   Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  ticket Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  author User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([ticketId, createdAt])
 }

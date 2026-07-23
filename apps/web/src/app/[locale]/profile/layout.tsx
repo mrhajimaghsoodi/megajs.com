@@ -12,6 +12,7 @@ const links = (locale: Locale, fa: boolean) => [
   { href: `/${locale}/profile/orders`, label: fa ? 'سفارش‌ها' : 'Orders' },
   { href: `/${locale}/profile/practice`, label: fa ? 'تمرین‌ها' : 'Practice' },
   { href: `/${locale}/profile/live`, label: fa ? 'لایوها' : 'Live' },
+  { href: `/${locale}/profile/support`, label: fa ? 'پشتیبانی' : 'Support' },
   { href: `/${locale}/profile/settings`, label: fa ? 'تنظیمات' : 'Settings' },
 ];
 
@@ -27,7 +28,9 @@ export default function ProfileLayout({ children }: { children: ReactNode }) {
         <div className="px-2 pb-3 text-sm font-semibold">{fa ? 'پنل من' : 'My panel'}</div>
         <nav className="flex flex-col gap-1">
           {links(locale, fa).map((l) => {
-            const active = pathname === l.href;
+          const active =
+              pathname === l.href ||
+              (l.href !== `/${locale}/profile` && pathname.startsWith(l.href + '/'));
             return (
               <Link
                 key={l.href}

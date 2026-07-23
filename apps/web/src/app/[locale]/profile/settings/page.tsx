@@ -72,6 +72,12 @@ export default function SettingsPage() {
           ? 'سینک موبایل از صفحه ورود؛ Google/GitHub در فاز بعدی به همین پنل وصل می‌شوند.'
           : 'Phone sync via login; Google/GitHub linking lands in this panel next.'}
       </div>
+      <a
+        href={`/${locale}/profile/support`}
+        className="inline-flex text-sm font-medium underline-offset-4 hover:underline"
+      >
+        {fa ? 'نیاز به کمک؟ تیکت پشتیبانی' : 'Need help? Open a support ticket'}
+      </a>
     </div>
   );
 }

@@ -23,6 +23,23 @@ export const LiveDestinationSchema = z.enum([
   'instagram',
 ]);
 
+export const TicketCategorySchema = z.enum([
+  'billing',
+  'technical',
+  'content',
+  'account',
+  'live',
+  'other',
+]);
+export const TicketPrioritySchema = z.enum(['low', 'normal', 'high', 'urgent']);
+export const TicketStatusSchema = z.enum([
+  'open',
+  'pending',
+  'answered',
+  'resolved',
+  'closed',
+]);
+
 export const TrackSlugSchema = z.enum([
   'frontend-fundamentals',
   'language-core',
@@ -40,6 +57,9 @@ export type AssetType = z.infer<typeof AssetTypeSchema>;
 export type LiveStatus = z.infer<typeof LiveStatusSchema>;
 export type LiveDestination = z.infer<typeof LiveDestinationSchema>;
 export type TrackSlug = z.infer<typeof TrackSlugSchema>;
+export type TicketCategory = z.infer<typeof TicketCategorySchema>;
+export type TicketPriority = z.infer<typeof TicketPrioritySchema>;
+export type TicketStatus = z.infer<typeof TicketStatusSchema>;
 
 /** Entitlement rule shared by API and clients */
 export function canAccessContent(input: {

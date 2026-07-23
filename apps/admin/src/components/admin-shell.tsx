@@ -15,6 +15,7 @@ const NAV = [
   { href: '/billing', label: 'فروش / سفارش' },
   { href: '/practice', label: 'چالش‌ها' },
   { href: '/live', label: 'لایو Ops' },
+  { href: '/support', label: 'پشتیبانی' },
   { href: '/audit', label: 'Audit' },
 ];
 
@@ -86,7 +87,9 @@ export function AdminShell({ children }: { children: ReactNode }) {
         </div>
         <nav className="flex gap-1 overflow-x-auto p-3 lg:flex-col">
           {NAV.map((item) => {
-            const active = pathname === item.href;
+            const active =
+              pathname === item.href ||
+              (item.href !== '/' && pathname.startsWith(item.href + '/'));
             return (
               <Link
                 key={item.href}
