@@ -14,20 +14,20 @@
 | Wave | Ship |
 |------|------|
 | M1 (foundation) | Monorepo, design system, web SEO shell, API catalog+OTP, admin shell, docs |
-| M2 (in progress) | Billing stub, wallet redeem, judge runner, richer user panel, **CI/CD + VPS deploy** |
-| M3 | Live ingest + multi-destination restream |
-| M4 | Expo mobile + Electron desktop clients |
+| M2 | Billing stub, wallet redeem, judge runner, richer user panel, CI/CD + VPS deploy |
+| M3 | Live API + register + admin Live Ops + web live detail/player shell |
+| M4 | Expo mobile + Electron desktop clients (shared SDK/tokens) |
 
-## Non-goals for M1
+## Panel completeness (current)
 
-- Migrating old WordPress content
-- Full Google/GitHub OAuth production credentials
-- Production SMS provider
-- Microservice split
+- **Admin:** dashboard, catalog, SEO hub, users/roles, billing orders, practice, live ops, audit, OTP staff login
+- **User:** overview, learning, wallet, orders, practice history, live regs, settings
 
-## M2.1 follow-ups
+## M2.1 / later follow-ups
 
 - Real payment gateway (Zarinpal / Stripe)
 - Production SMS OTP provider
 - Hardened judge sandbox (isolated-vm / container per run)
+- Real RTMP ingest + restream connectors
 - Make GitHub repo private + wire deploy secrets (see `docs/guides/DEPLOYMENT.md`)
+- Native Electron UI beyond web shell (optional)

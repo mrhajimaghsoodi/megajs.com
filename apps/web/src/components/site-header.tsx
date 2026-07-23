@@ -1,4 +1,7 @@
+'use client';
+
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import type { Dictionary } from '@/i18n/dictionaries';
 import type { Locale } from '@/lib/utils';
 import { Logo } from './logo';
@@ -18,8 +21,12 @@ export function SiteHeader({
     { href: `${base}/live`, label: dict.nav.live },
     { href: `${base}/pricing`, label: dict.nav.pricing },
   ];
-
   const other = locale === 'fa' ? 'en' : 'fa';
+  const [authed, setAuthed] = useState(false);
+
+  useEffect(() => {
+    setAuthed(Boolean(localStorage.getItem('mj_token')));
+  }, []);
 
   return (
     <header className="sticky top-0 z-40 border-b border-[var(--mj-border)] bg-[color-mix(in_oklab,var(--mj-bg)_88%,transparent)] backdrop-blur-md">
@@ -44,12 +51,21 @@ export function SiteHeader({
             {other.toUpperCase()}
           </Link>
           <ThemeToggle />
-          <Link
-            href={`${base}/login`}
-            className="inline-flex h-11 cursor-pointer items-center rounded-[var(--mj-radius-md)] bg-[var(--mj-accent)] px-4 text-sm font-semibold text-[var(--mj-accent-fg)] transition-opacity hover:opacity-90"
-          >
-            {dict.nav.login}
-          </Link>
+          {authed ? (
+            <Link
+              href={`${base}/profile`}
+              className="inline-flex h-11 cursor-pointer items-center rounded-[var(--mj-radius-md)] bg-[var(--mj-accent)] px-4 text-sm font-semibold text-[var(--mj-accent-fg)] transition-opacity hover:opacity-90"
+            >
+              {dict.nav.profile}
+            </Link>
+          ) : (
+            <Link
+              href={`${base}/login`}
+              className="inline-flex h-11 cursor-pointer items-center rounded-[var(--mj-radius-md)] bg-[var(--mj-accent)] px-4 text-sm font-semibold text-[var(--mj-accent-fg)] transition-opacity hover:opacity-90"
+            >
+              {dict.nav.login}
+            </Link>
+          )}
         </div>
       </div>
     </header>

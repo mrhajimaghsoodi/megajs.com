@@ -385,8 +385,24 @@ async function main() {
     },
   });
 
+  // Staff admin for panel (OTP login with this phone in non-prod)
+  await prisma.user.upsert({
+    where: { phone: '+989120000000' },
+    create: {
+      phone: '+989120000000',
+      phoneVerified: true,
+      displayName: 'MEGA Admin',
+      role: 'super_admin',
+      identities: {
+        create: { provider: 'phone', providerUserId: '+989120000000' },
+      },
+      wallet: { create: { balance: 0 } },
+    },
+    update: { role: 'super_admin', phoneVerified: true, displayName: 'MEGA Admin' },
+  });
+
   // eslint-disable-next-line no-console
-  console.log('Seed completed');
+  console.log('Seed completed (admin phone +989120000000)');
 }
 
 main()

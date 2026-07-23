@@ -1,5 +1,10 @@
-# MEGA JS Mobile (Expo / React Native)
+# MEGA JS Mobile (Expo)
 
-Planned client consuming `@megajs/sdk` + design tokens.
+Wave **M4** client. Shares `@megajs/sdk` + `@megajs/design-tokens` with web.
 
-Wave: M4
+```bash
+pnpm --filter @megajs/mobile install # via root pnpm install
+pnpm --filter @megajs/mobile dev
+```
+
+Set `EXPO_PUBLIC_API_BASE_URL` to your API (use LAN IP for device testing).

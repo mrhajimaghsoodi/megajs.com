@@ -1,42 +1,64 @@
-import Image from 'next/image';
+'use client';
 
-const modules = [
-  { title: 'SEO Hub', body: 'Meta, slug, canonical, schema, sitemap, redirects' },
-  { title: 'Catalog', body: 'Tracks, courses, modules, lessons, MDX assets' },
-  { title: 'Users', body: 'Identities, phone sync, roles, support tools' },
-  { title: 'Billing', body: 'Plans, orders, token redemptions' },
-  { title: 'Practice', body: 'Challenges, test cases, scoring rules' },
-  { title: 'Live Ops', body: 'Webinars · site + YouTube + Aparat + Instagram' },
-];
+import { useEffect, useState } from 'react';
+import { adminFetch } from '@/components/admin-shell';
 
-export default function AdminHome() {
+type Dash = {
+  users: number;
+  courses: number;
+  publishedLessons: number;
+  orders: number;
+  activeSubs: number;
+  challenges: number;
+  liveScheduled: number;
+  liveNow: number;
+  totalTokensInWallets: number;
+};
+
+export default function AdminDashboard() {
+  const [data, setData] = useState<Dash | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    void adminFetch('/admin/dashboard')
+      .then(setData)
+      .catch((e) => setError(e.message));
+  }, []);
+
+  const cards = data
+    ? [
+        ['کاربران', data.users],
+        ['دوره‌ها', data.courses],
+        ['درس‌های منتشر', data.publishedLessons],
+        ['سفارش‌ها', data.orders],
+        ['اشتراک فعال', data.activeSubs],
+        ['چالش‌ها', data.challenges],
+        ['لایو برنامه‌ریزی', data.liveScheduled],
+        ['الان Live', data.liveNow],
+        ['مجموع توکن کیف‌ها', data.totalTokensInWallets],
+      ]
+    : [];
+
   return (
-    <>
-      <header className="border-b border-[var(--mj-border)] bg-[var(--mj-card)]">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-          <Image src="/logo.svg" alt="MEGA JS" width={160} height={36} className="h-9 w-auto" />
-          <span className="rounded-full bg-[var(--mj-accent)] px-3 py-1 text-xs font-semibold text-[var(--mj-accent-fg)]">
-            Admin
-          </span>
-        </div>
-      </header>
-      <main className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-        <h1 className="font-display text-4xl font-bold">پنل ادمین MEGA JS</h1>
-        <p className="mt-3 max-w-2xl text-[var(--mj-muted-fg)]">
-          کنسول عملیات محتوا، SEO، کاربران، پرداخت، Practice و لایو — آماده برای توسعه ماژول‌به‌ماژول.
+    <div className="space-y-6">
+      <div>
+        <h1 className="font-display text-3xl font-bold">داشبورد عملیات</h1>
+        <p className="mt-2 text-sm text-[var(--mj-muted-fg)]">
+          نمای یک‌نگاه از رشد، فروش، Practice و لایو
         </p>
-        <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {modules.map((m) => (
-            <article
-              key={m.title}
-              className="rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-card)] p-5"
-            >
-              <h2 className="font-display text-xl font-semibold">{m.title}</h2>
-              <p className="mt-2 text-sm text-[var(--mj-muted-fg)]">{m.body}</p>
-            </article>
-          ))}
-        </div>
-      </main>
-    </>
+      </div>
+      {error ? <p className="text-sm text-[var(--mj-danger)]">{error}</p> : null}
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+        {cards.map(([label, value]) => (
+          <article
+            key={String(label)}
+            className="rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-card)] p-5"
+          >
+            <div className="text-sm text-[var(--mj-muted-fg)]">{label}</div>
+            <div className="mt-2 font-mono text-3xl font-bold">{value}</div>
+          </article>
+        ))}
+      </div>
+    </div>
   );
 }
