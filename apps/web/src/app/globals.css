@@ -26,8 +26,19 @@ body {
   font-family: var(--font-body), var(--font-persian), system-ui, sans-serif;
 }
 
-html[lang='fa'] body {
+html[lang='fa'],
+html[dir='rtl'] {
   font-family: var(--font-persian), var(--font-body), system-ui, sans-serif;
+}
+
+html[lang='fa'] body,
+html[dir='rtl'] body {
+  font-family: var(--font-persian), var(--font-body), system-ui, sans-serif;
+}
+
+html[lang='en'] body,
+html[dir='ltr'] body {
+  font-family: var(--font-body), system-ui, sans-serif;
 }
 
 h1,
@@ -38,10 +49,27 @@ h3,
   letter-spacing: -0.02em;
 }
 
+html[lang='en'] h1,
+html[lang='en'] h2,
+html[lang='en'] h3,
+html[lang='en'] .font-display {
+  font-family: var(--font-display), var(--font-body), sans-serif;
+}
+
+/* Code and technical islands stay LTR even inside RTL UI */
 code,
 pre,
-.font-mono {
+kbd,
+samp,
+.font-mono,
+[data-code],
+.code-ltr,
+textarea.font-mono,
+input.font-mono {
   font-family: var(--font-mono), ui-monospace, monospace;
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: left;
 }
 
 ::selection {

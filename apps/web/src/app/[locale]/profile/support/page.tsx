@@ -3,30 +3,18 @@
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { getDictionary } from '@/i18n/dictionaries';
 import { API_BASE, isLocale, type Locale } from '@/lib/utils';
 
-const CATEGORIES = [
-  { id: 'billing', fa: 'پرداخت / اشتراک', en: 'Billing' },
-  { id: 'technical', fa: 'فنی / سایت', en: 'Technical' },
-  { id: 'content', fa: 'محتوا / دوره', en: 'Content' },
-  { id: 'account', fa: 'حساب کاربری', en: 'Account' },
-  { id: 'live', fa: 'لایو / وبینار', en: 'Live' },
-  { id: 'other', fa: 'سایر', en: 'Other' },
-] as const;
-
-const STATUS_FA: Record<string, string> = {
-  open: 'باز',
-  pending: 'در انتظار پاسخ شما',
-  answered: 'پاسخ پشتیبانی',
-  resolved: 'حل‌شده',
-  closed: 'بسته',
-};
+const CATEGORY_IDS = ['billing', 'technical', 'content', 'account', 'live', 'other'] as const;
+const PRIORITY_IDS = ['low', 'normal', 'high', 'urgent'] as const;
 
 export default function SupportTicketsPage() {
   const params = useParams<{ locale: string }>();
   const router = useRouter();
   const locale = (isLocale(params.locale) ? params.locale : 'fa') as Locale;
-  const fa = locale === 'fa';
+  const dict = getDictionary(locale);
+  const s = dict.support;
   const [token, setToken] = useState<string | null>(null);
   const [tickets, setTickets] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -40,7 +28,7 @@ export default function SupportTicketsPage() {
     const res = await fetch(`${API_BASE}/support/tickets`, {
       headers: { Authorization: `Bearer ${t}` },
     });
-    if (!res.ok) throw new Error(fa ? 'خطا در دریافت تیکت‌ها' : 'Failed to load tickets');
+    if (!res.ok) throw new Error(s.loadError);
     setTickets(await res.json());
   }
 
@@ -52,21 +40,19 @@ export default function SupportTicketsPage() {
   }, []);
 
   if (token === null) {
-    return <div className="text-sm text-[var(--mj-muted-fg)]">…</div>;
+    return <div className="text-sm text-[var(--mj-muted-fg)]">{dict.loading}</div>;
   }
 
   if (!token) {
     return (
       <div>
-        <h1 className="font-display text-3xl font-bold">{fa ? 'پشتیبانی' : 'Support'}</h1>
-        <p className="mt-3 text-[var(--mj-muted-fg)]">
-          {fa ? 'برای ثبت تیکت وارد شوید.' : 'Log in to open a ticket.'}
-        </p>
+        <h1 className="font-display text-3xl font-bold">{s.title}</h1>
+        <p className="mt-3 text-[var(--mj-muted-fg)]">{s.loginNeeded}</p>
         <Link
           href={`/${locale}/login`}
           className="mt-4 inline-flex h-11 items-center rounded-[var(--mj-radius-md)] bg-[var(--mj-accent)] px-4 font-semibold text-[var(--mj-accent-fg)]"
         >
-          {fa ? 'ورود' : 'Log in'}
+          {dict.nav.login}
         </Link>
       </div>
     );
@@ -75,18 +61,12 @@ export default function SupportTicketsPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="font-display text-3xl font-bold">{fa ? 'پشتیبانی' : 'Support'}</h1>
-        <p className="mt-2 text-sm text-[var(--mj-muted-fg)]">
-          {fa
-            ? 'تیکت بسازید، پیگیری کنید و پاسخ تیم پشتیبانی را ببینید.'
-            : 'Open tickets, track status, and reply to support.'}
-        </p>
+        <h1 className="font-display text-3xl font-bold">{s.title}</h1>
+        <p className="mt-2 text-sm text-[var(--mj-muted-fg)]">{s.subtitle}</p>
       </div>
 
       <section className="rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-card)] p-5">
-        <h2 className="font-display text-xl font-semibold">
-          {fa ? 'تیکت جدید' : 'New ticket'}
-        </h2>
+        <h2 className="font-display text-xl font-semibold">{s.newTicket}</h2>
         <form
           className="mt-4 grid gap-3"
           onSubmit={(e) => {
@@ -119,7 +99,7 @@ export default function SupportTicketsPage() {
             minLength={3}
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
-            placeholder={fa ? 'موضوع' : 'Subject'}
+            placeholder={s.subject}
             className="h-11 rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-bg)] px-3"
           />
           <div className="grid gap-3 sm:grid-cols-2">
@@ -128,9 +108,9 @@ export default function SupportTicketsPage() {
               onChange={(e) => setCategory(e.target.value)}
               className="h-11 rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-bg)] px-3"
             >
-              {CATEGORIES.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {fa ? c.fa : c.en}
+              {CATEGORY_IDS.map((id) => (
+                <option key={id} value={id}>
+                  {s.category[id]}
                 </option>
               ))}
             </select>
@@ -139,10 +119,11 @@ export default function SupportTicketsPage() {
               onChange={(e) => setPriority(e.target.value)}
               className="h-11 rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-bg)] px-3"
             >
-              <option value="low">{fa ? 'کم' : 'Low'}</option>
-              <option value="normal">{fa ? 'عادی' : 'Normal'}</option>
-              <option value="high">{fa ? 'بالا' : 'High'}</option>
-              <option value="urgent">{fa ? 'فوری' : 'Urgent'}</option>
+              {PRIORITY_IDS.map((id) => (
+                <option key={id} value={id}>
+                  {s.priority[id]}
+                </option>
+              ))}
             </select>
           </div>
           <textarea
@@ -151,7 +132,7 @@ export default function SupportTicketsPage() {
             rows={5}
             value={body}
             onChange={(e) => setBody(e.target.value)}
-            placeholder={fa ? 'توضیح کامل مشکل…' : 'Describe your issue…'}
+            placeholder={s.message}
             className="rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-bg)] px-3 py-2"
           />
           <button
@@ -159,7 +140,7 @@ export default function SupportTicketsPage() {
             disabled={busy}
             className="h-11 cursor-pointer rounded-[var(--mj-radius-md)] bg-[var(--mj-accent)] px-4 font-semibold text-[var(--mj-accent-fg)] disabled:opacity-60"
           >
-            {busy ? '…' : fa ? 'ارسال تیکت' : 'Submit ticket'}
+            {busy ? dict.loading : s.submit}
           </button>
         </form>
       </section>
@@ -167,13 +148,9 @@ export default function SupportTicketsPage() {
       {error ? <p className="text-sm text-[var(--mj-danger)]">{error}</p> : null}
 
       <section className="space-y-3">
-        <h2 className="font-display text-xl font-semibold">
-          {fa ? 'تیکت‌های من' : 'My tickets'}
-        </h2>
+        <h2 className="font-display text-xl font-semibold">{s.myTickets}</h2>
         {tickets.length === 0 ? (
-          <p className="text-sm text-[var(--mj-muted-fg)]">
-            {fa ? 'هنوز تیکتی ندارید.' : 'No tickets yet.'}
-          </p>
+          <p className="text-sm text-[var(--mj-muted-fg)]">{s.none}</p>
         ) : (
           tickets.map((t) => (
             <Link
@@ -185,12 +162,13 @@ export default function SupportTicketsPage() {
                 <div>
                   <div className="font-semibold">{t.subject}</div>
                   <div className="mt-1 text-xs text-[var(--mj-muted-fg)]">
-                    {t.category} · {t.priority} · {t._count?.messages ?? 0}{' '}
-                    {fa ? 'پیام' : 'msgs'}
+                    {s.category[t.category as keyof typeof s.category] ?? t.category} ·{' '}
+                    {s.priority[t.priority as keyof typeof s.priority] ?? t.priority} ·{' '}
+                    {t._count?.messages ?? 0} {s.msgs}
                   </div>
                 </div>
                 <span className="rounded-full bg-[var(--mj-muted)] px-2 py-1 text-xs font-medium">
-                  {fa ? STATUS_FA[t.status] ?? t.status : t.status}
+                  {s.status[t.status as keyof typeof s.status] ?? t.status}
                 </span>
               </div>
               {t.messages?.[0] ? (

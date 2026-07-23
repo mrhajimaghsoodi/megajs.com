@@ -4,16 +4,13 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { adminFetch } from '@/components/admin-shell';
+import { useAdminLocale } from '@/i18n/locale-context';
 
-const STATUS_LABEL: Record<string, string> = {
-  open: 'باز',
-  pending: 'منتظر کاربر',
-  answered: 'پاسخ داده‌شده',
-  resolved: 'حل‌شده',
-  closed: 'بسته',
-};
+const STATUS_KEYS = ['open', 'pending', 'answered', 'resolved', 'closed'] as const;
 
 export default function AdminSupportTicketPage() {
+  const { locale, dict } = useAdminLocale();
+  const d = dict.support;
   const params = useParams<{ id: string }>();
   const [ticket, setTicket] = useState<any>(null);
   const [reply, setReply] = useState('');
@@ -30,7 +27,7 @@ export default function AdminSupportTicketPage() {
   }, [load]);
 
   if (!ticket && !error) {
-    return <div className="text-sm text-[var(--mj-muted-fg)]">در حال بارگذاری…</div>;
+    return <div className="text-sm text-[var(--mj-muted-fg)]">{dict.loading}</div>;
   }
   if (error && !ticket) {
     return <p className="text-sm text-[var(--mj-danger)]">{error}</p>;
@@ -40,18 +37,18 @@ export default function AdminSupportTicketPage() {
     <div className="space-y-6">
       <div>
         <Link href="/support" className="text-sm text-[var(--mj-muted-fg)] hover:underline">
-          ← صندوق تیکت‌ها
+          ← {d.back}
         </Link>
         <h1 className="mt-2 font-display text-3xl font-bold">{ticket.subject}</h1>
         <p className="mt-2 text-sm text-[var(--mj-muted-fg)]">
-          {ticket.user?.displayName ?? '—'} ·{' '}
+          {ticket.user?.displayName ?? dict.none} ·{' '}
           <span dir="ltr">{ticket.user?.phone ?? ticket.user?.email}</span>
         </p>
       </div>
 
       <div className="grid gap-3 rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-card)] p-4 sm:grid-cols-3">
         <label className="text-sm">
-          <span className="text-[var(--mj-muted-fg)]">وضعیت</span>
+          <span className="text-[var(--mj-muted-fg)]">{d.status}</span>
           <select
             className="mt-1 h-10 w-full rounded border border-[var(--mj-border)] bg-[var(--mj-bg)] px-2"
             value={ticket.status}
@@ -64,17 +61,18 @@ export default function AdminSupportTicketPage() {
                 .catch((err) => setError(err.message));
             }}
           >
-            {Object.entries(STATUS_LABEL).map(([k, v]) => (
+            {STATUS_KEYS.map((k) => (
               <option key={k} value={k}>
-                {v}
+                {d.statusLabels[k]}
               </option>
             ))}
           </select>
         </label>
         <label className="text-sm">
-          <span className="text-[var(--mj-muted-fg)]">اولویت</span>
+          <span className="text-[var(--mj-muted-fg)]">{d.priority}</span>
           <select
-            className="mt-1 h-10 w-full rounded border border-[var(--mj-border)] bg-[var(--mj-bg)] px-2"
+            className="mt-1 h-10 w-full rounded border border-[var(--mj-border)] bg-[var(--mj-bg)] px-2 font-mono"
+            dir="ltr"
             value={ticket.priority}
             onChange={(e) => {
               void adminFetch(`/admin/support/tickets/${ticket.id}`, {
@@ -93,9 +91,10 @@ export default function AdminSupportTicketPage() {
           </select>
         </label>
         <label className="text-sm">
-          <span className="text-[var(--mj-muted-fg)]">دسته</span>
+          <span className="text-[var(--mj-muted-fg)]">{d.category}</span>
           <select
-            className="mt-1 h-10 w-full rounded border border-[var(--mj-border)] bg-[var(--mj-bg)] px-2"
+            className="mt-1 h-10 w-full rounded border border-[var(--mj-border)] bg-[var(--mj-bg)] px-2 font-mono"
+            dir="ltr"
             value={ticket.category}
             onChange={(e) => {
               void adminFetch(`/admin/support/tickets/${ticket.id}`, {
@@ -127,11 +126,20 @@ export default function AdminSupportTicketPage() {
           >
             <div className="flex justify-between text-xs text-[var(--mj-muted-fg)]">
               <span>
-                {m.isStaff ? 'پشتیبانی' : 'کاربر'}
+                {m.isStaff ? d.staff : d.learner}
                 {m.author?.displayName ? ` · ${m.author.displayName}` : ''}
-                {m.author?.role ? ` (${m.author.role})` : ''}
+                {m.author?.role ? (
+                  <>
+                    {' '}
+                    (<span dir="ltr">{m.author.role}</span>)
+                  </>
+                ) : (
+                  ''
+                )}
               </span>
-              <time dir="ltr">{new Date(m.createdAt).toLocaleString('fa-IR')}</time>
+              <time dir="ltr">
+                {new Date(m.createdAt).toLocaleString(locale === 'fa' ? 'fa-IR' : 'en-US')}
+              </time>
             </div>
             <p className="mt-2 whitespace-pre-wrap text-sm leading-7">{m.body}</p>
           </article>
@@ -161,7 +169,7 @@ export default function AdminSupportTicketPage() {
           rows={5}
           value={reply}
           onChange={(e) => setReply(e.target.value)}
-          placeholder="پاسخ پشتیبانی…"
+          placeholder={d.replyPh}
           className="w-full rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-bg)] px-3 py-2"
         />
         <button
@@ -169,7 +177,7 @@ export default function AdminSupportTicketPage() {
           disabled={busy || ticket.status === 'closed'}
           className="h-11 cursor-pointer rounded-[var(--mj-radius-md)] bg-[var(--mj-accent)] px-4 font-semibold text-[var(--mj-accent-fg)] disabled:opacity-60"
         >
-          ارسال پاسخ
+          {d.sendReply}
         </button>
       </form>
 

@@ -3,12 +3,15 @@
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { getDictionary } from '@/i18n/dictionaries';
 import { API_BASE, isLocale, type Locale } from '@/lib/utils';
 
 export default function MyLivePage() {
   const params = useParams<{ locale: string }>();
   const locale = (isLocale(params.locale) ? params.locale : 'fa') as Locale;
-  const fa = locale === 'fa';
+  const dict = getDictionary(locale);
+  const p = dict.profile;
+  const lv = dict.live;
   const [rows, setRows] = useState<any[]>([]);
 
   useEffect(() => {
@@ -24,14 +27,14 @@ export default function MyLivePage() {
   return (
     <div className="space-y-6">
       <div className="flex items-end justify-between gap-3">
-        <h1 className="font-display text-3xl font-bold">{fa ? 'لایوهای من' : 'My lives'}</h1>
+        <h1 className="font-display text-3xl font-bold">{p.myLives}</h1>
         <Link href={`/${locale}/live`} className="text-sm underline-offset-4 hover:underline">
-          {fa ? 'همه لایوها' : 'All lives'}
+          {lv.allEvents}
         </Link>
       </div>
       <div className="space-y-2">
         {rows.length === 0 ? (
-          <p className="text-sm text-[var(--mj-muted-fg)]">{fa ? 'ثبت‌نامی ندارید.' : 'No registrations.'}</p>
+          <p className="text-sm text-[var(--mj-muted-fg)]">{p.noRegistrations}</p>
         ) : (
           rows.map((r, idx) => (
             <Link
@@ -41,7 +44,7 @@ export default function MyLivePage() {
             >
               <div className="font-semibold">{r.event.title}</div>
               <div className="text-xs text-[var(--mj-muted-fg)]">
-                {r.event.status} · {new Date(r.event.startsAt).toLocaleString(fa ? 'fa-IR' : 'en-US')}
+                {r.event.status} · {new Date(r.event.startsAt).toLocaleString(locale === 'fa' ? 'fa-IR' : 'en-US')}
               </div>
             </Link>
           ))

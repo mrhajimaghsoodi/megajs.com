@@ -2,11 +2,14 @@
 
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
+import { getDictionary } from '@/i18n/dictionaries';
 import { API_BASE, isLocale, type Locale } from '@/lib/utils';
 
 export default function LoginPage() {
   const params = useParams<{ locale: string }>();
   const locale = (isLocale(params.locale) ? params.locale : 'fa') as Locale;
+  const dict = getDictionary(locale);
+  const l = dict.login;
   const [phone, setPhone] = useState('+98912');
   const [code, setCode] = useState('');
   const [devCode, setDevCode] = useState<string | undefined>();
@@ -24,10 +27,10 @@ export default function LoginPage() {
         body: JSON.stringify({ phone }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message ?? 'OTP request failed');
+      if (!res.ok) throw new Error(data.message ?? dict.error);
       setDevCode(data.devCode);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Error');
+      setError(e instanceof Error ? e.message : dict.error);
     } finally {
       setLoading(false);
     }
@@ -43,11 +46,11 @@ export default function LoginPage() {
         body: JSON.stringify({ phone, code }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message ?? 'OTP verify failed');
+      if (!res.ok) throw new Error(data.message ?? dict.error);
       setToken(data.accessToken);
       localStorage.setItem('mj_token', data.accessToken);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Error');
+      setError(e instanceof Error ? e.message : dict.error);
     } finally {
       setLoading(false);
     }
@@ -55,16 +58,10 @@ export default function LoginPage() {
 
   return (
     <div className="mx-auto flex max-w-md flex-col gap-6 px-4 py-16 sm:px-6">
-      <h1 className="font-display text-3xl font-bold">
-        {locale === 'fa' ? 'ورود با کد پیامک' : 'Log in with SMS code'}
-      </h1>
-      <p className="text-sm text-[var(--mj-muted-fg)]">
-        {locale === 'fa'
-          ? 'شماره موبایل ستون ورود در وب، موبایل و دسکتاپ است. Google و GitHub قابل لینک‌اند.'
-          : 'Phone OTP is the universal login across web, mobile, and desktop. Google and GitHub can be linked.'}
-      </p>
+      <h1 className="font-display text-3xl font-bold">{l.title}</h1>
+      <p className="text-sm text-[var(--mj-muted-fg)]">{l.subtitle}</p>
       <label className="grid gap-2 text-sm">
-        <span>{locale === 'fa' ? 'شماره موبایل' : 'Phone'}</span>
+        <span>{l.phone}</span>
         <input
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
@@ -78,13 +75,16 @@ export default function LoginPage() {
         onClick={requestOtp}
         className="h-12 cursor-pointer rounded-[var(--mj-radius-md)] bg-[var(--mj-accent)] font-semibold text-[var(--mj-accent-fg)] disabled:opacity-60"
       >
-        {locale === 'fa' ? 'ارسال کد' : 'Send code'}
+        {loading ? dict.loading : l.sendCode}
       </button>
       {devCode ? (
-        <p className="font-mono text-sm text-[var(--mj-muted-fg)]">DEV CODE: {devCode}</p>
+        <>
+          <p className="font-mono text-sm text-[var(--mj-muted-fg)]">DEV CODE: {devCode}</p>
+          <p className="text-xs text-[var(--mj-muted-fg)]">{l.hint}</p>
+        </>
       ) : null}
       <label className="grid gap-2 text-sm">
-        <span>{locale === 'fa' ? 'کد تأیید' : 'Verification code'}</span>
+        <span>{l.code}</span>
         <input
           value={code}
           onChange={(e) => setCode(e.target.value)}
@@ -98,13 +98,11 @@ export default function LoginPage() {
         onClick={verifyOtp}
         className="h-12 cursor-pointer rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] font-semibold hover:bg-[var(--mj-muted)] disabled:opacity-60"
       >
-        {locale === 'fa' ? 'تأیید و ورود' : 'Verify & enter'}
+        {loading ? dict.loading : l.verify}
       </button>
       {error ? <p className="text-sm text-[var(--mj-danger)]">{error}</p> : null}
       {token ? (
-        <p className="rounded-[var(--mj-radius-md)] bg-[var(--mj-muted)] p-3 text-sm">
-          {locale === 'fa' ? 'ورود موفق — توکن ذخیره شد.' : 'Logged in — token stored.'}
-        </p>
+        <p className="rounded-[var(--mj-radius-md)] bg-[var(--mj-muted)] p-3 text-sm">{l.success}</p>
       ) : null}
       <div className="grid gap-2">
         <button

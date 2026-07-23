@@ -2,12 +2,14 @@
 
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { getDictionary } from '@/i18n/dictionaries';
 import { API_BASE, isLocale, type Locale } from '@/lib/utils';
 
 export default function MyPracticePage() {
   const params = useParams<{ locale: string }>();
   const locale = (isLocale(params.locale) ? params.locale : 'fa') as Locale;
-  const fa = locale === 'fa';
+  const dict = getDictionary(locale);
+  const p = dict.profile;
   const [rows, setRows] = useState<any[]>([]);
 
   useEffect(() => {
@@ -22,7 +24,7 @@ export default function MyPracticePage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="font-display text-3xl font-bold">{fa ? 'تاریخچه تمرین' : 'Practice history'}</h1>
+      <h1 className="font-display text-3xl font-bold">{p.practiceHistory}</h1>
       <div className="space-y-2">
         {rows.map((s) => (
           <div key={s.id} className="rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] p-4 text-sm">

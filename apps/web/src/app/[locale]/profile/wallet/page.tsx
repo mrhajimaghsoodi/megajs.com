@@ -2,12 +2,14 @@
 
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { getDictionary } from '@/i18n/dictionaries';
 import { API_BASE, isLocale, type Locale } from '@/lib/utils';
 
 export default function WalletPage() {
   const params = useParams<{ locale: string }>();
   const locale = (isLocale(params.locale) ? params.locale : 'fa') as Locale;
-  const fa = locale === 'fa';
+  const dict = getDictionary(locale);
+  const p = dict.profile;
   const [balance, setBalance] = useState(0);
   const [ledger, setLedger] = useState<any[]>([]);
 
@@ -26,9 +28,9 @@ export default function WalletPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="font-display text-3xl font-bold">{fa ? 'کیف توکن' : 'Token wallet'}</h1>
+      <h1 className="font-display text-3xl font-bold">{p.wallet}</h1>
       <div className="rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-card)] p-6">
-        <div className="text-sm text-[var(--mj-muted-fg)]">{fa ? 'موجودی' : 'Balance'}</div>
+        <div className="text-sm text-[var(--mj-muted-fg)]">{p.balance}</div>
         <div className="mt-2 font-mono text-4xl font-bold">{balance}</div>
       </div>
       <div className="space-y-2">

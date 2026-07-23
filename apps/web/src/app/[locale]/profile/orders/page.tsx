@@ -2,12 +2,14 @@
 
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { getDictionary } from '@/i18n/dictionaries';
 import { API_BASE, isLocale, type Locale } from '@/lib/utils';
 
 export default function OrdersPage() {
   const params = useParams<{ locale: string }>();
   const locale = (isLocale(params.locale) ? params.locale : 'fa') as Locale;
-  const fa = locale === 'fa';
+  const dict = getDictionary(locale);
+  const p = dict.profile;
   const [rows, setRows] = useState<any[]>([]);
 
   useEffect(() => {
@@ -22,10 +24,10 @@ export default function OrdersPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="font-display text-3xl font-bold">{fa ? 'سفارش‌ها' : 'Orders'}</h1>
+      <h1 className="font-display text-3xl font-bold">{p.orders}</h1>
       <div className="space-y-2">
         {rows.length === 0 ? (
-          <p className="text-sm text-[var(--mj-muted-fg)]">{fa ? 'سفارشی نیست.' : 'No orders.'}</p>
+          <p className="text-sm text-[var(--mj-muted-fg)]">{dict.empty}</p>
         ) : (
           rows.map((o) => (
             <div key={o.id} className="rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] p-4 text-sm">
@@ -34,8 +36,8 @@ export default function OrdersPage() {
                 <span className="font-mono">{o.status}</span>
               </div>
               <div className="mt-1 text-xs text-[var(--mj-muted-fg)]">
-                {new Date(o.createdAt).toLocaleString(fa ? 'fa-IR' : 'en-US')} ·{' '}
-                {o.amountCents?.toLocaleString?.()} + {o.tokenSpent} tokens
+                {new Date(o.createdAt).toLocaleString(locale === 'fa' ? 'fa-IR' : 'en-US')} ·{' '}
+                {o.amountCents?.toLocaleString?.()} + {o.tokenSpent} {dict.profile.tokens}
               </div>
             </div>
           ))

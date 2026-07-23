@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import type { Dictionary } from '@/i18n/dictionaries';
 import type { Locale } from '@/lib/utils';
@@ -14,6 +15,7 @@ export function SiteHeader({
   locale: Locale;
   dict: Dictionary;
 }) {
+  const pathname = usePathname();
   const base = `/${locale}`;
   const links = [
     { href: `${base}/learn`, label: dict.nav.learn },
@@ -22,6 +24,7 @@ export function SiteHeader({
     { href: `${base}/pricing`, label: dict.nav.pricing },
   ];
   const other = locale === 'fa' ? 'en' : 'fa';
+  const switchedPath = pathname?.replace(/^\/(fa|en)(?=\/|$)/, `/${other}`) || `/${other}`;
   const [authed, setAuthed] = useState(false);
 
   useEffect(() => {
@@ -45,10 +48,11 @@ export function SiteHeader({
         </nav>
         <div className="flex items-center gap-2">
           <Link
-            href={`/${other}`}
+            href={switchedPath}
+            hrefLang={other}
             className="inline-flex h-11 cursor-pointer items-center rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] px-3 text-sm font-medium transition-colors hover:bg-[var(--mj-muted)]"
           >
-            {other.toUpperCase()}
+            {other === 'fa' ? 'فا' : 'EN'}
           </Link>
           <ThemeToggle />
           {authed ? (

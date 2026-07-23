@@ -3,12 +3,14 @@
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { getDictionary } from '@/i18n/dictionaries';
 import { API_BASE, isLocale, type Locale } from '@/lib/utils';
 
 export default function LiveIndexPage() {
   const params = useParams<{ locale: string }>();
   const locale = (isLocale(params.locale) ? params.locale : 'fa') as Locale;
-  const fa = locale === 'fa';
+  const dict = getDictionary(locale);
+  const lv = dict.live;
   const [events, setEvents] = useState<any[]>([]);
 
   useEffect(() => {
@@ -19,12 +21,8 @@ export default function LiveIndexPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-      <h1 className="font-display text-4xl font-bold">{fa ? 'لایو و وبینار' : 'Live & webinars'}</h1>
-      <p className="mt-3 max-w-2xl text-[var(--mj-muted-fg)]">
-        {fa
-          ? 'پخش هم‌زمان در سایت، یوتیوب، آپارات و اینستاگرام'
-          : 'Simulcast on site, YouTube, Aparat, and Instagram'}
-      </p>
+      <h1 className="font-display text-4xl font-bold">{lv.title}</h1>
+      <p className="mt-3 max-w-2xl text-[var(--mj-muted-fg)]">{lv.subtitle}</p>
       <div className="mt-10 space-y-4">
         {events.map((event) => (
           <Link
@@ -40,7 +38,7 @@ export default function LiveIndexPage() {
             </div>
             <p className="mt-2 text-[var(--mj-muted-fg)]">{event.summary}</p>
             <p className="mt-3 font-mono text-xs text-[var(--mj-muted-fg)]">
-              {new Date(event.startsAt).toLocaleString(fa ? 'fa-IR' : 'en-US')}
+              {new Date(event.startsAt).toLocaleString(locale === 'fa' ? 'fa-IR' : 'en-US')}
             </p>
             <div className="mt-4 flex flex-wrap gap-2">
               {(event.destinations ?? []).map((d: string) => (

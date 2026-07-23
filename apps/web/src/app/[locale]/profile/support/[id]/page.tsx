@@ -3,21 +3,15 @@
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
+import { getDictionary } from '@/i18n/dictionaries';
 import { API_BASE, isLocale, type Locale } from '@/lib/utils';
-
-const STATUS_FA: Record<string, string> = {
-  open: 'باز',
-  pending: 'در انتظار شما',
-  answered: 'پاسخ پشتیبانی',
-  resolved: 'حل‌شده',
-  closed: 'بسته',
-};
 
 export default function SupportTicketDetailPage() {
   const params = useParams<{ locale: string; id: string }>();
   const router = useRouter();
   const locale = (isLocale(params.locale) ? params.locale : 'fa') as Locale;
-  const fa = locale === 'fa';
+  const dict = getDictionary(locale);
+  const s = dict.support;
   const [token, setToken] = useState<string | null>(null);
   const [ticket, setTicket] = useState<any>(null);
   const [reply, setReply] = useState('');
@@ -29,10 +23,10 @@ export default function SupportTicketDetailPage() {
       const res = await fetch(`${API_BASE}/support/tickets/${params.id}`, {
         headers: { Authorization: `Bearer ${t}` },
       });
-      if (!res.ok) throw new Error(fa ? 'تیکت پیدا نشد' : 'Ticket not found');
+      if (!res.ok) throw new Error(s.notFound);
       setTicket(await res.json());
     },
-    [params.id, fa],
+    [params.id, s.notFound],
   );
 
   useEffect(() => {
@@ -46,14 +40,14 @@ export default function SupportTicketDetailPage() {
     return (
       <div>
         <Link href={`/${locale}/login`} className="underline">
-          {fa ? 'ورود' : 'Log in'}
+          {dict.nav.login}
         </Link>
       </div>
     );
   }
 
   if (!ticket && !error) {
-    return <div className="text-sm text-[var(--mj-muted-fg)]">…</div>;
+    return <div className="text-sm text-[var(--mj-muted-fg)]">{dict.loading}</div>;
   }
 
   if (error && !ticket) {
@@ -70,12 +64,13 @@ export default function SupportTicketDetailPage() {
             href={`/${locale}/profile/support`}
             className="text-sm text-[var(--mj-muted-fg)] underline-offset-4 hover:underline"
           >
-            ← {fa ? 'همه تیکت‌ها' : 'All tickets'}
+            ← {s.allTickets}
           </Link>
           <h1 className="mt-2 font-display text-3xl font-bold">{ticket.subject}</h1>
           <p className="mt-2 text-sm text-[var(--mj-muted-fg)]">
-            {ticket.category} · {ticket.priority} ·{' '}
-            {fa ? STATUS_FA[ticket.status] ?? ticket.status : ticket.status}
+            {s.category[ticket.category as keyof typeof s.category] ?? ticket.category} ·{' '}
+            {s.priority[ticket.priority as keyof typeof s.priority] ?? ticket.priority} ·{' '}
+            {s.status[ticket.status as keyof typeof s.status] ?? ticket.status}
           </p>
         </div>
         {!closed ? (
@@ -93,7 +88,7 @@ export default function SupportTicketDetailPage() {
                 .finally(() => setBusy(false));
             }}
           >
-            {fa ? 'بستن تیکت' : 'Close ticket'}
+            {s.close}
           </button>
         ) : null}
       </div>
@@ -110,17 +105,11 @@ export default function SupportTicketDetailPage() {
           >
             <div className="flex justify-between gap-2 text-xs text-[var(--mj-muted-fg)]">
               <span>
-                {m.isStaff
-                  ? fa
-                    ? 'پشتیبانی'
-                    : 'Support'
-                  : fa
-                    ? 'شما'
-                    : 'You'}
+                {m.isStaff ? s.staff : s.you}
                 {m.author?.displayName ? ` · ${m.author.displayName}` : ''}
               </span>
               <time dir="ltr">
-                {new Date(m.createdAt).toLocaleString(fa ? 'fa-IR' : 'en-US')}
+                {new Date(m.createdAt).toLocaleString(locale === 'fa' ? 'fa-IR' : 'en-US')}
               </time>
             </div>
             <p className="mt-2 whitespace-pre-wrap text-sm leading-7">{m.body}</p>
@@ -157,7 +146,7 @@ export default function SupportTicketDetailPage() {
             rows={4}
             value={reply}
             onChange={(e) => setReply(e.target.value)}
-            placeholder={fa ? 'پاسخ شما…' : 'Your reply…'}
+            placeholder={s.yourReply}
             className="w-full rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-bg)] px-3 py-2"
           />
           <button
@@ -165,18 +154,18 @@ export default function SupportTicketDetailPage() {
             disabled={busy}
             className="h-11 cursor-pointer rounded-[var(--mj-radius-md)] bg-[var(--mj-accent)] px-4 font-semibold text-[var(--mj-accent-fg)] disabled:opacity-60"
           >
-            {fa ? 'ارسال پاسخ' : 'Send reply'}
+            {s.sendReply}
           </button>
         </form>
       ) : (
         <p className="text-sm text-[var(--mj-muted-fg)]">
-          {fa ? 'این تیکت بسته است.' : 'This ticket is closed.'}
+          {s.closed}
           <button
             type="button"
             className="ms-2 underline"
             onClick={() => router.push(`/${locale}/profile/support`)}
           >
-            {fa ? 'تیکت جدید' : 'New ticket'}
+            {s.newOne}
           </button>
         </p>
       )}

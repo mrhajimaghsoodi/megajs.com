@@ -1,6 +1,7 @@
 import { DM_Sans, JetBrains_Mono, Space_Grotesk, Vazirmatn } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import type { ReactNode } from 'react';
+import { LocaleDocument } from '@/components/locale-document';
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
 import { getDictionary } from '@/i18n/dictionaries';
@@ -47,8 +48,10 @@ export default async function LocaleLayout({
     <div
       lang={locale}
       dir={dir}
+      data-locale={locale}
       className={`${spaceGrotesk.variable} ${dmSans.variable} ${vazirmatn.variable} ${jetbrains.variable} flex min-h-dvh flex-col bg-[var(--mj-bg)] text-[var(--mj-fg)]`}
     >
+      <LocaleDocument locale={locale} />
       <SiteHeader locale={locale} dict={dict} />
       <main className="flex-1">{children}</main>
       <SiteFooter locale={locale} dict={dict} />

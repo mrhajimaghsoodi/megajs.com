@@ -3,16 +3,13 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { adminFetch } from '@/components/admin-shell';
+import { useAdminLocale } from '@/i18n/locale-context';
 
-const STATUS_LABEL: Record<string, string> = {
-  open: 'باز',
-  pending: 'منتظر کاربر',
-  answered: 'پاسخ داده‌شده',
-  resolved: 'حل‌شده',
-  closed: 'بسته',
-};
+const STATUS_KEYS = ['open', 'pending', 'answered', 'resolved', 'closed'] as const;
 
 export default function AdminSupportPage() {
+  const { locale, dict } = useAdminLocale();
+  const d = dict.support;
   const [rows, setRows] = useState<any[]>([]);
   const [stats, setStats] = useState<any>(null);
   const [status, setStatus] = useState('');
@@ -34,7 +31,7 @@ export default function AdminSupportPage() {
       setStats(s);
       setError(null);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Error');
+      setError(e instanceof Error ? e.message : dict.error);
     }
   }
 
@@ -43,25 +40,27 @@ export default function AdminSupportPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const statCards = stats
+    ? [
+        [d.open, stats.open],
+        [d.pending, stats.pending],
+        [d.answered, stats.answered],
+        [d.resolved, stats.resolved],
+        [d.closed, stats.closed],
+        [d.urgent, stats.urgent],
+      ]
+    : [];
+
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-display text-3xl font-bold">پشتیبانی / تیکت‌ها</h1>
-        <p className="mt-2 text-sm text-[var(--mj-muted-fg)]">
-          صندوق تیکت کاربران — پاسخ، اولویت، وضعیت و ارجاع
-        </p>
+        <h1 className="font-display text-3xl font-bold">{d.title}</h1>
+        <p className="mt-2 text-sm text-[var(--mj-muted-fg)]">{d.subtitle}</p>
       </div>
 
       {stats ? (
         <div className="grid gap-3 sm:grid-cols-3 xl:grid-cols-6">
-          {[
-            ['باز', stats.open],
-            ['منتظر', stats.pending],
-            ['پاسخ‌داده‌', stats.answered],
-            ['حل‌شده', stats.resolved],
-            ['بسته', stats.closed],
-            ['فوری فعال', stats.urgent],
-          ].map(([label, value]) => (
+          {statCards.map(([label, value]) => (
             <article
               key={String(label)}
               className="rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-card)] p-4"
@@ -83,7 +82,7 @@ export default function AdminSupportPage() {
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="جستجو موضوع / موبایل / نام"
+          placeholder={d.searchPh}
           className="h-11 min-w-56 flex-1 rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-card)] px-3"
         />
         <select
@@ -91,19 +90,20 @@ export default function AdminSupportPage() {
           onChange={(e) => setStatus(e.target.value)}
           className="h-11 rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-card)] px-3"
         >
-          <option value="">همه وضعیت‌ها</option>
-          {Object.entries(STATUS_LABEL).map(([k, v]) => (
+          <option value="">{d.allStatuses}</option>
+          {STATUS_KEYS.map((k) => (
             <option key={k} value={k}>
-              {v}
+              {d.statusLabels[k]}
             </option>
           ))}
         </select>
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="h-11 rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-card)] px-3"
+          className="h-11 rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-card)] px-3 font-mono"
+          dir="ltr"
         >
-          <option value="">همه دسته‌ها</option>
+          <option value="">{d.allCategories}</option>
           {['billing', 'technical', 'content', 'account', 'live', 'other'].map((c) => (
             <option key={c} value={c}>
               {c}
@@ -114,7 +114,7 @@ export default function AdminSupportPage() {
           type="submit"
           className="h-11 cursor-pointer rounded-[var(--mj-radius-md)] bg-[var(--mj-accent)] px-4 font-semibold text-[var(--mj-accent-fg)]"
         >
-          فیلتر
+          {dict.filter}
         </button>
       </form>
 
@@ -124,13 +124,13 @@ export default function AdminSupportPage() {
         <table className="w-full min-w-[960px] text-sm">
           <thead className="bg-[var(--mj-muted)]">
             <tr>
-              <th className="p-3 text-start">موضوع</th>
-              <th className="p-3 text-start">کاربر</th>
-              <th className="p-3 text-start">دسته</th>
-              <th className="p-3 text-start">اولویت</th>
-              <th className="p-3 text-start">وضعیت</th>
-              <th className="p-3 text-start">پیام</th>
-              <th className="p-3 text-start">به‌روز</th>
+              <th className="p-3 text-start">{d.subject}</th>
+              <th className="p-3 text-start">{d.user}</th>
+              <th className="p-3 text-start">{d.category}</th>
+              <th className="p-3 text-start">{d.priority}</th>
+              <th className="p-3 text-start">{d.status}</th>
+              <th className="p-3 text-start">{d.messages}</th>
+              <th className="p-3 text-start">{d.updated}</th>
             </tr>
           </thead>
           <tbody>
@@ -148,24 +148,30 @@ export default function AdminSupportPage() {
                   </div>
                 </td>
                 <td className="p-3">
-                  <div>{t.user?.displayName ?? '—'}</div>
+                  <div>{t.user?.displayName ?? dict.none}</div>
                   <div className="font-mono text-xs text-[var(--mj-muted-fg)]" dir="ltr">
                     {t.user?.phone ?? t.user?.email ?? ''}
                   </div>
                 </td>
-                <td className="p-3">{t.category}</td>
-                <td className="p-3">{t.priority}</td>
-                <td className="p-3">{STATUS_LABEL[t.status] ?? t.status}</td>
+                <td className="p-3 font-mono" dir="ltr">
+                  {t.category}
+                </td>
+                <td className="p-3 font-mono" dir="ltr">
+                  {t.priority}
+                </td>
+                <td className="p-3">
+                  {d.statusLabels[t.status as keyof typeof d.statusLabels] ?? t.status}
+                </td>
                 <td className="p-3 font-mono">{t._count?.messages ?? 0}</td>
                 <td className="p-3 text-xs" dir="ltr">
-                  {new Date(t.updatedAt).toLocaleString('fa-IR')}
+                  {new Date(t.updatedAt).toLocaleString(locale === 'fa' ? 'fa-IR' : 'en-US')}
                 </td>
               </tr>
             ))}
             {rows.length === 0 ? (
               <tr>
                 <td colSpan={7} className="p-6 text-center text-[var(--mj-muted-fg)]">
-                  تیکتی پیدا نشد
+                  {d.empty}
                 </td>
               </tr>
             ) : null}

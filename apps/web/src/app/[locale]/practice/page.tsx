@@ -2,6 +2,7 @@
 
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { getDictionary } from '@/i18n/dictionaries';
 import { API_BASE, isLocale, type Locale } from '@/lib/utils';
 
 type Challenge = {
@@ -17,7 +18,8 @@ type Challenge = {
 export default function PracticePage() {
   const params = useParams<{ locale: string }>();
   const locale = (isLocale(params.locale) ? params.locale : 'fa') as Locale;
-  const fa = locale === 'fa';
+  const dict = getDictionary(locale);
+  const pr = dict.practice;
 
   const [challenges, setChallenges] = useState<Challenge[]>([]);
   const [active, setActive] = useState<Challenge | null>(null);
@@ -42,7 +44,7 @@ export default function PracticePage() {
     if (!active) return;
     const token = localStorage.getItem('mj_token');
     if (!token) {
-      setResult(fa ? 'برای ارسال باید وارد شوید.' : 'Log in to submit.');
+      setResult(dict.profile.pleaseLogin);
       return;
     }
     setLoading(true);
@@ -57,7 +59,7 @@ export default function PracticePage() {
         body: JSON.stringify({ code }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message ?? 'Submit failed');
+      if (!res.ok) throw new Error(data.message ?? dict.error);
       setResult(
         JSON.stringify(
           {
@@ -71,7 +73,7 @@ export default function PracticePage() {
         ),
       );
     } catch (e) {
-      setResult(e instanceof Error ? e.message : 'Error');
+      setResult(e instanceof Error ? e.message : dict.error);
     } finally {
       setLoading(false);
     }
@@ -79,12 +81,8 @@ export default function PracticePage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-      <h1 className="font-display text-4xl font-bold">{fa ? 'تمرین' : 'Practice'}</h1>
-      <p className="mt-3 max-w-2xl text-[var(--mj-muted-fg)]">
-        {fa
-          ? 'کد بنویسید، تست‌ها را پاس کنید، امتیاز بگیرید و به توکن تبدیل کنید.'
-          : 'Write code, pass tests, earn points, convert to tokens.'}
-      </p>
+      <h1 className="font-display text-4xl font-bold">{pr.title}</h1>
+      <p className="mt-3 max-w-2xl text-[var(--mj-muted-fg)]">{pr.subtitle}</p>
 
       <div className="mt-8 grid gap-6 lg:grid-cols-[280px_1fr]">
         <aside className="space-y-2">
@@ -119,6 +117,7 @@ export default function PracticePage() {
               <textarea
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
+                aria-label={pr.yourCode}
                 className="min-h-56 w-full rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-ink)] p-4 font-mono text-sm text-[var(--mj-yellow)]"
                 dir="ltr"
                 spellCheck={false}
@@ -129,7 +128,7 @@ export default function PracticePage() {
                 onClick={submit}
                 className="h-11 cursor-pointer rounded-[var(--mj-radius-md)] bg-[var(--mj-accent)] px-5 font-semibold text-[var(--mj-accent-fg)] disabled:opacity-60"
               >
-                {loading ? '...' : fa ? 'اجرا و ارسال' : 'Run & submit'}
+                {loading ? dict.loading : pr.runSubmit}
               </button>
               {result ? (
                 <pre className="overflow-x-auto rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-muted)] p-4 text-xs" dir="ltr">

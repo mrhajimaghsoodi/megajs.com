@@ -1,31 +1,36 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
-import Image from 'next/image';
+import { useAdminLocale } from '@/i18n/locale-context';
 
 const API = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000/api';
-
-const NAV = [
-  { href: '/', label: 'داشبورد' },
-  { href: '/catalog', label: 'کاتالوگ' },
-  { href: '/seo', label: 'SEO Hub' },
-  { href: '/users', label: 'کاربران' },
-  { href: '/billing', label: 'فروش / سفارش' },
-  { href: '/practice', label: 'چالش‌ها' },
-  { href: '/live', label: 'لایو Ops' },
-  { href: '/support', label: 'پشتیبانی' },
-  { href: '/audit', label: 'Audit' },
-];
 
 export function AdminShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
+  const { locale, dict, setLocale, dir } = useAdminLocale();
   const [token, setToken] = useState<string | null>(null);
   const [ready, setReady] = useState(false);
   const [me, setMe] = useState<{ displayName?: string; role?: string; phone?: string } | null>(
     null,
+  );
+
+  const NAV = useMemo(
+    () => [
+      { href: '/', label: dict.nav.dashboard },
+      { href: '/catalog', label: dict.nav.catalog },
+      { href: '/seo', label: dict.nav.seo },
+      { href: '/users', label: dict.nav.users },
+      { href: '/billing', label: dict.nav.billing },
+      { href: '/practice', label: dict.nav.practice },
+      { href: '/live', label: dict.nav.live },
+      { href: '/support', label: dict.nav.support },
+      { href: '/audit', label: dict.nav.audit },
+    ],
+    [dict],
   );
 
   useEffect(() => {
@@ -70,18 +75,27 @@ export function AdminShell({ children }: { children: ReactNode }) {
   if (!token || !me) {
     return (
       <div className="grid min-h-dvh place-items-center text-sm text-[var(--mj-muted-fg)]">
-        در حال بررسی دسترسی…
+        {dict.checkingAccess}
       </div>
     );
   }
 
+  const siteUrl =
+    locale === 'fa'
+      ? process.env.NEXT_PUBLIC_SITE_URL
+        ? `${process.env.NEXT_PUBLIC_SITE_URL}/fa`
+        : 'http://localhost:3000/fa'
+      : process.env.NEXT_PUBLIC_SITE_URL
+        ? `${process.env.NEXT_PUBLIC_SITE_URL}/en`
+        : 'http://localhost:3000/en';
+
   return (
-    <div className="min-h-dvh lg:grid lg:grid-cols-[240px_1fr]">
-      <aside className="border-b border-[var(--mj-border)] bg-[var(--mj-card)] lg:border-b-0 lg:border-l">
+    <div dir={dir} lang={locale} className="min-h-dvh lg:grid lg:grid-cols-[240px_1fr]">
+      <aside className="border-b border-[var(--mj-border)] bg-[var(--mj-card)] lg:border-b-0 lg:border-e">
         <div className="flex h-16 items-center gap-3 border-b border-[var(--mj-border)] px-4">
           <Image src="/logo-mark.svg" alt="" width={32} height={32} />
           <div>
-            <div className="text-sm font-bold">MEGA Admin</div>
+            <div className="text-sm font-bold">{dict.brand}</div>
             <div className="font-mono text-[10px] text-[var(--mj-muted-fg)]">{me.role}</div>
           </div>
         </div>
@@ -115,21 +129,30 @@ export function AdminShell({ children }: { children: ReactNode }) {
               router.replace('/login');
             }}
           >
-            خروج
+            {dict.logout}
           </button>
         </div>
       </aside>
       <div className="min-w-0">
-        <header className="flex h-16 items-center justify-between border-b border-[var(--mj-border)] px-4 sm:px-6">
-          <div className="text-sm text-[var(--mj-muted-fg)]">کنسول عملیات MEGA JS</div>
-          <a
-            href="http://localhost:3000/fa"
-            className="text-sm underline-offset-4 hover:underline"
-            target="_blank"
-            rel="noreferrer"
-          >
-            مشاهده سایت
-          </a>
+        <header className="flex h-16 items-center justify-between gap-3 border-b border-[var(--mj-border)] px-4 sm:px-6">
+          <div className="text-sm text-[var(--mj-muted-fg)]">{dict.console}</div>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              className="inline-flex h-9 cursor-pointer items-center rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] px-3 text-sm font-medium hover:bg-[var(--mj-muted)]"
+              onClick={() => setLocale(locale === 'fa' ? 'en' : 'fa')}
+            >
+              {locale === 'fa' ? 'EN' : 'فا'}
+            </button>
+            <a
+              href={siteUrl}
+              className="text-sm underline-offset-4 hover:underline"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {dict.viewSite}
+            </a>
+          </div>
         </header>
         <div className="p-4 sm:p-6" data-admin-headers={JSON.stringify(headers)}>
           {children}
