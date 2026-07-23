@@ -18,6 +18,7 @@ npx skills update -y
 | `shadcn` | UI component system for web/admin |
 | `migrate-radix-to-base` | Radix → Base UI migration helpers (from shadcn/ui) |
 | `find-skills` | Discover more skills when needed |
+| `frontend-design` | Distinctive production UI direction (Anthropic) |
 | `vercel-react-best-practices` | Next.js/React performance patterns |
 | `vercel-composition-patterns` | Scalable React component APIs |
 | `vercel-react-native-skills` | Future Expo/RN client |
