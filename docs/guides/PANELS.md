@@ -1,5 +1,14 @@
 # Admin & User panels
 
+## Locales & direction
+
+| Surface | FA | EN |
+|---------|----|----|
+| Web (`/[locale]/…`) | Full Persian UI, `dir=rtl` | Full English UI, `dir=ltr` |
+| Admin | Toggle **فا / EN** (saved in `mj_admin_locale`) | Same panels, `dir` flips with locale |
+
+Code, phone numbers, OTP, monospace / `pre` blocks stay **LTR** in both locales (`direction: ltr` on `.font-mono`, `code`, `pre`, `[data-code]`).
+
 ## Admin (`apps/admin` → :3001)
 
 Staff login via OTP. Seed admin phone: `+989120000000` (devCode returned in non-prod).
