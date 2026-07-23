@@ -9,6 +9,8 @@ async function bootstrap() {
       'http://localhost:3001',
       process.env.WEB_ORIGIN,
       process.env.ADMIN_ORIGIN,
+      // Soft-launch subdomain while WordPress still owns apex
+      process.env.WEB_ORIGIN_ALT,
     ].filter(Boolean),
     credentials: true,
   });

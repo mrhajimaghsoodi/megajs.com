@@ -15,6 +15,7 @@ This folder is the onboarding source for any engineer joining the project.
 | [guides/DEPLOYMENT.md](guides/DEPLOYMENT.md) | Private repo + VPS/domain + CI/CD deploy |
 | [guides/PANELS.md](guides/PANELS.md) | Admin + user panel map |
 | [guides/GO_LIVE_FA.md](guides/GO_LIVE_FA.md) | راهنمای فارسی صفر تا صد لانچ |
+| [guides/WHM_DEPLOY_FA.md](guides/WHM_DEPLOY_FA.md) | استقرار کنار وردپرس روی VPS با WHM/cPanel |
 
 Design source of truth also lives in:
 

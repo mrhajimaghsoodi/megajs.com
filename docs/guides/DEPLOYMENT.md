@@ -13,6 +13,13 @@ This guide covers:
 Persian zero-to-production walkthrough (domain, staging, Cursor, tokens):
 [`GO_LIVE_FA.md`](./GO_LIVE_FA.md)
 
+**Already have WHM/cPanel + WordPress on the same VPS?**  
+Do **not** bind Docker to ports 80/443. Follow:
+[`WHM_DEPLOY_FA.md`](./WHM_DEPLOY_FA.md) + [`docker/whm/README.md`](../../docker/whm/README.md)
+
+Default `docker-compose.prod.yml` publishes only `127.0.0.1:13000/14000/13001`.  
+Enable Docker Nginx on 80/443 **only** with `--profile standalone` on a bare VPS (no WHM).
+
 ---
 
 ## 1) Make the GitHub repository private
@@ -48,8 +55,8 @@ Private repos still support Actions on your paid/free plan (private Actions minu
 | `DEPLOY_HOST` | `203.0.113.10` | VPS public IP or hostname |
 | `DEPLOY_USER` | `deploy` | Linux user with Docker permission |
 | `DEPLOY_SSH_KEY` | `-----BEGIN OPENSSH PRIVATE KEY-----...` | Private key (full PEM) |
-| `DEPLOY_PATH` | `/var/www/megajs` | Absolute path on server |
-| `SITE_URL` | `https://megajs.com` | Used for post-deploy health check |
+| `DEPLOY_PATH` | `/opt/megajs` | Absolute path on server |
+| `SITE_URL` | `https://app.megajs.com` or `https://megajs.com` | Optional public health check after WHM proxy |
 
 Also add the public key to the server:
 
@@ -95,40 +102,30 @@ apt install -y ca-certificates curl git rsync ufw
 curl -fsSL https://get.docker.com | sh
 usermod -aG docker deploy   # create deploy user first if needed
 
-# Firewall
-ufw allow OpenSSH
-ufw allow 80/tcp
-ufw allow 443/tcp
-ufw enable
+# Firewall — on WHM servers, CSF/firewall already manages 80/443; do not break it.
+# On bare VPS only:
+# ufw allow OpenSSH && ufw allow 80/tcp && ufw allow 443/tcp && ufw enable
 
-# App directory
-mkdir -p /var/www/megajs
-chown -R deploy:deploy /var/www/megajs
+# App directory (prefer /opt/megajs so it stays outside cPanel home dirs)
+mkdir -p /opt/megajs
+chown -R deploy:deploy /opt/megajs
 ```
 
-Create `/var/www/megajs/.env.production` (never commit):
+Create `/opt/megajs/.env.production` (never commit) from `.env.production.example`.
 
-```bash
-POSTGRES_USER=megajs
-POSTGRES_PASSWORD=CHANGE_ME_STRONG
-POSTGRES_DB=megajs
-JWT_SECRET=CHANGE_ME_LONG_RANDOM
-WEB_ORIGIN=https://megajs.com
-ADMIN_ORIGIN=https://admin.megajs.com
-NEXT_PUBLIC_API_BASE_URL=https://megajs.com/api
-NEXT_PUBLIC_SITE_URL=https://megajs.com
-```
-
-First manual pull (before Actions takes over):
+First manual bring-up (before Actions takes over):
 
 ```bash
 # as deploy
-cd /var/www/megajs
-git clone git@github.com:mrhajimaghsoodi/megajs.com.git .
-# or let the first Actions rsync populate the directory
+cd /opt/megajs
+# populate via first Actions rsync, or:
+# git clone git@github.com:mrhajimaghsoodi/megajs.com.git .
 docker compose -f docker-compose.prod.yml --env-file .env.production up -d --build
-curl -fsS http://127.0.0.1/api/health
+curl -fsS http://127.0.0.1:14000/api/health
+bash scripts/smoke-deploy.sh
 ```
+
+Then attach WHM Apache proxy includes from `docker/whm/` (required on cPanel VPS).
 
 Because the repo will be private, the server either:
 - uses deploy key (read-only) for `git clone`, **or**
@@ -136,31 +133,30 @@ Because the repo will be private, the server either:
 
 ---
 
-## 5) TLS (Let’s Encrypt)
+## 5) TLS
 
-With HTTP Nginx already serving port 80:
+### WHM / cPanel VPS (your case)
+
+Use **AutoSSL** / cPanel SSL for `app.megajs.com`, `admin.megajs.com`, and later `megajs.com`.  
+Do not run the Docker Certbot/Nginx flow below on this server.
+
+### Bare VPS only (`--profile standalone`)
+
+With Docker Nginx on port 80:
 
 ```bash
 # on server
 docker run --rm -it \
-  -v /var/www/megajs/docker/certbot/www:/var/www/certbot \
-  -v /var/www/megajs/docker/certbot/conf:/etc/letsencrypt \
+  -v /opt/megajs/docker/certbot/www:/var/www/certbot \
+  -v /opt/megajs/docker/certbot/conf:/etc/letsencrypt \
   certbot/certbot certonly --webroot \
   -w /var/www/certbot \
   -d megajs.com -d www.megajs.com -d admin.megajs.com \
   --email YOUR_EMAIL --agree-tos --no-eff-email
 ```
 
-Then enable HTTPS server blocks in `docker/nginx/megajs.conf` (SSL section is commented as a template), reload:
-
 ```bash
-docker compose -f docker-compose.prod.yml --env-file .env.production up -d nginx
-```
-
-Renewal cron example:
-
-```bash
-0 3 * * * docker run --rm -v /var/www/megajs/docker/certbot/www:/var/www/certbot -v /var/www/megajs/docker/certbot/conf:/etc/letsencrypt certbot/certbot renew && cd /var/www/megajs && docker compose -f docker-compose.prod.yml --env-file .env.production exec nginx nginx -s reload
+docker compose -f docker-compose.prod.yml --env-file .env.production --profile standalone up -d
 ```
 
 ---
@@ -168,8 +164,14 @@ Renewal cron example:
 ## 6) Verify production
 
 ```bash
+# always (on VPS)
+curl -fsS http://127.0.0.1:14000/api/health
+bash /opt/megajs/scripts/smoke-deploy.sh
+
+# after WHM proxy + DNS
+curl -fsS https://app.megajs.com/api/health   # soft launch
+# or
 curl -fsS https://megajs.com/api/health
-curl -fsS https://megajs.com/fa
 curl -fsS https://admin.megajs.com
 ```
 
@@ -180,9 +182,8 @@ GitHub → Actions → **Deploy Production** should show green after each merge 
 ## 7) Rollback
 
 ```bash
-cd /var/www/megajs
-git log --oneline | head   # if using git on server
-# or re-run a previous successful Actions deploy / restore rsynced release backup
+cd /opt/megajs
+# re-run a previous successful Actions deploy / restore rsynced release backup
 docker compose -f docker-compose.prod.yml --env-file .env.production up -d --build
 ```
 
