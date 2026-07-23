@@ -14,6 +14,7 @@ This folder is the onboarding source for any engineer joining the project.
 | [guides/SKILLS.md](guides/SKILLS.md) | Installed agent skills inventory |
 | [guides/DEPLOYMENT.md](guides/DEPLOYMENT.md) | Private repo + VPS/domain + CI/CD deploy |
 | [guides/PANELS.md](guides/PANELS.md) | Admin + user panel map |
+| [guides/GO_LIVE_FA.md](guides/GO_LIVE_FA.md) | راهنمای فارسی صفر تا صد لانچ |
 
 Design source of truth also lives in:
 

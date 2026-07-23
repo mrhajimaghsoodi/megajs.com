@@ -10,6 +10,11 @@ This guide covers:
 
 ---
 
+Persian zero-to-production walkthrough (domain, staging, Cursor, tokens):
+[`GO_LIVE_FA.md`](./GO_LIVE_FA.md)
+
+---
+
 ## 1) Make the GitHub repository private
 
 1. Open https://github.com/mrhajimaghsoodi/megajs.com/settings

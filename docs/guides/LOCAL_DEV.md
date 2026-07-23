@@ -36,6 +36,18 @@ pnpm --filter @megajs/admin dev   # :3001
 
 `POST /api/auth/otp/request` returns `devCode` when not in production.
 
+Copy env templates before long-term local work:
+
+```bash
+cp apps/api/.env.example apps/api/.env
+cp apps/web/.env.example apps/web/.env.local
+cp apps/admin/.env.example apps/admin/.env.local
+```
+
+برای انتقال به دامنه، Staging، Cursor و توکن‌ها (Google / OTP / پرداخت) راهنمای فارسی:
+
+→ [`GO_LIVE_FA.md`](./GO_LIVE_FA.md)
+
 ## Useful URLs
 
 - https://localhost replaced by:
