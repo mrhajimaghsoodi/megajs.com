@@ -20,7 +20,7 @@ export function BlogTeaser({
     articles.length > 0
       ? articles.map((a) => ({
           key: a.id,
-          href: `/${locale}/articles/${a.slug}`,
+          href: `/${locale}${a.permalink || `/articles/${a.slug}`}`,
           title: a.title,
           summary: a.summary ?? '',
           coverUrl: (a as PublicArticle & { coverUrl?: string }).coverUrl,

@@ -3,6 +3,12 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import {
+  buildArticlePermalink,
+  indexTerms,
+  type PermalinkTerm,
+  termPermalinkPath,
+} from './article-permalink';
 import { PrismaService } from '../prisma/prisma.service';
 import {
   ALLOWED_IMAGE_MIME,
@@ -51,43 +57,86 @@ export class CmsService {
       .slice(0, 80);
   }
 
+  private async loadPostCategoryIndex() {
+    const terms = await this.prisma.term.findMany({
+      where: { taxonomy: 'post_category' },
+      select: {
+        id: true,
+        slug: true,
+        parentId: true,
+        taxonomy: true,
+        isDefault: true,
+        sortOrder: true,
+      },
+    });
+    return indexTerms(terms as PermalinkTerm[]);
+  }
+
+  private withArticlePermalink<
+    T extends {
+      slug: string;
+      taxonomies?: Array<{ term: PermalinkTerm }>;
+    },
+  >(row: T, byId: Map<string, PermalinkTerm>) {
+    return {
+      ...row,
+      permalink: buildArticlePermalink(
+        row.slug,
+        (row.taxonomies ?? []).map((t) => t.term).filter(Boolean),
+        byId,
+      ),
+    };
+  }
+
   // ——— Articles (Posts) ———
 
-  listArticles(q?: string, status?: string) {
-    return this.prisma.article.findMany({
-      where: {
-        ...(status ? { status } : {}),
-        ...(q
-          ? {
-              OR: [
-                { slug: { contains: q } },
-                { i18n: { some: { title: { contains: q } } } },
-              ],
-            }
-          : {}),
-      },
-      include: {
-        i18n: true,
-        taxonomies: { include: { term: { include: { i18n: true } } } },
-        _count: { select: { comments: true } },
-      },
-      orderBy: [{ sticky: 'desc' }, { updatedAt: 'desc' }],
-      take: 200,
-    });
+  async listArticles(q?: string, status?: string) {
+    const [rows, catIndex] = await Promise.all([
+      this.prisma.article.findMany({
+        where: {
+          ...(status ? { status } : {}),
+          ...(q
+            ? {
+                OR: [
+                  { slug: { contains: q } },
+                  { i18n: { some: { title: { contains: q } } } },
+                ],
+              }
+            : {}),
+        },
+        include: {
+          i18n: true,
+          taxonomies: { include: { term: { include: { i18n: true } } } },
+          _count: { select: { comments: true } },
+        },
+        orderBy: [{ sticky: 'desc' }, { updatedAt: 'desc' }],
+        take: 200,
+      }),
+      this.loadPostCategoryIndex(),
+    ]);
+    return rows.map((row) =>
+      this.withArticlePermalink(row as typeof row & { taxonomies: Array<{ term: PermalinkTerm }> }, catIndex),
+    );
   }
 
   async getArticle(id: string) {
-    const article = await this.prisma.article.findUnique({
-      where: { id },
-      include: {
-        i18n: true,
-        seo: true,
-        taxonomies: { include: { term: { include: { i18n: true } } } },
-        comments: { orderBy: { createdAt: 'desc' }, take: 50 },
-      },
-    });
+    const [article, catIndex] = await Promise.all([
+      this.prisma.article.findUnique({
+        where: { id },
+        include: {
+          i18n: true,
+          seo: true,
+          taxonomies: { include: { term: { include: { i18n: true } } } },
+          comments: { orderBy: { createdAt: 'desc' }, take: 50 },
+        },
+      }),
+      this.loadPostCategoryIndex(),
+    ]);
     if (!article) throw new NotFoundException('Article not found');
-    return article;
+    return this.withArticlePermalink(
+      article as typeof article & { taxonomies: Array<{ term: PermalinkTerm }> },
+      catIndex,
+    );
   }
 
   async createArticle(
@@ -177,6 +226,9 @@ export class CmsService {
         canonicalPath?: string;
         ogImageUrl?: string;
         noIndex?: boolean;
+        noFollow?: boolean;
+        breadcrumbTitle?: string;
+        schemaJson?: string;
       };
     },
   ) {
@@ -252,15 +304,47 @@ export class CmsService {
       }
 
       if (body.seo) {
+        // Auto-canonical from hierarchical permalink when not provided
+        let canonicalPath = body.seo.canonicalPath;
+        if (!canonicalPath) {
+          const tax = await tx.articleTerm.findMany({
+            where: { articleId: id },
+            include: { term: true },
+          });
+          const catIndex = indexTerms(
+            (
+              await tx.term.findMany({
+                where: { taxonomy: 'post_category' },
+                select: {
+                  id: true,
+                  slug: true,
+                  parentId: true,
+                  taxonomy: true,
+                  isDefault: true,
+                  sortOrder: true,
+                },
+              })
+            ) as PermalinkTerm[],
+          );
+          const slug = body.slug?.trim() || existing.slug;
+          canonicalPath = buildArticlePermalink(
+            slug,
+            tax.map((t) => t.term as PermalinkTerm),
+            catIndex,
+          );
+        }
         const seoData = {
           locale,
           entityType: 'article',
           entityId: id,
           metaTitle: body.seo.metaTitle ?? body.title ?? existing.slug,
           metaDescription: body.seo.metaDescription ?? '',
-          canonicalPath: body.seo.canonicalPath,
+          canonicalPath,
           ogImageUrl: body.seo.ogImageUrl,
           noIndex: body.seo.noIndex ?? false,
+          noFollow: body.seo.noFollow ?? false,
+          breadcrumbTitle: body.seo.breadcrumbTitle ?? '',
+          schemaJson: body.seo.schemaJson ?? '{}',
           articleId: id,
         };
         const existingSeo = await tx.seoMeta.findUnique({ where: { articleId: id } });
@@ -485,12 +569,65 @@ export class CmsService {
       where: taxonomy ? { taxonomy } : undefined,
       include: {
         i18n: true,
+        seo: true,
         parent: { include: { i18n: true } },
         children: { include: { i18n: true }, orderBy: { sortOrder: 'asc' } },
         _count: { select: { articles: true, courses: true } },
       },
       orderBy: [{ sortOrder: 'asc' }, { slug: 'asc' }],
     });
+  }
+
+  private async upsertTermSeo(
+    termId: string,
+    locale: string,
+    taxonomy: string,
+    slug: string,
+    name: string,
+    seo: {
+      metaTitle?: string;
+      metaDescription?: string;
+      canonicalPath?: string;
+      ogImageUrl?: string;
+      noIndex?: boolean;
+      noFollow?: boolean;
+      breadcrumbTitle?: string;
+      schemaJson?: string;
+    },
+  ) {
+    let canonicalPath = seo.canonicalPath;
+    if (!canonicalPath) {
+      if (taxonomy === 'post_category') {
+        const catIndex = await this.loadPostCategoryIndex();
+        canonicalPath = termPermalinkPath(termId, catIndex) || `/${slug}`;
+      } else if (taxonomy === 'post_tag') {
+        canonicalPath = `/articles/tag/${slug}`;
+      } else if (taxonomy === 'product_category') {
+        canonicalPath = `/learn/category/${slug}`;
+      } else {
+        canonicalPath = `/learn?tag=${encodeURIComponent(slug)}`;
+      }
+    }
+    const seoData = {
+      locale,
+      entityType: 'term',
+      entityId: termId,
+      metaTitle: seo.metaTitle ?? name,
+      metaDescription: seo.metaDescription ?? '',
+      canonicalPath,
+      ogImageUrl: seo.ogImageUrl,
+      noIndex: seo.noIndex ?? false,
+      noFollow: seo.noFollow ?? false,
+      breadcrumbTitle: seo.breadcrumbTitle ?? '',
+      schemaJson: seo.schemaJson ?? '{}',
+      termId,
+    };
+    const existingSeo = await this.prisma.seoMeta.findUnique({ where: { termId } });
+    if (existingSeo) {
+      await this.prisma.seoMeta.update({ where: { id: existingSeo.id }, data: seoData });
+    } else {
+      await this.prisma.seoMeta.create({ data: seoData });
+    }
   }
 
   async createTerm(
@@ -502,9 +639,20 @@ export class CmsService {
       sortOrder?: number;
       imageUrl?: string | null;
       isDefault?: boolean;
+      focusKeyword?: string;
       locale?: string;
       name?: string;
       description?: string;
+      seo?: {
+        metaTitle?: string;
+        metaDescription?: string;
+        canonicalPath?: string;
+        ogImageUrl?: string;
+        noIndex?: boolean;
+        noFollow?: boolean;
+        breadcrumbTitle?: string;
+        schemaJson?: string;
+      };
     },
   ) {
     const taxonomy = body.taxonomy ?? 'post_category';
@@ -530,6 +678,7 @@ export class CmsService {
         sortOrder: body.sortOrder ?? 0,
         imageUrl: body.imageUrl ?? null,
         isDefault: body.isDefault ?? false,
+        focusKeyword: body.focusKeyword ?? '',
         i18n: {
           create: {
             locale,
@@ -538,10 +687,28 @@ export class CmsService {
           },
         },
       },
-      include: { i18n: true, children: true, _count: { select: { articles: true, courses: true } } },
+      include: {
+        i18n: true,
+        seo: true,
+        children: true,
+        _count: { select: { articles: true, courses: true } },
+      },
     });
+
+    if (body.seo) {
+      await this.upsertTermSeo(term.id, locale, taxonomy, slug, name, body.seo);
+    }
+
     await this.audit(actorId, 'term.create', 'Term', term.id, { taxonomy, slug });
-    return term;
+    return this.prisma.term.findUnique({
+      where: { id: term.id },
+      include: {
+        i18n: true,
+        seo: true,
+        children: true,
+        _count: { select: { articles: true, courses: true } },
+      },
+    });
   }
 
   async updateTerm(
@@ -553,9 +720,20 @@ export class CmsService {
       sortOrder?: number;
       imageUrl?: string | null;
       isDefault?: boolean;
+      focusKeyword?: string;
       locale?: string;
       name?: string;
       description?: string;
+      seo?: {
+        metaTitle?: string;
+        metaDescription?: string;
+        canonicalPath?: string;
+        ogImageUrl?: string;
+        noIndex?: boolean;
+        noFollow?: boolean;
+        breadcrumbTitle?: string;
+        schemaJson?: string;
+      };
     },
   ) {
     const existing = await this.prisma.term.findUnique({ where: { id } });
@@ -582,6 +760,8 @@ export class CmsService {
           sortOrder: body.sortOrder,
           imageUrl: body.imageUrl === undefined ? undefined : body.imageUrl,
           isDefault: body.isDefault === undefined ? undefined : body.isDefault,
+          focusKeyword:
+            body.focusKeyword === undefined ? undefined : body.focusKeyword,
         },
       });
       if (body.name !== undefined || body.description !== undefined) {
@@ -608,12 +788,29 @@ export class CmsService {
         }
       }
     });
+
+    if (body.seo) {
+      const i18n = await this.prisma.termI18n.findUnique({
+        where: { termId_locale: { termId: id, locale } },
+      });
+      await this.upsertTermSeo(
+        id,
+        locale,
+        existing.taxonomy,
+        body.slug?.trim() || existing.slug,
+        body.name ?? i18n?.name ?? existing.slug,
+        body.seo,
+      );
+    }
+
     await this.audit(actorId, 'term.update', 'Term', id, body);
     return this.prisma.term.findUnique({
       where: { id },
       include: {
         i18n: true,
-        children: true,
+        seo: true,
+        parent: { include: { i18n: true } },
+        children: { include: { i18n: true }, orderBy: { sortOrder: 'asc' } },
         _count: { select: { articles: true, courses: true } },
       },
     });
@@ -898,6 +1095,8 @@ export class CmsService {
       canonicalPath?: string;
       ogImageUrl?: string;
       noIndex?: boolean;
+      noFollow?: boolean;
+      breadcrumbTitle?: string;
       schemaJson?: string;
     },
   ) {
@@ -913,6 +1112,7 @@ export class CmsService {
     if (body.entityType === 'lesson') link.lessonId = body.entityId;
     if (body.entityType === 'podcast') link.podcastId = body.entityId;
     if (body.entityType === 'live') link.liveId = body.entityId;
+    if (body.entityType === 'term') link.termId = body.entityId;
 
     const existing = await this.prisma.seoMeta.findFirst({
       where: {
@@ -931,6 +1131,8 @@ export class CmsService {
       canonicalPath: body.canonicalPath,
       ogImageUrl: body.ogImageUrl,
       noIndex: body.noIndex ?? false,
+      noFollow: body.noFollow ?? false,
+      breadcrumbTitle: body.breadcrumbTitle ?? '',
       schemaJson: body.schemaJson ?? '{}',
       ...link,
     };

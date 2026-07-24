@@ -3,6 +3,7 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { adminFetch } from '@/components/admin-shell';
 import { MediaImageField } from '@/components/media-image-field';
+import { SeoPanel, emptySeoFields, type SeoFields } from '@/components/seo-panel';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -25,6 +26,16 @@ type TermRow = {
   imageUrl?: string | null;
   isDefault?: boolean;
   i18n?: Array<{ locale: string; name: string; description?: string }>;
+  focusKeyword?: string;
+  seo?: {
+    metaTitle?: string;
+    metaDescription?: string;
+    canonicalPath?: string;
+    ogImageUrl?: string;
+    noIndex?: boolean;
+    noFollow?: boolean;
+    breadcrumbTitle?: string;
+  };
   _count?: { articles?: number; courses?: number };
 };
 
@@ -48,6 +59,7 @@ export function TermsAdmin({ taxonomy }: { taxonomy: string }) {
   const [qParentId, setQParentId] = useState('');
   const [qDescription, setQDescription] = useState('');
   const [filter, setFilter] = useState('');
+  const [seo, setSeo] = useState<SeoFields>(emptySeoFields());
   const [error, setError] = useState<string | null>(null);
   const [msg, setMsg] = useState<string | null>(null);
   const formRef = useRef<HTMLDivElement>(null);
@@ -128,6 +140,7 @@ export function TermsAdmin({ taxonomy }: { taxonomy: string }) {
     setSortOrder('0');
     setImageUrl('');
     setIsDefault(false);
+    setSeo(emptySeoFields());
     setEditingId(null);
   };
 
@@ -141,6 +154,16 @@ export function TermsAdmin({ taxonomy }: { taxonomy: string }) {
     setSortOrder(String(row.sortOrder ?? 0));
     setImageUrl(row.imageUrl ?? '');
     setIsDefault(Boolean(row.isDefault));
+    setSeo({
+      metaTitle: row.seo?.metaTitle ?? '',
+      metaDescription: row.seo?.metaDescription ?? '',
+      canonicalPath: row.seo?.canonicalPath ?? '',
+      ogImageUrl: row.seo?.ogImageUrl ?? row.imageUrl ?? '',
+      noIndex: Boolean(row.seo?.noIndex),
+      noFollow: Boolean(row.seo?.noFollow),
+      breadcrumbTitle: row.seo?.breadcrumbTitle ?? '',
+      focusKeyword: row.focusKeyword ?? '',
+    });
     setMsg(null);
     setTimeout(() => formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 40);
   };
@@ -189,8 +212,18 @@ export function TermsAdmin({ taxonomy }: { taxonomy: string }) {
       sortOrder: Number(sortOrder) || 0,
       imageUrl: hierarchical ? imageUrl || null : undefined,
       isDefault: hierarchical ? isDefault : undefined,
+      focusKeyword: seo.focusKeyword,
       locale,
       taxonomy,
+      seo: {
+        metaTitle: seo.metaTitle || name,
+        metaDescription: seo.metaDescription || description,
+        canonicalPath: seo.canonicalPath || undefined,
+        ogImageUrl: seo.ogImageUrl || imageUrl || undefined,
+        noIndex: seo.noIndex,
+        noFollow: seo.noFollow,
+        breadcrumbTitle: seo.breadcrumbTitle,
+      },
     };
     try {
       if (editingId) {
@@ -484,6 +517,25 @@ export function TermsAdmin({ taxonomy }: { taxonomy: string }) {
               </label>
             </>
           ) : null}
+          <SeoPanel
+            value={seo}
+            onChange={setSeo}
+            entityType="term"
+            previewTitle={name}
+            previewUrl={publicSiteUrl(locale, termArchivePath(taxonomy, slug || 'term'))}
+            analyzePayload={{
+              name,
+              slug,
+              description,
+              taxonomy,
+              itemCount: editingId
+                ? (rows.find((r) => r.id === editingId)?._count?.articles ?? 0) +
+                  (rows.find((r) => r.id === editingId)?._count?.courses ?? 0)
+                : 0,
+              ogImageUrl: seo.ogImageUrl || imageUrl,
+              locale,
+            }}
+          />
           <div className="flex flex-wrap gap-2">
             <Button onClick={() => void save()}>{editingId ? dict.save : d.addTerm}</Button>
             {editingId ? (

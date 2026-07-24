@@ -555,8 +555,8 @@ export class WpParityService {
         uploadsOrganize: true,
       }),
       this.getSettingGroup('permalinks', {
-        structure: '/%postname%/',
-        categoryBase: 'category',
+        structure: '/%category%/%postname%/',
+        categoryBase: '',
         tagBase: 'tag',
         productBase: 'product',
       }),

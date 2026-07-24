@@ -247,7 +247,7 @@ export default function PostsAdminPage() {
                           </button>
                           {row.status === 'published' ? (
                             <a
-                              href={publicSiteUrl(locale, `/articles/${row.slug}`)}
+                              href={publicSiteUrl(locale, row.permalink || `/articles/${row.slug}`)}
                               target="_blank"
                               rel="noreferrer"
                               className="font-semibold text-[var(--mj-muted-fg)] underline-offset-4 hover:underline"

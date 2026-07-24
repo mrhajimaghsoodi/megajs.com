@@ -11,6 +11,7 @@ export type ArticleCardData = {
   coverUrl?: string | null;
   publishedAt?: string | null;
   sticky?: boolean;
+  permalink?: string;
   taxonomies?: Array<{
     term?: {
       id: string;
@@ -42,11 +43,12 @@ export function ArticleCard({
   const cats = (article.taxonomies ?? [])
     .map((t) => t.term)
     .filter((t) => t?.taxonomy === 'post_category');
+  const href = `/${locale}${article.permalink || `/articles/${article.slug}`}`;
 
   if (variant === 'list') {
     return (
       <Link
-        href={`/${locale}/articles/${article.slug}`}
+        href={href}
         className="group grid gap-4 overflow-hidden border border-border bg-card transition hover:border-primary/50 sm:grid-cols-[11rem_1fr]"
       >
         <div className="aspect-[16/10] bg-muted sm:aspect-auto sm:min-h-[7.5rem]">
@@ -89,7 +91,7 @@ export function ArticleCard({
 
   return (
     <Link
-      href={`/${locale}/articles/${article.slug}`}
+      href={href}
       className={cn(
         'group flex flex-col overflow-hidden border border-border bg-card transition hover:-translate-y-0.5 hover:border-primary/45 hover:shadow-[0_16px_40px_-28px_rgba(0,0,0,0.45)]',
         variant === 'compact' && 'text-sm',

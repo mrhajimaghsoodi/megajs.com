@@ -7,6 +7,7 @@ import { adminFetch } from '@/components/admin-shell';
 import { CategoryChecklist, type TermRow } from '@/components/category-checklist';
 import { ContentEditor } from '@/components/content-editor';
 import { MediaImageField } from '@/components/media-image-field';
+import { SeoPanel, emptySeoFields, type SeoFields } from '@/components/seo-panel';
 import { TagChecklist } from '@/components/tag-checklist';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -31,10 +32,8 @@ export default function EditPostPage() {
   const [termIds, setTermIds] = useState<string[]>([]);
   const [cats, setCats] = useState<TermRow[]>([]);
   const [tags, setTags] = useState<TermRow[]>([]);
-  const [metaTitle, setMetaTitle] = useState('');
-  const [metaDescription, setMetaDescription] = useState('');
-  const [focusKeyword, setFocusKeyword] = useState('');
-  const [seoScore, setSeoScore] = useState<any>(null);
+  const [permalink, setPermalink] = useState('');
+  const [seo, setSeo] = useState<SeoFields>(emptySeoFields());
   const [msg, setMsg] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -56,12 +55,20 @@ export default function EditPostPage() {
       setBannerUrl(row.bannerUrl ?? '');
       setSticky(Boolean(row.sticky));
       setCommentStatus(row.commentStatus ?? 'open');
-      setFocusKeyword(row.focusKeyword ?? '');
       setTermIds(row.taxonomies?.map((x: any) => x.termId) ?? []);
       setCats(c);
       setTags(t);
-      setMetaTitle(row.seo?.metaTitle ?? '');
-      setMetaDescription(row.seo?.metaDescription ?? '');
+      setPermalink(row.permalink ?? `/articles/${row.slug}`);
+      setSeo({
+        metaTitle: row.seo?.metaTitle ?? '',
+        metaDescription: row.seo?.metaDescription ?? '',
+        canonicalPath: row.seo?.canonicalPath ?? row.permalink ?? '',
+        ogImageUrl: row.seo?.ogImageUrl ?? row.coverUrl ?? '',
+        noIndex: Boolean(row.seo?.noIndex),
+        noFollow: Boolean(row.seo?.noFollow),
+        breadcrumbTitle: row.seo?.breadcrumbTitle ?? '',
+        focusKeyword: row.focusKeyword ?? '',
+      });
       setError(null);
     } catch (e: any) {
       setError(e.message);
@@ -72,28 +79,11 @@ export default function EditPostPage() {
     void load();
   }, [load]);
 
-  const analyze = async () => {
-    const res = await adminFetch('/admin/plugins/rankmath/analyze', {
-      method: 'POST',
-      body: JSON.stringify({
-        title,
-        metaTitle: metaTitle || title,
-        metaDescription,
-        slug,
-        focusKeyword,
-        body: bodyMdx,
-        canonicalPath: `/articles/${slug}`,
-        ogImageUrl: coverUrl || bannerUrl,
-      }),
-    });
-    setSeoScore(res);
-  };
-
   const save = async () => {
     setMsg(null);
     setBusy(true);
     try {
-      await adminFetch(`/admin/cms/articles/${id}`, {
+      const res = await adminFetch(`/admin/cms/articles/${id}`, {
         method: 'PATCH',
         body: JSON.stringify({
           title,
@@ -105,18 +95,22 @@ export default function EditPostPage() {
           bannerUrl: bannerUrl || null,
           sticky,
           commentStatus,
-          focusKeyword,
+          focusKeyword: seo.focusKeyword,
           termIds,
           locale,
           seo: {
-            metaTitle,
-            metaDescription,
-            ogImageUrl: coverUrl || bannerUrl || undefined,
+            metaTitle: seo.metaTitle || title,
+            metaDescription: seo.metaDescription || summary,
+            canonicalPath: seo.canonicalPath || undefined,
+            ogImageUrl: seo.ogImageUrl || coverUrl || bannerUrl || undefined,
+            noIndex: seo.noIndex,
+            noFollow: seo.noFollow,
+            breadcrumbTitle: seo.breadcrumbTitle,
           },
         }),
       });
+      setPermalink(res.permalink ?? permalink);
       setMsg(d.saved);
-      await analyze();
       await load();
     } catch (e: any) {
       setError(e.message);
@@ -131,6 +125,8 @@ export default function EditPostPage() {
     router.push('/posts');
   };
 
+  const viewPath = permalink || `/articles/${slug}`;
+
   return (
     <div className="mx-auto max-w-6xl space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -139,11 +135,16 @@ export default function EditPostPage() {
             ← {d.back}
           </Link>
           <h1 className="mt-2 font-display text-3xl font-bold">{d.editPost}</h1>
+          {permalink ? (
+            <p className="mt-1 font-mono text-[11px] text-[var(--mj-muted-fg)]" dir="ltr">
+              {permalink}
+            </p>
+          ) : null}
         </div>
         <div className="flex flex-wrap gap-2">
           {status === 'published' && slug ? (
             <Button asChild variant="outline">
-              <a href={publicSiteUrl(locale, `/articles/${slug}`)} target="_blank" rel="noreferrer">
+              <a href={publicSiteUrl(locale, viewPath)} target="_blank" rel="noreferrer">
                 {d.view}
               </a>
             </Button>
@@ -165,7 +166,7 @@ export default function EditPostPage() {
       {error ? <p className="text-sm text-[var(--mj-danger)]">{error}</p> : null}
       {msg ? <p className="text-sm text-emerald-700">{msg}</p> : null}
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem]">
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
         <div className="space-y-4">
           <div className="space-y-2">
             <Label>{d.titleCol}</Label>
@@ -188,48 +189,22 @@ export default function EditPostPage() {
               dir={locale === 'fa' ? 'rtl' : 'ltr'}
             />
           </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="space-y-2">
-              <Label>SEO title</Label>
-              <Input value={metaTitle} onChange={(e) => setMetaTitle(e.target.value)} />
-            </div>
-            <div className="space-y-2">
-              <Label>SEO description</Label>
-              <Input value={metaDescription} onChange={(e) => setMetaDescription(e.target.value)} />
-            </div>
-          </div>
-          <div className="space-y-2">
-            <Label>{dict.plugins.focusKeyword}</Label>
-            <Input value={focusKeyword} onChange={(e) => setFocusKeyword(e.target.value)} />
-          </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <Button type="button" variant="outline" onClick={() => void analyze()}>
-              {dict.plugins.runAnalyze}
-            </Button>
-            {seoScore ? (
-              <span className="font-display text-lg font-bold">
-                Rank Math: {seoScore.score}/100 ({seoScore.label})
-              </span>
-            ) : null}
-          </div>
-          {seoScore ? (
-            <ul className="space-y-1 text-sm">
-              {seoScore.issues.map((i: any) => (
-                <li
-                  key={i.id}
-                  className={
-                    i.severity === 'bad'
-                      ? 'text-[var(--mj-danger)]'
-                      : i.severity === 'good'
-                        ? 'text-emerald-700'
-                        : ''
-                  }
-                >
-                  [{i.severity}] {i.message}
-                </li>
-              ))}
-            </ul>
-          ) : null}
+
+          <SeoPanel
+            value={seo}
+            onChange={setSeo}
+            entityType="article"
+            previewTitle={title}
+            previewUrl={publicSiteUrl(locale, viewPath)}
+            analyzePayload={{
+              title,
+              slug,
+              body: bodyMdx,
+              canonicalPath: seo.canonicalPath || permalink || `/articles/${slug}`,
+              ogImageUrl: seo.ogImageUrl || coverUrl || bannerUrl,
+              locale,
+            }}
+          />
         </div>
 
         <aside className="space-y-4">

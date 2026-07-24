@@ -28,6 +28,7 @@ export type PublicArticle = {
   publishedAt?: string;
   coverUrl?: string | null;
   bannerUrl?: string | null;
+  permalink?: string;
 };
 
 export async function fetchTracks(locale: Locale): Promise<CatalogTrack[]> {

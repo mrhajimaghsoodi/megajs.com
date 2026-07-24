@@ -272,16 +272,21 @@ model PodcastI18n {
 }
 
 model SeoMeta {
-  id              String  @id @default(cuid())
-  locale          String
-  entityType      String
-  entityId        String
-  metaTitle       String
-  metaDescription String
-  canonicalPath   String?
-  ogImageUrl      String?
-  noIndex         Boolean @default(false)
-  schemaJson      String  @default("{}")
+  id               String  @id @default(cuid())
+  locale           String
+  entityType       String
+  entityId         String
+  metaTitle        String
+  metaDescription  String
+  canonicalPath    String?
+  ogImageUrl       String?
+  /// Rank Math robots: noindex
+  noIndex          Boolean @default(false)
+  /// Rank Math robots: nofollow
+  noFollow         Boolean @default(false)
+  /// Custom breadcrumb label (Rank Math)
+  breadcrumbTitle  String  @default("")
+  schemaJson       String  @default("{}")
 
   trackId   String? @unique
   courseId  String? @unique
@@ -290,6 +295,7 @@ model SeoMeta {
   podcastId String? @unique
   liveId    String? @unique
   pageId    String? @unique
+  termId    String? @unique
 
   track   Track?          @relation(fields: [trackId], references: [id], onDelete: Cascade)
   course  Course?         @relation(fields: [courseId], references: [id], onDelete: Cascade)
@@ -298,6 +304,7 @@ model SeoMeta {
   podcast PodcastEpisode? @relation(fields: [podcastId], references: [id], onDelete: Cascade)
   live    LiveEvent?      @relation(fields: [liveId], references: [id], onDelete: Cascade)
   page    Page?           @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  term    Term?           @relation(fields: [termId], references: [id], onDelete: Cascade)
 
   @@index([entityType, entityId, locale])
 }
@@ -615,12 +622,15 @@ model Term {
   imageUrl  String?
   /// Default category for new posts/products (one per taxonomy)
   isDefault Boolean    @default(false)
+  /// Rank Math focus keyword for term archives
+  focusKeyword String  @default("")
   createdAt DateTime   @default(now())
   parent    Term?      @relation("TermTree", fields: [parentId], references: [id], onDelete: SetNull)
   children  Term[]     @relation("TermTree")
   i18n      TermI18n[]
   articles  ArticleTerm[]
   courses   CourseTerm[]
+  seo       SeoMeta?
 
   @@unique([taxonomy, slug])
   @@index([taxonomy])

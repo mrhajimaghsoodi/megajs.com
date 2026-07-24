@@ -6,12 +6,21 @@ import {
   ForbiddenException,
   Get,
   Headers,
+  NotFoundException,
   Param,
   Post,
   Put,
   Query,
   UnauthorizedException,
 } from '@nestjs/common';
+import {
+  buildArticlePermalink,
+  indexTerms,
+  matchCategoryPath,
+  normalizePath,
+  type PermalinkTerm,
+  termPermalinkPath,
+} from '../cms/article-permalink';
 import { AuthService } from '../auth/auth.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { RankMathService } from './rankmath.service';
@@ -48,9 +57,12 @@ export class PluginsAdminController {
   @Post('rankmath/analyze')
   async analyze(
     @Headers('authorization') authorization?: string,
-    @Body() body?: Record<string, string>,
+    @Body() body?: Record<string, any>,
   ) {
     await this.requireStaff(authorization);
+    if (body?.type === 'term' || body?.entityType === 'term') {
+      return this.rankmath.analyzeTerm(body ?? {});
+    }
     return this.rankmath.analyze(body ?? {});
   }
 
@@ -274,12 +286,41 @@ export class PublicContentController {
     private readonly rankmath: RankMathService,
   ) {}
 
+  private async loadPostCategoryIndex() {
+    const terms = await this.prisma.term.findMany({
+      where: { taxonomy: 'post_category' },
+      select: {
+        id: true,
+        slug: true,
+        parentId: true,
+        taxonomy: true,
+        isDefault: true,
+        sortOrder: true,
+      },
+    });
+    return indexTerms(terms as PermalinkTerm[]);
+  }
+
+  private articlePermalinkFromRow(
+    slug: string,
+    taxonomies: Array<{ term: PermalinkTerm }>,
+    byId: Map<string, PermalinkTerm>,
+  ) {
+    const assigned = taxonomies.map((t) => t.term).filter(Boolean);
+    return buildArticlePermalink(slug, assigned, byId);
+  }
+
   @Get('sitemap')
   async sitemap() {
-    const [articles, pages, courses, redirects] = await Promise.all([
+    const [articleRows, pages, courses, redirects, catIndex] = await Promise.all([
       this.prisma.article.findMany({
         where: { status: 'published' },
-        select: { slug: true, updatedAt: true, publishedAt: true },
+        select: {
+          slug: true,
+          updatedAt: true,
+          publishedAt: true,
+          taxonomies: { include: { term: true } },
+        },
       }),
       this.prisma.page.findMany({
         where: { status: 'published' },
@@ -290,7 +331,18 @@ export class PublicContentController {
         select: { slug: true, updatedAt: true },
       }),
       this.prisma.redirect.findMany(),
+      this.loadPostCategoryIndex(),
     ]);
+    const articles = articleRows.map((a) => ({
+      slug: a.slug,
+      updatedAt: a.updatedAt,
+      publishedAt: a.publishedAt,
+      permalink: this.articlePermalinkFromRow(
+        a.slug,
+        a.taxonomies as Array<{ term: PermalinkTerm }>,
+        catIndex,
+      ),
+    }));
     const rank = await this.prisma.siteSetting.findUnique({ where: { key: 'rankmath' } });
     let rankSettings = { sitemap: true };
     if (rank) {
@@ -331,33 +383,44 @@ export class PublicContentController {
       };
     }
 
-    const rows = await this.prisma.article.findMany({
-      where: {
-        status: 'published',
-        ...termFilter,
-      },
-      include: {
-        i18n: true,
-        seo: true,
-        taxonomies: { include: { term: { include: { i18n: true } } } },
-      },
-      orderBy: [{ sticky: 'desc' }, { publishedAt: 'desc' }],
-      take: 50,
-    });
-    return rows.map((row) => ({
-      ...row,
-      title:
-        row.i18n.find((x) => x.locale === locale)?.title ??
-        row.i18n[0]?.title ??
+    const [rows, catIndex] = await Promise.all([
+      this.prisma.article.findMany({
+        where: {
+          status: 'published',
+          ...termFilter,
+        },
+        include: {
+          i18n: true,
+          seo: true,
+          taxonomies: { include: { term: { include: { i18n: true } } } },
+        },
+        orderBy: [{ sticky: 'desc' }, { publishedAt: 'desc' }],
+        take: 50,
+      }),
+      this.loadPostCategoryIndex(),
+    ]);
+    return rows.map((row) => {
+      const permalink = this.articlePermalinkFromRow(
         row.slug,
-      summary:
-        row.i18n.find((x) => x.locale === locale)?.summary ??
-        row.i18n[0]?.summary ??
-        '',
-      coverUrl: row.coverUrl,
-      bannerUrl: row.bannerUrl,
-      sticky: row.sticky,
-    }));
+        row.taxonomies as Array<{ term: PermalinkTerm }>,
+        catIndex,
+      );
+      return {
+        ...row,
+        permalink,
+        title:
+          row.i18n.find((x) => x.locale === locale)?.title ??
+          row.i18n[0]?.title ??
+          row.slug,
+        summary:
+          row.i18n.find((x) => x.locale === locale)?.summary ??
+          row.i18n[0]?.summary ??
+          '',
+        coverUrl: row.coverUrl,
+        bannerUrl: row.bannerUrl,
+        sticky: row.sticky,
+      };
+    });
   }
 
   @Get('courses')
@@ -441,6 +504,7 @@ export class PublicContentController {
         where: { taxonomy, slug },
         include: {
           i18n: true,
+          seo: true,
           parent: { include: { i18n: true } },
           children: {
             include: { i18n: true, _count: { select: { articles: true, courses: true } } },
@@ -458,18 +522,67 @@ export class PublicContentController {
         term.i18n.find((x) => x.locale === locale)?.description ??
         term.i18n[0]?.description ??
         '';
-      return { ...term, name, description };
+      let path = taxonomy === 'post_tag' ? `/articles/tag/${term.slug}` : `/${term.slug}`;
+      if (taxonomy === 'post_category') {
+        const catIndex = await this.loadPostCategoryIndex();
+        path = termPermalinkPath(term.id, catIndex) || `/${term.slug}`;
+      }
+      const itemCount = (term._count?.articles ?? 0) + (term._count?.courses ?? 0);
+      const seoScore = this.rankmath.analyzeTerm({
+        name,
+        metaTitle: term.seo?.metaTitle,
+        metaDescription: term.seo?.metaDescription,
+        slug: term.slug,
+        description,
+        focusKeyword: term.focusKeyword,
+        canonicalPath: term.seo?.canonicalPath || path,
+        ogImageUrl: term.seo?.ogImageUrl || term.imageUrl || undefined,
+        itemCount,
+        taxonomy,
+        locale,
+      });
+      const crumbs = [
+        { name: 'Home', path: `/${locale}` },
+        { name: 'Articles', path: `/${locale}/articles` },
+        {
+          name: term.seo?.breadcrumbTitle || name,
+          path: `/${locale}${path}`,
+        },
+      ];
+      return {
+        ...term,
+        name,
+        description,
+        path,
+        seoScore,
+        breadcrumbs: this.rankmath.breadcrumbs(crumbs, locale),
+        itemList: this.rankmath.itemListSchema(name, [], locale),
+      };
     }
     const rows = await this.prisma.term.findMany({
       where: { taxonomy },
       include: {
         i18n: true,
+        seo: true,
         parent: true,
         children: true,
         _count: { select: { articles: true, courses: true } },
       },
       orderBy: [{ sortOrder: 'asc' }, { slug: 'asc' }],
     });
+    const catIndex =
+      taxonomy === 'post_category'
+        ? indexTerms(
+            rows.map((t) => ({
+              id: t.id,
+              slug: t.slug,
+              parentId: t.parentId,
+              taxonomy: t.taxonomy,
+              isDefault: t.isDefault,
+              sortOrder: t.sortOrder,
+            })),
+          )
+        : null;
     return rows.map((t) => ({
       ...t,
       name:
@@ -481,7 +594,174 @@ export class PublicContentController {
         t.i18n[0]?.description ??
         '',
       count: (t._count?.articles ?? 0) + (t._count?.courses ?? 0),
+      path:
+        taxonomy === 'post_tag'
+          ? `/articles/tag/${t.slug}`
+          : catIndex != null
+            ? termPermalinkPath(t.id, catIndex) || `/${t.slug}`
+            : `/${t.slug}`,
     }));
+  }
+
+  /** Resolve hierarchical path: parent/category/post-slug or parent/category */
+  @Get('resolve')
+  async resolvePath(
+    @Query('path') path = '',
+    @Query('locale') locale = 'fa',
+  ) {
+    const normalized = normalizePath(path);
+    if (!normalized) throw new BadRequestException('path required');
+    const segments = normalized.split('/');
+    const catIndex = await this.loadPostCategoryIndex();
+    const allCats = [...catIndex.values()];
+
+    // Try article: last segment = post slug, preceding = category chain
+    if (segments.length >= 2) {
+      const postSlug = segments[segments.length - 1]!;
+      const article = await this.prisma.article.findFirst({
+        where: { slug: postSlug, status: 'published' },
+        include: {
+          i18n: true,
+          seo: true,
+          taxonomies: { include: { term: { include: { i18n: true } } } },
+          comments: { where: { status: 'approved' }, orderBy: { createdAt: 'desc' } },
+        },
+      });
+      if (article) {
+        const permalink = this.articlePermalinkFromRow(
+          article.slug,
+          article.taxonomies as Array<{ term: PermalinkTerm }>,
+          catIndex,
+        );
+        const expected = normalizePath(permalink);
+        if (expected !== normalized) {
+          return { type: 'redirect' as const, permalink, locale };
+        }
+        return {
+          type: 'article' as const,
+          permalink,
+          article: await this.shapeArticle(article as any, locale, permalink),
+        };
+      }
+    }
+
+    // Category archive: full path is category chain
+    const term = matchCategoryPath(segments, allCats);
+    if (term) {
+      const pathStr = termPermalinkPath(term.id, catIndex) || `/${term.slug}`;
+      const full = await this.prisma.term.findFirst({
+        where: { id: term.id },
+        include: {
+          i18n: true,
+          seo: true,
+          parent: { include: { i18n: true } },
+          children: {
+            include: { i18n: true, _count: { select: { articles: true, courses: true } } },
+            orderBy: { sortOrder: 'asc' },
+          },
+          _count: { select: { articles: true, courses: true } },
+        },
+      });
+      if (!full) throw new NotFoundException('Not found');
+      const name =
+        full.i18n.find((x) => x.locale === locale)?.name ??
+        full.i18n[0]?.name ??
+        full.slug;
+      const description =
+        full.i18n.find((x) => x.locale === locale)?.description ??
+        full.i18n[0]?.description ??
+        '';
+      const children = (full.children ?? []).map((c) => ({
+        ...c,
+        name:
+          c.i18n.find((x) => x.locale === locale)?.name ??
+          c.i18n[0]?.name ??
+          c.slug,
+        path: termPermalinkPath(c.id, catIndex) || `/${c.slug}`,
+        count: (c._count?.articles ?? 0) + (c._count?.courses ?? 0),
+      }));
+      const seoScore = this.rankmath.analyzeTerm({
+        name,
+        metaTitle: full.seo?.metaTitle,
+        metaDescription: full.seo?.metaDescription,
+        slug: full.slug,
+        description,
+        focusKeyword: full.focusKeyword,
+        canonicalPath: full.seo?.canonicalPath || pathStr,
+        ogImageUrl: full.seo?.ogImageUrl || full.imageUrl || undefined,
+        itemCount: (full._count?.articles ?? 0) + (full._count?.courses ?? 0),
+        taxonomy: full.taxonomy,
+        locale,
+      });
+      return {
+        type: 'category' as const,
+        permalink: pathStr,
+        term: {
+          ...full,
+          name,
+          description,
+          path: pathStr,
+          children,
+          seoScore,
+        },
+      };
+    }
+
+    throw new NotFoundException('Not found');
+  }
+
+  private async shapeArticle(
+    row: {
+      slug: string;
+      seo: { metaTitle: string | null; metaDescription: string | null; canonicalPath: string | null; ogImageUrl: string | null; schemaJson: string | null; noIndex: boolean } | null;
+      coverUrl: string | null;
+      focusKeyword: string | null;
+      i18n: Array<{ locale: string; title: string; summary: string | null; bodyMdx: string | null }>;
+      taxonomies: Array<{ term: { taxonomy: string; slug: string; i18n: Array<{ locale: string; name: string }> } }>;
+      [key: string]: unknown;
+    },
+    locale: string,
+    permalink: string,
+  ) {
+    const i18n = row.i18n.find((x) => x.locale === locale) ?? row.i18n[0];
+    const analysis = this.rankmath.analyze({
+      title: i18n?.title,
+      metaTitle: row.seo?.metaTitle ?? undefined,
+      metaDescription: row.seo?.metaDescription ?? undefined,
+      slug: row.slug,
+      body: i18n?.bodyMdx ?? undefined,
+      focusKeyword: row.focusKeyword ?? undefined,
+      canonicalPath: row.seo?.canonicalPath ?? permalink,
+      ogImageUrl: row.seo?.ogImageUrl ?? row.coverUrl ?? undefined,
+      imageUrl: row.coverUrl ?? undefined,
+      publishedAt: (row as any).publishedAt ?? undefined,
+      modifiedAt: (row as any).updatedAt ?? undefined,
+      locale,
+      siteName: 'MEGA JS',
+    });
+    const catCrumbs = normalizePath(permalink).split('/').slice(0, -1);
+    const crumbs: Array<{ name: string; path: string }> = [
+      { name: 'Home', path: `/${locale}` },
+      { name: 'Articles', path: `/${locale}/articles` },
+    ];
+    let acc = '';
+    for (const seg of catCrumbs) {
+      acc += `/${seg}`;
+      crumbs.push({ name: seg, path: `/${locale}${acc}` });
+    }
+    const crumbTitle =
+      (row.seo as any)?.breadcrumbTitle || i18n?.title || row.slug;
+    crumbs.push({
+      name: crumbTitle,
+      path: `/${locale}${permalink.startsWith('/') ? permalink : `/${permalink}`}`,
+    });
+    return {
+      ...row,
+      permalink,
+      i18nSelected: i18n,
+      seoScore: analysis,
+      breadcrumbs: this.rankmath.breadcrumbs(crumbs, locale),
+    };
   }
 
   @Get('articles/:slug')
@@ -489,37 +769,25 @@ export class PublicContentController {
     @Param('slug') slug: string,
     @Query('locale') locale = 'fa',
   ) {
-    const row = await this.prisma.article.findFirst({
-      where: { slug, status: 'published' },
-      include: {
-        i18n: true,
-        seo: true,
-        taxonomies: { include: { term: { include: { i18n: true } } } },
-        comments: { where: { status: 'approved' }, orderBy: { createdAt: 'desc' } },
-      },
-    });
+    const [row, catIndex] = await Promise.all([
+      this.prisma.article.findFirst({
+        where: { slug, status: 'published' },
+        include: {
+          i18n: true,
+          seo: true,
+          taxonomies: { include: { term: { include: { i18n: true } } } },
+          comments: { where: { status: 'approved' }, orderBy: { createdAt: 'desc' } },
+        },
+      }),
+      this.loadPostCategoryIndex(),
+    ]);
     if (!row) throw new BadRequestException('Not found');
-    const i18n = row.i18n.find((x) => x.locale === locale) ?? row.i18n[0];
-    const analysis = this.rankmath.analyze({
-      title: i18n?.title,
-      metaTitle: row.seo?.metaTitle,
-      metaDescription: row.seo?.metaDescription,
-      slug: row.slug,
-      body: i18n?.bodyMdx,
-      focusKeyword: row.focusKeyword,
-      canonicalPath: row.seo?.canonicalPath ?? undefined,
-      ogImageUrl: row.seo?.ogImageUrl ?? row.coverUrl ?? undefined,
-    });
-    return {
-      ...row,
-      i18nSelected: i18n,
-      seoScore: analysis,
-      breadcrumbs: this.rankmath.breadcrumbs([
-        { name: 'Home', path: `/${locale}` },
-        { name: 'Articles', path: `/${locale}/articles` },
-        { name: i18n?.title ?? row.slug, path: `/${locale}/articles/${row.slug}` },
-      ]),
-    };
+    const permalink = this.articlePermalinkFromRow(
+      row.slug,
+      row.taxonomies as Array<{ term: PermalinkTerm }>,
+      catIndex,
+    );
+    return this.shapeArticle(row as any, locale, permalink);
   }
 
   @Get('pages/:slug')

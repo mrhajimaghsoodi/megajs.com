@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { notFound, permanentRedirect } from 'next/navigation';
 import { MarkdownBody } from '@/components/markdown-body';
 import { resolveMediaUrl } from '@/lib/media-url';
+import { buildPublicMetadata, jsonLdScript, localePath } from '@/lib/seo';
 import { isLocale, type Locale } from '@/lib/utils';
 
 const API = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000/api';
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
 
 async function fetchArticle(slug: string, locale: string) {
   const res = await fetch(`${API}/public/articles/${slug}?locale=${locale}`, {
@@ -33,23 +33,23 @@ export async function generateMetadata({
   if (!isLocale(raw)) return {};
   const article = await fetchArticle(slug, raw);
   if (!article) return {};
-  const title = article.seo?.metaTitle || article.i18nSelected?.title || slug;
-  const description =
-    article.seo?.metaDescription || article.i18nSelected?.summary || undefined;
-  const canonical = article.seo?.canonicalPath || `/${raw}/articles/${slug}`;
-  const og =
-    article.seo?.ogImageUrl || article.coverUrl || article.bannerUrl || undefined;
-  return {
-    title,
-    description,
-    alternates: { canonical: `${SITE}${canonical}` },
-    openGraph: {
-      title,
-      description,
-      images: og ? [resolveMediaUrl(og)] : undefined,
-    },
-    robots: article.seo?.noIndex ? { index: false, follow: false } : undefined,
-  };
+  const title = article.i18nSelected?.title || slug;
+  const tags = (article.taxonomies ?? [])
+    .map((t: any) => t.term)
+    .filter((t: any) => t?.taxonomy === 'post_tag')
+    .map((t: any) => termName(t, raw));
+  return buildPublicMetadata({
+    locale: raw,
+    fallbackTitle: title,
+    fallbackDescription: article.i18nSelected?.summary,
+    seo: article.seo,
+    defaultPath: article.permalink || `/articles/${slug}`,
+    ogImageFallback: article.coverUrl || article.bannerUrl,
+    type: 'article',
+    publishedTime: article.publishedAt,
+    modifiedTime: article.updatedAt,
+    tags,
+  });
 }
 
 export default async function ArticleDetailPage({
@@ -63,6 +63,12 @@ export default async function ArticleDetailPage({
   const article = await fetchArticle(slug, locale);
   if (!article) notFound();
 
+  // Prefer hierarchical Rank Math permalink: /parent/category/post
+  const permalink = article.permalink || `/articles/${slug}`;
+  if (permalink !== `/articles/${slug}`) {
+    permanentRedirect(localePath(locale, permalink));
+  }
+
   const title = article.i18nSelected?.title ?? slug;
   const body = article.i18nSelected?.bodyMdx ?? '';
   const summary = article.i18nSelected?.summary ?? '';
@@ -70,10 +76,12 @@ export default async function ArticleDetailPage({
   const showCoverSeparate = Boolean(
     article.coverUrl && article.bannerUrl && article.coverUrl !== article.bannerUrl,
   );
-  const schema =
+  const schemaRaw =
     article.seo?.schemaJson && article.seo.schemaJson !== '{}'
       ? article.seo.schemaJson
       : JSON.stringify(article.seoScore?.schemaSuggestion ?? {});
+  const schema = jsonLdScript(schemaRaw);
+  const crumbs = jsonLdScript(article.breadcrumbs);
 
   const cats = (article.taxonomies ?? [])
     .map((t: any) => t.term)
@@ -84,12 +92,11 @@ export default async function ArticleDetailPage({
 
   return (
     <article>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: schema }} />
-      {article.breadcrumbs ? (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(article.breadcrumbs) }}
-        />
+      {schema ? (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: schema }} />
+      ) : null}
+      {crumbs ? (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: crumbs }} />
       ) : null}
 
       {banner ? (
@@ -105,7 +112,7 @@ export default async function ArticleDetailPage({
       ) : null}
 
       <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 sm:py-14">
-        <nav className="mb-6 text-sm text-muted-foreground">
+        <nav className="mb-6 text-sm text-muted-foreground" aria-label="Breadcrumb">
           <Link href={`/${locale}`} className="underline-offset-4 hover:underline">
             Home
           </Link>
@@ -113,8 +120,21 @@ export default async function ArticleDetailPage({
           <Link href={`/${locale}/articles`} className="underline-offset-4 hover:underline">
             Articles
           </Link>
+          {cats.slice(0, 2).map((c: any) => (
+            <span key={c.id}>
+              {' / '}
+              <Link
+                href={localePath(locale, `/articles/category/${c.slug}`)}
+                className="underline-offset-4 hover:underline"
+              >
+                {article.seo?.breadcrumbTitle && cats[0]?.id === c.id
+                  ? termName(c, locale)
+                  : termName(c, locale)}
+              </Link>
+            </span>
+          ))}
           {' / '}
-          <span>{title}</span>
+          <span>{article.seo?.breadcrumbTitle || title}</span>
         </nav>
 
         <h1 className="font-display text-4xl font-bold tracking-tight sm:text-5xl">{title}</h1>
@@ -156,6 +176,10 @@ export default async function ArticleDetailPage({
         <div className="mt-10">
           <MarkdownBody content={body} />
         </div>
+
+        <p className="mt-10 font-mono text-[11px] text-muted-foreground" dir="ltr">
+          {permalink}
+        </p>
       </div>
     </article>
   );

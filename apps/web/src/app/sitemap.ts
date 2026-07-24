@@ -26,7 +26,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         for (const locale of locales) {
           for (const a of data.articles ?? []) {
             entries.push({
-              url: `${SITE}/${locale}/articles/${a.slug}`,
+              url: `${SITE}/${locale}${a.permalink || `/articles/${a.slug}`}`,
               lastModified: a.updatedAt,
               changeFrequency: 'weekly',
               priority: 0.8,
