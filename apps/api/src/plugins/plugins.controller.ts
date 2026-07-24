@@ -312,27 +312,44 @@ export class PublicContentController {
 
   @Get('sitemap')
   async sitemap() {
-    const [articleRows, pages, courses, redirects, catIndex] = await Promise.all([
-      this.prisma.article.findMany({
-        where: { status: 'published' },
-        select: {
-          slug: true,
-          updatedAt: true,
-          publishedAt: true,
-          taxonomies: { include: { term: true } },
-        },
-      }),
-      this.prisma.page.findMany({
-        where: { status: 'published' },
-        select: { slug: true, updatedAt: true, publishedAt: true },
-      }),
-      this.prisma.course.findMany({
-        where: { status: 'published' },
-        select: { slug: true, updatedAt: true },
-      }),
-      this.prisma.redirect.findMany(),
-      this.loadPostCategoryIndex(),
-    ]);
+    const [articleRows, pages, courses, redirects, catIndex, postCats, postTags, productCats, lives] =
+      await Promise.all([
+        this.prisma.article.findMany({
+          where: { status: 'published' },
+          select: {
+            slug: true,
+            updatedAt: true,
+            publishedAt: true,
+            taxonomies: { include: { term: true } },
+          },
+        }),
+        this.prisma.page.findMany({
+          where: { status: 'published' },
+          select: { slug: true, updatedAt: true, publishedAt: true },
+        }),
+        this.prisma.course.findMany({
+          where: { status: 'published' },
+          select: { slug: true, updatedAt: true },
+        }),
+        this.prisma.redirect.findMany(),
+        this.loadPostCategoryIndex(),
+        this.prisma.term.findMany({
+          where: { taxonomy: 'post_category' },
+          select: { id: true, slug: true, createdAt: true },
+        }),
+        this.prisma.term.findMany({
+          where: { taxonomy: 'post_tag' },
+          select: { id: true, slug: true, createdAt: true },
+        }),
+        this.prisma.term.findMany({
+          where: { taxonomy: 'product_category' },
+          select: { id: true, slug: true, createdAt: true },
+        }),
+        this.prisma.liveEvent.findMany({
+          where: { status: { in: ['scheduled', 'live', 'ended'] } },
+          select: { slug: true, updatedAt: true },
+        }),
+      ]);
     const articles = articleRows.map((a) => ({
       slug: a.slug,
       updatedAt: a.updatedAt,
@@ -343,6 +360,20 @@ export class PublicContentController {
         catIndex,
       ),
     }));
+    const postCategories = postCats.map((t) => ({
+      slug: t.slug,
+      path: termPermalinkPath(t.id, catIndex) || `/${t.slug}`,
+      updatedAt: t.createdAt,
+    }));
+    const postTagsMapped = postTags.map((t) => ({
+      slug: t.slug,
+      path: `/articles/tag/${t.slug}`,
+      updatedAt: t.createdAt,
+    }));
+    const productCategories = productCats.map((t) => ({
+      slug: t.slug,
+      updatedAt: t.createdAt,
+    }));
     const rank = await this.prisma.siteSetting.findUnique({ where: { key: 'rankmath' } });
     let rankSettings = { sitemap: true };
     if (rank) {
@@ -352,7 +383,17 @@ export class PublicContentController {
         /* ignore */
       }
     }
-    return { articles, pages, courses, redirects, rankSettings };
+    return {
+      articles,
+      pages,
+      courses,
+      redirects,
+      postCategories,
+      postTags: postTagsMapped,
+      productCategories,
+      lives,
+      rankSettings,
+    };
   }
 
   @Get('articles')

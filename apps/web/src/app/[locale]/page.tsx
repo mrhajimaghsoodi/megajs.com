@@ -1,32 +1,37 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { BlogTeaser } from '@/components/woodmart/blog-teaser';
 import { BenefitsStrip } from '@/components/woodmart/benefits';
 import { CategoryGrid } from '@/components/woodmart/category-grid';
+import { JsonLd } from '@/components/json-ld';
 import { ProductCard } from '@/components/woodmart/product-card';
 import { PromoBanners } from '@/components/woodmart/promo-banners';
 import { WoodContainer, WoodSectionTitle } from '@/components/woodmart/section-title';
 import { Button } from '@/components/ui/button';
 import { getDictionary } from '@/i18n/dictionaries';
 import { fetchArticles, fetchTracks, flattenCourses } from '@/lib/catalog';
+import {
+  organizationJsonLd,
+  pageMetadata,
+  websiteJsonLd,
+} from '@/lib/seo';
 import { isLocale, type Locale } from '@/lib/utils';
 
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ locale: string }>;
-}) {
+}): Promise<Metadata> {
   const { locale: raw } = await params;
   const locale = isLocale(raw) ? raw : 'fa';
   const dict = getDictionary(locale);
-  return {
+  return pageMetadata({
+    locale,
     title: dict.brand,
     description: dict.tagline,
-    alternates: {
-      canonical: `/${locale}`,
-      languages: { fa: '/fa', en: '/en' },
-    },
-  };
+    path: '/',
+  });
 }
 
 export default async function HomePage({
@@ -60,6 +65,8 @@ export default async function HomePage({
 
   return (
     <>
+      <JsonLd data={organizationJsonLd(locale)} />
+      <JsonLd data={websiteJsonLd(locale, { name: dict.brand, description: dict.tagline })} />
       {/* Full-bleed WoodMart hero — brand first, one CTA group, one visual plane */}
       <section className="relative isolate min-h-[min(88vh,52rem)] overflow-hidden bg-[#0c0c0c] text-white">
         <div

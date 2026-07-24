@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { ProductCard } from '@/components/woodmart/product-card';
 import { TermCardsGrid } from '@/components/term-card';
 import { getDictionary } from '@/i18n/dictionaries';
+import { pageMetadata } from '@/lib/seo';
 import { isLocale, type Locale } from '@/lib/utils';
 
 const API = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000/api';
@@ -43,7 +44,13 @@ export async function generateMetadata({
   const { locale: raw, slug } = await params;
   if (!isLocale(raw)) return {};
   const term = await fetchTerm(slug, raw);
-  return { title: term?.name ?? slug };
+  return pageMetadata({
+    locale: raw,
+    title: term?.name ?? slug,
+    description: term?.description || undefined,
+    path: `/learn/category/${slug}`,
+    image: term?.imageUrl || term?.seo?.ogImageUrl,
+  });
 }
 
 export default async function ProductCategoryPage({

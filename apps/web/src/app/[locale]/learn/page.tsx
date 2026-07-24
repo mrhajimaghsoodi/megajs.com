@@ -1,10 +1,27 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { ProductCard } from '@/components/woodmart/product-card';
 import { WoodContainer, WoodSectionTitle } from '@/components/woodmart/section-title';
 import { getDictionary } from '@/i18n/dictionaries';
 import { fetchTracks } from '@/lib/catalog';
+import { pageMetadata } from '@/lib/seo';
 import { isLocale, type Locale } from '@/lib/utils';
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale: raw } = await params;
+  const locale = isLocale(raw) ? raw : 'fa';
+  const dict = getDictionary(locale);
+  return pageMetadata({
+    locale,
+    title: dict.learn.title,
+    description: dict.learn.subtitle,
+    path: '/learn',
+  });
+}
 export default async function LearnPage({
   params,
   searchParams,

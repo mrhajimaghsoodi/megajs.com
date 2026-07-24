@@ -1,18 +1,25 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ContentSection, CtaLink, MarketingHero } from '@/components/marketing';
 import { getDictionary } from '@/i18n/dictionaries';
+import { pageMetadata } from '@/lib/seo';
 import { isLocale, type Locale } from '@/lib/utils';
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
   const { locale: raw } = await params;
   const locale = isLocale(raw) ? raw : 'fa';
   const dict = getDictionary(locale);
-  return {
+  return pageMetadata({
+    locale,
     title: dict.curriculum.title,
     description: dict.curriculum.subtitle,
-    alternates: { canonical: `/${locale}/curriculum`, languages: { fa: '/fa/curriculum', en: '/en/curriculum' } },
-  };
+    path: '/curriculum',
+  });
 }
 
 export default async function CurriculumPage({ params }: { params: Promise<{ locale: string }> }) {

@@ -1,6 +1,9 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { JsonLd } from '@/components/json-ld';
 import { getDictionary } from '@/i18n/dictionaries';
+import { breadcrumbJsonLd, courseJsonLd, pageMetadata } from '@/lib/seo';
 import { API_BASE, isLocale, type Locale } from '@/lib/utils';
 
 async function getCourse(slug: string, locale: Locale) {
@@ -13,6 +16,24 @@ async function getCourse(slug: string, locale: Locale) {
   } catch {
     return null;
   }
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>;
+}): Promise<Metadata> {
+  const { locale: raw, slug } = await params;
+  const locale = (isLocale(raw) ? raw : 'fa') as Locale;
+  const course = await getCourse(slug, locale);
+  const title = course?.i18n?.[0]?.title ?? slug;
+  const summary = course?.i18n?.[0]?.summary ?? '';
+  return pageMetadata({
+    locale,
+    title,
+    description: summary || undefined,
+    path: `/learn/course/${slug}`,
+  });
 }
 
 export default async function CoursePage({
@@ -32,6 +53,21 @@ export default async function CoursePage({
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
+      <JsonLd
+        data={courseJsonLd({
+          locale,
+          name: title,
+          description: summary,
+          path: `/learn/course/${slug}`,
+        })}
+      />
+      <JsonLd
+        data={breadcrumbJsonLd(locale, [
+          { name: 'Home', path: '/' },
+          { name: dict.nav.learn, path: '/learn' },
+          { name: title, path: `/learn/course/${slug}` },
+        ])}
+      />
       <Link href={`/${locale}/learn`} className="text-sm text-[var(--mj-muted-fg)] hover:underline">
         ← {dict.nav.learn}
       </Link>

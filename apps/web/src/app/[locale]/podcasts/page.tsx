@@ -1,20 +1,24 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { ContentSection, CtaLink, MarketingHero } from '@/components/marketing';
 import { getDictionary } from '@/i18n/dictionaries';
+import { pageMetadata } from '@/lib/seo';
 import { isLocale, type Locale } from '@/lib/utils';
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
   const { locale: raw } = await params;
   const locale = isLocale(raw) ? raw : 'fa';
   const dict = getDictionary(locale);
-  return {
+  return pageMetadata({
+    locale,
     title: dict.podcasts.title,
     description: dict.podcasts.subtitle,
-    alternates: {
-      canonical: `/${locale}/podcasts`,
-      languages: { fa: '/fa/podcasts', en: '/en/podcasts' },
-    },
-  };
+    path: '/podcasts',
+  });
 }
 
 export default async function PodcastsPage({ params }: { params: Promise<{ locale: string }> }) {

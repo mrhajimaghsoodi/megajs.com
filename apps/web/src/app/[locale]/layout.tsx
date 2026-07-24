@@ -1,13 +1,31 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import type { ReactNode } from 'react';
 import { LocaleDocument } from '@/components/locale-document';
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
 import { getDictionary } from '@/i18n/dictionaries';
+import { pageMetadata } from '@/lib/seo';
 import { dirFor, isLocale, type Locale } from '@/lib/utils';
 
 export function generateStaticParams() {
   return [{ locale: 'fa' }, { locale: 'en' }];
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale: raw } = await params;
+  const locale = isLocale(raw) ? raw : 'fa';
+  const dict = getDictionary(locale);
+  return pageMetadata({
+    locale,
+    title: dict.brand,
+    description: dict.tagline,
+    path: '/',
+  });
 }
 
 export default async function LocaleLayout({

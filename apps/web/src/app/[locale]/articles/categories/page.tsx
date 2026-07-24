@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { TermCardsGrid } from '@/components/term-card';
 import { getDictionary } from '@/i18n/dictionaries';
+import { pageMetadata } from '@/lib/seo';
 import { isLocale, type Locale } from '@/lib/utils';
 
 const API = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000/api';
@@ -24,7 +25,12 @@ export async function generateMetadata({
   const { locale: raw } = await params;
   if (!isLocale(raw)) return {};
   const dict = getDictionary(raw as Locale);
-  return { title: dict.articles.allCategories };
+  return pageMetadata({
+    locale: raw as Locale,
+    title: dict.articles.allCategories,
+    description: dict.articles.categoriesSubtitle,
+    path: '/articles/categories',
+  });
 }
 
 export default async function ArticleCategoriesPage({

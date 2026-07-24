@@ -4,10 +4,10 @@ import { ElementorRenderer } from '@/components/elementor-renderer';
 import type { BuilderDoc } from '@/components/elementor-types';
 import { MarkdownBody } from '@/components/markdown-body';
 import { resolveMediaUrl } from '@/lib/media-url';
+import { buildPublicMetadata } from '@/lib/seo';
 import { isLocale, type Locale } from '@/lib/utils';
 
 const API = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000/api';
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
 
 async function fetchPage(slug: string, locale: string) {
   const res = await fetch(`${API}/public/pages/${slug}?locale=${locale}`, {
@@ -26,21 +26,14 @@ export async function generateMetadata({
   if (!isLocale(raw)) return {};
   const page = await fetchPage(slug, raw);
   if (!page) return {};
-  const title = page.seo?.metaTitle || page.i18nSelected?.title || slug;
-  const description = page.seo?.metaDescription || page.i18nSelected?.summary;
-  const og = page.seo?.ogImageUrl || page.coverUrl || page.bannerUrl;
-  return {
-    title,
-    description,
-    alternates: {
-      canonical: `${SITE}${page.seo?.canonicalPath || `/${raw}/p/${slug}`}`,
-    },
-    openGraph: {
-      title,
-      description,
-      images: og ? [resolveMediaUrl(og)] : undefined,
-    },
-  };
+  return buildPublicMetadata({
+    locale: raw,
+    fallbackTitle: page.i18nSelected?.title || slug,
+    fallbackDescription: page.i18nSelected?.summary,
+    seo: page.seo,
+    defaultPath: `/p/${slug}`,
+    ogImageFallback: page.coverUrl || page.bannerUrl,
+  });
 }
 
 export default async function CmsPage({
