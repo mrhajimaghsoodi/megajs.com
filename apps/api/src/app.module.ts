@@ -4,6 +4,7 @@ import { AdminModule } from './admin/admin.module';
 import { AuthModule } from './auth/auth.module';
 import { BillingModule } from './billing/billing.module';
 import { CatalogModule } from './catalog/catalog.module';
+import { CmsModule } from './cms/cms.module';
 import { HealthController } from './health/health.controller';
 import { LiveModule } from './live/live.module';
 import { PracticeModule } from './practice/practice.module';
@@ -25,6 +26,7 @@ import { WalletModule } from './wallet/wallet.module';
     AdminModule,
     UsersModule,
     SupportModule,
+    CmsModule,
   ],
   controllers: [HealthController],
 })

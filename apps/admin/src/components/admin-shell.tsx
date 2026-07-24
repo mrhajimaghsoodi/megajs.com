@@ -8,6 +8,9 @@ import { useAdminLocale } from '@/i18n/locale-context';
 
 const API = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000/api';
 
+type NavItem = { href: string; label: string };
+type NavGroup = { label?: string; items: NavItem[] };
+
 export function AdminShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -18,17 +21,52 @@ export function AdminShell({ children }: { children: ReactNode }) {
     null,
   );
 
-  const NAV = useMemo(
+  const NAV: NavGroup[] = useMemo(
     () => [
-      { href: '/', label: dict.nav.dashboard },
-      { href: '/catalog', label: dict.nav.catalog },
-      { href: '/seo', label: dict.nav.seo },
-      { href: '/users', label: dict.nav.users },
-      { href: '/billing', label: dict.nav.billing },
-      { href: '/practice', label: dict.nav.practice },
-      { href: '/live', label: dict.nav.live },
-      { href: '/support', label: dict.nav.support },
-      { href: '/audit', label: dict.nav.audit },
+      { items: [{ href: '/', label: dict.nav.dashboard }] },
+      {
+        label: dict.nav.groupContent,
+        items: [
+          { href: '/posts', label: dict.nav.posts },
+          { href: '/categories', label: dict.cms.postCategories },
+          { href: '/tags', label: dict.cms.postTags },
+          { href: '/pages', label: dict.nav.pages },
+          { href: '/media', label: dict.nav.media },
+          { href: '/comments', label: dict.nav.comments },
+        ],
+      },
+      {
+        label: dict.nav.groupShop,
+        items: [
+          { href: '/catalog', label: dict.nav.catalog },
+          { href: '/product-categories', label: dict.nav.productCategories },
+          { href: '/orders', label: dict.nav.orders },
+          { href: '/coupons', label: dict.nav.coupons },
+          { href: '/plans', label: dict.nav.plans },
+          { href: '/reports', label: dict.nav.reports },
+        ],
+      },
+      {
+        label: dict.nav.groupPeople,
+        items: [{ href: '/users', label: dict.nav.users }],
+      },
+      {
+        label: dict.nav.groupSite,
+        items: [
+          { href: '/menus', label: dict.nav.menus },
+          { href: '/seo', label: dict.nav.seo },
+          { href: '/settings', label: dict.nav.settings },
+        ],
+      },
+      {
+        label: dict.nav.groupOps,
+        items: [
+          { href: '/practice', label: dict.nav.practice },
+          { href: '/live', label: dict.nav.live },
+          { href: '/support', label: dict.nav.support },
+          { href: '/audit', label: dict.nav.audit },
+        ],
+      },
     ],
     [dict],
   );
@@ -97,7 +135,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
     <div
       dir={dir}
       lang={locale}
-      className="min-h-dvh bg-[var(--mj-bg)] lg:grid lg:grid-cols-[260px_1fr]"
+      className="min-h-dvh bg-[var(--mj-bg)] lg:grid lg:grid-cols-[280px_1fr]"
     >
       <aside className="border-b border-[var(--mj-border)] bg-[#121212] text-white lg:border-b-0 lg:border-e lg:border-[var(--mj-border)]">
         <div className="flex h-16 items-center gap-3 border-b border-white/10 px-4">
@@ -107,25 +145,36 @@ export function AdminShell({ children }: { children: ReactNode }) {
             <div className="font-mono text-[10px] text-primary">{me.role}</div>
           </div>
         </div>
-        <nav className="flex gap-1 overflow-x-auto p-3 lg:flex-col">
-          {NAV.map((item) => {
-            const active =
-              pathname === item.href ||
-              (item.href !== '/' && pathname.startsWith(item.href + '/'));
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`mj-nav-item cursor-pointer rounded-md px-3 py-2.5 text-sm transition-colors ${
-                  active
-                    ? 'bg-[var(--mj-accent)] font-semibold text-[var(--mj-accent-fg)]'
-                    : 'text-white/70 hover:bg-white/5 hover:text-white'
-                }`}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
+        <nav className="max-h-[calc(100dvh-8rem)] space-y-4 overflow-y-auto p-3">
+          {NAV.map((group, gi) => (
+            <div key={gi}>
+              {group.label ? (
+                <div className="mb-1 px-3 font-mono text-[10px] uppercase tracking-[0.16em] text-white/35">
+                  {group.label}
+                </div>
+              ) : null}
+              <div className="flex flex-col gap-0.5">
+                {group.items.map((item) => {
+                  const active =
+                    pathname === item.href ||
+                    (item.href !== '/' && pathname.startsWith(item.href + '/'));
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className={`mj-nav-item cursor-pointer rounded-md px-3 py-2 text-sm transition-colors ${
+                        active
+                          ? 'bg-[var(--mj-accent)] font-semibold text-[var(--mj-accent-fg)]'
+                          : 'text-white/70 hover:bg-white/5 hover:text-white'
+                      }`}
+                    >
+                      {item.label}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </nav>
         <div className="hidden border-t border-white/10 p-4 text-xs text-white/55 lg:block">
           <div className="font-mono" dir="ltr">
