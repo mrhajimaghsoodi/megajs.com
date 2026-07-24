@@ -50,13 +50,6 @@ export function SiteHeader({
     { href: `${base}/about`, label: dict.nav.about },
     { href: `${base}/contact`, label: dict.nav.contact },
   ];
-  const categories = [
-    { href: `${base}/learn`, label: w.cats.all },
-    { href: `${base}/curriculum`, label: w.cats.roadmap },
-    { href: `${base}/practice`, label: w.cats.practice },
-    { href: `${base}/live`, label: w.cats.live },
-    { href: `${base}/pricing`, label: w.cats.plans },
-  ];
   const other = locale === 'fa' ? 'en' : 'fa';
   const switchedPath = pathname?.replace(/^\/(fa|en)(?=\/|$)/, `/${other}`) || `/${other}`;
   const [authed, setAuthed] = useState(false);
@@ -81,37 +74,38 @@ export function SiteHeader({
 
   return (
     <div className="sticky top-0 z-40">
-      {/* WoodMart-style top bar */}
-      <div className="hidden border-b border-white/10 bg-[#1a1a1a] text-white sm:block">
+      <div className="hidden border-b border-border bg-[var(--mj-accent-soft)] text-foreground sm:block">
         <div className="mx-auto flex h-9 max-w-7xl items-center justify-between gap-4 px-4 text-[11px] sm:px-6 lg:px-8">
-          <p className="truncate text-white/70">{w.topbar.promo}</p>
-          <div className="flex shrink-0 items-center gap-4 text-white/55">
+          <p className="truncate text-muted-foreground">{w.topbar.promo}</p>
+          <div className="flex shrink-0 items-center gap-4 text-muted-foreground">
             <span>{w.topbar.support}</span>
-            <Link href={`${base}/contact`} className="hover:text-primary">
+            <Link href={`${base}/contact`} className="font-medium text-primary hover:underline">
               {dict.nav.contact}
             </Link>
           </div>
         </div>
       </div>
 
-      {/* Main header */}
-      <header className="border-b border-border bg-background/95 backdrop-blur-md">
-        <div className="mx-auto flex h-[4.25rem] max-w-7xl items-center gap-3 px-4 sm:px-6 lg:gap-6 lg:px-8">
+      <header className="border-b border-border bg-card/90 shadow-[var(--mj-shadow-sm)] backdrop-blur-md">
+        <div className="mx-auto flex h-[4.5rem] max-w-7xl items-center gap-3 px-4 sm:px-6 lg:gap-6 lg:px-8">
           <Logo href={base} priority />
 
-          <form onSubmit={onSearch} className="relative mx-auto hidden min-w-0 flex-1 md:block lg:max-w-xl">
-            <Search className="pointer-events-none absolute start-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+          <form
+            onSubmit={onSearch}
+            className="relative mx-auto hidden min-w-0 flex-1 md:block lg:max-w-xl"
+          >
+            <Search className="pointer-events-none absolute start-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder={w.searchPlaceholder}
-              className="h-11 rounded-none border-border bg-muted/40 pe-24 ps-10"
+              className="h-11 rounded-2xl border-border bg-muted/50 pe-24 ps-10"
               aria-label={dict.search}
             />
             <Button
               type="submit"
               size="sm"
-              className="absolute end-1 top-1/2 h-9 -translate-y-1/2 rounded-none px-4"
+              className="absolute end-1.5 top-1/2 h-8 -translate-y-1/2 rounded-xl px-4"
             >
               {dict.search}
             </Button>
@@ -122,24 +116,35 @@ export function SiteHeader({
               asChild
               variant="outline"
               size="sm"
-              className="hidden rounded-none font-mono text-xs uppercase sm:inline-flex"
+              className="hidden rounded-xl font-mono text-xs uppercase sm:inline-flex"
             >
               <Link href={switchedPath} hrefLang={other}>
                 {other === 'fa' ? 'فا' : 'EN'}
               </Link>
             </Button>
             <ThemeToggle />
-            <Button asChild variant="ghost" size="icon" className="hidden sm:inline-flex" title={w.wishlist}>
+            <Button asChild variant="ghost" size="icon" className="hidden rounded-xl sm:inline-flex" title={w.wishlist}>
               <Link href={`${base}/learn`} aria-label={w.wishlist}>
                 <Heart className="size-5" />
               </Link>
             </Button>
-            <Button asChild variant="ghost" size="icon" className="hidden sm:inline-flex" title={w.cart}>
+            <Button asChild variant="ghost" size="icon" className="hidden rounded-xl sm:inline-flex" title={w.cart}>
               <Link href={`${base}/pricing`} aria-label={w.cart}>
                 <ShoppingBag className="size-5" />
               </Link>
             </Button>
-            <Button asChild variant="ghost" size="icon" title={authed ? dict.nav.profile : dict.nav.login}>
+            <Button
+              asChild
+              size="sm"
+              className="hidden rounded-xl px-3 sm:inline-flex"
+              title={authed ? dict.nav.profile : dict.nav.login}
+            >
+              <Link href={authed ? `${base}/profile` : `${base}/login`}>
+                <UserRound className="me-1.5 size-4" />
+                {authed ? dict.nav.profile : dict.nav.login}
+              </Link>
+            </Button>
+            <Button asChild variant="ghost" size="icon" className="rounded-xl sm:hidden" title={authed ? dict.nav.profile : dict.nav.login}>
               <Link href={authed ? `${base}/profile` : `${base}/login`} aria-label={dict.nav.login}>
                 <UserRound className="size-5" />
               </Link>
@@ -147,7 +152,7 @@ export function SiteHeader({
 
             <Sheet open={open} onOpenChange={setOpen}>
               <SheetTrigger asChild>
-                <Button variant="outline" size="icon" className="rounded-none lg:hidden" aria-label={dict.menu}>
+                <Button variant="outline" size="icon" className="rounded-xl lg:hidden" aria-label={dict.menu}>
                   <MenuIcon />
                 </Button>
               </SheetTrigger>
@@ -160,12 +165,12 @@ export function SiteHeader({
                     value={q}
                     onChange={(e) => setQ(e.target.value)}
                     placeholder={w.searchPlaceholder}
-                    className="rounded-none"
+                    className="rounded-xl"
                   />
                 </form>
                 <div className="mt-4 flex flex-col gap-1">
                   {[...primary, ...more].map((link) => (
-                    <Button key={link.href} asChild variant="ghost" className="justify-start rounded-none">
+                    <Button key={link.href} asChild variant="ghost" className="justify-start rounded-xl">
                       <Link href={link.href}>{link.label}</Link>
                     </Button>
                   ))}
@@ -175,10 +180,9 @@ export function SiteHeader({
           </div>
         </div>
 
-        {/* Category / mega nav bar */}
-        <div className="hidden border-t border-border bg-[#1a1a1a] text-white lg:block">
-          <div className="mx-auto flex h-11 max-w-7xl items-center gap-1 px-4 sm:px-6 lg:px-8">
-            <div className="me-3 flex h-full items-center gap-2 bg-primary px-4 font-display text-xs font-bold uppercase tracking-[0.14em] text-[var(--mj-ink)]">
+        <div className="hidden border-t border-border bg-card lg:block">
+          <div className="mx-auto flex h-12 max-w-7xl items-center gap-1 px-4 sm:px-6 lg:px-8">
+            <div className="me-3 inline-flex h-9 items-center gap-2 rounded-xl bg-primary px-4 text-xs font-bold text-primary-foreground">
               <MenuIcon className="size-3.5" />
               {w.browseCategories}
             </div>
@@ -190,8 +194,10 @@ export function SiteHeader({
                     key={link.href}
                     href={link.href}
                     className={cn(
-                      'px-3 py-2 text-xs font-semibold uppercase tracking-wide transition-colors',
-                      active ? 'text-primary' : 'text-white/70 hover:text-primary',
+                      'rounded-lg px-3 py-2 text-sm font-semibold transition-colors',
+                      active
+                        ? 'bg-[var(--mj-accent-soft)] text-primary'
+                        : 'text-muted-foreground hover:bg-muted hover:text-foreground',
                     )}
                   >
                     {link.label}
@@ -199,13 +205,6 @@ export function SiteHeader({
                 );
               })}
             </nav>
-            <div className="ms-auto flex items-center gap-3 text-[11px] text-white/45">
-              {categories.slice(0, 3).map((c) => (
-                <Link key={c.href} href={c.href} className="hover:text-primary">
-                  {c.label}
-                </Link>
-              ))}
-            </div>
           </div>
         </div>
       </header>

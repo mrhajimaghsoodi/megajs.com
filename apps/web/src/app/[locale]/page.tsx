@@ -67,67 +67,87 @@ export default async function HomePage({
     <>
       <JsonLd data={organizationJsonLd(locale)} />
       <JsonLd data={websiteJsonLd(locale, { name: dict.brand, description: dict.tagline })} />
-      {/* Full-bleed WoodMart hero — brand first, one CTA group, one visual plane */}
-      <section className="relative isolate min-h-[min(88vh,52rem)] overflow-hidden bg-[#0c0c0c] text-white">
+
+      {/* Modarres-style light hero — brand first */}
+      <section className="relative isolate overflow-hidden">
         <div
           className="absolute inset-0"
-          style={{
-            background:
-              'linear-gradient(115deg, #0c0c0c 0%, #16140a 42%, #1a1608 68%, #0c0c0c 100%)',
-          }}
+          style={{ background: 'var(--mj-hero-wash)' }}
           aria-hidden
         />
         <div
-          className="pointer-events-none absolute inset-0 opacity-[0.35]"
-          style={{
-            backgroundImage:
-              'linear-gradient(rgba(255,212,0,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(255,212,0,0.07) 1px, transparent 1px)',
-            backgroundSize: '48px 48px',
-          }}
+          className="pointer-events-none absolute -end-24 top-10 size-[28rem] rounded-full bg-primary/20 blur-3xl mj-soft-pulse"
           aria-hidden
         />
         <div
-          className="pointer-events-none absolute -end-24 top-1/4 size-[36rem] rounded-full bg-primary/20 blur-3xl mj-hero-glow"
-          aria-hidden
-        />
-        <div
-          className="pointer-events-none absolute -start-20 bottom-0 size-[28rem] rounded-full bg-[#ffd400]/10 blur-3xl"
+          className="pointer-events-none absolute -start-16 bottom-0 size-[22rem] rounded-full bg-[var(--mj-brand)]/25 blur-3xl"
           aria-hidden
         />
 
-        <WoodContainer className="relative z-10 flex min-h-[min(88vh,52rem)] flex-col justify-center py-20">
-          <div className="mj-fade-up max-w-3xl">
-            <p className="font-display text-[clamp(3.25rem,11vw,6.5rem)] font-bold leading-[0.9] tracking-tight text-primary">
-              {dict.brand}
+        <WoodContainer className="relative z-10 grid min-h-[min(82vh,44rem)] items-center gap-10 py-16 lg:grid-cols-[1.05fr_0.95fr] lg:py-20">
+          <div className="mj-fade-up max-w-2xl">
+            <p className="inline-flex items-center gap-2 rounded-full bg-card/80 px-3 py-1 text-xs font-semibold text-primary shadow-[var(--mj-shadow-sm)]">
+              <span className="size-2 rounded-full bg-[var(--mj-brand)]" />
+              {w.hero.badge}
             </p>
-            <h1 className="mt-6 max-w-2xl text-2xl font-medium leading-snug text-white sm:text-3xl lg:text-4xl">
+            <p className="mt-6 font-display text-[clamp(2.75rem,9vw,5.25rem)] font-bold leading-[0.95] tracking-tight text-foreground">
+              <span className="text-primary">{dict.brand.split(' ')[0]}</span>{' '}
+              <span className="bg-[var(--mj-brand)] px-2 text-[var(--mj-ink)]">
+                {dict.brand.split(' ').slice(1).join(' ') || 'JS'}
+              </span>
+            </p>
+            <h1 className="mt-6 max-w-xl text-xl font-medium leading-snug text-foreground sm:text-2xl lg:text-[1.75rem]">
               {w.hero.headline}
             </h1>
-            <p className="mt-4 max-w-xl text-base leading-7 text-white/65 sm:text-lg">
+            <p className="mt-4 max-w-lg text-base leading-7 text-muted-foreground sm:text-lg">
               {w.hero.support}
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Button asChild size="lg" className="h-12 rounded-none px-7 text-sm font-bold">
+              <Button asChild size="lg" className="h-12 rounded-2xl px-7 text-sm font-bold shadow-[var(--mj-shadow-md)]">
                 <Link href={`/${locale}/learn`}>{w.hero.ctaShop}</Link>
               </Button>
               <Button
                 asChild
                 size="lg"
                 variant="outline"
-                className="h-12 rounded-none border-white/20 bg-transparent px-7 text-sm font-semibold text-white hover:bg-white/5 hover:text-white"
+                className="h-12 rounded-2xl border-border bg-card/70 px-7 text-sm font-semibold backdrop-blur-sm"
               >
                 <Link href={`/${locale}/login`}>{dict.ctaStart}</Link>
               </Button>
             </div>
           </div>
+
+          <div className="mj-hero-float relative mx-auto hidden w-full max-w-md lg:block">
+            <div className="absolute -inset-4 rounded-[2rem] bg-primary/10 blur-2xl" aria-hidden />
+            <div className="relative overflow-hidden rounded-[1.75rem] border border-border bg-card p-6 shadow-[var(--mj-shadow-lg)]">
+              <div className="mb-4 flex items-center justify-between">
+                <span className="text-xs font-bold text-primary">{w.hero.visualKicker}</span>
+                <span className="rounded-lg bg-[var(--mj-brand)] px-2 py-1 text-[10px] font-bold text-[var(--mj-ink)]">
+                  MEGA
+                </span>
+              </div>
+              <div className="space-y-3">
+                {w.hero.visualLines.map((line, i) => (
+                  <div
+                    key={line}
+                    className="rounded-xl border border-border bg-muted/40 px-4 py-3 text-sm font-medium"
+                    style={{ animationDelay: `${i * 80}ms` }}
+                  >
+                    {line}
+                  </div>
+                ))}
+              </div>
+              <div className="mt-5 rounded-2xl bg-primary px-4 py-4 text-sm font-semibold text-primary-foreground">
+                {w.hero.visualCta}
+              </div>
+            </div>
+          </div>
         </WoodContainer>
       </section>
 
-      {/* Benefits strip */}
       <BenefitsStrip items={w.benefits} />
 
-      {/* Categories */}
-      <section className="border-b border-border bg-background py-16 sm:py-20">
+      <section className="bg-background py-16 sm:py-20">
         <WoodContainer>
           <WoodSectionTitle
             kicker={w.categories.kicker}
@@ -147,8 +167,7 @@ export default async function HomePage({
         </WoodContainer>
       </section>
 
-      {/* Featured products */}
-      <section className="border-b border-border bg-muted/20 py-16 sm:py-20">
+      <section className="bg-card py-16 sm:py-20">
         <WoodContainer>
           <WoodSectionTitle
             kicker={w.featured.kicker}
@@ -157,7 +176,7 @@ export default async function HomePage({
             actionHref={`/${locale}/learn`}
             actionLabel={w.viewAll}
           />
-          <div className="mj-stagger grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mj-stagger grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {featured.map((course) => (
               <ProductCard
                 key={course.slug}
@@ -173,8 +192,7 @@ export default async function HomePage({
         </WoodContainer>
       </section>
 
-      {/* Promo banners */}
-      <section className="border-b border-border bg-background py-16 sm:py-20">
+      <section className="bg-background py-16 sm:py-20">
         <WoodContainer>
           <PromoBanners
             locale={locale}
@@ -186,8 +204,7 @@ export default async function HomePage({
         </WoodContainer>
       </section>
 
-      {/* Bestsellers */}
-      <section className="border-b border-border bg-background py-16 sm:py-20">
+      <section className="bg-card py-16 sm:py-20">
         <WoodContainer>
           <WoodSectionTitle
             kicker={w.bestsellers.kicker}
@@ -196,7 +213,7 @@ export default async function HomePage({
             actionHref={`/${locale}/pricing`}
             actionLabel={dict.nav.pricing}
           />
-          <div className="mj-stagger grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mj-stagger grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {bestsellers.map((course) => (
               <ProductCard
                 key={`best-${course.slug}`}
@@ -209,8 +226,7 @@ export default async function HomePage({
         </WoodContainer>
       </section>
 
-      {/* Blog */}
-      <section className="border-b border-border bg-muted/20 py-16 sm:py-20">
+      <section className="bg-background py-16 sm:py-20">
         <WoodContainer>
           <WoodSectionTitle
             kicker={w.blog.kicker}

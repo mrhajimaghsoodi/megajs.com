@@ -78,7 +78,7 @@ export default function ProfileOverviewPage() {
         ].map(([label, value]) => (
           <article
             key={String(label)}
-            className="mj-card-motion rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-card)] p-4"
+            className="mj-card-motion rounded-2xl border border-[var(--mj-border)] bg-[var(--mj-card)] p-4"
           >
             <div className="text-sm text-[var(--mj-muted-fg)]">{label}</div>
             <div className="mt-2 font-mono text-2xl font-bold">{value}</div>

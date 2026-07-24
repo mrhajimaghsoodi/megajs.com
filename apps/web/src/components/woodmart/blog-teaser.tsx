@@ -39,9 +39,9 @@ export function BlogTeaser({
         <Link
           key={item.key}
           href={item.href}
-          className="group flex flex-col border border-border bg-card transition-colors hover:border-primary/40"
+          className="mj-lift group flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--mj-shadow-sm)]"
         >
-          <div className="aspect-[16/10] overflow-hidden bg-gradient-to-br from-[#1a1a1a] via-[#2a2410] to-primary/40">
+          <div className="aspect-[16/10] overflow-hidden bg-gradient-to-br from-primary via-[#8b74f0] to-[var(--mj-brand)]">
             {item.coverUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -51,11 +51,10 @@ export function BlogTeaser({
               />
             ) : (
               <div
-                className="h-full w-full opacity-30"
+                className="h-full w-full opacity-35"
                 style={{
                   backgroundImage:
-                    'linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px)',
-                  backgroundSize: '20px 20px',
+                    'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.35), transparent 50%)',
                 }}
                 aria-hidden
               />
@@ -66,9 +65,7 @@ export function BlogTeaser({
               {item.title}
             </h3>
             <p className="line-clamp-2 flex-1 text-sm text-muted-foreground">{item.summary}</p>
-            <span className="pt-2 text-xs font-bold uppercase tracking-wide text-muted-foreground group-hover:text-primary">
-              {readMore}
-            </span>
+            <span className="pt-2 text-xs font-bold text-primary">{readMore}</span>
           </div>
         </Link>
       ))}

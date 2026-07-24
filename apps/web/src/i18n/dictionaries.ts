@@ -87,11 +87,11 @@ const fa = {
   },
   woodmart: {
     topbar: {
-      promo: 'شروع رایگان · درس روزانه · چالش و توکن — همین امروز وارد مسیر شو',
+      promo: 'یادگیری جاوااسکریپت از صفر تا Nest — مسیر روزانه، تمرین و لایو',
       support: 'پشتیبانی یادگیری ۷ روز هفته',
     },
     searchPlaceholder: 'جستجوی دوره، مسیر یا موضوع…',
-    browseCategories: 'دسته‌بندی‌ها',
+    browseCategories: 'دسته‌های آموزشی',
     wishlist: 'علاقه‌مندی',
     cart: 'سبد / پلن‌ها',
     viewAll: 'مشاهده همه',
@@ -103,9 +103,18 @@ const fa = {
       plans: 'پلن‌ها',
     },
     hero: {
-      headline: 'فروشگاه مسیر جاوااسکریپت — از مبانی تا NestJS',
-      support: 'کاتالوگ دوره‌ها مثل یک استور مدرن: مسیر، تمرین، لایو و اشتراک در یک ترکیب.',
-      ctaShop: 'ورود به فروشگاه یادگیری',
+      badge: 'آکادمی مدرن جاوااسکریپت',
+      headline: 'مسیر حرفه‌ای JS را مثل یک مدرسه آنلاین مدرن تجربه کن',
+      support:
+        'دسته‌های آموزشی، پیشنهادهای ویژه و جدیدترین دوره‌ها — با تجربه کاربری روشن و سریع.',
+      ctaShop: 'شروع یادگیری',
+      visualKicker: 'امروز در مسیر',
+      visualLines: [
+        'درس روزانه و استریک یادگیری',
+        'چالش کد و کیف توکن',
+        'لایو، پشتیبانی و نقشه چهارساله',
+      ],
+      visualCta: 'همین حالا اولین درس را باز کن',
     },
     benefits: [
       {
@@ -126,21 +135,21 @@ const fa = {
       },
     ],
     categories: {
-      kicker: 'categories',
-      title: 'دسته‌های یادگیری',
-      body: 'مثل دسته‌بندی فروشگاهی WoodMart — اینجا هر دسته یک سال از نقشه راه است.',
+      kicker: 'دسته‌های آموزشی',
+      title: 'مسیر را از دسته مناسب شروع کن',
+      body: 'هر دسته یک سال از نقشه راه MEGA JS است — از مبانی تا بک‌اند.',
       courseCount: 'دوره',
     },
     featured: {
-      kicker: 'featured',
-      title: 'دوره‌های ویژه',
-      body: 'محصولات منتخب کاتالوگ — با هاور اکشن استایل فروشگاهی.',
+      kicker: 'پیشنهاد شگفت‌انگیز',
+      title: 'دوره‌های ویژه این هفته',
+      body: 'منتخب‌های کاتالوگ با طراحی کارت‌های مدرن آموزشی.',
       empty: 'هنوز دوره‌ای منتشر نشده؛ به‌زودی کاتالوگ پر می‌شود.',
     },
     bestsellers: {
-      kicker: 'bestsellers',
-      title: 'پرفروش‌ترین مسیرها',
-      body: 'دوره‌هایی که بیشترین تقاضا را در مسیر JS دارند.',
+      kicker: 'جدیدترین دوره‌ها',
+      title: 'تازه‌ترین مسیرهای یادگیری',
+      body: 'دوره‌هایی که تازه به کاتالوگ اضافه شده‌اند.',
     },
     promos: [
       {
@@ -166,7 +175,7 @@ const fa = {
       },
     ],
     blog: {
-      kicker: 'journal',
+      kicker: 'مجله',
       title: 'از مجله MEGA JS',
       body: 'مقالات SEO-first که به درس و تمرین وصل می‌شوند.',
       readMore: 'ادامه مطلب',
@@ -176,10 +185,10 @@ const fa = {
       wishlist: 'علاقه‌مندی',
       enroll: 'ثبت‌نام',
       free: 'رایگان',
-      hot: 'Hot',
+      hot: 'ویژه',
     },
     shop: {
-      kicker: 'shop',
+      kicker: 'فروشگاه',
       resultsFor: 'نتایج برای',
     },
     newsletter: {
@@ -359,7 +368,9 @@ const fa = {
     ],
   },
   profile: {
-    panel: 'پنل من',
+    panel: 'حساب کاربری',
+    accountTitle: 'پنل من',
+    accountSubtitle: 'مدیریت یادگیری، سفارش‌ها و تنظیمات حساب در یکجا',
     overview: 'نمای کلی',
     learning: 'یادگیری',
     wallet: 'کیف توکن',
@@ -531,7 +542,7 @@ const en: typeof fa = {
       support: 'Learner support, 7 days a week',
     },
     searchPlaceholder: 'Search courses, tracks, or topics…',
-    browseCategories: 'Categories',
+    browseCategories: 'Learning categories',
     wishlist: 'Wishlist',
     cart: 'Cart / plans',
     viewAll: 'View all',
@@ -543,9 +554,18 @@ const en: typeof fa = {
       plans: 'Plans',
     },
     hero: {
-      headline: 'A JavaScript path store — fundamentals to NestJS',
-      support: 'Browse courses like a modern WoodMart shop: tracks, practice, live, and plans in one composition.',
-      ctaShop: 'Enter the learning shop',
+      badge: 'Modern JavaScript academy',
+      headline: 'Experience a professional JS path like a modern online school',
+      support:
+        'Learning categories, special offers, and newest courses — in a bright, fast interface.',
+      ctaShop: 'Start learning',
+      visualKicker: 'On the path today',
+      visualLines: [
+        'Daily lessons and learning streak',
+        'Code challenges and token wallet',
+        'Live, support, and a four-year map',
+      ],
+      visualCta: 'Open your first lesson now',
     },
     benefits: [
       {
@@ -566,21 +586,21 @@ const en: typeof fa = {
       },
     ],
     categories: {
-      kicker: 'categories',
-      title: 'Learning categories',
-      body: 'WoodMart-style category tiles — each category is a year on the roadmap.',
+      kicker: 'Learning categories',
+      title: 'Start from the right track',
+      body: 'Each category is a year on the MEGA JS roadmap — fundamentals to backend.',
       courseCount: 'courses',
     },
     featured: {
-      kicker: 'featured',
-      title: 'Featured courses',
-      body: 'Hand-picked catalog products — with shop-style hover actions.',
+      kicker: 'Amazing deals',
+      title: 'Featured courses this week',
+      body: 'Hand-picked catalog picks with modern education cards.',
       empty: 'No published courses yet — the catalog fills soon.',
     },
     bestsellers: {
-      kicker: 'bestsellers',
-      title: 'Best-selling paths',
-      body: 'Courses with the strongest demand on the JS path.',
+      kicker: 'Newest courses',
+      title: 'Fresh learning paths',
+      body: 'Courses newly added to the catalog.',
     },
     promos: [
       {
@@ -800,7 +820,9 @@ const en: typeof fa = {
     ],
   },
   profile: {
-    panel: 'My panel',
+    panel: 'My account',
+    accountTitle: 'Account panel',
+    accountSubtitle: 'Manage learning, orders, and account settings in one place',
     overview: 'Overview',
     learning: 'Learning',
     wallet: 'Token wallet',

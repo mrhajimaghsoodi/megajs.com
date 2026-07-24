@@ -27,6 +27,7 @@ import { RankMathService } from './rankmath.service';
 import { SmushService } from './smush.service';
 import { WordfenceService } from './wordfence.service';
 import { WpRocketService } from './wprocket.service';
+import { mergeMyAccountSettings } from './my-account.defaults';
 
 @Controller('admin/plugins')
 export class PluginsAdminController {
@@ -274,6 +275,35 @@ export class PluginsAdminController {
     });
     return page;
   }
+
+  // ——— Customize My Account (YITH-style) ———
+  @Get('my-account/settings')
+  async myAccountSettings(@Headers('authorization') authorization?: string) {
+    await this.requireStaff(authorization);
+    const row = await this.prisma.siteSetting.findUnique({ where: { key: 'my_account' } });
+    if (!row) return mergeMyAccountSettings();
+    try {
+      return mergeMyAccountSettings(JSON.parse(row.valueJson));
+    } catch {
+      return mergeMyAccountSettings();
+    }
+  }
+
+  @Put('my-account/settings')
+  async saveMyAccountSettings(
+    @Headers('authorization') authorization?: string,
+    @Body() body?: Record<string, unknown>,
+  ) {
+    const me = await this.requireStaff(authorization);
+    this.requireSuper(me);
+    const next = mergeMyAccountSettings(body ?? {});
+    await this.prisma.siteSetting.upsert({
+      where: { key: 'my_account' },
+      create: { key: 'my_account', valueJson: JSON.stringify(next) },
+      update: { valueJson: JSON.stringify(next) },
+    });
+    return next;
+  }
 }
 
 /** Public read APIs for web sitemap, articles, pages, plugin configs */
@@ -308,6 +338,17 @@ export class PublicContentController {
   ) {
     const assigned = taxonomies.map((t) => t.term).filter(Boolean);
     return buildArticlePermalink(slug, assigned, byId);
+  }
+
+  @Get('my-account')
+  async myAccount() {
+    const row = await this.prisma.siteSetting.findUnique({ where: { key: 'my_account' } });
+    if (!row) return mergeMyAccountSettings();
+    try {
+      return mergeMyAccountSettings(JSON.parse(row.valueJson));
+    } catch {
+      return mergeMyAccountSettings();
+    }
   }
 
   @Get('sitemap')

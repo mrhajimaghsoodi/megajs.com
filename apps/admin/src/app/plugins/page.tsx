@@ -13,6 +13,11 @@ export default function PluginsIndexPage() {
     { href: '/plugins/wprocket', name: 'WP Rocket', desc: d.pluginRocket },
     { href: '/plugins/smush', name: 'Smush', desc: d.pluginSmush },
     { href: '/plugins/elementor', name: 'Elementor', desc: d.pluginElementor },
+    {
+      href: '/plugins/my-account',
+      name: 'Customize My Account',
+      desc: d.pluginMyAccount,
+    },
     { href: '/woocommerce', name: 'WooCommerce', desc: d.pluginWoo },
   ];
   return (

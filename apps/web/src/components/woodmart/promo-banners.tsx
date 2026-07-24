@@ -16,9 +16,9 @@ export function PromoBanners({
   }>;
 }) {
   const tones: Record<string, string> = {
-    dark: 'bg-[#1a1a1a] text-white',
-    accent: 'bg-primary text-[var(--mj-ink)]',
-    slate: 'bg-[#0f172a] text-white',
+    dark: 'bg-[#1e1e1e] text-white',
+    accent: 'bg-primary text-primary-foreground',
+    slate: 'bg-[var(--mj-accent-soft)] text-foreground',
   };
 
   return (
@@ -28,12 +28,12 @@ export function PromoBanners({
           key={item.title}
           href={item.href.startsWith('/') ? item.href : `/${locale}${item.href}`}
           className={cn(
-            'group relative min-h-[11rem] overflow-hidden p-6 transition-transform duration-300 hover:-translate-y-0.5',
+            'mj-lift group relative min-h-[12rem] overflow-hidden rounded-2xl p-6 shadow-[var(--mj-shadow-sm)]',
             tones[item.tone],
           )}
         >
           <div
-            className="pointer-events-none absolute inset-0 opacity-30"
+            className="pointer-events-none absolute inset-0 opacity-40"
             style={{
               background:
                 'radial-gradient(420px 180px at 100% 0%, rgba(255,212,0,0.35), transparent 55%)',
@@ -45,7 +45,7 @@ export function PromoBanners({
               <h3 className="font-display text-xl font-bold leading-snug">{item.title}</h3>
               <p className="mt-2 text-sm leading-6 opacity-80">{item.body}</p>
             </div>
-            <span className="text-xs font-bold uppercase tracking-[0.16em] underline-offset-4 group-hover:underline">
+            <span className="inline-flex w-fit rounded-xl bg-white/15 px-3 py-1.5 text-xs font-bold group-hover:bg-white/25">
               {item.cta}
             </span>
           </div>

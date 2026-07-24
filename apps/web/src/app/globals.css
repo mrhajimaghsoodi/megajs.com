@@ -63,27 +63,27 @@
   --popover: var(--mj-card);
   --popover-foreground: var(--mj-fg);
   --primary: var(--mj-accent);
-  --primary-foreground: var(--mj-ink);
+  --primary-foreground: var(--mj-accent-fg);
   --secondary: var(--mj-muted);
   --secondary-foreground: var(--mj-fg);
   --muted: var(--mj-muted);
   --muted-foreground: var(--mj-muted-fg);
   --accent: var(--mj-accent);
-  --accent-foreground: var(--mj-ink);
+  --accent-foreground: var(--mj-accent-fg);
   --destructive: var(--mj-danger);
   --border: var(--mj-border);
   --input: var(--mj-border);
   --ring: var(--mj-ring);
   --chart-1: var(--mj-accent);
-  --chart-2: var(--mj-ink);
+  --chart-2: var(--mj-brand);
   --chart-3: var(--mj-muted-fg);
   --chart-4: var(--mj-success);
   --chart-5: var(--mj-danger);
-  --radius: 0.5rem;
+  --radius: 1rem;
   --sidebar: var(--mj-card);
   --sidebar-foreground: var(--mj-fg);
   --sidebar-primary: var(--mj-accent);
-  --sidebar-primary-foreground: var(--mj-ink);
+  --sidebar-primary-foreground: var(--mj-accent-fg);
   --sidebar-accent: var(--mj-muted);
   --sidebar-accent-foreground: var(--mj-fg);
   --sidebar-border: var(--mj-border);
@@ -98,21 +98,21 @@
   --popover: var(--mj-card);
   --popover-foreground: var(--mj-fg);
   --primary: var(--mj-accent);
-  --primary-foreground: var(--mj-ink);
+  --primary-foreground: var(--mj-accent-fg);
   --secondary: var(--mj-muted);
   --secondary-foreground: var(--mj-fg);
   --muted: var(--mj-muted);
   --muted-foreground: var(--mj-muted-fg);
   --accent: var(--mj-accent);
-  --accent-foreground: var(--mj-ink);
+  --accent-foreground: var(--mj-accent-fg);
   --destructive: var(--mj-danger);
   --border: var(--mj-border);
   --input: var(--mj-border);
   --ring: var(--mj-ring);
-  --sidebar: #121212;
+  --sidebar: #16161f;
   --sidebar-foreground: var(--mj-fg);
   --sidebar-primary: var(--mj-accent);
-  --sidebar-primary-foreground: var(--mj-ink);
+  --sidebar-primary-foreground: var(--mj-accent-fg);
   --sidebar-accent: var(--mj-muted);
   --sidebar-accent-foreground: var(--mj-fg);
   --sidebar-border: var(--mj-border);
@@ -170,34 +170,54 @@ input.font-mono {
 }
 
 ::selection {
-  background: color-mix(in oklab, var(--mj-accent) 55%, white);
-  color: var(--mj-ink);
+  background: color-mix(in oklab, var(--mj-accent) 35%, white);
+  color: var(--mj-fg);
 }
 
-/* WoodMart-inspired storefront motion */
-@keyframes mj-hero-glow {
+/* Modarres-inspired storefront motion */
+@keyframes mj-hero-float {
   0%,
   100% {
-    opacity: 0.45;
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes mj-soft-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
     transform: scale(1);
   }
   50% {
-    opacity: 0.7;
-    transform: scale(1.06);
+    opacity: 0.85;
+    transform: scale(1.05);
   }
 }
 
-.mj-hero-glow {
-  animation: mj-hero-glow 8s ease-in-out infinite;
+.mj-hero-float {
+  animation: mj-hero-float 6s ease-in-out infinite;
 }
 
-.wood-hover-lift {
-  transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+.mj-soft-pulse {
+  animation: mj-soft-pulse 7s ease-in-out infinite;
+}
+
+.mj-lift {
+  transition:
+    transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
     box-shadow 280ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.wood-hover-lift:hover {
+.mj-lift:hover {
   transform: translateY(-4px);
+  box-shadow: var(--mj-shadow-md);
+}
+
+.mj-account-ajax {
+  animation: mj-fade-up var(--mj-motion-base) var(--mj-ease-out) both;
 }
 
 @media (prefers-reduced-motion: reduce) {

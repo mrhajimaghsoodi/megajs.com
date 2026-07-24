@@ -98,6 +98,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
           { href: '/plugins/wprocket', label: dict.nav.wprocket },
           { href: '/plugins/smush', label: dict.nav.smush },
           { href: '/plugins/elementor', label: dict.nav.elementor },
+          { href: '/plugins/my-account', label: dict.nav.myAccount },
         ],
       },
       {
@@ -209,12 +210,12 @@ export function AdminShell({ children }: { children: ReactNode }) {
       lang={locale}
       className="min-h-dvh bg-[var(--mj-bg)] lg:grid lg:grid-cols-[280px_1fr]"
     >
-      <aside className="border-b border-[var(--mj-border)] bg-[#1d2327] text-white lg:border-b-0 lg:border-e lg:border-black/40">
+      <aside className="border-b border-[var(--mj-border)] bg-[#1a1430] text-white lg:border-b-0 lg:border-e lg:border-black/40">
         <div className="flex h-16 items-center gap-3 border-b border-white/10 px-4">
           <Image src="/logo-mark.svg" alt="" width={32} height={32} />
           <div>
             <div className="font-display text-sm font-bold tracking-tight">{dict.brand}</div>
-            <div className="font-mono text-[10px] text-primary">{me.role}</div>
+            <div className="font-mono text-[10px] text-[var(--mj-brand)]">{me.role}</div>
           </div>
         </div>
         <nav className="max-h-[calc(100dvh-8rem)] space-y-3 overflow-y-auto p-3">
@@ -236,7 +237,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
                     <Link
                       key={`${item.href}-${item.label}`}
                       href={item.href}
-                      className={`mj-nav-item cursor-pointer rounded-md px-3 py-1.5 text-[13px] transition-colors ${
+                      className={`mj-nav-item cursor-pointer rounded-xl px-3 py-1.5 text-[13px] transition-colors ${
                         active
                           ? 'bg-[var(--mj-accent)] font-semibold text-[var(--mj-accent-fg)]'
                           : 'text-white/75 hover:bg-white/5 hover:text-white'
@@ -256,7 +257,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
           </div>
           <button
             type="button"
-            className="mt-3 cursor-pointer text-primary underline-offset-4 hover:underline"
+            className="mt-3 cursor-pointer text-[var(--mj-brand)] underline-offset-4 hover:underline"
             onClick={() => {
               localStorage.removeItem('mj_admin_token');
               setToken(null);
@@ -270,20 +271,20 @@ export function AdminShell({ children }: { children: ReactNode }) {
       </aside>
       <div className="min-w-0">
         <header className="flex h-16 items-center justify-between gap-3 border-b border-[var(--mj-border)] bg-[var(--mj-card)] px-4 sm:px-6">
-          <div className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--mj-muted-fg)]">
+          <div className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--mj-muted-fg)]">
             {dict.console}
           </div>
           <div className="flex items-center gap-3">
             <button
               type="button"
-              className="mj-btn inline-flex h-9 cursor-pointer items-center rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] px-3 text-sm font-medium"
+              className="mj-btn inline-flex h-9 cursor-pointer items-center rounded-xl border border-[var(--mj-border)] px-3 text-sm font-medium"
               onClick={() => setLocale(locale === 'fa' ? 'en' : 'fa')}
             >
               {locale === 'fa' ? 'EN' : 'فا'}
             </button>
             <a
               href={siteUrl}
-              className="text-sm underline-offset-4 hover:underline"
+              className="text-sm font-medium text-[var(--mj-accent)] underline-offset-4 hover:underline"
               target="_blank"
               rel="noreferrer"
             >

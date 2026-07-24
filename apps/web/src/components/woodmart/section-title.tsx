@@ -26,17 +26,19 @@ export function WoodSectionTitle({
     >
       <div className={align === 'center' ? '' : 'max-w-2xl'}>
         {kicker ? (
-          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">
-            {kicker}
-          </p>
+          <p className="text-xs font-bold tracking-wide text-primary">{kicker}</p>
         ) : null}
-        <h2 className="mt-2 font-display text-3xl font-bold tracking-tight sm:text-4xl">{title}</h2>
-        {body ? <p className="mt-3 text-sm leading-7 text-muted-foreground sm:text-base">{body}</p> : null}
+        <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-foreground sm:text-[2rem]">
+          {title}
+        </h2>
+        {body ? (
+          <p className="mt-3 text-sm leading-7 text-muted-foreground sm:text-base">{body}</p>
+        ) : null}
       </div>
       {actionHref && actionLabel && align !== 'center' ? (
         <Link
           href={actionHref}
-          className="shrink-0 text-sm font-semibold text-foreground underline-offset-4 transition-colors hover:text-primary hover:underline"
+          className="inline-flex shrink-0 items-center rounded-xl bg-[var(--mj-accent-soft)] px-4 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
         >
           {actionLabel}
         </Link>
@@ -45,7 +47,7 @@ export function WoodSectionTitle({
         <div className="mt-4">
           <Link
             href={actionHref}
-            className="text-sm font-semibold underline-offset-4 hover:text-primary hover:underline"
+            className="text-sm font-semibold text-primary underline-offset-4 hover:underline"
           >
             {actionLabel}
           </Link>

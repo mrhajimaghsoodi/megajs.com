@@ -67,17 +67,17 @@ export function SiteFooter({
         cta={w.newsletter.cta}
         success={w.newsletter.success}
       />
-      <footer className="mt-auto border-t border-white/10 bg-[#121212] text-[var(--mj-canvas-fg)]">
+      <footer className="mt-auto border-t border-border bg-[#1e1e1e] text-white">
         <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
           <div className="grid gap-10 lg:grid-cols-[1.15fr_2fr]">
             <div className="space-y-4">
               <Logo href={base} />
-              <p className="max-w-sm text-sm leading-7 text-white/55">{f.blurb}</p>
+              <p className="max-w-sm text-sm leading-7 text-white/60">{f.blurb}</p>
               <div className="flex flex-wrap gap-2 pt-2">
                 {w.footerBadges.map((badge) => (
                   <span
                     key={badge}
-                    className="border border-white/15 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-white/55"
+                    className="rounded-lg border border-white/15 bg-white/5 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white/60"
                   >
                     {badge}
                   </span>
@@ -87,15 +87,13 @@ export function SiteFooter({
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
               {columns.map((col) => (
                 <div key={col.title}>
-                  <div className="mb-3 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-primary">
-                    {col.title}
-                  </div>
+                  <div className="mb-3 text-xs font-bold text-[var(--mj-brand)]">{col.title}</div>
                   <ul className="space-y-2">
                     {col.links.map((link) => (
                       <li key={link.href}>
                         <Link
                           href={link.href}
-                          className="text-sm text-white/55 underline-offset-4 transition-colors hover:text-primary hover:underline"
+                          className="text-sm text-white/60 underline-offset-4 transition-colors hover:text-white hover:underline"
                         >
                           {link.label}
                         </Link>
@@ -106,7 +104,7 @@ export function SiteFooter({
               ))}
             </div>
           </div>
-          <div className="mt-12 flex flex-col gap-2 border-t border-white/10 pt-6 font-mono text-[11px] text-white/40 sm:flex-row sm:items-center sm:justify-between">
+          <div className="mt-12 flex flex-col gap-2 border-t border-white/10 pt-6 text-[11px] text-white/40 sm:flex-row sm:items-center sm:justify-between">
             <span>© {formatTehranYear()} MEGA JS</span>
             <span>{f.rights}</span>
           </div>
