@@ -18,13 +18,25 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale: raw } = await params;
   if (!isLocale(raw)) return {};
-  const dict = getDictionary(raw as Locale);
-  return pageMetadata({
-    locale: raw as Locale,
-    title: dict.docs.title,
-    description: dict.docs.subtitle,
-    path: '/docs',
-  });
+  const locale = raw as Locale;
+  const dict = getDictionary(locale);
+  const title =
+    locale === 'fa'
+      ? 'مستندات برنامه‌نویسی وب — HTML تا NestJS | MEGA JS'
+      : 'Web Development Docs — HTML to NestJS | MEGA JS';
+  const description =
+    locale === 'fa'
+      ? dict.docs.subtitle
+      : dict.docs.subtitle;
+  return {
+    ...pageMetadata({
+      locale,
+      title,
+      description,
+      path: '/docs',
+    }),
+    title: { absolute: title },
+  };
 }
 
 export default async function DocsIndexPage({

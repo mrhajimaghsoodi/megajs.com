@@ -92,6 +92,9 @@ export function parseFrontmatter(raw: string): { data: DocsPageFrontmatter; body
     const value = stripQuotes(kv[2]);
     if (key === 'title') data.title = value;
     else if (key === 'description') data.description = value;
+    else if (key === 'seoTitle') data.seoTitle = value;
+    else if (key === 'seoDescription') data.seoDescription = value;
+    else if (key === 'keywords') data.keywords = value;
     else if (key === 'order') data.order = Number(value) || 0;
   }
   if (currentSource?.name && currentSource.url) {

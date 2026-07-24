@@ -11,6 +11,9 @@ export type DocsTechMeta = {
   order: number;
   title: DocsLocaleTitle;
   description: DocsLocaleTitle;
+  /** Category-level SEO titles */
+  seoTitle?: DocsLocaleTitle;
+  seoDescription?: DocsLocaleTitle;
   sources: Array<{ name: string; url: string }>;
   nav: DocsNavItem[];
 };
@@ -26,6 +29,12 @@ export type DocsCatalog = {
 export type DocsPageFrontmatter = {
   title: string;
   description?: string;
+  /** SERP / document <title> override */
+  seoTitle?: string;
+  /** Meta description override (~150–160 chars) */
+  seoDescription?: string;
+  /** Comma-separated focus keywords */
+  keywords?: string;
   order?: number;
   sources?: Array<{ name: string; url: string }>;
 };

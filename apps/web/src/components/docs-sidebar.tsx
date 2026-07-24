@@ -30,6 +30,7 @@ function NavLinks({
               href={href}
               className={cn(
                 'block rounded-md px-2 py-1.5 text-sm transition-colors',
+                depth === 0 && item.children?.length ? 'font-semibold text-foreground' : '',
                 active
                   ? 'bg-[#ffd400]/25 font-semibold text-foreground'
                   : 'text-muted-foreground hover:bg-muted hover:text-foreground',

@@ -38,13 +38,34 @@ export async function generateMetadata({
   if (!isLocale(raw)) return {};
   const page = getDocsPage(techId, raw as Locale, slug);
   if (!page) return {};
-  return pageMetadata({
+  const tech = getTechMeta(techId);
+  const techLabel = tech ? localizeTitle(tech.title, raw as Locale) : techId;
+  const seoTitle =
+    page.frontmatter.seoTitle?.trim() ||
+    (raw === 'fa'
+      ? `${page.frontmatter.title} | آموزش ${techLabel} — مستندات MEGA JS`
+      : `${page.frontmatter.title} | ${techLabel} Tutorial — MEGA JS Docs`);
+  const seoDescription =
+    page.frontmatter.seoDescription?.trim() || page.frontmatter.description;
+  const keywords = page.frontmatter.keywords
+    ?.split(',')
+    .map((k) => k.trim())
+    .filter(Boolean);
+
+  const base = pageMetadata({
     locale: raw as Locale,
-    title: page.frontmatter.title,
-    description: page.frontmatter.description,
+    title: seoTitle,
+    description: seoDescription,
     path: `/docs/${techId}/${slug.join('/')}`,
     type: 'article',
+    tags: keywords,
   });
+
+  return {
+    ...base,
+    title: { absolute: seoTitle },
+    keywords: keywords?.length ? keywords : undefined,
+  };
 }
 
 /** Drop a leading markdown H1 that duplicates the page title (single H1 for Google). */
@@ -88,7 +109,8 @@ export default async function DocsArticlePage({
     '@context': 'https://schema.org',
     '@type': 'TechArticle',
     headline: page.frontmatter.title,
-    description: page.frontmatter.description,
+    description: page.frontmatter.seoDescription || page.frontmatter.description,
+    keywords: page.frontmatter.keywords || undefined,
     inLanguage: locale === 'fa' ? 'fa-IR' : 'en-US',
     mainEntityOfPage: absoluteUrl(localePath(locale, path)),
     author: { '@type': 'Organization', name: 'MEGA JS' },
@@ -98,6 +120,11 @@ export default async function DocsArticlePage({
       logo: { '@type': 'ImageObject', url: absoluteUrl('/logo-mark.svg') },
     },
     about: localizeTitle(tech.title, locale),
+    isPartOf: {
+      '@type': 'CreativeWork',
+      name: localizeTitle(tech.seoTitle ?? tech.title, locale),
+      url: absoluteUrl(localePath(locale, `/docs/${tech.id}`)),
+    },
   });
 
   return (
