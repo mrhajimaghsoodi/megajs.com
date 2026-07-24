@@ -108,12 +108,7 @@ export default async function HomePage({
               <CtaLink href={`/${locale}/login`} primary>
                 {dict.ctaStart}
               </CtaLink>
-              <Link
-                href={`/${locale}/curriculum`}
-                className="mj-btn inline-flex h-12 items-center rounded-[var(--mj-radius-md)] border border-white/20 bg-transparent px-5 text-sm font-semibold text-[var(--mj-canvas-fg)] hover:border-[var(--mj-yellow)] hover:text-[var(--mj-yellow)]"
-              >
-                {dict.ctaPath}
-              </Link>
+              <CtaLink href={`/${locale}/curriculum`}>{dict.ctaPath}</CtaLink>
             </div>
           </div>
         </div>

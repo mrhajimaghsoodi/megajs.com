@@ -3,7 +3,8 @@
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Button, Disclosure, PageEnter, SkeletonCard, Stagger } from '@/components/ui/motion';
+import { Button } from '@/components/ui/button';
+import { Disclosure, PageEnter, SkeletonCard, Spinner, Stagger } from '@/components/ui/motion';
 import { getDictionary } from '@/i18n/dictionaries';
 import { API_BASE, isLocale, type Locale } from '@/lib/utils';
 
@@ -136,7 +137,8 @@ export default function SupportTicketsPage() {
             placeholder={s.message}
             className="rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-bg)] px-3 py-2 transition-[border-color,box-shadow] duration-[var(--mj-motion-fast)] focus:border-[var(--mj-accent)] focus:outline-none focus:ring-2 focus:ring-[var(--mj-accent)]/40"
           />
-          <Button type="submit" loading={busy} className="w-full sm:w-auto">
+          <Button type="submit" disabled={busy} className="w-full sm:w-auto" size="lg">
+            {busy ? <Spinner /> : null}
             {s.submit}
           </Button>
         </form>

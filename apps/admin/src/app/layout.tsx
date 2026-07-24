@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { IBM_Plex_Sans, JetBrains_Mono, Space_Grotesk, Vazirmatn } from 'next/font/google';
 import { AdminShell } from '@/components/admin-shell';
 import { AdminLocaleProvider } from '@/i18n/locale-context';
+import { cn } from '@/lib/utils';
 import './globals.css';
 
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-display' });
@@ -24,10 +25,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="fa"
       dir="rtl"
-      className={`dark ${spaceGrotesk.variable} ${ibmPlex.variable} ${vazirmatn.variable} ${jetbrains.variable}`}
+      className={cn(
+        'dark',
+        spaceGrotesk.variable,
+        ibmPlex.variable,
+        vazirmatn.variable,
+        jetbrains.variable,
+      )}
       suppressHydrationWarning
     >
-      <body className="min-h-dvh bg-[var(--mj-bg)] text-[var(--mj-fg)] antialiased">
+      <body className="min-h-dvh bg-background text-foreground antialiased">
         <AdminLocaleProvider>
           <AdminShell>{children}</AdminShell>
         </AdminLocaleProvider>

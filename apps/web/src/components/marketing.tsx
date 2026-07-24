@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
+import { Button } from '@/components/ui/button';
 
 export function MarketingHero({
   title,
@@ -11,11 +12,8 @@ export function MarketingHero({
   actions?: ReactNode;
 }) {
   return (
-    <header className="relative overflow-hidden border-b border-[var(--mj-border)] bg-[var(--mj-ink)] text-[var(--mj-canvas-fg)]">
-      <div
-        className="pointer-events-none absolute inset-0 opacity-40 mj-code-plane"
-        aria-hidden
-      />
+    <header className="relative overflow-hidden border-b border-border bg-[var(--mj-ink)] text-[var(--mj-canvas-fg)]">
+      <div className="pointer-events-none absolute inset-0 mj-code-plane opacity-40" aria-hidden />
       <div
         className="mj-hero-wash pointer-events-none absolute inset-0"
         style={{
@@ -25,10 +23,8 @@ export function MarketingHero({
         aria-hidden
       />
       <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
-        <div className="mj-fade-up max-w-3xl space-y-4">
-          <p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--mj-yellow)]">
-            MEGA JS
-          </p>
+        <div className="mj-fade-up flex max-w-3xl flex-col gap-4">
+          <p className="font-mono text-xs uppercase tracking-[0.22em] text-primary">MEGA JS</p>
           <h1 className="font-display text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl">
             {title}
           </h1>
@@ -69,15 +65,13 @@ export function CtaLink({
   primary?: boolean;
 }) {
   return (
-    <Link
-      href={href}
-      className={
-        primary
-          ? 'mj-btn mj-btn--primary inline-flex h-12 items-center rounded-[var(--mj-radius-md)] bg-[var(--mj-accent)] px-5 text-sm font-semibold text-[var(--mj-accent-fg)]'
-          : 'mj-btn inline-flex h-12 items-center rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-card)] px-5 text-sm font-semibold'
-      }
+    <Button
+      asChild
+      variant={primary ? 'default' : 'outline'}
+      size="lg"
+      className="h-12 px-5 text-sm font-semibold"
     >
-      {children}
-    </Link>
+      <Link href={href}>{children}</Link>
+    </Button>
   );
 }

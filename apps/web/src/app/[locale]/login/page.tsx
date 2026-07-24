@@ -2,7 +2,11 @@
 
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
-import { Button, Collapse, PageEnter } from '@/components/ui/motion';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Collapse, PageEnter, Spinner } from '@/components/ui/motion';
 import { getDictionary } from '@/i18n/dictionaries';
 import { API_BASE, isLocale, type Locale } from '@/lib/utils';
 
@@ -31,6 +35,7 @@ export default function LoginPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message ?? dict.error);
       setDevCode(data.devCode);
+      if (data.devCode) setCode(String(data.devCode));
     } catch (e) {
       setError(e instanceof Error ? e.message : dict.error);
     } finally {
@@ -60,63 +65,70 @@ export default function LoginPage() {
 
   return (
     <PageEnter className="mx-auto flex max-w-md flex-col gap-6 px-4 py-16 sm:px-6">
-      <h1 className="font-display text-3xl font-bold">{l.title}</h1>
-      <p className="text-sm text-[var(--mj-muted-fg)]">{l.subtitle}</p>
-      <label className="grid gap-2 text-sm">
-        <span>{l.phone}</span>
-        <input
+      <div className="flex flex-col gap-2">
+        <h1 className="font-display text-3xl font-bold">{l.title}</h1>
+        <p className="text-sm text-muted-foreground">{l.subtitle}</p>
+      </div>
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="phone">{l.phone}</Label>
+        <Input
+          id="phone"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
-          className="h-12 rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-card)] px-3 font-mono transition-[border-color,box-shadow] duration-[var(--mj-motion-fast)] focus:border-[var(--mj-accent)] focus:outline-none focus:ring-2 focus:ring-[var(--mj-accent)]/40"
+          className="h-12 font-mono"
           dir="ltr"
         />
-      </label>
-      <Button loading={loading} onClick={() => void requestOtp()} className="h-12 w-full">
+      </div>
+      <Button disabled={loading} onClick={() => void requestOtp()} className="h-12 w-full" size="lg">
+        {loading ? <Spinner /> : null}
         {l.sendCode}
       </Button>
       <Collapse open={Boolean(devCode)}>
-        <div className="space-y-2 pb-1">
-          <p className="font-mono text-sm text-[var(--mj-muted-fg)]">DEV CODE: {devCode}</p>
-          <p className="text-xs text-[var(--mj-muted-fg)]">{l.hint}</p>
+        <div className="flex flex-col gap-2 pb-1">
+          <p className="font-mono text-sm text-muted-foreground">DEV CODE: {devCode}</p>
+          <p className="text-xs text-muted-foreground">{l.hint}</p>
         </div>
       </Collapse>
-      <label className="grid gap-2 text-sm">
-        <span>{l.code}</span>
-        <input
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="code">{l.code}</Label>
+        <Input
+          id="code"
           value={code}
           onChange={(e) => setCode(e.target.value)}
-          className="h-12 rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-card)] px-3 font-mono transition-[border-color,box-shadow] duration-[var(--mj-motion-fast)] focus:border-[var(--mj-accent)] focus:outline-none focus:ring-2 focus:ring-[var(--mj-accent)]/40"
+          className="h-12 font-mono"
           dir="ltr"
         />
-      </label>
+      </div>
       <Button
         variant="secondary"
-        loading={loading}
+        disabled={loading}
         onClick={() => void verifyOtp()}
         className="h-12 w-full"
+        size="lg"
       >
+        {loading ? <Spinner /> : null}
         {l.verify}
       </Button>
       {error ? (
-        <p className="mj-slide-down text-sm text-[var(--mj-danger)]">{error}</p>
+        <Alert variant="destructive">
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
       ) : null}
       <Collapse open={Boolean(token)}>
-        <p className="rounded-[var(--mj-radius-md)] bg-[var(--mj-muted)] p-3 text-sm">{l.success}</p>
+        <Alert>
+          <AlertDescription>{l.success}</AlertDescription>
+        </Alert>
       </Collapse>
 
-      <button
-        type="button"
-        className="mj-btn text-start text-sm font-medium text-[var(--mj-muted-fg)] underline-offset-4 hover:underline"
-        onClick={() => setMoreOpen((v) => !v)}
-      >
+      <Button variant="ghost" className="justify-start px-0" onClick={() => setMoreOpen((v) => !v)}>
         {moreOpen ? '▾' : '▸'} {locale === 'fa' ? 'روش‌های دیگر' : 'Other methods'}
-      </button>
+      </Button>
       <Collapse open={moreOpen}>
         <div className="grid gap-2 pb-1">
-          <Button variant="secondary" disabled className="w-full opacity-60">
+          <Button variant="outline" disabled className="w-full opacity-60">
             Google
           </Button>
-          <Button variant="secondary" disabled className="w-full opacity-60">
+          <Button variant="outline" disabled className="w-full opacity-60">
             GitHub
           </Button>
         </div>

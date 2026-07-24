@@ -2,7 +2,9 @@
 
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Button, Collapse, PageEnter, SkeletonCard } from '@/components/ui/motion';
+import { Button } from '@/components/ui/button';
+import { Collapse, PageEnter, SkeletonCard, Spinner } from '@/components/ui/motion';
+import { Textarea } from '@/components/ui/textarea';
 import { getDictionary } from '@/i18n/dictionaries';
 import { API_BASE, isLocale, type Locale } from '@/lib/utils';
 
@@ -120,15 +122,16 @@ export default function PracticePage() {
               <>
                 <h2 className="font-display text-2xl font-semibold">{active.title}</h2>
                 <p className="text-[var(--mj-muted-fg)]">{active.prompt}</p>
-                <textarea
+                <Textarea
                   value={code}
                   onChange={(e) => setCode(e.target.value)}
                   aria-label={pr.yourCode}
-                  className="min-h-56 w-full rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-ink)] p-4 font-mono text-sm text-[var(--mj-yellow)] transition-[box-shadow] duration-[var(--mj-motion-fast)] focus:outline-none focus:ring-2 focus:ring-[var(--mj-accent)]/50"
+                  className="min-h-56 w-full bg-[var(--mj-ink)] font-mono text-sm text-primary"
                   dir="ltr"
                   spellCheck={false}
                 />
-                <Button loading={loading} onClick={() => void submit()}>
+                <Button disabled={loading} onClick={() => void submit()} size="lg">
+                  {loading ? <Spinner /> : null}
                   {pr.runSubmit}
                 </Button>
                 <Collapse open={Boolean(result)}>

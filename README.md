@@ -2,7 +2,7 @@
 
 Greenfield JavaScript learning OS for [megajs.com](https://megajs.com).
 
-**Stack:** Next.js (web + admin) · NestJS API · PostgreSQL-ready Prisma (SQLite for local) · shared TypeScript packages · UI/UX Pro Max design system.
+**Stack:** Next.js (web + admin) · NestJS API · Tailwind v4 · shadcn/ui · `@megajs/design-tokens` · PostgreSQL-ready Prisma (SQLite for local) · shared TypeScript packages.
 
 ## Quick start
 
