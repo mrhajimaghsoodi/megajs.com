@@ -11,7 +11,7 @@ This guide covers:
 ---
 
 Persian zero-to-production walkthrough (domain, staging, Cursor, tokens):
-[`GO_LIVE_FA.md`](./GO_LIVE_FA.md)
+[`ZERO_TO_SERVER_FA.md`](./ZERO_TO_SERVER_FA.md) (مبتدی، فارسی) · [`GO_LIVE_FA.md`](./GO_LIVE_FA.md)
 
 **Already have WHM/cPanel + WordPress on the same VPS?**  
 Do **not** bind Docker to ports 80/443. Follow:

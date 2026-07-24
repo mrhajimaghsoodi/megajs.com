@@ -9,6 +9,10 @@
 
 مخاطب: صاحب دامنه `megajs.com` که می‌خواهد پلتفرم جدید را جایگزین وردپرس کند.
 
+**اولین بار است و WHM + وردپرس دارید؟** مستقیم بروید به:
+
+→ [`ZERO_TO_SERVER_FA.md`](./ZERO_TO_SERVER_FA.md) — قدم‌به‌قدم مبتدی از صفر تا سرور
+
 ---
 
 ## نقشه ذهنی (سه محیط)
@@ -407,4 +411,4 @@ STREAM_PLAYBACK_BASE=https://...
 - [`../architecture/OVERVIEW.md`](../architecture/OVERVIEW.md) — معماری  
 - [`../product/ROADMAP.md`](../product/ROADMAP.md) — نقشه محصول  
 
-اگر فقط یک فایل را برای «بردن روی سرور» باز کنید، همین `GO_LIVE_FA.md` است.
+اگر مبتدی هستید و WHM دارید، اول [`ZERO_TO_SERVER_FA.md`](./ZERO_TO_SERVER_FA.md) را باز کنید. برای نقشه کامل محیط‌ها و secretها همین `GO_LIVE_FA.md` است.

@@ -2,6 +2,8 @@
 
 اگر روی سرور **WHM و چند سایت وردپرسی** دارید، این راهنما برای شماست.
 
+برای نسخهٔ خیلی مبتدی و قدم‌به‌قدم از صفر: [`ZERO_TO_SERVER_FA.md`](./ZERO_TO_SERVER_FA.md)
+
 ## قانون طلایی
 
 | سرویس | پورت‌های ۸۰ و ۴۴۳ | نقش |
@@ -222,4 +224,4 @@ GitHub → Settings → Environments → **production** → Secrets:
 | Actions fail روی health | فایروال SSH / مسیر اشتباه | `DEPLOY_PATH` و دسترسی `deploy` به docker |
 
 جزئیات فایل‌های پروکسی: [`docker/whm/README.md`](../../docker/whm/README.md)  
-راهنمای عمومی: [`DEPLOYMENT.md`](./DEPLOYMENT.md) · [`GO_LIVE_FA.md`](./GO_LIVE_FA.md)
+راهنمای عمومی: [`ZERO_TO_SERVER_FA.md`](./ZERO_TO_SERVER_FA.md) · [`DEPLOYMENT.md`](./DEPLOYMENT.md) · [`GO_LIVE_FA.md`](./GO_LIVE_FA.md)
