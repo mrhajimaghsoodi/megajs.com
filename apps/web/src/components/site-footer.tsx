@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import type { Dictionary } from '@/i18n/dictionaries';
-import { formatTehranYear } from '@/lib/datetime';
+import { formatTehranYear } from '@/lib/tehran-time';
 import type { Locale } from '@/lib/utils';
 import { Logo } from './logo';
 import { NewsletterBand } from './woodmart/newsletter';

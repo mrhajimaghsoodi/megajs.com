@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { formatTehranDateTime } from '@/lib/datetime';
+import { formatTehranDateTime } from '@/lib/tehran-time';
 import { resolveMediaUrl } from '@/lib/media-url';
 import type { Locale } from '@/lib/utils';
 import { cn } from '@/lib/utils';

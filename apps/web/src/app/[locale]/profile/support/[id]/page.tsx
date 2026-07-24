@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { getDictionary } from '@/i18n/dictionaries';
 import { API_BASE, isLocale, type Locale } from '@/lib/utils';
-import { formatTehranDateTime } from '@/lib/datetime';
+import { formatTehranDateTime } from '@/lib/tehran-time';
 
 export default function SupportTicketDetailPage() {
   const params = useParams<{ locale: string; id: string }>();

@@ -11,7 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { useAdminLocale } from '@/i18n/locale-context';
-import { formatTehranDate, formatTehranDateTime } from '@/lib/datetime';
+import { formatTehranDate, formatTehranDateTime } from '@/lib/tehran-time';
 
 type Tab =
   | 'profile'

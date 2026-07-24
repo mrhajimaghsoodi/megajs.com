@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { getDictionary } from '@/i18n/dictionaries';
 import { API_BASE, isLocale, type Locale } from '@/lib/utils';
-import { formatTehranDateTime } from '@/lib/datetime';
+import { formatTehranDateTime } from '@/lib/tehran-time';
 
 export default function LiveDetailPage() {
   const params = useParams<{ locale: string; slug: string }>();

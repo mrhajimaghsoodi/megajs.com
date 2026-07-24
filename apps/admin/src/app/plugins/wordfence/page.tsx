@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAdminLocale } from '@/i18n/locale-context';
-import { formatTehranDateTime } from '@/lib/datetime';
+import { formatTehranDateTime } from '@/lib/tehran-time';
 
 export default function WordfencePluginPage() {
   const { locale, dict } = useAdminLocale();

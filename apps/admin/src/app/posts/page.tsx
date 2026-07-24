@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useAdminLocale } from '@/i18n/locale-context';
 import { publicSiteUrl } from '@/lib/site';
-import { formatTehranDateTime } from '@/lib/datetime';
+import { formatTehranDateTime } from '@/lib/tehran-time';
 
 function titleOf(row: any, locale: string) {
   return row.i18n?.find((x: any) => x.locale === locale)?.title ?? row.i18n?.[0]?.title ?? row.slug;

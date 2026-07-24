@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { adminFetch } from '@/components/admin-shell';
 import { useAdminLocale } from '@/i18n/locale-context';
-import { formatTehranDateTime } from '@/lib/datetime';
+import { formatTehranDateTime } from '@/lib/tehran-time';
 
 export default function AuditAdminPage() {
   const { locale, dict } = useAdminLocale();

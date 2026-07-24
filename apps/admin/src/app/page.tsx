@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { PageEnter, SkeletonPanel, Stagger } from '@/components/ui/motion';
 import { useAdminLocale } from '@/i18n/locale-context';
-import { formatTehranDate, formatTehranDateTime } from '@/lib/datetime';
+import { formatTehranDate, formatTehranDateTime } from '@/lib/tehran-time';
 
 type Dash = any;
 

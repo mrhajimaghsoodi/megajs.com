@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { adminFetch } from '@/components/admin-shell';
 import { useAdminLocale } from '@/i18n/locale-context';
-import { formatTehranDateTime } from '@/lib/datetime';
+import { formatTehranDateTime } from '@/lib/tehran-time';
 
 const STATUS_KEYS = ['open', 'pending', 'answered', 'resolved', 'closed'] as const;
 

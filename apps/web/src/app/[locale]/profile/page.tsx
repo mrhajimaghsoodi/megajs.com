@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { PageEnter, SkeletonPanel, Stagger } from '@/components/ui/motion';
 import { getDictionary } from '@/i18n/dictionaries';
 import { API_BASE, isLocale, type Locale } from '@/lib/utils';
-import { formatTehranDate } from '@/lib/datetime';
+import { formatTehranDate } from '@/lib/tehran-time';
 
 export default function ProfileOverviewPage() {
   const params = useParams<{ locale: string }>();

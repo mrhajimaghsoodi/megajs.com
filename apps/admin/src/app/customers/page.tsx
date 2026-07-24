@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useAdminLocale } from '@/i18n/locale-context';
-import { formatTehranDate } from '@/lib/datetime';
+import { formatTehranDate } from '@/lib/tehran-time';
 
 export default function CustomersPage() {
   const { locale, dict } = useAdminLocale();
