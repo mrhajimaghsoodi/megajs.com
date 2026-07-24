@@ -34,10 +34,14 @@ export function AdminShell({ children }: { children: ReactNode }) {
   );
 
   useEffect(() => {
-    const t = localStorage.getItem('mj_admin_token');
-    setToken(t);
-    setReady(true);
-  }, []);
+    const sync = () => {
+      setToken(localStorage.getItem('mj_admin_token'));
+      setReady(true);
+    };
+    sync();
+    window.addEventListener('storage', sync);
+    return () => window.removeEventListener('storage', sync);
+  }, [pathname]);
 
   useEffect(() => {
     if (!ready) return;
@@ -90,13 +94,17 @@ export function AdminShell({ children }: { children: ReactNode }) {
         : 'http://localhost:3000/en';
 
   return (
-    <div dir={dir} lang={locale} className="min-h-dvh lg:grid lg:grid-cols-[240px_1fr]">
-      <aside className="border-b border-[var(--mj-border)] bg-[var(--mj-card)] lg:border-b-0 lg:border-e">
-        <div className="flex h-16 items-center gap-3 border-b border-[var(--mj-border)] px-4">
+    <div
+      dir={dir}
+      lang={locale}
+      className="min-h-dvh bg-[var(--mj-bg)] lg:grid lg:grid-cols-[260px_1fr]"
+    >
+      <aside className="border-b border-[var(--mj-border)] bg-[#121212] text-white lg:border-b-0 lg:border-e lg:border-[var(--mj-border)]">
+        <div className="flex h-16 items-center gap-3 border-b border-white/10 px-4">
           <Image src="/logo-mark.svg" alt="" width={32} height={32} />
           <div>
-            <div className="text-sm font-bold">{dict.brand}</div>
-            <div className="font-mono text-[10px] text-[var(--mj-muted-fg)]">{me.role}</div>
+            <div className="font-display text-sm font-bold tracking-tight">{dict.brand}</div>
+            <div className="font-mono text-[10px] text-[var(--mj-yellow)]">{me.role}</div>
           </div>
         </div>
         <nav className="flex gap-1 overflow-x-auto p-3 lg:flex-col">
@@ -108,10 +116,10 @@ export function AdminShell({ children }: { children: ReactNode }) {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`mj-nav-item cursor-pointer rounded-[var(--mj-radius-md)] px-3 py-2 text-sm ${
+                className={`mj-nav-item cursor-pointer rounded-md px-3 py-2.5 text-sm transition-colors ${
                   active
                     ? 'bg-[var(--mj-accent)] font-semibold text-[var(--mj-accent-fg)]'
-                    : 'hover:bg-[var(--mj-muted)]'
+                    : 'text-white/70 hover:bg-white/5 hover:text-white'
                 }`}
               >
                 {item.label}
@@ -119,14 +127,18 @@ export function AdminShell({ children }: { children: ReactNode }) {
             );
           })}
         </nav>
-        <div className="hidden border-t border-[var(--mj-border)] p-4 text-xs text-[var(--mj-muted-fg)] lg:block">
-          <div>{me.displayName ?? me.phone}</div>
+        <div className="hidden border-t border-white/10 p-4 text-xs text-white/55 lg:block">
+          <div className="font-mono" dir="ltr">
+            {me.displayName ?? me.phone}
+          </div>
           <button
             type="button"
-            className="mt-2 cursor-pointer underline"
+            className="mt-3 cursor-pointer text-[var(--mj-yellow)] underline-offset-4 hover:underline"
             onClick={() => {
               localStorage.removeItem('mj_admin_token');
-              router.replace('/login');
+              setToken(null);
+              setMe(null);
+              window.location.assign('/login');
             }}
           >
             {dict.logout}
@@ -134,8 +146,10 @@ export function AdminShell({ children }: { children: ReactNode }) {
         </div>
       </aside>
       <div className="min-w-0">
-        <header className="flex h-16 items-center justify-between gap-3 border-b border-[var(--mj-border)] px-4 sm:px-6">
-          <div className="text-sm text-[var(--mj-muted-fg)]">{dict.console}</div>
+        <header className="flex h-16 items-center justify-between gap-3 border-b border-[var(--mj-border)] bg-[var(--mj-card)] px-4 sm:px-6">
+          <div className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--mj-muted-fg)]">
+            {dict.console}
+          </div>
           <div className="flex items-center gap-3">
             <button
               type="button"

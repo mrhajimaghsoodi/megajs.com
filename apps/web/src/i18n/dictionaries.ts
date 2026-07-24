@@ -5,7 +5,7 @@ const fa = {
   brand: 'MEGA JS',
   tagline: 'سیستم‌عامل روزانه یادگیری اکوسیستم جاوااسکریپت',
   heroSupport:
-    'از HTML تا Next.js، بعد Vue و Angular، سپس React Native و Electron، و در نهایت Node و NestJS. رایگان شروع کنید، با اشتراک پیش بروید، با دوره‌های تخصصی عمیق شوید — و از تمرین توکن بسازید.',
+    'هر روز یک درس، یک چالش، یک قدم جلوتر — از HTML تا NestJS، روی وب، موبایل و دسکتاپ.',
   ctaStart: 'شروع رایگان',
   ctaPath: 'نقشه چهارساله',
   ctaPractice: 'همین الان تمرین کن',
@@ -293,7 +293,7 @@ const en: typeof fa = {
   brand: 'MEGA JS',
   tagline: 'A daily learning OS for the JavaScript ecosystem',
   heroSupport:
-    'From HTML to Next.js, then Vue and Angular, then React Native and Electron, and finally Node and NestJS. Start free, grow with a subscription, go deep with paid courses — and mint tokens from practice.',
+    'One lesson, one challenge, one step forward every day — from HTML to NestJS, on web, mobile, and desktop.',
   ctaStart: 'Start free',
   ctaPath: 'Four-year roadmap',
   ctaPractice: 'Practice now',

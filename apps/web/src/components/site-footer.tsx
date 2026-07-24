@@ -56,17 +56,17 @@ export function SiteFooter({
   ];
 
   return (
-    <footer className="mt-auto border-t border-[var(--mj-border)] bg-[var(--mj-muted)]">
-      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+    <footer className="mt-auto border-t border-white/10 bg-[#0c0c0c] text-[var(--mj-canvas-fg)]">
+      <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
         <div className="grid gap-10 lg:grid-cols-[1.2fr_2fr]">
           <div className="space-y-4">
             <Logo href={base} />
-            <p className="max-w-sm text-sm leading-7 text-[var(--mj-muted-fg)]">{f.blurb}</p>
+            <p className="max-w-sm text-sm leading-7 text-white/55">{f.blurb}</p>
           </div>
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
             {columns.map((col) => (
               <div key={col.title}>
-                <div className="mb-3 text-xs font-bold tracking-wide text-[var(--mj-fg)]">
+                <div className="mb-3 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--mj-yellow)]">
                   {col.title}
                 </div>
                 <ul className="space-y-2">
@@ -74,7 +74,7 @@ export function SiteFooter({
                     <li key={link.href}>
                       <Link
                         href={link.href}
-                        className="text-sm text-[var(--mj-muted-fg)] underline-offset-4 transition-colors hover:text-[var(--mj-fg)] hover:underline"
+                        className="text-sm text-white/55 underline-offset-4 transition-colors hover:text-[var(--mj-yellow)] hover:underline"
                       >
                         {link.label}
                       </Link>
@@ -85,7 +85,7 @@ export function SiteFooter({
             ))}
           </div>
         </div>
-        <div className="mt-10 flex flex-col gap-2 border-t border-[var(--mj-border)] pt-6 text-xs text-[var(--mj-muted-fg)] sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-12 flex flex-col gap-2 border-t border-white/10 pt-6 font-mono text-[11px] text-white/40 sm:flex-row sm:items-center sm:justify-between">
           <span>© {new Date().getFullYear()} MEGA JS</span>
           <span>{f.rights}</span>
         </div>

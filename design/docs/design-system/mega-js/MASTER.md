@@ -31,42 +31,49 @@ Acquisition: SEO first · Instagram / YouTube / Aparat second
 | Density | 5/10 | Readable lessons on mobile |
 | Stack guidance | Next.js App Router + explicit cache + `next/font` | SEO priority |
 
-## Typography (override kids defaults from education match)
+## Typography (UI/UX Pro Max — developer education override)
+
+Kids/education font matches from the skill were **rejected** (Baloo/Comic). Adopted:
 
 | Role | Font | Notes |
 |------|------|-------|
 | Display / Heading (EN) | **Space Grotesk** | Tech, distinctive, not Inter |
-| Body (EN) | **DM Sans** | Readable UI |
+| Body (EN) | **IBM Plex Sans** | Developer Mono pairing from UUPM |
 | Persian (FA) | **Vazirmatn** | RTL primary |
 | Code | **JetBrains Mono** | Lessons, editor, judge |
 
+## Visual signature
+
+**Yellow Terminal Academy** — charcoal canvas (`#0c0c0c` / `#1a1a1a`), brand yellow `#ffd400`, full-bleed code-grid hero, blinking caret on the wordmark. No purple SaaS gradients, no cream editorial, no broadsheet.
+
 ## Color system
 
-### Light (default)
+### Light (default surface; marketing prefers dark)
 ```css
 --mj-yellow: #ffd400;
 --mj-ink: #1a1a1a;
---mj-bg: #ffffff;
+--mj-bg: #f3f3f1;
 --mj-fg: #1a1a1a;
---mj-muted: #f4f4f5;
---mj-muted-fg: #52525b;
---mj-border: #e4e4e7;
+--mj-muted: #e8e8e4;
+--mj-muted-fg: #4a4a4f;
+--mj-border: #d4d4d0;
 --mj-accent: #ffd400;
 --mj-accent-fg: #1a1a1a;
---mj-success: #16a34a;
+--mj-success: #16803c;
 --mj-danger: #dc2626;
 --mj-ring: #ffd400;
 ```
 
-### Dark
+### Dark (product default)
 ```css
---mj-bg: #1a1a1a;
---mj-fg: #ffffff;
---mj-muted: #27272a;
---mj-muted-fg: #a1a1aa;
---mj-border: #3f3f46;
+--mj-bg: #121212;
+--mj-fg: #f5f5f4;
+--mj-muted: #1e1e1e;
+--mj-muted-fg: #a3a3a3;
+--mj-border: #2e2e2e;
 --mj-accent: #ffd400;
 --mj-accent-fg: #1a1a1a;
+--mj-canvas: #0c0c0c;
 ```
 
 Rules:

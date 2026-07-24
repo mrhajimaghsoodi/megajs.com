@@ -1,6 +1,7 @@
 /**
- * CSS custom properties for MEGA JS.
- * Import via: `@import "@megajs/design-tokens/css";` or copy into app globals.
+ * MEGA JS design tokens
+ * Brand lock: yellow #ffd400 · ink #1a1a1a
+ * Direction: coding-academy terminal (not SaaS purple / cream editorial)
  */
 
 @import "./motion.css";
@@ -8,20 +9,22 @@
 :root {
   --mj-yellow: #ffd400;
   --mj-ink: #1a1a1a;
-  --mj-bg: #ffffff;
+  --mj-bg: #f3f3f1;
   --mj-fg: #1a1a1a;
-  --mj-muted: #f4f4f5;
-  --mj-muted-fg: #52525b;
-  --mj-border: #e4e4e7;
+  --mj-muted: #e8e8e4;
+  --mj-muted-fg: #4a4a4f;
+  --mj-border: #d4d4d0;
   --mj-accent: #ffd400;
   --mj-accent-fg: #1a1a1a;
-  --mj-success: #16a34a;
+  --mj-success: #16803c;
   --mj-danger: #dc2626;
   --mj-ring: #ffd400;
   --mj-card: #ffffff;
-  --mj-radius-sm: 6px;
-  --mj-radius-md: 12px;
-  --mj-radius-lg: 20px;
+  --mj-canvas: #1a1a1a;
+  --mj-canvas-fg: #f5f5f4;
+  --mj-radius-sm: 4px;
+  --mj-radius-md: 8px;
+  --mj-radius-lg: 14px;
   --mj-motion-fast: 150ms;
   --mj-motion-base: 220ms;
   --mj-motion-slow: 380ms;
@@ -31,18 +34,27 @@
   --mj-ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
   --mj-ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
   --mj-touch: 48px;
+  --mj-grid:
+    linear-gradient(color-mix(in oklab, var(--mj-fg) 6%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklab, var(--mj-fg) 6%, transparent) 1px, transparent 1px);
+  --mj-grid-size: 28px 28px;
 }
 
 .dark {
-  --mj-bg: #1a1a1a;
-  --mj-fg: #ffffff;
-  --mj-muted: #27272a;
-  --mj-muted-fg: #a1a1aa;
-  --mj-border: #3f3f46;
+  --mj-bg: #121212;
+  --mj-fg: #f5f5f4;
+  --mj-muted: #1e1e1e;
+  --mj-muted-fg: #a3a3a3;
+  --mj-border: #2e2e2e;
   --mj-accent: #ffd400;
   --mj-accent-fg: #1a1a1a;
   --mj-success: #22c55e;
   --mj-danger: #ef4444;
   --mj-ring: #ffd400;
-  --mj-card: #242424;
+  --mj-card: #1a1a1a;
+  --mj-canvas: #0c0c0c;
+  --mj-canvas-fg: #f5f5f4;
+  --mj-grid:
+    linear-gradient(color-mix(in oklab, var(--mj-yellow) 8%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklab, var(--mj-yellow) 8%, transparent) 1px, transparent 1px);
 }

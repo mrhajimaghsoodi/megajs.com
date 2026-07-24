@@ -7,6 +7,8 @@ async function bootstrap() {
     origin: [
       'http://localhost:3000',
       'http://localhost:3001',
+      'http://127.0.0.1:3000',
+      'http://127.0.0.1:3001',
       process.env.WEB_ORIGIN,
       process.env.ADMIN_ORIGIN,
       // Soft-launch subdomain while WordPress still owns apex

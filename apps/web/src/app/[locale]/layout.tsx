@@ -1,4 +1,4 @@
-import { DM_Sans, JetBrains_Mono, Space_Grotesk, Vazirmatn } from 'next/font/google';
+import { IBM_Plex_Sans, JetBrains_Mono, Space_Grotesk, Vazirmatn } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import type { ReactNode } from 'react';
 import { LocaleDocument } from '@/components/locale-document';
@@ -12,8 +12,9 @@ const spaceGrotesk = Space_Grotesk({
   variable: '--font-display',
 });
 
-const dmSans = DM_Sans({
+const ibmPlex = IBM_Plex_Sans({
   subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
   variable: '--font-body',
 });
 
@@ -49,7 +50,7 @@ export default async function LocaleLayout({
       lang={locale}
       dir={dir}
       data-locale={locale}
-      className={`${spaceGrotesk.variable} ${dmSans.variable} ${vazirmatn.variable} ${jetbrains.variable} flex min-h-dvh flex-col bg-[var(--mj-bg)] text-[var(--mj-fg)]`}
+      className={`${spaceGrotesk.variable} ${ibmPlex.variable} ${vazirmatn.variable} ${jetbrains.variable} flex min-h-dvh flex-col bg-[var(--mj-bg)] text-[var(--mj-fg)]`}
     >
       <LocaleDocument locale={locale} />
       <SiteHeader locale={locale} dict={dict} />

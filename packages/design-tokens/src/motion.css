@@ -112,6 +112,62 @@
   }
 }
 
+@keyframes mj-caret {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes mj-scan {
+  0% {
+    transform: translateY(-20%);
+  }
+  100% {
+    transform: translateY(120%);
+  }
+}
+
+.mj-caret {
+  display: inline-block;
+  width: 0.55ch;
+  height: 1.05em;
+  margin-inline-start: 2px;
+  vertical-align: text-bottom;
+  background: var(--mj-yellow);
+  animation: mj-caret 1.05s step-end infinite;
+}
+
+.mj-code-plane {
+  background-color: var(--mj-canvas);
+  background-image: var(--mj-grid);
+  background-size: var(--mj-grid-size);
+  color: var(--mj-canvas-fg);
+}
+
+.mj-scanline {
+  position: relative;
+}
+
+.mj-scanline::after {
+  content: '';
+  pointer-events: none;
+  position: absolute;
+  inset-inline: 0;
+  height: 28%;
+  background: linear-gradient(
+    transparent,
+    color-mix(in oklab, var(--mj-yellow) 8%, transparent),
+    transparent
+  );
+  animation: mj-scan 7s linear infinite;
+  opacity: 0.45;
+}
+
 /* ---------- Utility classes ---------- */
 
 .mj-fade-up {
@@ -344,5 +400,9 @@
   }
   .mj-collapse {
     transition: none !important;
+  }
+  .mj-caret,
+  .mj-scanline::after {
+    animation: none !important;
   }
 }
