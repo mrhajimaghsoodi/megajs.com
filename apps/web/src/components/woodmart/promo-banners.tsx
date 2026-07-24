@@ -16,8 +16,8 @@ export function PromoBanners({
   }>;
 }) {
   const tones: Record<string, string> = {
-    dark: 'bg-[#1e1e1e] text-white',
-    accent: 'bg-primary text-primary-foreground',
+    dark: 'bg-[var(--mj-black)] text-white',
+    accent: 'bg-[var(--mj-yellow)] text-[var(--mj-ink)]',
     slate: 'bg-[var(--mj-accent-soft)] text-foreground',
   };
 
@@ -45,7 +45,7 @@ export function PromoBanners({
               <h3 className="font-display text-xl font-bold leading-snug">{item.title}</h3>
               <p className="mt-2 text-sm leading-6 opacity-80">{item.body}</p>
             </div>
-            <span className="inline-flex w-fit rounded-xl bg-white/15 px-3 py-1.5 text-xs font-bold group-hover:bg-white/25">
+            <span className="inline-flex w-fit rounded-xl bg-black/10 px-3 py-1.5 text-xs font-bold group-hover:bg-black/20 dark:bg-white/10 dark:group-hover:bg-white/20">
               {item.cta}
             </span>
           </div>

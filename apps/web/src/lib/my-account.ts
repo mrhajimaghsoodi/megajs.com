@@ -65,12 +65,12 @@ export const FALLBACK_MY_ACCOUNT: MyAccountSettings = {
   emailVerification: { enabled: false, blockLogin: true, blockPurchase: true },
   captcha: { enabled: false },
   colors: {
-    menuBg: '#ffffff',
-    menuText: '#1e1e1e',
-    menuActiveBg: '#704fe6',
-    menuActiveText: '#ffffff',
-    contentBg: '#ffffff',
-    accent: '#704fe6',
+    menuBg: '#222222',
+    menuText: '#f5f5f5',
+    menuActiveBg: '#ffd400',
+    menuActiveText: '#1a1a1a',
+    contentBg: '#222222',
+    accent: '#ffd400',
   },
   banners: [],
   items: [

@@ -5,10 +5,10 @@ import type { Locale } from '@/lib/utils';
 import { cn } from '@/lib/utils';
 
 const ACCENTS = [
-  'from-[#704fe6] via-[#8b74f0] to-[#ffd400]/70',
-  'from-[#5b3fd4] via-[#704fe6] to-[#c4b5fd]',
-  'from-[#1e1e1e] via-[#3f3f55] to-[#704fe6]/60',
-  'from-[#ffd400] via-[#ffe566] to-[#704fe6]/50',
+  'from-[#1a1a1a] via-[#2a2a2a] to-[#ffd400]/45',
+  'from-[#111111] via-[#1a1a1a] to-[#ffd400]/30',
+  'from-[#242424] via-[#1a1a1a] to-[#ffe566]/40',
+  'from-[#ffd400] via-[#ffe566] to-[#1a1a1a]/50',
 ];
 
 function hashSlug(slug: string) {
@@ -47,7 +47,7 @@ export function ProductCard({
   return (
     <article
       className={cn(
-        'group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--mj-shadow-sm)] transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-[var(--mj-shadow-md)]',
+        'group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--mj-shadow-sm)] transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-1 hover:border-[var(--mj-yellow)]/50 hover:shadow-[var(--mj-shadow-md)]',
         className,
       )}
     >
@@ -56,17 +56,17 @@ export function ProductCard({
           className="absolute inset-0 opacity-30"
           style={{
             backgroundImage:
-              'radial-gradient(circle at 20% 20%, rgba(255,255,255,0.35), transparent 45%)',
+              'radial-gradient(circle at 20% 20%, rgba(255,212,0,0.35), transparent 45%)',
           }}
           aria-hidden
         />
         <div className="absolute inset-0 flex items-end p-4">
-          <span className="rounded-lg bg-white/90 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-foreground">
+          <span className="rounded-lg bg-black/70 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
             {course.accessTier}
           </span>
         </div>
         {isPaid ? (
-          <span className="absolute start-3 top-3 rounded-lg bg-[var(--mj-brand)] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[var(--mj-ink)]">
+          <span className="absolute start-3 top-3 rounded-lg bg-[var(--mj-yellow)] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[var(--mj-ink)]">
             {labels.sale ?? 'Hot'}
           </span>
         ) : null}
@@ -107,15 +107,15 @@ export function ProductCard({
       </div>
 
       <div className="flex flex-1 flex-col gap-2 p-4">
-        <Link href={href} className="font-display text-base font-semibold leading-snug hover:text-primary">
+        <Link href={href} className="font-display text-base font-semibold leading-snug hover:text-[var(--mj-yellow)]">
           {course.title}
         </Link>
         <p className="line-clamp-2 flex-1 text-sm leading-6 text-muted-foreground">{course.summary}</p>
         <div className="mt-1 flex items-center justify-between gap-2 border-t border-border pt-3">
-          <span className="font-display text-sm font-bold text-primary">{priceLabel}</span>
+          <span className="font-display text-sm font-bold text-[var(--mj-yellow)]">{priceLabel}</span>
           <Link
             href={href}
-            className="text-xs font-semibold text-muted-foreground transition-colors hover:text-primary"
+            className="text-xs font-semibold text-muted-foreground transition-colors hover:text-[var(--mj-yellow)]"
           >
             {labels.view}
           </Link>

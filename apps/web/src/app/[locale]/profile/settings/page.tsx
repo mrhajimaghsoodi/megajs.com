@@ -1,6 +1,7 @@
 'use client';
 
 import { useParams } from 'next/navigation';
+import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 import { getDictionary } from '@/i18n/dictionaries';
 import { API_BASE, isLocale, type Locale } from '@/lib/utils';
@@ -10,8 +11,9 @@ export default function SettingsPage() {
   const locale = (isLocale(params.locale) ? params.locale : 'fa') as Locale;
   const dict = getDictionary(locale);
   const p = dict.profile;
+  const { setTheme: setUiTheme } = useTheme();
   const [displayName, setDisplayName] = useState('');
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState('dark');
   const [email, setEmail] = useState('');
   const [emailVerified, setEmailVerified] = useState(false);
   const [emailCode, setEmailCode] = useState('');
@@ -26,7 +28,9 @@ export default function SettingsPage() {
       .then((r) => r.json())
       .then((u) => {
         setDisplayName(u.displayName ?? '');
-        setTheme(u.theme ?? 'light');
+        const nextTheme = u.theme === 'light' ? 'light' : 'dark';
+        setTheme(nextTheme);
+        setUiTheme(nextTheme);
         setEmail(u.email ?? '');
         setEmailVerified(Boolean(u.emailVerified));
       });
@@ -34,20 +38,26 @@ export default function SettingsPage() {
       .then((r) => (r.ok ? r.json() : null))
       .then((pol) => setVerifyEnabled(Boolean(pol?.emailVerification?.enabled)))
       .catch(() => undefined);
-  }, []);
+  }, [setUiTheme]);
 
   async function save() {
     const token = localStorage.getItem('mj_token');
     if (!token) return;
+    const nextTheme = theme === 'light' ? 'light' : 'dark';
     const res = await fetch(`${API_BASE}/me/settings`, {
       method: 'PATCH',
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ displayName, theme, locale }),
+      body: JSON.stringify({ displayName, theme: nextTheme, locale }),
     });
-    setMsg(res.ok ? dict.saved : dict.error);
+    if (res.ok) {
+      setUiTheme(nextTheme);
+      setMsg(dict.saved);
+    } else {
+      setMsg(dict.error);
+    }
   }
 
   async function requestEmail() {
@@ -108,10 +118,14 @@ export default function SettingsPage() {
         <select
           className="h-11 rounded-xl border border-[var(--mj-border)] bg-[var(--mj-card)] px-3"
           value={theme}
-          onChange={(e) => setTheme(e.target.value)}
+          onChange={(e) => {
+            const next = e.target.value === 'light' ? 'light' : 'dark';
+            setTheme(next);
+            setUiTheme(next);
+          }}
         >
-          <option value="light">{p.themeLight}</option>
           <option value="dark">{p.themeDark}</option>
+          <option value="light">{p.themeLight}</option>
         </select>
       </label>
       <button

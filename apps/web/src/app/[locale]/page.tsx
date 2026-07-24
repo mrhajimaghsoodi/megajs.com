@@ -68,7 +68,6 @@ export default async function HomePage({
       <JsonLd data={organizationJsonLd(locale)} />
       <JsonLd data={websiteJsonLd(locale, { name: dict.brand, description: dict.tagline })} />
 
-      {/* Modarres-style light hero — brand first */}
       <section className="relative isolate overflow-hidden">
         <div
           className="absolute inset-0"
@@ -76,23 +75,23 @@ export default async function HomePage({
           aria-hidden
         />
         <div
-          className="pointer-events-none absolute -end-24 top-10 size-[28rem] rounded-full bg-primary/20 blur-3xl mj-soft-pulse"
+          className="pointer-events-none absolute -end-24 top-10 size-[28rem] rounded-full bg-[var(--mj-yellow)]/20 blur-3xl mj-soft-pulse"
           aria-hidden
         />
         <div
-          className="pointer-events-none absolute -start-16 bottom-0 size-[22rem] rounded-full bg-[var(--mj-brand)]/25 blur-3xl"
+          className="pointer-events-none absolute -start-16 bottom-0 size-[22rem] rounded-full bg-black/20 blur-3xl dark:bg-white/5"
           aria-hidden
         />
 
         <WoodContainer className="relative z-10 grid min-h-[min(82vh,44rem)] items-center gap-10 py-16 lg:grid-cols-[1.05fr_0.95fr] lg:py-20">
           <div className="mj-fade-up max-w-2xl">
-            <p className="inline-flex items-center gap-2 rounded-full bg-card/80 px-3 py-1 text-xs font-semibold text-primary shadow-[var(--mj-shadow-sm)]">
-              <span className="size-2 rounded-full bg-[var(--mj-brand)]" />
+            <p className="inline-flex items-center gap-2 rounded-full border border-border bg-card/80 px-3 py-1 text-xs font-semibold shadow-[var(--mj-shadow-sm)]">
+              <span className="size-2 rounded-full bg-[var(--mj-yellow)]" />
               {w.hero.badge}
             </p>
             <p className="mt-6 font-display text-[clamp(2.75rem,9vw,5.25rem)] font-bold leading-[0.95] tracking-tight text-foreground">
-              <span className="text-primary">{dict.brand.split(' ')[0]}</span>{' '}
-              <span className="bg-[var(--mj-brand)] px-2 text-[var(--mj-ink)]">
+              <span className="text-[var(--mj-yellow)] drop-shadow-sm">{dict.brand.split(' ')[0]}</span>{' '}
+              <span className="bg-[var(--mj-yellow)] px-2 text-[var(--mj-ink)]">
                 {dict.brand.split(' ').slice(1).join(' ') || 'JS'}
               </span>
             </p>
@@ -118,26 +117,25 @@ export default async function HomePage({
           </div>
 
           <div className="mj-hero-float relative mx-auto hidden w-full max-w-md lg:block">
-            <div className="absolute -inset-4 rounded-[2rem] bg-primary/10 blur-2xl" aria-hidden />
+            <div className="absolute -inset-4 rounded-[2rem] bg-[var(--mj-yellow)]/15 blur-2xl" aria-hidden />
             <div className="relative overflow-hidden rounded-[1.75rem] border border-border bg-card p-6 shadow-[var(--mj-shadow-lg)]">
               <div className="mb-4 flex items-center justify-between">
-                <span className="text-xs font-bold text-primary">{w.hero.visualKicker}</span>
-                <span className="rounded-lg bg-[var(--mj-brand)] px-2 py-1 text-[10px] font-bold text-[var(--mj-ink)]">
+                <span className="text-xs font-bold text-[var(--mj-yellow)]">{w.hero.visualKicker}</span>
+                <span className="rounded-lg bg-[var(--mj-yellow)] px-2 py-1 text-[10px] font-bold text-[var(--mj-ink)]">
                   MEGA
                 </span>
               </div>
               <div className="space-y-3">
-                {w.hero.visualLines.map((line, i) => (
+                {w.hero.visualLines.map((line) => (
                   <div
                     key={line}
-                    className="rounded-xl border border-border bg-muted/40 px-4 py-3 text-sm font-medium"
-                    style={{ animationDelay: `${i * 80}ms` }}
+                    className="rounded-xl border border-border bg-muted/50 px-4 py-3 text-sm font-medium"
                   >
                     {line}
                   </div>
                 ))}
               </div>
-              <div className="mt-5 rounded-2xl bg-primary px-4 py-4 text-sm font-semibold text-primary-foreground">
+              <div className="mt-5 rounded-2xl bg-[var(--mj-yellow)] px-4 py-4 text-sm font-semibold text-[var(--mj-ink)]">
                 {w.hero.visualCta}
               </div>
             </div>

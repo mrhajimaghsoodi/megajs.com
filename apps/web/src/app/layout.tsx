@@ -85,7 +85,7 @@ export default function RootLayout({
     <html
       lang="fa"
       suppressHydrationWarning
-      className={`${vazirmatn.variable} ${jetbrains.variable}`}
+      className={`dark ${vazirmatn.variable} ${jetbrains.variable}`}
       style={fontVars}
     >
       <body className="min-h-dvh font-sans antialiased">

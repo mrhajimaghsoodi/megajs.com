@@ -67,7 +67,7 @@ export function SiteFooter({
         cta={w.newsletter.cta}
         success={w.newsletter.success}
       />
-      <footer className="mt-auto border-t border-border bg-[#1e1e1e] text-white">
+      <footer className="mt-auto border-t border-border bg-[var(--mj-black)] text-white">
         <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
           <div className="grid gap-10 lg:grid-cols-[1.15fr_2fr]">
             <div className="space-y-4">
@@ -87,13 +87,13 @@ export function SiteFooter({
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
               {columns.map((col) => (
                 <div key={col.title}>
-                  <div className="mb-3 text-xs font-bold text-[var(--mj-brand)]">{col.title}</div>
+                  <div className="mb-3 text-xs font-bold text-[var(--mj-yellow)]">{col.title}</div>
                   <ul className="space-y-2">
                     {col.links.map((link) => (
                       <li key={link.href}>
                         <Link
                           href={link.href}
-                          className="text-sm text-white/60 underline-offset-4 transition-colors hover:text-white hover:underline"
+                          className="text-sm text-white/60 underline-offset-4 transition-colors hover:text-[var(--mj-yellow)] hover:underline"
                         >
                           {link.label}
                         </Link>

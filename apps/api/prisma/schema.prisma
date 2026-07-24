@@ -24,7 +24,7 @@ model User {
   emailVerified Boolean        @default(false)
   avatarUrl     String?
   locale        String         @default("fa")
-  theme         String         @default("light")
+  theme         String         @default("dark")
   role          String         @default("user")
   /// active | suspended | banned
   status        String         @default("active")

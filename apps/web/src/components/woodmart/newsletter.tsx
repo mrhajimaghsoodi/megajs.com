@@ -20,14 +20,14 @@ export function NewsletterBand({
   const [done, setDone] = useState(false);
 
   return (
-    <section className="border-y border-border bg-primary text-primary-foreground">
+    <section className="border-y border-border bg-[var(--mj-black)] text-white">
       <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-6 px-4 py-12 sm:px-6 lg:flex-row lg:items-center lg:px-8">
         <div className="max-w-xl">
           <h2 className="font-display text-2xl font-bold sm:text-3xl">{title}</h2>
-          <p className="mt-2 text-sm leading-7 text-white/75">{body}</p>
+          <p className="mt-2 text-sm leading-7 text-white/70">{body}</p>
         </div>
         {done ? (
-          <p className="rounded-xl bg-[var(--mj-brand)] px-4 py-2 text-sm font-semibold text-[var(--mj-ink)]">
+          <p className="rounded-xl bg-[var(--mj-yellow)] px-4 py-2 text-sm font-semibold text-[var(--mj-ink)]">
             {success}
           </p>
         ) : (
@@ -46,7 +46,7 @@ export function NewsletterBand({
             />
             <Button
               type="submit"
-              className="h-12 shrink-0 rounded-xl bg-[var(--mj-brand)] px-5 font-semibold text-[var(--mj-ink)] hover:bg-[var(--mj-brand)]/90"
+              className="h-12 shrink-0 rounded-xl bg-[var(--mj-yellow)] px-5 font-semibold text-[var(--mj-ink)] hover:bg-[var(--mj-yellow)]/90"
             >
               {cta}
             </Button>

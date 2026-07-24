@@ -1,8 +1,7 @@
 /**
- * MEGA JS design tokens — Modarres / home-v4 inspired education marketplace
- * Surfaces: soft gray #F5F5F9 · white cards
- * Brand mark: MEGA yellow #ffd400
- * Interactive primary: violet #704FE6 (Modarres)
+ * MEGA JS design tokens — brand system
+ * Yellow: #ffd400 · Black: #1a1a1a
+ * Default experience: dark mode. Light mode inverts black → white.
  */
 
 @import "./motion.css";
@@ -14,37 +13,38 @@
   --mj-font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
   /* Syntax highlighting */
-  --mj-syn-keyword: #704FE6;
+  --mj-syn-keyword: #b45309;
   --mj-syn-string: #15803d;
   --mj-syn-function: #2563eb;
   --mj-syn-number: #d97706;
-  --mj-syn-comment: #94a3b8;
+  --mj-syn-comment: #6b7280;
   --mj-syn-operator: #0891b2;
   --mj-syn-property: #dc2626;
-  --mj-syn-punctuation: #64748b;
+  --mj-syn-punctuation: #4b5563;
 
-  /* Light education marketplace surfaces (Modarres) */
-  --mj-bg: #f5f5f9;
-  --mj-fg: #1e1e1e;
-  --mj-muted: #ececf3;
-  --mj-muted-fg: #6b7280;
-  --mj-border: #e4e4ec;
+  /* Light mode — black (#1a1a1a) surfaces become white */
+  --mj-black: #1a1a1a;
   --mj-yellow: #ffd400;
   --mj-brand: #ffd400;
-  --mj-accent: #704fe6;
-  --mj-accent-soft: #eee9fc;
-  --mj-accent-fg: #ffffff;
+  --mj-accent: #ffd400;
+  --mj-accent-soft: #fff6c2;
+  --mj-accent-fg: #1a1a1a;
+  --mj-bg: #ffffff;
+  --mj-fg: #1a1a1a;
+  --mj-muted: #f3f3f3;
+  --mj-muted-fg: #5c5c5c;
+  --mj-border: #e6e6e6;
   --mj-success: #16a34a;
   --mj-danger: #ef4444;
-  --mj-ring: #704fe6;
+  --mj-ring: #ffd400;
   --mj-card: #ffffff;
-  --mj-canvas: #111111;
-  --mj-canvas-fg: #f8fafc;
-  --mj-ink: #111111;
-  --mj-hero-wash: linear-gradient(135deg, #f5f5f9 0%, #eee9fc 42%, #fff8d6 100%);
-  --mj-shadow-sm: 0 4px 16px rgba(17, 17, 17, 0.04);
-  --mj-shadow-md: 0 12px 32px rgba(17, 17, 17, 0.08);
-  --mj-shadow-lg: 0 24px 48px rgba(112, 79, 230, 0.12);
+  --mj-canvas: #1a1a1a;
+  --mj-canvas-fg: #ffffff;
+  --mj-ink: #1a1a1a;
+  --mj-hero-wash: linear-gradient(135deg, #ffffff 0%, #fff8d6 48%, #f3f3f3 100%);
+  --mj-shadow-sm: 0 4px 16px rgba(26, 26, 26, 0.06);
+  --mj-shadow-md: 0 12px 32px rgba(26, 26, 26, 0.1);
+  --mj-shadow-lg: 0 24px 48px rgba(26, 26, 26, 0.14);
 
   --mj-radius-sm: 8px;
   --mj-radius-md: 12px;
@@ -59,43 +59,45 @@
   --mj-ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
   --mj-touch: 48px;
   --mj-grid:
-    linear-gradient(color-mix(in oklab, var(--mj-accent) 6%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in oklab, var(--mj-accent) 6%, transparent) 1px, transparent 1px);
+    linear-gradient(color-mix(in oklab, var(--mj-black) 6%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklab, var(--mj-black) 6%, transparent) 1px, transparent 1px);
   --mj-grid-size: 28px 28px;
 }
 
 .dark {
-  --mj-syn-keyword: #c4b5fd;
+  --mj-syn-keyword: #ffd400;
   --mj-syn-string: #86efac;
   --mj-syn-function: #93c5fd;
   --mj-syn-number: #fcd34d;
-  --mj-syn-comment: #64748b;
+  --mj-syn-comment: #737373;
   --mj-syn-operator: #67e8f9;
   --mj-syn-property: #fca5a5;
-  --mj-syn-punctuation: #94a3b8;
+  --mj-syn-punctuation: #a3a3a3;
 
-  --mj-bg: #0f0f14;
-  --mj-fg: #f5f5f9;
-  --mj-muted: #1a1a24;
-  --mj-muted-fg: #a1a1b5;
-  --mj-border: #2a2a3a;
+  /* Dark mode — brand black surfaces + yellow accent */
+  --mj-black: #1a1a1a;
   --mj-yellow: #ffd400;
   --mj-brand: #ffd400;
-  --mj-accent: #8b74f0;
-  --mj-accent-soft: #2a2248;
-  --mj-accent-fg: #ffffff;
+  --mj-accent: #ffd400;
+  --mj-accent-soft: #2a2610;
+  --mj-accent-fg: #1a1a1a;
+  --mj-bg: #1a1a1a;
+  --mj-fg: #f5f5f5;
+  --mj-muted: #242424;
+  --mj-muted-fg: #a3a3a3;
+  --mj-border: #333333;
   --mj-success: #22c55e;
   --mj-danger: #ef4444;
-  --mj-ring: #8b74f0;
-  --mj-card: #16161f;
-  --mj-canvas: #0a0a0e;
-  --mj-canvas-fg: #f5f5f9;
-  --mj-ink: #0a0a0e;
-  --mj-hero-wash: linear-gradient(135deg, #0f0f14 0%, #1a1430 50%, #1a1808 100%);
+  --mj-ring: #ffd400;
+  --mj-card: #222222;
+  --mj-canvas: #111111;
+  --mj-canvas-fg: #f5f5f5;
+  --mj-ink: #1a1a1a;
+  --mj-hero-wash: linear-gradient(135deg, #1a1a1a 0%, #242018 42%, #1a1a1a 100%);
   --mj-shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.35);
   --mj-shadow-md: 0 12px 32px rgba(0, 0, 0, 0.45);
-  --mj-shadow-lg: 0 24px 48px rgba(112, 79, 230, 0.25);
+  --mj-shadow-lg: 0 24px 48px rgba(255, 212, 0, 0.12);
   --mj-grid:
-    linear-gradient(color-mix(in oklab, var(--mj-accent) 14%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in oklab, var(--mj-accent) 14%, transparent) 1px, transparent 1px);
+    linear-gradient(color-mix(in oklab, var(--mj-accent) 12%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklab, var(--mj-accent) 12%, transparent) 1px, transparent 1px);
 }

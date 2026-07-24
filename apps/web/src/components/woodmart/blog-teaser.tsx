@@ -41,7 +41,7 @@ export function BlogTeaser({
           href={item.href}
           className="mj-lift group flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--mj-shadow-sm)]"
         >
-          <div className="aspect-[16/10] overflow-hidden bg-gradient-to-br from-primary via-[#8b74f0] to-[var(--mj-brand)]">
+          <div className="aspect-[16/10] overflow-hidden bg-gradient-to-br from-[var(--mj-black)] via-[#2a2a2a] to-[var(--mj-yellow)]">
             {item.coverUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -54,18 +54,18 @@ export function BlogTeaser({
                 className="h-full w-full opacity-35"
                 style={{
                   backgroundImage:
-                    'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.35), transparent 50%)',
+                    'radial-gradient(circle at 30% 30%, rgba(255,212,0,0.4), transparent 50%)',
                 }}
                 aria-hidden
               />
             )}
           </div>
           <div className="flex flex-1 flex-col gap-2 p-5">
-            <h3 className="font-display text-lg font-semibold leading-snug group-hover:text-primary">
+            <h3 className="font-display text-lg font-semibold leading-snug group-hover:text-[var(--mj-yellow)]">
               {item.title}
             </h3>
             <p className="line-clamp-2 flex-1 text-sm text-muted-foreground">{item.summary}</p>
-            <span className="pt-2 text-xs font-bold text-primary">{readMore}</span>
+            <span className="pt-2 text-xs font-bold text-[var(--mj-yellow)]">{readMore}</span>
           </div>
         </Link>
       ))}

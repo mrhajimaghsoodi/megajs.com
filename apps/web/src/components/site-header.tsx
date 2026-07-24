@@ -74,19 +74,19 @@ export function SiteHeader({
 
   return (
     <div className="sticky top-0 z-40">
-      <div className="hidden border-b border-border bg-[var(--mj-accent-soft)] text-foreground sm:block">
+      <div className="hidden border-b border-border bg-[var(--mj-black)] text-white sm:block dark:bg-black/40">
         <div className="mx-auto flex h-9 max-w-7xl items-center justify-between gap-4 px-4 text-[11px] sm:px-6 lg:px-8">
-          <p className="truncate text-muted-foreground">{w.topbar.promo}</p>
-          <div className="flex shrink-0 items-center gap-4 text-muted-foreground">
+          <p className="truncate text-white/70">{w.topbar.promo}</p>
+          <div className="flex shrink-0 items-center gap-4 text-white/55">
             <span>{w.topbar.support}</span>
-            <Link href={`${base}/contact`} className="font-medium text-primary hover:underline">
+            <Link href={`${base}/contact`} className="font-medium text-[var(--mj-yellow)] hover:underline">
               {dict.nav.contact}
             </Link>
           </div>
         </div>
       </div>
 
-      <header className="border-b border-border bg-card/90 shadow-[var(--mj-shadow-sm)] backdrop-blur-md">
+      <header className="border-b border-border bg-card/95 shadow-[var(--mj-shadow-sm)] backdrop-blur-md">
         <div className="mx-auto flex h-[4.5rem] max-w-7xl items-center gap-3 px-4 sm:px-6 lg:gap-6 lg:px-8">
           <Logo href={base} priority />
 
@@ -99,13 +99,13 @@ export function SiteHeader({
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder={w.searchPlaceholder}
-              className="h-11 rounded-2xl border-border bg-muted/50 pe-24 ps-10"
+              className="h-11 rounded-2xl border-border bg-muted/60 pe-24 ps-10"
               aria-label={dict.search}
             />
             <Button
               type="submit"
               size="sm"
-              className="absolute end-1.5 top-1/2 h-8 -translate-y-1/2 rounded-xl px-4"
+              className="absolute end-1.5 top-1/2 h-8 -translate-y-1/2 rounded-xl px-4 font-bold"
             >
               {dict.search}
             </Button>
@@ -136,7 +136,7 @@ export function SiteHeader({
             <Button
               asChild
               size="sm"
-              className="hidden rounded-xl px-3 sm:inline-flex"
+              className="hidden rounded-xl px-3 font-bold sm:inline-flex"
               title={authed ? dict.nav.profile : dict.nav.login}
             >
               <Link href={authed ? `${base}/profile` : `${base}/login`}>
@@ -180,7 +180,7 @@ export function SiteHeader({
           </div>
         </div>
 
-        <div className="hidden border-t border-border bg-card lg:block">
+        <div className="hidden border-t border-border bg-[var(--mj-black)] text-white lg:block">
           <div className="mx-auto flex h-12 max-w-7xl items-center gap-1 px-4 sm:px-6 lg:px-8">
             <div className="me-3 inline-flex h-9 items-center gap-2 rounded-xl bg-primary px-4 text-xs font-bold text-primary-foreground">
               <MenuIcon className="size-3.5" />
@@ -196,8 +196,8 @@ export function SiteHeader({
                     className={cn(
                       'rounded-lg px-3 py-2 text-sm font-semibold transition-colors',
                       active
-                        ? 'bg-[var(--mj-accent-soft)] text-primary'
-                        : 'text-muted-foreground hover:bg-muted hover:text-foreground',
+                        ? 'bg-white/10 text-[var(--mj-yellow)]'
+                        : 'text-white/70 hover:bg-white/5 hover:text-[var(--mj-yellow)]',
                     )}
                   >
                     {link.label}

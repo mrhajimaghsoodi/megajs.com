@@ -109,7 +109,7 @@
   --border: var(--mj-border);
   --input: var(--mj-border);
   --ring: var(--mj-ring);
-  --sidebar: #16161f;
+  --sidebar: #1a1a1a;
   --sidebar-foreground: var(--mj-fg);
   --sidebar-primary: var(--mj-accent);
   --sidebar-primary-foreground: var(--mj-accent-fg);
@@ -170,8 +170,8 @@ input.font-mono {
 }
 
 ::selection {
-  background: color-mix(in oklab, var(--mj-accent) 35%, white);
-  color: var(--mj-fg);
+  background: color-mix(in oklab, var(--mj-accent) 70%, white);
+  color: var(--mj-ink);
 }
 
 /* Modarres-inspired storefront motion */

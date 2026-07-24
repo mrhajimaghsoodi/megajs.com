@@ -6,10 +6,10 @@ import { cn } from '@/lib/utils';
 const TILE_BG = [
   'bg-[var(--mj-accent-soft)] text-foreground',
   'bg-card text-foreground border border-border',
-  'bg-primary text-primary-foreground',
-  'bg-[color-mix(in_oklab,var(--mj-brand)_35%,white)] text-[var(--mj-ink)]',
-  'bg-[#ececf3] text-foreground',
-  'bg-[#1e1e1e] text-white',
+  'bg-[var(--mj-yellow)] text-[var(--mj-ink)]',
+  'bg-[var(--mj-black)] text-white',
+  'bg-muted text-foreground',
+  'bg-[#111111] text-white',
 ];
 
 export function CategoryGrid({
@@ -35,7 +35,7 @@ export function CategoryGrid({
           )}
         >
           <div
-            className="pointer-events-none absolute -end-6 -top-6 size-24 rounded-full bg-white/25 transition-transform duration-500 group-hover:scale-125"
+            className="pointer-events-none absolute -end-6 -top-6 size-24 rounded-full bg-white/15 transition-transform duration-500 group-hover:scale-125"
             aria-hidden
           />
           <div>

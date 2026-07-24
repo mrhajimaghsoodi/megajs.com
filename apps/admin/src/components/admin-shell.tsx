@@ -210,12 +210,12 @@ export function AdminShell({ children }: { children: ReactNode }) {
       lang={locale}
       className="min-h-dvh bg-[var(--mj-bg)] lg:grid lg:grid-cols-[280px_1fr]"
     >
-      <aside className="border-b border-[var(--mj-border)] bg-[#1a1430] text-white lg:border-b-0 lg:border-e lg:border-black/40">
+      <aside className="border-b border-[var(--mj-border)] bg-[var(--mj-black)] text-white lg:border-b-0 lg:border-e lg:border-black/40">
         <div className="flex h-16 items-center gap-3 border-b border-white/10 px-4">
           <Image src="/logo-mark.svg" alt="" width={32} height={32} />
           <div>
             <div className="font-display text-sm font-bold tracking-tight">{dict.brand}</div>
-            <div className="font-mono text-[10px] text-[var(--mj-brand)]">{me.role}</div>
+            <div className="font-mono text-[10px] text-[var(--mj-yellow)]">{me.role}</div>
           </div>
         </div>
         <nav className="max-h-[calc(100dvh-8rem)] space-y-3 overflow-y-auto p-3">
@@ -257,7 +257,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
           </div>
           <button
             type="button"
-            className="mt-3 cursor-pointer text-[var(--mj-brand)] underline-offset-4 hover:underline"
+            className="mt-3 cursor-pointer text-[var(--mj-yellow)] underline-offset-4 hover:underline"
             onClick={() => {
               localStorage.removeItem('mj_admin_token');
               setToken(null);
