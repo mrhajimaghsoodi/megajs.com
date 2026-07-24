@@ -2,7 +2,7 @@
 title: "ویدیوهای YouTube در HTML"
 description: "در این درس embed کردن player YouTube با iframe، اندازه responsive و گزینه privacy را با مثال‌های واقعی HTML تمرین می‌کنید."
 seoTitle: "آموزش ویدیوهای YouTube در HTML | مستندات MEGA JS"
-seoDescription: "آموزش ویدیوهای YouTube در HTML با مثال‌های قدم‌به‌قدم، جدول syntax، خطاهای رایج و تمرین عملی برای ساخت صفحه‌های استاندارد و قابل دسترس. مناسب تمرین عملی و."
+seoDescription: "آموزش ویدیوهای YouTube در HTML با مثال‌های قدم‌به‌قدم، جدول syntax، خطاهای رایج و تمرین عملی برای ساخت صفحه‌های استاندارد و قابل دسترس. مناسب تمرین عملی."
 keywords: "آموزش HTML, ویدیوهای YouTube در HTML, آموزش HTML YouTube, YouTube iframe embed, responsive video embed"
 order: 53
 sources:

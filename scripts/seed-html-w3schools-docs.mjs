@@ -1247,6 +1247,8 @@ function trimSeoDescription(value, max) {
   const trimmed = value
     .slice(0, max - 1)
     .replace(/\s+\S*$/u, '')
+    .replace(/\s+(and|or|with|for|to|of|in|a|the)$/iu, '')
+    .replace(/\s+(و|یا|با|برای|در|از|به|که)$/u, '')
     .replace(/[،؛,:-]+$/u, '')
     .trim();
   return `${trimmed}.`;

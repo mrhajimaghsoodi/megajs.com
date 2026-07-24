@@ -2,7 +2,7 @@
 title: "ویژگی‌های form در HTML"
 description: "در این درس کنترل رفتار submit با action، method، autocomplete و target را با مثال‌های واقعی HTML تمرین می‌کنید."
 seoTitle: "آموزش attributeهای form در HTML | مستندات MEGA JS"
-seoDescription: "آموزش attributeهای form در HTML با مثال‌های قدم‌به‌قدم، جدول syntax، خطاهای رایج و تمرین عملی برای ساخت صفحه‌های استاندارد و قابل دسترس. مناسب تمرین عملی و."
+seoDescription: "آموزش attributeهای form در HTML با مثال‌های قدم‌به‌قدم، جدول syntax، خطاهای رایج و تمرین عملی برای ساخت صفحه‌های استاندارد و قابل دسترس. مناسب تمرین عملی."
 keywords: "آموزش HTML, attributeهای form در HTML, آموزش HTML form attributes, form action method, autocomplete form"
 order: 41
 sources:

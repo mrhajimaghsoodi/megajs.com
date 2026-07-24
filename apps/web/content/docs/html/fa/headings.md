@@ -2,7 +2,7 @@
 title: "تیترهای HTML"
 description: "در این درس اینکه h1 تا h6 چگونه outline قابل اسکن برای سند می‌سازند را با مثال‌های واقعی HTML تمرین می‌کنید."
 seoTitle: "آموزش Heading در HTML (h1 تا h6) | مستندات MEGA JS"
-seoDescription: "آموزش Heading در HTML (h1 تا h6) با مثال‌های قدم‌به‌قدم، جدول syntax، خطاهای رایج و تمرین عملی برای ساخت صفحه‌های استاندارد و قابل دسترس. مناسب تمرین عملی و."
+seoDescription: "آموزش Heading در HTML (h1 تا h6) با مثال‌های قدم‌به‌قدم، جدول syntax، خطاهای رایج و تمرین عملی برای ساخت صفحه‌های استاندارد و قابل دسترس. مناسب تمرین عملی."
 keywords: "آموزش HTML, Heading در HTML (h1 تا h6), آموزش HTML headings, h1 h2 h3, SEO heading structure"
 order: 7
 sources:

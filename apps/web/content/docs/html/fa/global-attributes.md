@@ -2,7 +2,7 @@
 title: "attributeهای سراسری HTML"
 description: "در این درس کاربرد تقریباً همه‌جایی id، class، style، title، hidden، lang و data-* را با مثال‌های واقعی HTML تمرین می‌کنید."
 seoTitle: "آموزش attributeهای سراسری HTML | مستندات MEGA JS"
-seoDescription: "آموزش attributeهای سراسری HTML با مثال‌های قدم‌به‌قدم، جدول syntax، خطاهای رایج و تمرین عملی برای ساخت صفحه‌های استاندارد و قابل دسترس. مناسب تمرین عملی و."
+seoDescription: "آموزش attributeهای سراسری HTML با مثال‌های قدم‌به‌قدم، جدول syntax، خطاهای رایج و تمرین عملی برای ساخت صفحه‌های استاندارد و قابل دسترس. مناسب تمرین عملی."
 keywords: "آموزش HTML, attributeهای سراسری HTML, آموزش HTML global attributes, data attribute, id class title hidden"
 order: 64
 sources:

@@ -2,7 +2,7 @@
 title: "عنصرهای کدنویسی در HTML"
 description: "در این درس نشانه‌گذاری معنایی code، keyboard input، variable و خروجی نمونه را با مثال‌های واقعی HTML تمرین می‌کنید."
 seoTitle: "آموزش elementهای نمایش کد در HTML | مستندات MEGA JS"
-seoDescription: "آموزش elementهای نمایش کد در HTML با مثال‌های قدم‌به‌قدم، جدول syntax، خطاهای رایج و تمرین عملی برای ساخت صفحه‌های استاندارد و قابل دسترس. مناسب تمرین عملی و."
+seoDescription: "آموزش elementهای نمایش کد در HTML با مثال‌های قدم‌به‌قدم، جدول syntax، خطاهای رایج و تمرین عملی برای ساخت صفحه‌های استاندارد و قابل دسترس. مناسب تمرین عملی."
 keywords: "آموزش HTML, elementهای نمایش کد در HTML, آموزش HTML code elements, code pre kbd samp, technical writing HTML"
 order: 30
 sources:

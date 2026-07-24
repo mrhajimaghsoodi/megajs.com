@@ -2,7 +2,7 @@
 title: "ویژگی‌های input در HTML"
 description: "در این درس بهبود control با required، placeholder، autocomplete، min، max و pattern را با مثال‌های واقعی HTML تمرین می‌کنید."
 seoTitle: "آموزش attributeهای input در HTML | مستندات MEGA JS"
-seoDescription: "آموزش attributeهای input در HTML با مثال‌های قدم‌به‌قدم، جدول syntax، خطاهای رایج و تمرین عملی برای ساخت صفحه‌های استاندارد و قابل دسترس. مناسب تمرین عملی و."
+seoDescription: "آموزش attributeهای input در HTML با مثال‌های قدم‌به‌قدم، جدول syntax، خطاهای رایج و تمرین عملی برای ساخت صفحه‌های استاندارد و قابل دسترس. مناسب تمرین عملی."
 keywords: "آموزش HTML, attributeهای input در HTML, آموزش HTML input attributes, required placeholder pattern, input validation"
 order: 44
 sources:

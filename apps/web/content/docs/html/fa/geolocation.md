@@ -2,7 +2,7 @@
 title: "API موقعیت جغرافیایی در HTML"
 description: "در این درس درخواست location فقط بعد از permission کاربر را با مثال‌های واقعی HTML تمرین می‌کنید."
 seoTitle: "آموزش API موقعیت جغرافیایی در HTML | مستندات MEGA JS"
-seoDescription: "آموزش API موقعیت جغرافیایی در HTML با مثال‌های قدم‌به‌قدم، جدول syntax، خطاهای رایج و تمرین عملی برای ساخت صفحه‌های استاندارد و قابل دسترس. مناسب تمرین عملی و."
+seoDescription: "آموزش API موقعیت جغرافیایی در HTML با مثال‌های قدم‌به‌قدم، جدول syntax، خطاهای رایج و تمرین عملی برای ساخت صفحه‌های استاندارد و قابل دسترس. مناسب تمرین عملی."
 keywords: "آموزش HTML, API موقعیت جغرافیایی در HTML, آموزش HTML geolocation, navigator geolocation, getCurrentPosition"
 order: 56
 sources:

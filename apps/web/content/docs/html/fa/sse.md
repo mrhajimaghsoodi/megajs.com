@@ -2,7 +2,7 @@
 title: "رویدادهای Server-Sent در HTML"
 description: "در این درس دریافت update زنده یک‌طرفه از server با EventSource را با مثال‌های واقعی HTML تمرین می‌کنید."
 seoTitle: "آموزش Server-Sent Events در HTML | مستندات MEGA JS"
-seoDescription: "آموزش Server-Sent Events در HTML با مثال‌های قدم‌به‌قدم، جدول syntax، خطاهای رایج و تمرین عملی برای ساخت صفحه‌های استاندارد و قابل دسترس. مناسب تمرین عملی و."
+seoDescription: "آموزش Server-Sent Events در HTML با مثال‌های قدم‌به‌قدم، جدول syntax، خطاهای رایج و تمرین عملی برای ساخت صفحه‌های استاندارد و قابل دسترس. مناسب تمرین عملی."
 keywords: "آموزش HTML, Server-Sent Events در HTML, آموزش HTML Server-Sent Events, EventSource SSE, live updates HTML"
 order: 60
 sources:
