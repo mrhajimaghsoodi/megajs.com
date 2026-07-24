@@ -24,6 +24,7 @@ import {
 import { AuthService } from '../auth/auth.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { RankMathService } from './rankmath.service';
+import { SitemapService, SITEMAP_TYPES, type SitemapType } from './sitemap.service';
 import { SmushService } from './smush.service';
 import { WordfenceService } from './wordfence.service';
 import { WpRocketService } from './wprocket.service';
@@ -38,6 +39,7 @@ export class PluginsAdminController {
     private readonly wordfence: WordfenceService,
     private readonly rocket: WpRocketService,
     private readonly smush: SmushService,
+    private readonly sitemap: SitemapService,
   ) {}
 
   private async requireStaff(authorization?: string) {
@@ -70,21 +72,7 @@ export class PluginsAdminController {
   @Get('rankmath/settings')
   async rankSettings(@Headers('authorization') authorization?: string) {
     await this.requireStaff(authorization);
-    const row = await this.prisma.siteSetting.findUnique({ where: { key: 'rankmath' } });
-    const defaults = {
-      enabled: true,
-      sitemap: true,
-      breadcrumbs: true,
-      og: true,
-      schema: true,
-      robotsNoIndexSearch: true,
-    };
-    if (!row) return defaults;
-    try {
-      return { ...defaults, ...JSON.parse(row.valueJson) };
-    } catch {
-      return defaults;
-    }
+    return this.sitemap.getRankSettings();
   }
 
   @Put('rankmath/settings')
@@ -94,7 +82,7 @@ export class PluginsAdminController {
   ) {
     const me = await this.requireStaff(authorization);
     this.requireSuper(me);
-    const current = await this.rankSettings(authorization);
+    const current = await this.sitemap.getRankSettings();
     const next = { ...current, ...(body ?? {}) };
     await this.prisma.siteSetting.upsert({
       where: { key: 'rankmath' },
@@ -107,21 +95,14 @@ export class PluginsAdminController {
   @Get('rankmath/sitemap-preview')
   async sitemapPreview(@Headers('authorization') authorization?: string) {
     await this.requireStaff(authorization);
-    const [articles, pages, courses] = await Promise.all([
-      this.prisma.article.findMany({
-        where: { status: 'published' },
-        select: { slug: true, updatedAt: true },
-      }),
-      this.prisma.page.findMany({
-        where: { status: 'published' },
-        select: { slug: true, updatedAt: true },
-      }),
-      this.prisma.course.findMany({
-        where: { status: 'published' },
-        select: { slug: true, updatedAt: true },
-      }),
-    ]);
-    return { articles, pages, courses };
+    const all = await this.sitemap.buildAll();
+    return {
+      index: all.index,
+      counts: Object.fromEntries(
+        Object.entries(all.byType).map(([k, v]) => [k, v.length]),
+      ),
+      settings: all.settings,
+    };
   }
 
   // ——— Wordfence ———
@@ -314,6 +295,7 @@ export class PublicContentController {
     private readonly rocket: WpRocketService,
     private readonly smush: SmushService,
     private readonly rankmath: RankMathService,
+    private readonly sitemapSvc: SitemapService,
   ) {}
 
   private async loadPostCategoryIndex() {
@@ -353,88 +335,75 @@ export class PublicContentController {
 
   @Get('sitemap')
   async sitemap() {
-    const [articleRows, pages, courses, redirects, catIndex, postCats, postTags, productCats, lives] =
-      await Promise.all([
-        this.prisma.article.findMany({
-          where: { status: 'published' },
-          select: {
-            slug: true,
-            updatedAt: true,
-            publishedAt: true,
-            taxonomies: { include: { term: true } },
-          },
-        }),
-        this.prisma.page.findMany({
-          where: { status: 'published' },
-          select: { slug: true, updatedAt: true, publishedAt: true },
-        }),
-        this.prisma.course.findMany({
-          where: { status: 'published' },
-          select: { slug: true, updatedAt: true },
-        }),
-        this.prisma.redirect.findMany(),
-        this.loadPostCategoryIndex(),
-        this.prisma.term.findMany({
-          where: { taxonomy: 'post_category' },
-          select: { id: true, slug: true, createdAt: true },
-        }),
-        this.prisma.term.findMany({
-          where: { taxonomy: 'post_tag' },
-          select: { id: true, slug: true, createdAt: true },
-        }),
-        this.prisma.term.findMany({
-          where: { taxonomy: 'product_category' },
-          select: { id: true, slug: true, createdAt: true },
-        }),
-        this.prisma.liveEvent.findMany({
-          where: { status: { in: ['scheduled', 'live', 'ended'] } },
-          select: { slug: true, updatedAt: true },
-        }),
-      ]);
-    const articles = articleRows.map((a) => ({
-      slug: a.slug,
-      updatedAt: a.updatedAt,
-      publishedAt: a.publishedAt,
-      permalink: this.articlePermalinkFromRow(
-        a.slug,
-        a.taxonomies as Array<{ term: PermalinkTerm }>,
-        catIndex,
-      ),
-    }));
-    const postCategories = postCats.map((t) => ({
-      slug: t.slug,
-      path: termPermalinkPath(t.id, catIndex) || `/${t.slug}`,
-      updatedAt: t.createdAt,
-    }));
-    const postTagsMapped = postTags.map((t) => ({
-      slug: t.slug,
-      path: `/articles/tag/${t.slug}`,
-      updatedAt: t.createdAt,
-    }));
-    const productCategories = productCats.map((t) => ({
-      slug: t.slug,
-      updatedAt: t.createdAt,
-    }));
-    const rank = await this.prisma.siteSetting.findUnique({ where: { key: 'rankmath' } });
-    let rankSettings = { sitemap: true };
-    if (rank) {
-      try {
-        rankSettings = { ...rankSettings, ...JSON.parse(rank.valueJson) };
-      } catch {
-        /* ignore */
-      }
-    }
+    const all = await this.sitemapSvc.buildAll();
     return {
-      articles,
-      pages,
-      courses,
-      redirects,
-      postCategories,
-      postTags: postTagsMapped,
-      productCategories,
-      lives,
-      rankSettings,
+      ...all,
+      // legacy flat keys for older clients
+      articles: all.byType.post.map((u) => ({
+        slug: u.path.split('/').pop(),
+        permalink: u.path,
+        updatedAt: u.lastmod,
+        image: u.image,
+      })),
+      pages: all.byType.page.map((u) => ({
+        slug: u.path.replace(/^\/p\//, ''),
+        updatedAt: u.lastmod,
+      })),
+      courses: all.byType.product.map((u) => ({
+        slug: u.path.replace(/^\/learn\/course\//, ''),
+        updatedAt: u.lastmod,
+        image: u.image,
+      })),
+      postCategories: all.byType.category.map((u) => ({
+        path: u.path,
+        slug: u.path.split('/').pop(),
+        updatedAt: u.lastmod,
+      })),
+      postTags: all.byType.post_tag.map((u) => ({
+        path: u.path,
+        slug: u.path.split('/').pop(),
+        updatedAt: u.lastmod,
+      })),
+      productCategories: all.byType.product_cat.map((u) => ({
+        slug: u.path.replace(/^\/learn\/category\//, ''),
+        updatedAt: u.lastmod,
+      })),
+      lives: all.byType.live.map((u) => ({
+        slug: u.path.replace(/^\/live\//, ''),
+        updatedAt: u.lastmod,
+      })),
+      podcasts: all.byType.podcast,
+      misc: all.byType.misc,
+      rankSettings: all.settings,
     };
+  }
+
+  @Get('sitemap/index')
+  async sitemapIndex() {
+    return this.sitemapSvc.buildIndex();
+  }
+
+  @Get('sitemap/:type')
+  async sitemapType(@Param('type') type: string) {
+    if (!SITEMAP_TYPES.includes(type as SitemapType)) {
+      throw new NotFoundException('Unknown sitemap type');
+    }
+    const settings = await this.sitemapSvc.getRankSettings();
+    const urls = await this.sitemapSvc.buildType(type as SitemapType, settings);
+    return {
+      type,
+      settings: {
+        sitemap: settings.sitemap,
+        sitemapHreflang: settings.sitemapHreflang,
+        sitemapIncludeImages: settings.sitemapIncludeImages,
+      },
+      urls,
+    };
+  }
+
+  @Get('cache-config')
+  async cacheConfig() {
+    return this.rocket.getPublicConfig();
   }
 
   @Get('articles')

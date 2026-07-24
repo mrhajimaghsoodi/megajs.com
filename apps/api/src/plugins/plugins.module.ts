@@ -6,13 +6,14 @@ import {
 } from './plugins.controller';
 import { RankMathService } from './rankmath.service';
 import { SecurityModule } from './security.module';
+import { SitemapService } from './sitemap.service';
 import { SmushService } from './smush.service';
 import { WpRocketService } from './wprocket.service';
 
 @Module({
   imports: [AuthModule, SecurityModule],
   controllers: [PluginsAdminController, PublicContentController],
-  providers: [RankMathService, WpRocketService, SmushService],
-  exports: [RankMathService, WpRocketService, SmushService, SecurityModule],
+  providers: [RankMathService, WpRocketService, SmushService, SitemapService],
+  exports: [RankMathService, WpRocketService, SmushService, SitemapService, SecurityModule],
 })
 export class PluginsModule {}
