@@ -95,6 +95,7 @@ export function parseFrontmatter(raw: string): { data: DocsPageFrontmatter; body
     else if (key === 'seoTitle') data.seoTitle = value;
     else if (key === 'seoDescription') data.seoDescription = value;
     else if (key === 'keywords') data.keywords = value;
+    else if (key === 'track') data.track = value as DocsPageFrontmatter['track'];
     else if (key === 'order') data.order = Number(value) || 0;
   }
   if (currentSource?.name && currentSource.url) {

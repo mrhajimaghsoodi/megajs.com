@@ -353,13 +353,16 @@ const fa = {
   docs: {
     title: 'داکیومنت و مستندات',
     subtitle:
-      'مرجع ترکیبی HTML، CSS، JavaScript، TypeScript، React، Next.js و بقیه اکوسیستم — با ساختار مشابه docs رسمی و MDN / W3Schools، به فارسی روان و انگلیسی.',
+      'سه لایه برای هر تکنولوژی: آموزش (مثل W3Schools + ادیتور زنده)، مرجع معتبر (مثل MDN)، و مستندات رسمی — فارسی روان و انگلیسی.',
     kicker: 'documentation',
     sourcesNote:
-      'هر تکنولوژی پوشهٔ جدا دارد (content/docs/…) تا بتوانید مستقل ویرایش کنید. اصطلاحات تخصصی در صورت نیاز انگلیسی مانده‌اند.',
+      'آموزشی = W3Schools-style · مرجع = MDN · رسمی = docs رسمی هر تکنولوژی. هر بخش پوشه و SEO جدا دارد.',
     articleKicker: 'docs',
     basedOn: 'بر پایهٔ ساختار و منابع:',
     empty: 'هنوز صفحه‌ای برای این تکنولوژی نیست.',
+    trackLearn: 'آموزشی',
+    trackReference: 'مرجع',
+    trackOfficial: 'رسمی',
   },
   podcasts: {
     title: 'پادکست',
@@ -871,13 +874,16 @@ const en: typeof fa = {
   docs: {
     title: 'Docs & documentation',
     subtitle:
-      'A combined reference for HTML, CSS, JavaScript, TypeScript, React, Next.js, and the wider ecosystem — structured like official docs plus MDN / W3Schools, in fluent Persian and English.',
+      'Three layers per technology: tutorials (W3Schools-style + live editor), authoritative reference (MDN-style), and official docs — in fluent Persian and English.',
     kicker: 'documentation',
     sourcesNote:
-      'Each technology has its own folder (content/docs/…) so you can edit them independently. Specialized terms stay in English when that is clearer.',
+      'Learn = W3Schools-style · Reference = MDN · Official = vendor docs. Each track has its own folder and SEO.',
     articleKicker: 'docs',
     basedOn: 'Based on structure & sources:',
     empty: 'No pages for this technology yet.',
+    trackLearn: 'Learn',
+    trackReference: 'Reference',
+    trackOfficial: 'Official',
   },
   podcasts: {
     title: 'Podcasts',
