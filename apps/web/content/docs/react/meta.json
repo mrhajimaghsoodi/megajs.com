@@ -1,0 +1,70 @@
+{
+  "id": "react",
+  "order": 60,
+  "title": {
+    "fa": "React",
+    "en": "React"
+  },
+  "description": {
+    "fa": "UI library — react.dev + MDN — ساختار مشابه docs مرجع؛ ترجمه فارسی روان.",
+    "en": "UI library — react.dev + MDN — structure aligned with official docs."
+  },
+  "sources": [
+    {
+      "name": "React Docs",
+      "url": "https://react.dev/learn"
+    },
+    {
+      "name": "MDN",
+      "url": "https://developer.mozilla.org/"
+    },
+    {
+      "name": "W3Schools",
+      "url": "https://www.w3schools.com/"
+    }
+  ],
+  "nav": [
+    {
+      "slug": "introduction",
+      "title": {
+        "fa": "مقدمه",
+        "en": "Introduction"
+      }
+    },
+    {
+      "slug": "components",
+      "title": {
+        "fa": "کامپوننت‌ها",
+        "en": "Components"
+      }
+    },
+    {
+      "slug": "props-state",
+      "title": {
+        "fa": "Props و State",
+        "en": "Props & state"
+      }
+    },
+    {
+      "slug": "hooks",
+      "title": {
+        "fa": "Hooks",
+        "en": "Hooks"
+      }
+    },
+    {
+      "slug": "effects",
+      "title": {
+        "fa": "Effects",
+        "en": "Effects"
+      }
+    },
+    {
+      "slug": "lists-keys",
+      "title": {
+        "fa": "لیست و Keys",
+        "en": "Lists & keys"
+      }
+    }
+  ]
+}

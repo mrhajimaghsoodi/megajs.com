@@ -1,0 +1,70 @@
+{
+  "id": "css",
+  "order": 20,
+  "title": {
+    "fa": "CSS",
+    "en": "CSS"
+  },
+  "description": {
+    "fa": "استایل، Layout و انیمیشن — MDN + W3Schools + CSS Specs.",
+    "en": "Styling, layout, and motion — MDN + W3Schools + CSS specs."
+  },
+  "sources": [
+    {
+      "name": "MDN CSS",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS"
+    },
+    {
+      "name": "W3Schools CSS",
+      "url": "https://www.w3schools.com/css/"
+    },
+    {
+      "name": "CSS Specifications",
+      "url": "https://www.w3.org/Style/CSS/"
+    }
+  ],
+  "nav": [
+    {
+      "slug": "introduction",
+      "title": {
+        "fa": "مقدمه",
+        "en": "Introduction"
+      }
+    },
+    {
+      "slug": "selectors",
+      "title": {
+        "fa": "سلکتورها",
+        "en": "Selectors"
+      }
+    },
+    {
+      "slug": "box-model",
+      "title": {
+        "fa": "Box Model",
+        "en": "Box model"
+      }
+    },
+    {
+      "slug": "flexbox",
+      "title": {
+        "fa": "Flexbox",
+        "en": "Flexbox"
+      }
+    },
+    {
+      "slug": "grid",
+      "title": {
+        "fa": "Grid",
+        "en": "Grid"
+      }
+    },
+    {
+      "slug": "responsive",
+      "title": {
+        "fa": "واکنش‌گرایی",
+        "en": "Responsive"
+      }
+    }
+  ]
+}

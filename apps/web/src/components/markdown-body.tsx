@@ -67,6 +67,19 @@ export function MarkdownBody({
               {children}
             </pre>
           ),
+          table: ({ children }) => (
+            <div className="mb-4 overflow-x-auto">
+              <table className="w-full border-collapse text-sm">{children}</table>
+            </div>
+          ),
+          th: ({ children }) => (
+            <th className="border border-border bg-muted/50 px-3 py-2 text-start font-semibold">
+              {children}
+            </th>
+          ),
+          td: ({ children }) => (
+            <td className="border border-border px-3 py-2 align-top">{children}</td>
+          ),
         }}
       >
         {content}

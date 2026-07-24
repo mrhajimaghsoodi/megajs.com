@@ -1,0 +1,70 @@
+{
+  "id": "vue",
+  "order": 80,
+  "title": {
+    "fa": "Vue.js",
+    "en": "Vue.js"
+  },
+  "description": {
+    "fa": "Progressive framework — vuejs.org — ساختار مشابه docs مرجع؛ ترجمه فارسی روان.",
+    "en": "Progressive framework — vuejs.org — structure aligned with official docs."
+  },
+  "sources": [
+    {
+      "name": "Vue.js Docs",
+      "url": "https://vuejs.org/guide/introduction.html"
+    },
+    {
+      "name": "MDN",
+      "url": "https://developer.mozilla.org/"
+    },
+    {
+      "name": "W3Schools",
+      "url": "https://www.w3schools.com/"
+    }
+  ],
+  "nav": [
+    {
+      "slug": "introduction",
+      "title": {
+        "fa": "مقدمه",
+        "en": "Introduction"
+      }
+    },
+    {
+      "slug": "template-syntax",
+      "title": {
+        "fa": "Syntax قالب",
+        "en": "Template syntax"
+      }
+    },
+    {
+      "slug": "reactivity",
+      "title": {
+        "fa": "Reactive",
+        "en": "Reactivity"
+      }
+    },
+    {
+      "slug": "components",
+      "title": {
+        "fa": "کامپوننت‌ها",
+        "en": "Components"
+      }
+    },
+    {
+      "slug": "composition-api",
+      "title": {
+        "fa": "Composition API",
+        "en": "Composition API"
+      }
+    },
+    {
+      "slug": "routing",
+      "title": {
+        "fa": "مسیریابی",
+        "en": "Routing"
+      }
+    }
+  ]
+}

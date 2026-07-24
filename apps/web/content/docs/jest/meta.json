@@ -1,0 +1,56 @@
+{
+  "id": "jest",
+  "order": 230,
+  "title": {
+    "fa": "Jest",
+    "en": "Jest"
+  },
+  "description": {
+    "fa": "Testing — jestjs.io — ساختار مشابه docs مرجع؛ ترجمه فارسی روان.",
+    "en": "Testing — jestjs.io — structure aligned with official docs."
+  },
+  "sources": [
+    {
+      "name": "Jest Docs",
+      "url": "https://jestjs.io/docs/getting-started"
+    },
+    {
+      "name": "MDN",
+      "url": "https://developer.mozilla.org/"
+    },
+    {
+      "name": "W3Schools",
+      "url": "https://www.w3schools.com/"
+    }
+  ],
+  "nav": [
+    {
+      "slug": "introduction",
+      "title": {
+        "fa": "مقدمه",
+        "en": "Introduction"
+      }
+    },
+    {
+      "slug": "matchers",
+      "title": {
+        "fa": "Matcherها",
+        "en": "Matchers"
+      }
+    },
+    {
+      "slug": "async",
+      "title": {
+        "fa": "Async / Promise",
+        "en": "Async / Promises"
+      }
+    },
+    {
+      "slug": "mocking",
+      "title": {
+        "fa": "Mocking",
+        "en": "Mocking"
+      }
+    }
+  ]
+}

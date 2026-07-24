@@ -1,0 +1,70 @@
+{
+  "id": "html",
+  "order": 10,
+  "title": {
+    "fa": "HTML",
+    "en": "HTML"
+  },
+  "description": {
+    "fa": "ساختار صفحات وب — ترکیبی از MDN، W3Schools و WHATWG HTML Living Standard.",
+    "en": "Document structure for the web — synthesized from MDN, W3Schools, and WHATWG."
+  },
+  "sources": [
+    {
+      "name": "MDN HTML",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTML"
+    },
+    {
+      "name": "W3Schools HTML",
+      "url": "https://www.w3schools.com/html/"
+    },
+    {
+      "name": "WHATWG HTML",
+      "url": "https://html.spec.whatwg.org/"
+    }
+  ],
+  "nav": [
+    {
+      "slug": "introduction",
+      "title": {
+        "fa": "مقدمه",
+        "en": "Introduction"
+      }
+    },
+    {
+      "slug": "elements",
+      "title": {
+        "fa": "عناصر و تگ‌ها",
+        "en": "Elements & tags"
+      }
+    },
+    {
+      "slug": "forms",
+      "title": {
+        "fa": "فرم‌ها",
+        "en": "Forms"
+      }
+    },
+    {
+      "slug": "semantics",
+      "title": {
+        "fa": "معناشناسی (Semantic)",
+        "en": "Semantics"
+      }
+    },
+    {
+      "slug": "media",
+      "title": {
+        "fa": "رسانه و تصویر",
+        "en": "Media & images"
+      }
+    },
+    {
+      "slug": "accessibility",
+      "title": {
+        "fa": "دسترس‌پذیری",
+        "en": "Accessibility"
+      }
+    }
+  ]
+}

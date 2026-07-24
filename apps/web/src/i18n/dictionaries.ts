@@ -26,6 +26,7 @@ const fa = {
     live: 'لایو',
     articles: 'مقالات',
     tunnel: 'تونل یادگیری',
+    docs: 'مستندات',
     podcasts: 'پادکست',
     pricing: 'قیمت‌ها',
     tokens: 'توکن‌ها',
@@ -349,6 +350,17 @@ const fa = {
     navParts: 'ناوبری قسمت‌ها',
     backToRoadmap: 'بازگشت به رودمپ',
   },
+  docs: {
+    title: 'داکیومنت و مستندات',
+    subtitle:
+      'مرجع ترکیبی HTML، CSS، JavaScript، TypeScript، React، Next.js و بقیه اکوسیستم — با ساختار مشابه docs رسمی و MDN / W3Schools، به فارسی روان و انگلیسی.',
+    kicker: 'documentation',
+    sourcesNote:
+      'هر تکنولوژی پوشهٔ جدا دارد (content/docs/…) تا بتوانید مستقل ویرایش کنید. اصطلاحات تخصصی در صورت نیاز انگلیسی مانده‌اند.',
+    articleKicker: 'docs',
+    basedOn: 'بر پایهٔ ساختار و منابع:',
+    empty: 'هنوز صفحه‌ای برای این تکنولوژی نیست.',
+  },
   podcasts: {
     title: 'پادکست',
     subtitle: 'شنیدن در مسیر — اپیزودهایی که به درس‌ها و لایوها لینک می‌شوند.',
@@ -531,6 +543,7 @@ const en: typeof fa = {
     live: 'Live',
     articles: 'Articles',
     tunnel: 'Learning Tunnel',
+    docs: 'Docs',
     podcasts: 'Podcasts',
     pricing: 'Pricing',
     tokens: 'Tokens',
@@ -854,6 +867,17 @@ const en: typeof fa = {
     next: 'Next part',
     navParts: 'Part navigation',
     backToRoadmap: 'Back to roadmap',
+  },
+  docs: {
+    title: 'Docs & documentation',
+    subtitle:
+      'A combined reference for HTML, CSS, JavaScript, TypeScript, React, Next.js, and the wider ecosystem — structured like official docs plus MDN / W3Schools, in fluent Persian and English.',
+    kicker: 'documentation',
+    sourcesNote:
+      'Each technology has its own folder (content/docs/…) so you can edit them independently. Specialized terms stay in English when that is clearer.',
+    articleKicker: 'docs',
+    basedOn: 'Based on structure & sources:',
+    empty: 'No pages for this technology yet.',
   },
   podcasts: {
     title: 'Podcasts',

@@ -1,0 +1,70 @@
+{
+  "id": "typescript",
+  "order": 40,
+  "title": {
+    "fa": "TypeScript",
+    "en": "TypeScript"
+  },
+  "description": {
+    "fa": "Typed JavaScript — TypeScript Handbook + MDN — ساختار مشابه docs مرجع؛ ترجمه فارسی روان.",
+    "en": "Typed JavaScript — TypeScript Handbook + MDN — structure aligned with official docs."
+  },
+  "sources": [
+    {
+      "name": "TypeScript Docs",
+      "url": "https://www.typescriptlang.org/docs/"
+    },
+    {
+      "name": "MDN",
+      "url": "https://developer.mozilla.org/"
+    },
+    {
+      "name": "W3Schools",
+      "url": "https://www.w3schools.com/"
+    }
+  ],
+  "nav": [
+    {
+      "slug": "introduction",
+      "title": {
+        "fa": "مقدمه",
+        "en": "Introduction"
+      }
+    },
+    {
+      "slug": "types",
+      "title": {
+        "fa": "انواع داده",
+        "en": "Types"
+      }
+    },
+    {
+      "slug": "interfaces",
+      "title": {
+        "fa": "Interfaceها",
+        "en": "Interfaces"
+      }
+    },
+    {
+      "slug": "generics",
+      "title": {
+        "fa": "Generics",
+        "en": "Generics"
+      }
+    },
+    {
+      "slug": "narrowing",
+      "title": {
+        "fa": "Type Narrowing",
+        "en": "Narrowing"
+      }
+    },
+    {
+      "slug": "modules",
+      "title": {
+        "fa": "ماژول‌ها",
+        "en": "Modules"
+      }
+    }
+  ]
+}

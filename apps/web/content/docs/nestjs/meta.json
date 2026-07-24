@@ -1,0 +1,70 @@
+{
+  "id": "nestjs",
+  "order": 110,
+  "title": {
+    "fa": "NestJS",
+    "en": "NestJS"
+  },
+  "description": {
+    "fa": "Node framework — docs.nestjs.com — ساختار مشابه docs مرجع؛ ترجمه فارسی روان.",
+    "en": "Node framework — docs.nestjs.com — structure aligned with official docs."
+  },
+  "sources": [
+    {
+      "name": "NestJS Docs",
+      "url": "https://docs.nestjs.com"
+    },
+    {
+      "name": "MDN",
+      "url": "https://developer.mozilla.org/"
+    },
+    {
+      "name": "W3Schools",
+      "url": "https://www.w3schools.com/"
+    }
+  ],
+  "nav": [
+    {
+      "slug": "introduction",
+      "title": {
+        "fa": "مقدمه",
+        "en": "Introduction"
+      }
+    },
+    {
+      "slug": "modules",
+      "title": {
+        "fa": "ماژول‌ها",
+        "en": "Modules"
+      }
+    },
+    {
+      "slug": "controllers",
+      "title": {
+        "fa": "Controllerها",
+        "en": "Controllers"
+      }
+    },
+    {
+      "slug": "providers",
+      "title": {
+        "fa": "Providerها",
+        "en": "Providers"
+      }
+    },
+    {
+      "slug": "pipes-guards",
+      "title": {
+        "fa": "Pipes و Guards",
+        "en": "Pipes & guards"
+      }
+    },
+    {
+      "slug": "prisma",
+      "title": {
+        "fa": "Prisma",
+        "en": "Prisma"
+      }
+    }
+  ]
+}

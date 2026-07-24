@@ -1,0 +1,70 @@
+{
+  "id": "javascript",
+  "order": 30,
+  "title": {
+    "fa": "JavaScript",
+    "en": "JavaScript"
+  },
+  "description": {
+    "fa": "JS language core — MDN + ECMA-262 + W3Schools — ساختار مشابه docs مرجع؛ ترجمه فارسی روان.",
+    "en": "JS language core — MDN + ECMA-262 + W3Schools — structure aligned with official docs."
+  },
+  "sources": [
+    {
+      "name": "JavaScript Docs",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+    },
+    {
+      "name": "MDN",
+      "url": "https://developer.mozilla.org/"
+    },
+    {
+      "name": "W3Schools",
+      "url": "https://www.w3schools.com/"
+    }
+  ],
+  "nav": [
+    {
+      "slug": "introduction",
+      "title": {
+        "fa": "مقدمه",
+        "en": "Introduction"
+      }
+    },
+    {
+      "slug": "types",
+      "title": {
+        "fa": "انواع داده",
+        "en": "Types"
+      }
+    },
+    {
+      "slug": "functions",
+      "title": {
+        "fa": "توابع",
+        "en": "Functions"
+      }
+    },
+    {
+      "slug": "objects",
+      "title": {
+        "fa": "اشیاء",
+        "en": "Objects"
+      }
+    },
+    {
+      "slug": "async",
+      "title": {
+        "fa": "Async / Promise",
+        "en": "Async / Promises"
+      }
+    },
+    {
+      "slug": "dom",
+      "title": {
+        "fa": "DOM",
+        "en": "DOM"
+      }
+    }
+  ]
+}

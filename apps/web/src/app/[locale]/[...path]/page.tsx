@@ -18,6 +18,7 @@ const RESERVED = new Set([
   'articles',
   'contact',
   'curriculum',
+  'docs',
   'learn',
   'live',
   'login',

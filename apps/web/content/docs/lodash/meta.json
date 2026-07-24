@@ -1,0 +1,56 @@
+{
+  "id": "lodash",
+  "order": 210,
+  "title": {
+    "fa": "Lodash",
+    "en": "Lodash"
+  },
+  "description": {
+    "fa": "Utility library — lodash.com/docs — ساختار مشابه docs مرجع؛ ترجمه فارسی روان.",
+    "en": "Utility library — lodash.com/docs — structure aligned with official docs."
+  },
+  "sources": [
+    {
+      "name": "Lodash Docs",
+      "url": "https://lodash.com/docs"
+    },
+    {
+      "name": "MDN",
+      "url": "https://developer.mozilla.org/"
+    },
+    {
+      "name": "W3Schools",
+      "url": "https://www.w3schools.com/"
+    }
+  ],
+  "nav": [
+    {
+      "slug": "introduction",
+      "title": {
+        "fa": "مقدمه",
+        "en": "Introduction"
+      }
+    },
+    {
+      "slug": "collections",
+      "title": {
+        "fa": "Collectionها",
+        "en": "Collections"
+      }
+    },
+    {
+      "slug": "objects",
+      "title": {
+        "fa": "اشیاء",
+        "en": "Objects"
+      }
+    },
+    {
+      "slug": "fp",
+      "title": {
+        "fa": "FP",
+        "en": "FP helpers"
+      }
+    }
+  ]
+}

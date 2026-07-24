@@ -48,6 +48,7 @@ export function SiteHeader({
     { href: `${base}/live`, label: dict.nav.live },
     { href: `${base}/articles`, label: dict.nav.articles },
     { href: `${base}/tunnel`, label: dict.nav.tunnel },
+    { href: `${base}/docs`, label: dict.nav.docs },
     { href: `${base}/pricing`, label: dict.nav.pricing },
   ];
   const more = [

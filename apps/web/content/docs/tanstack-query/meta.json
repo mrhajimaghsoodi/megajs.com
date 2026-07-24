@@ -1,0 +1,56 @@
+{
+  "id": "tanstack-query",
+  "order": 260,
+  "title": {
+    "fa": "TanStack Query",
+    "en": "TanStack Query"
+  },
+  "description": {
+    "fa": "Async state — tanstack.com/query — ساختار مشابه docs مرجع؛ ترجمه فارسی روان.",
+    "en": "Async state — tanstack.com/query — structure aligned with official docs."
+  },
+  "sources": [
+    {
+      "name": "TanStack Query Docs",
+      "url": "https://tanstack.com/query/latest/docs/framework/react/overview"
+    },
+    {
+      "name": "MDN",
+      "url": "https://developer.mozilla.org/"
+    },
+    {
+      "name": "W3Schools",
+      "url": "https://www.w3schools.com/"
+    }
+  ],
+  "nav": [
+    {
+      "slug": "introduction",
+      "title": {
+        "fa": "مقدمه",
+        "en": "Introduction"
+      }
+    },
+    {
+      "slug": "queries",
+      "title": {
+        "fa": "Queryها",
+        "en": "Queries"
+      }
+    },
+    {
+      "slug": "mutations",
+      "title": {
+        "fa": "Mutationها",
+        "en": "Mutations"
+      }
+    },
+    {
+      "slug": "caching",
+      "title": {
+        "fa": "Caching",
+        "en": "Caching"
+      }
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "id": "electron",
+  "order": 120,
+  "title": {
+    "fa": "Electron",
+    "en": "Electron"
+  },
+  "description": {
+    "fa": "Desktop apps — electronjs.org/docs — ساختار مشابه docs مرجع؛ ترجمه فارسی روان.",
+    "en": "Desktop apps — electronjs.org/docs — structure aligned with official docs."
+  },
+  "sources": [
+    {
+      "name": "Electron Docs",
+      "url": "https://www.electronjs.org/docs/latest"
+    },
+    {
+      "name": "MDN",
+      "url": "https://developer.mozilla.org/"
+    },
+    {
+      "name": "W3Schools",
+      "url": "https://www.w3schools.com/"
+    }
+  ],
+  "nav": [
+    {
+      "slug": "introduction",
+      "title": {
+        "fa": "مقدمه",
+        "en": "Introduction"
+      }
+    },
+    {
+      "slug": "main-renderer",
+      "title": {
+        "fa": "Main و Renderer",
+        "en": "Main & renderer"
+      }
+    },
+    {
+      "slug": "ipc",
+      "title": {
+        "fa": "IPC",
+        "en": "IPC"
+      }
+    },
+    {
+      "slug": "packaging",
+      "title": {
+        "fa": "Packaging",
+        "en": "Packaging"
+      }
+    },
+    {
+      "slug": "security",
+      "title": {
+        "fa": "امنیت",
+        "en": "Security"
+      }
+    },
+    {
+      "slug": "native",
+      "title": {
+        "fa": "Native",
+        "en": "Native"
+      }
+    }
+  ]
+}

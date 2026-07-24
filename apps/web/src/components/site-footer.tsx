@@ -30,6 +30,7 @@ export function SiteFooter({
       links: [
         { href: `${base}/articles`, label: dict.nav.articles },
         { href: `${base}/tunnel`, label: dict.nav.tunnel },
+        { href: `${base}/docs`, label: dict.nav.docs },
         { href: `${base}/podcasts`, label: dict.nav.podcasts },
         { href: `${base}/tokens`, label: dict.nav.tokens },
       ],

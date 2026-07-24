@@ -1,0 +1,56 @@
+{
+  "id": "express",
+  "order": 220,
+  "title": {
+    "fa": "Express",
+    "en": "Express"
+  },
+  "description": {
+    "fa": "Node web framework — expressjs.com — ساختار مشابه docs مرجع؛ ترجمه فارسی روان.",
+    "en": "Node web framework — expressjs.com — structure aligned with official docs."
+  },
+  "sources": [
+    {
+      "name": "Express Docs",
+      "url": "https://expressjs.com/"
+    },
+    {
+      "name": "MDN",
+      "url": "https://developer.mozilla.org/"
+    },
+    {
+      "name": "W3Schools",
+      "url": "https://www.w3schools.com/"
+    }
+  ],
+  "nav": [
+    {
+      "slug": "introduction",
+      "title": {
+        "fa": "مقدمه",
+        "en": "Introduction"
+      }
+    },
+    {
+      "slug": "routing",
+      "title": {
+        "fa": "مسیریابی",
+        "en": "Routing"
+      }
+    },
+    {
+      "slug": "middleware",
+      "title": {
+        "fa": "Middleware",
+        "en": "Middleware"
+      }
+    },
+    {
+      "slug": "error-handling",
+      "title": {
+        "fa": "مدیریت خطا",
+        "en": "Error handling"
+      }
+    }
+  ]
+}

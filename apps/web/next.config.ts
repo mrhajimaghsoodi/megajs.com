@@ -28,6 +28,9 @@ const nextConfig: NextConfig = {
   compress: true,
   poweredByHeader: false,
   transpilePackages: ['@megajs/design-tokens', '@megajs/domain', '@megajs/sdk'],
+  outputFileTracingIncludes: {
+    '/**': ['./content/docs/**/*'],
+  },
   images: {
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 60 * 60 * 24 * 7,

@@ -1,0 +1,56 @@
+{
+  "id": "redux",
+  "order": 240,
+  "title": {
+    "fa": "Redux",
+    "en": "Redux"
+  },
+  "description": {
+    "fa": "State container — redux.js.org — ساختار مشابه docs مرجع؛ ترجمه فارسی روان.",
+    "en": "State container — redux.js.org — structure aligned with official docs."
+  },
+  "sources": [
+    {
+      "name": "Redux Docs",
+      "url": "https://redux.js.org/introduction/getting-started"
+    },
+    {
+      "name": "MDN",
+      "url": "https://developer.mozilla.org/"
+    },
+    {
+      "name": "W3Schools",
+      "url": "https://www.w3schools.com/"
+    }
+  ],
+  "nav": [
+    {
+      "slug": "introduction",
+      "title": {
+        "fa": "مقدمه",
+        "en": "Introduction"
+      }
+    },
+    {
+      "slug": "store",
+      "title": {
+        "fa": "Store",
+        "en": "Store"
+      }
+    },
+    {
+      "slug": "toolkit",
+      "title": {
+        "fa": "Redux Toolkit",
+        "en": "Redux Toolkit"
+      }
+    },
+    {
+      "slug": "async",
+      "title": {
+        "fa": "Async / Promise",
+        "en": "Async / Promises"
+      }
+    }
+  ]
+}

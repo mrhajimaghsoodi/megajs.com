@@ -1,0 +1,70 @@
+{
+  "id": "nextjs",
+  "order": 70,
+  "title": {
+    "fa": "Next.js",
+    "en": "Next.js"
+  },
+  "description": {
+    "fa": "React framework — nextjs.org/docs — ساختار مشابه docs مرجع؛ ترجمه فارسی روان.",
+    "en": "React framework — nextjs.org/docs — structure aligned with official docs."
+  },
+  "sources": [
+    {
+      "name": "Next.js Docs",
+      "url": "https://nextjs.org/docs"
+    },
+    {
+      "name": "MDN",
+      "url": "https://developer.mozilla.org/"
+    },
+    {
+      "name": "W3Schools",
+      "url": "https://www.w3schools.com/"
+    }
+  ],
+  "nav": [
+    {
+      "slug": "introduction",
+      "title": {
+        "fa": "مقدمه",
+        "en": "Introduction"
+      }
+    },
+    {
+      "slug": "app-router",
+      "title": {
+        "fa": "App Router",
+        "en": "App Router"
+      }
+    },
+    {
+      "slug": "routing",
+      "title": {
+        "fa": "مسیریابی",
+        "en": "Routing"
+      }
+    },
+    {
+      "slug": "data-fetching",
+      "title": {
+        "fa": "واکشی داده",
+        "en": "Data fetching"
+      }
+    },
+    {
+      "slug": "server-components",
+      "title": {
+        "fa": "Server Components",
+        "en": "Server Components"
+      }
+    },
+    {
+      "slug": "deployment",
+      "title": {
+        "fa": "استقرار",
+        "en": "Deployment"
+      }
+    }
+  ]
+}
