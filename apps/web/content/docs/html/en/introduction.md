@@ -1,40 +1,59 @@
 ---
 title: "Introduction to HTML"
-description: "What HTML is and how documents are structured."
+description: "A focused lesson on what HTML is, why it matters, and how this tutorial path is organized."
+seoTitle: "Introduction in HTML — Step-by-Step Tutorial | MEGA JS Docs"
+seoDescription: "Learn HTML Introduction with a W3Schools-style step-by-step guide to syntax, examples, best practices, and next steps for real web pages. Practice it today."
+keywords: "learn HTML, Introduction, HTML tutorial, W3Schools, web development"
 order: 1
 sources:
-  - name: MDN HTML
-    url: https://developer.mozilla.org/en-US/docs/Web/HTML
   - name: W3Schools HTML
     url: https://www.w3schools.com/html/
-  - name: WHATWG HTML
-    url: https://html.spec.whatwg.org/
+  - name: MDN HTML
+    url: https://developer.mozilla.org/en-US/docs/Web/HTML
 ---
-
 # Introduction to HTML
 
-HTML (HyperText Markup Language) describes the **structure** of web pages. Browsers parse HTML into a DOM tree and paint UI.
+This chapter teaches what HTML is, why it matters, and how this tutorial path is organized. The order follows the W3Schools HTML tutorial spine, but the explanations are rewritten for MEGA JS so you can learn the same concepts without memorizing copied examples.
 
-## Document skeleton
+## What and why
+
+Introduction to HTML matters because HTML is the contract between your content, the browser, search engines, assistive technologies, CSS, and JavaScript. When the markup is precise, styling becomes easier, scripts have stable targets, and users get a page that works across devices.
+
+In practice, focus on the role of the element or attribute before you focus on visual output. Browsers provide default behavior, but good HTML gives that behavior a clear purpose.
+
+## Syntax
 
 ```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Document</title>
-  </head>
-  <body>
-    <h1>Hello</h1>
-  </body>
-</html>
+<article>
+  <h1>Welcome to HTML</h1>
+  <p>HTML describes the structure and meaning of web content.</p>
+</article>
 ```
 
-## Core ideas
+Read the snippet from the outside in: identify the containing element, then the attributes, then the text or nested elements. This habit makes larger documents much easier to debug.
 
-- **Elements** wrap content with opening/closing tags (`<p>…</p>`).
-- **Attributes** configure elements (`href`, `src`, `alt`, `class`).
-- Prefer **semantic** tags (`<main>`, `<nav>`, `<article>`) over anonymous `<div>` soup.
+## Quick reference
 
-> Structure synthesized from MDN HTML overview and W3Schools HTML intro.
+| Item | Purpose | Example cue |
+| --- | --- | --- |
+| Core concept | The role this lesson plays in HTML structure | Introduction |
+| Syntax | How the related element, attribute, or API is written | Watch opening tags and attribute values |
+| Browser behavior | What the browser provides by default | Inspect the result in DevTools |
+| Quality check | Accessibility, SEO, or maintainability impact | Use clear names and fallback text |
+
+## Best practices
+
+- Prefer semantic HTML before adding generic containers or JavaScript behavior.
+- Keep examples small while learning, then test the same idea inside a complete document.
+- Write attributes intentionally: names, labels, alternative text, and URLs should explain their purpose.
+- Validate the page, inspect it in DevTools, and test it with keyboard navigation when interaction is involved.
+
+## Common mistakes to avoid
+
+- Treating Introduction as only a visual feature instead of part of document meaning.
+- Skipping required context such as labels, titles, fallback text, or character encoding.
+- Copying markup without changing names, paths, and text to match the real page.
+
+## Next step
+
+Next step: open **HTML Basics** and build on this lesson while the syntax is still fresh.
