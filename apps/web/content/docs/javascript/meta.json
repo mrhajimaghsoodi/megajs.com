@@ -5,66 +5,1041 @@
     "fa": "JavaScript",
     "en": "JavaScript"
   },
+  "seoTitle": {
+    "fa": "JavaScript — آموزش W3Schools، مرجع MDN و ECMA-262 | MEGA JS",
+    "en": "JavaScript — W3Schools Tutorial, MDN Reference & ECMA-262 | MEGA JS"
+  },
+  "seoDescription": {
+    "fa": "JavaScript را در سه مسیر یاد بگیرید: آموزش W3Schools، مرجع MDN و خلاصه ECMA-262؛ همراه مثال live، DOM، async و DevTools همراه تمرین کاربردی برای پروژه واقعی وب.",
+    "en": "Learn JavaScript across three tracks: W3Schools-style lessons, MDN reference, and ECMA-262 summaries with live DOM and async examples with practical drills."
+  },
   "description": {
-    "fa": "JS language core — MDN + ECMA-262 + W3Schools — ساختار مشابه docs مرجع؛ ترجمه فارسی روان.",
-    "en": "JS language core — MDN + ECMA-262 + W3Schools — structure aligned with official docs."
+    "fa": "سه مسیر کامل برای JavaScript: آموزش قدم‌به‌قدم، مرجع دقیق MDN و خلاصه‌های رسمی ECMA-262 برای زبان، DOM و async.",
+    "en": "Three complete JavaScript tracks: step-by-step learning, precise MDN-style reference, and ECMA-262 summaries for language, DOM, and async work."
   },
   "sources": [
     {
-      "name": "JavaScript Docs",
+      "name": "W3Schools JavaScript",
+      "url": "https://www.w3schools.com/js/default.asp"
+    },
+    {
+      "name": "MDN JavaScript",
       "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
     },
     {
-      "name": "MDN",
-      "url": "https://developer.mozilla.org/"
+      "name": "MDN JavaScript Reference",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference"
     },
     {
-      "name": "W3Schools",
-      "url": "https://www.w3schools.com/"
+      "name": "ECMA-262",
+      "url": "https://tc39.es/ecma262/"
+    },
+    {
+      "name": "TC39",
+      "url": "https://tc39.es/"
     }
   ],
-  "nav": [
+  "tracks": [
     {
-      "slug": "introduction",
+      "id": "learn",
       "title": {
-        "fa": "مقدمه",
-        "en": "Introduction"
-      }
+        "fa": "آموزشی (W3Schools)",
+        "en": "Learn (W3Schools)"
+      },
+      "description": {
+        "fa": "مسیر آموزشی قدم‌به‌قدم با ادیتور زنده — ساختار سایدبار W3Schools JavaScript Tutorial.",
+        "en": "Step-by-step tutorial with live editor — W3Schools JavaScript Tutorial sidebar structure."
+      },
+      "seoTitle": {
+        "fa": "آموزش JavaScript از صفر | مسیر W3Schools + ادیتور زنده | MEGA JS",
+        "en": "Learn JavaScript from Scratch | W3Schools Path + Live Editor | MEGA JS"
+      },
+      "seoDescription": {
+        "fa": "آموزش JavaScript از صفر با مسیر W3Schools، مثال‌های HTML دارای <script>، ادیتور زنده، DOM، async/await و تمرین DevTools همراه تمرین کاربردی برای پروژه واقعی وب.",
+        "en": "Learn JavaScript from scratch with a W3Schools-style path, live HTML examples with script tags, DOM, async/await, and DevTools practice with practical drills."
+      },
+      "source": {
+        "name": "W3Schools JavaScript Tutorial",
+        "url": "https://www.w3schools.com/js/default.asp"
+      },
+      "liveEditor": true,
+      "nav": [
+        {
+          "slug": "introduction",
+          "title": {
+            "fa": "مقدمه JavaScript",
+            "en": "Introduction to JavaScript"
+          }
+        },
+        {
+          "slug": "getting-started",
+          "title": {
+            "fa": "شروع کار با JavaScript",
+            "en": "JavaScript Getting Started"
+          },
+          "children": [
+            {
+              "slug": "where-to",
+              "title": {
+                "fa": "کجا JavaScript بنویسیم",
+                "en": "Where To Place JavaScript"
+              }
+            },
+            {
+              "slug": "output",
+              "title": {
+                "fa": "Output در JavaScript",
+                "en": "JavaScript Output"
+              }
+            },
+            {
+              "slug": "statements",
+              "title": {
+                "fa": "Statementها در JavaScript",
+                "en": "JavaScript Statements"
+              }
+            },
+            {
+              "slug": "syntax",
+              "title": {
+                "fa": "Syntax در JavaScript",
+                "en": "JavaScript Syntax"
+              }
+            },
+            {
+              "slug": "comments",
+              "title": {
+                "fa": "کامنت‌ها در JavaScript",
+                "en": "JavaScript Comments"
+              }
+            }
+          ]
+        },
+        {
+          "slug": "variables-operators",
+          "title": {
+            "fa": "متغیرها و عملگرها",
+            "en": "Variables and Operators"
+          },
+          "children": [
+            {
+              "slug": "variables",
+              "title": {
+                "fa": "متغیرهای JavaScript",
+                "en": "JavaScript Variables"
+              }
+            },
+            {
+              "slug": "let",
+              "title": {
+                "fa": "کلمه let در JavaScript",
+                "en": "JavaScript let"
+              }
+            },
+            {
+              "slug": "const",
+              "title": {
+                "fa": "کلمه const در JavaScript",
+                "en": "JavaScript const"
+              }
+            },
+            {
+              "slug": "operators",
+              "title": {
+                "fa": "Operatorها در JavaScript",
+                "en": "JavaScript Operators"
+              }
+            },
+            {
+              "slug": "arithmetic",
+              "title": {
+                "fa": "Arithmetic در JavaScript",
+                "en": "JavaScript Arithmetic"
+              }
+            },
+            {
+              "slug": "assignment",
+              "title": {
+                "fa": "Assignment در JavaScript",
+                "en": "JavaScript Assignment"
+              }
+            },
+            {
+              "slug": "data-types",
+              "title": {
+                "fa": "Data Typeها در JavaScript",
+                "en": "JavaScript Data Types"
+              }
+            }
+          ]
+        },
+        {
+          "slug": "functions-objects-basics",
+          "title": {
+            "fa": "توابع و objectها",
+            "en": "Functions and Object Basics"
+          },
+          "children": [
+            {
+              "slug": "functions",
+              "title": {
+                "fa": "تابع‌ها در JavaScript",
+                "en": "JavaScript Functions"
+              }
+            },
+            {
+              "slug": "objects",
+              "title": {
+                "fa": "Objectها در JavaScript",
+                "en": "JavaScript Objects"
+              }
+            },
+            {
+              "slug": "object-properties",
+              "title": {
+                "fa": "Propertyهای object",
+                "en": "Object Properties"
+              }
+            },
+            {
+              "slug": "object-methods",
+              "title": {
+                "fa": "Methodهای object",
+                "en": "Object Methods"
+              }
+            },
+            {
+              "slug": "events",
+              "title": {
+                "fa": "Eventها در JavaScript",
+                "en": "JavaScript Events"
+              }
+            }
+          ]
+        },
+        {
+          "slug": "strings-numbers",
+          "title": {
+            "fa": "رشته و عدد",
+            "en": "Strings and Numbers"
+          },
+          "children": [
+            {
+              "slug": "strings",
+              "title": {
+                "fa": "Stringها در JavaScript",
+                "en": "JavaScript Strings"
+              }
+            },
+            {
+              "slug": "string-templates",
+              "title": {
+                "fa": "Template Stringها",
+                "en": "Template Strings"
+              }
+            },
+            {
+              "slug": "string-methods",
+              "title": {
+                "fa": "Methodهای String",
+                "en": "String Methods"
+              }
+            },
+            {
+              "slug": "string-search",
+              "title": {
+                "fa": "جست‌وجو در String",
+                "en": "String Search"
+              }
+            },
+            {
+              "slug": "numbers",
+              "title": {
+                "fa": "Numberها در JavaScript",
+                "en": "JavaScript Numbers"
+              }
+            },
+            {
+              "slug": "bigint",
+              "title": {
+                "fa": "BigInt در JavaScript",
+                "en": "JavaScript BigInt"
+              }
+            },
+            {
+              "slug": "number-methods",
+              "title": {
+                "fa": "Methodهای Number",
+                "en": "Number Methods"
+              }
+            },
+            {
+              "slug": "booleans",
+              "title": {
+                "fa": "Booleanها در JavaScript",
+                "en": "JavaScript Booleans"
+              }
+            }
+          ]
+        },
+        {
+          "slug": "collections-dates",
+          "title": {
+            "fa": "آرایه، مجموعه و تاریخ",
+            "en": "Arrays, Collections, and Dates"
+          },
+          "children": [
+            {
+              "slug": "arrays",
+              "title": {
+                "fa": "Arrayها در JavaScript",
+                "en": "JavaScript Arrays"
+              }
+            },
+            {
+              "slug": "array-methods",
+              "title": {
+                "fa": "Methodهای Array",
+                "en": "Array Methods"
+              }
+            },
+            {
+              "slug": "array-sort",
+              "title": {
+                "fa": "Sort کردن Array",
+                "en": "Array Sort"
+              }
+            },
+            {
+              "slug": "array-iteration",
+              "title": {
+                "fa": "Iteration روی Array",
+                "en": "Array Iteration"
+              }
+            },
+            {
+              "slug": "dates",
+              "title": {
+                "fa": "Dateها در JavaScript",
+                "en": "JavaScript Dates"
+              }
+            },
+            {
+              "slug": "date-formats",
+              "title": {
+                "fa": "Formatهای Date",
+                "en": "Date Formats"
+              }
+            },
+            {
+              "slug": "date-get",
+              "title": {
+                "fa": "Methodهای get در Date",
+                "en": "Date Get Methods"
+              }
+            },
+            {
+              "slug": "date-set",
+              "title": {
+                "fa": "Methodهای set در Date",
+                "en": "Date Set Methods"
+              }
+            },
+            {
+              "slug": "math",
+              "title": {
+                "fa": "Math در JavaScript",
+                "en": "JavaScript Math"
+              }
+            },
+            {
+              "slug": "random",
+              "title": {
+                "fa": "Random در JavaScript",
+                "en": "JavaScript Random"
+              }
+            },
+            {
+              "slug": "sets",
+              "title": {
+                "fa": "Setها در JavaScript",
+                "en": "JavaScript Sets"
+              }
+            },
+            {
+              "slug": "maps",
+              "title": {
+                "fa": "Mapها در JavaScript",
+                "en": "JavaScript Maps"
+              }
+            }
+          ]
+        },
+        {
+          "slug": "control-flow",
+          "title": {
+            "fa": "جریان کنترل",
+            "en": "Control Flow"
+          },
+          "children": [
+            {
+              "slug": "comparisons",
+              "title": {
+                "fa": "مقایسه‌ها در JavaScript",
+                "en": "JavaScript Comparisons"
+              }
+            },
+            {
+              "slug": "if-else",
+              "title": {
+                "fa": "if else در JavaScript",
+                "en": "JavaScript if else"
+              }
+            },
+            {
+              "slug": "switch",
+              "title": {
+                "fa": "switch در JavaScript",
+                "en": "JavaScript switch"
+              }
+            },
+            {
+              "slug": "loop-for",
+              "title": {
+                "fa": "Loop با for در JavaScript",
+                "en": "JavaScript for Loop"
+              }
+            },
+            {
+              "slug": "loop-while",
+              "title": {
+                "fa": "Loop با while در JavaScript",
+                "en": "JavaScript while Loop"
+              }
+            },
+            {
+              "slug": "loop-for-in",
+              "title": {
+                "fa": "for in در JavaScript",
+                "en": "JavaScript for in"
+              }
+            },
+            {
+              "slug": "loop-for-of",
+              "title": {
+                "fa": "for of در JavaScript",
+                "en": "JavaScript for of"
+              }
+            },
+            {
+              "slug": "break-continue",
+              "title": {
+                "fa": "Break و Continue در JavaScript",
+                "en": "JavaScript Break and Continue"
+              }
+            },
+            {
+              "slug": "typeof-conversion",
+              "title": {
+                "fa": "typeof و Type Conversion",
+                "en": "typeof and Type Conversion"
+              }
+            },
+            {
+              "slug": "bitwise",
+              "title": {
+                "fa": "Bitwise در JavaScript",
+                "en": "JavaScript Bitwise"
+              }
+            },
+            {
+              "slug": "regexp",
+              "title": {
+                "fa": "RegExp در JavaScript",
+                "en": "JavaScript RegExp"
+              }
+            },
+            {
+              "slug": "errors",
+              "title": {
+                "fa": "Errorها در JavaScript",
+                "en": "JavaScript Errors"
+              }
+            }
+          ]
+        },
+        {
+          "slug": "language-core",
+          "title": {
+            "fa": "هسته زبان",
+            "en": "Language Core"
+          },
+          "children": [
+            {
+              "slug": "scope",
+              "title": {
+                "fa": "Scope در JavaScript",
+                "en": "JavaScript Scope"
+              }
+            },
+            {
+              "slug": "hoisting",
+              "title": {
+                "fa": "Hoisting در JavaScript",
+                "en": "JavaScript Hoisting"
+              }
+            },
+            {
+              "slug": "strict-mode",
+              "title": {
+                "fa": "Strict Mode در JavaScript",
+                "en": "JavaScript Strict Mode"
+              }
+            },
+            {
+              "slug": "this-keyword",
+              "title": {
+                "fa": "کلمه this در JavaScript",
+                "en": "JavaScript this Keyword"
+              }
+            },
+            {
+              "slug": "arrow-functions",
+              "title": {
+                "fa": "Arrow Functionها در JavaScript",
+                "en": "JavaScript Arrow Functions"
+              }
+            },
+            {
+              "slug": "classes",
+              "title": {
+                "fa": "Classها در JavaScript",
+                "en": "JavaScript Classes"
+              }
+            },
+            {
+              "slug": "modules",
+              "title": {
+                "fa": "Moduleها در JavaScript",
+                "en": "JavaScript Modules"
+              }
+            },
+            {
+              "slug": "json",
+              "title": {
+                "fa": "JSON در JavaScript",
+                "en": "JavaScript JSON"
+              }
+            },
+            {
+              "slug": "debugging",
+              "title": {
+                "fa": "Debugging در JavaScript",
+                "en": "JavaScript Debugging"
+              }
+            },
+            {
+              "slug": "style-guide",
+              "title": {
+                "fa": "Style Guide در JavaScript",
+                "en": "JavaScript Style Guide"
+              }
+            },
+            {
+              "slug": "best-practices",
+              "title": {
+                "fa": "Best Practiceهای JavaScript",
+                "en": "JavaScript Best Practices"
+              }
+            },
+            {
+              "slug": "mistakes",
+              "title": {
+                "fa": "اشتباه‌های رایج JavaScript",
+                "en": "JavaScript Common Mistakes"
+              }
+            },
+            {
+              "slug": "performance",
+              "title": {
+                "fa": "Performance در JavaScript",
+                "en": "JavaScript Performance"
+              }
+            }
+          ]
+        },
+        {
+          "slug": "async-js",
+          "title": {
+            "fa": "Async در JavaScript",
+            "en": "Asynchronous JavaScript"
+          },
+          "children": [
+            {
+              "slug": "callbacks",
+              "title": {
+                "fa": "Callbackها در JavaScript",
+                "en": "JavaScript Callbacks"
+              }
+            },
+            {
+              "slug": "promises",
+              "title": {
+                "fa": "Promiseها در JavaScript",
+                "en": "JavaScript Promises"
+              }
+            },
+            {
+              "slug": "async-await",
+              "title": {
+                "fa": "async/await در JavaScript",
+                "en": "JavaScript async await"
+              }
+            },
+            {
+              "slug": "timers",
+              "title": {
+                "fa": "Timerها در JavaScript",
+                "en": "JavaScript Timers"
+              }
+            }
+          ]
+        },
+        {
+          "slug": "dom-bom",
+          "title": {
+            "fa": "DOM و BOM",
+            "en": "DOM and BOM"
+          },
+          "children": [
+            {
+              "slug": "dom-intro",
+              "title": {
+                "fa": "مقدمه DOM",
+                "en": "DOM Introduction"
+              }
+            },
+            {
+              "slug": "dom-methods",
+              "title": {
+                "fa": "Methodهای DOM",
+                "en": "DOM Methods"
+              }
+            },
+            {
+              "slug": "dom-elements",
+              "title": {
+                "fa": "Elementهای DOM",
+                "en": "DOM Elements"
+              }
+            },
+            {
+              "slug": "dom-html",
+              "title": {
+                "fa": "HTML در DOM",
+                "en": "DOM HTML"
+              }
+            },
+            {
+              "slug": "dom-css",
+              "title": {
+                "fa": "CSS در DOM",
+                "en": "DOM CSS"
+              }
+            },
+            {
+              "slug": "dom-events",
+              "title": {
+                "fa": "Eventهای DOM",
+                "en": "DOM Events"
+              }
+            },
+            {
+              "slug": "dom-event-listener",
+              "title": {
+                "fa": "Event Listener در DOM",
+                "en": "DOM Event Listener"
+              }
+            },
+            {
+              "slug": "dom-navigation",
+              "title": {
+                "fa": "Navigation در DOM",
+                "en": "DOM Navigation"
+              }
+            },
+            {
+              "slug": "bom-window",
+              "title": {
+                "fa": "Window در BOM",
+                "en": "BOM Window"
+              }
+            },
+            {
+              "slug": "bom-screen",
+              "title": {
+                "fa": "Screen در BOM",
+                "en": "BOM Screen"
+              }
+            },
+            {
+              "slug": "bom-location",
+              "title": {
+                "fa": "Location در BOM",
+                "en": "BOM Location"
+              }
+            },
+            {
+              "slug": "bom-history",
+              "title": {
+                "fa": "History در BOM",
+                "en": "BOM History"
+              }
+            },
+            {
+              "slug": "bom-navigator",
+              "title": {
+                "fa": "Navigator در BOM",
+                "en": "BOM Navigator"
+              }
+            },
+            {
+              "slug": "bom-storage",
+              "title": {
+                "fa": "Storage در BOM",
+                "en": "BOM Storage"
+              }
+            }
+          ]
+        },
+        {
+          "slug": "web-apis-projects",
+          "title": {
+            "fa": "Web API و پروژه‌ها",
+            "en": "Web APIs and Projects"
+          },
+          "children": [
+            {
+              "slug": "fetch-api",
+              "title": {
+                "fa": "Fetch API",
+                "en": "Fetch API"
+              }
+            },
+            {
+              "slug": "geolocation-api",
+              "title": {
+                "fa": "Geolocation API",
+                "en": "Geolocation API"
+              }
+            },
+            {
+              "slug": "web-storage-api",
+              "title": {
+                "fa": "Web Storage API",
+                "en": "Web Storage API"
+              }
+            },
+            {
+              "slug": "web-workers",
+              "title": {
+                "fa": "Web Workerها",
+                "en": "Web Workers"
+              }
+            },
+            {
+              "slug": "form-validation",
+              "title": {
+                "fa": "Validation فرم با JavaScript",
+                "en": "JavaScript Form Validation"
+              }
+            },
+            {
+              "slug": "todo-project",
+              "title": {
+                "fa": "پروژه Todo با JavaScript",
+                "en": "Todo Project with JavaScript"
+              }
+            }
+          ]
+        }
+      ]
     },
     {
-      "slug": "types",
+      "id": "reference",
       "title": {
-        "fa": "انواع داده",
-        "en": "Types"
-      }
+        "fa": "مرجع (MDN)",
+        "en": "Reference (MDN)"
+      },
+      "description": {
+        "fa": "مرجع عمیق به سبک MDN برای syntax، built-inها، objectها، async، module و ارتباط JavaScript با DOM و Web API.",
+        "en": "A deeper MDN-style reference for syntax, built-ins, objects, async, modules, and JavaScript integration with the DOM and Web APIs."
+      },
+      "seoTitle": {
+        "fa": "مرجع JavaScript به سبک MDN | Syntax، Object و Async | MEGA JS",
+        "en": "JavaScript Reference — MDN-style Syntax, Objects & Async | MEGA JS"
+      },
+      "seoDescription": {
+        "fa": "مرجع JavaScript به سبک MDN برای syntax، type، function، object، Promise، module، DOM و Web API؛ مناسب تصمیم دقیق در پروژه واقعی همراه تمرین کاربردی.",
+        "en": "Use the MDN-style JavaScript reference for syntax, types, functions, objects, promises, modules, DOM, and Web APIs in real projects with practical drills."
+      },
+      "source": {
+        "name": "MDN Web Docs — JavaScript",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+      },
+      "liveEditor": false,
+      "nav": [
+        {
+          "slug": "overview",
+          "title": {
+            "fa": "نمای کلی مرجع JavaScript",
+            "en": "JavaScript Reference Overview"
+          }
+        },
+        {
+          "slug": "grammar-types",
+          "title": {
+            "fa": "مرجع Grammar و Typeها",
+            "en": "Grammar and Types Reference"
+          }
+        },
+        {
+          "slug": "control-flow-ref",
+          "title": {
+            "fa": "مرجع جریان کنترل",
+            "en": "Control Flow Reference"
+          }
+        },
+        {
+          "slug": "expressions-operators",
+          "title": {
+            "fa": "مرجع Expression و Operator",
+            "en": "Expressions and Operators Reference"
+          }
+        },
+        {
+          "slug": "functions-ref",
+          "title": {
+            "fa": "مرجع Functionها",
+            "en": "Functions Reference"
+          }
+        },
+        {
+          "slug": "classes-ref",
+          "title": {
+            "fa": "مرجع Classها",
+            "en": "Classes Reference"
+          }
+        },
+        {
+          "slug": "promises-async",
+          "title": {
+            "fa": "مرجع Promise و Async",
+            "en": "Promises and Async Reference"
+          }
+        },
+        {
+          "slug": "closures-scope",
+          "title": {
+            "fa": "مرجع Closure و Scope",
+            "en": "Closures and Scope Reference"
+          }
+        },
+        {
+          "slug": "prototypes-inheritance",
+          "title": {
+            "fa": "مرجع Prototype و Inheritance",
+            "en": "Prototypes and Inheritance Reference"
+          }
+        },
+        {
+          "slug": "builtin-objects",
+          "title": {
+            "fa": "مرجع Objectهای Built-in",
+            "en": "Built-in Objects Reference"
+          }
+        },
+        {
+          "slug": "array-ref",
+          "title": {
+            "fa": "مرجع Array",
+            "en": "Array Reference"
+          }
+        },
+        {
+          "slug": "string-number-math",
+          "title": {
+            "fa": "مرجع String، Number و Math",
+            "en": "String, Number, and Math Reference"
+          }
+        },
+        {
+          "slug": "map-set-weak",
+          "title": {
+            "fa": "مرجع Map، Set، WeakMap و WeakSet",
+            "en": "Map, Set, WeakMap, and WeakSet Reference"
+          }
+        },
+        {
+          "slug": "regexp-ref",
+          "title": {
+            "fa": "مرجع RegExp",
+            "en": "RegExp Reference"
+          }
+        },
+        {
+          "slug": "error-handling",
+          "title": {
+            "fa": "مرجع مدیریت Error",
+            "en": "Error Handling Reference"
+          }
+        },
+        {
+          "slug": "modules-ref",
+          "title": {
+            "fa": "مرجع Moduleها",
+            "en": "Modules Reference"
+          }
+        },
+        {
+          "slug": "iterators-generators",
+          "title": {
+            "fa": "مرجع Iterator و Generator",
+            "en": "Iterators and Generators Reference"
+          }
+        },
+        {
+          "slug": "memory-gc",
+          "title": {
+            "fa": "Memory و Garbage Collection",
+            "en": "Memory and Garbage Collection"
+          }
+        },
+        {
+          "slug": "equality-comparisons",
+          "title": {
+            "fa": "مرجع Equality و Comparison",
+            "en": "Equality and Comparisons Reference"
+          }
+        },
+        {
+          "slug": "typed-arrays-ref",
+          "title": {
+            "fa": "مرجع Typed Arrayها",
+            "en": "Typed Arrays Reference"
+          }
+        },
+        {
+          "slug": "intl-ref",
+          "title": {
+            "fa": "مرجع Intl",
+            "en": "Intl Reference"
+          }
+        },
+        {
+          "slug": "web-js-dom",
+          "title": {
+            "fa": "مرجع JavaScript و DOM",
+            "en": "JavaScript and the DOM Reference"
+          }
+        },
+        {
+          "slug": "cheatsheet",
+          "title": {
+            "fa": "Cheatsheet JavaScript",
+            "en": "JavaScript Cheatsheet"
+          }
+        }
+      ]
     },
     {
-      "slug": "functions",
+      "id": "official",
       "title": {
-        "fa": "توابع",
-        "en": "Functions"
-      }
-    },
-    {
-      "slug": "objects",
-      "title": {
-        "fa": "اشیاء",
-        "en": "Objects"
-      }
-    },
-    {
-      "slug": "async",
-      "title": {
-        "fa": "Async / Promise",
-        "en": "Async / Promises"
-      }
-    },
-    {
-      "slug": "dom",
-      "title": {
-        "fa": "DOM",
-        "en": "DOM"
-      }
+        "fa": "مستندات رسمی (ECMA-262)",
+        "en": "Official (ECMA-262)"
+      },
+      "description": {
+        "fa": "خلاصه‌های specification-oriented از ECMA-262 و TC39 برای درک semantics زبان JavaScript بدون dump کامل specification.",
+        "en": "Specification-oriented ECMA-262 and TC39 summaries for understanding JavaScript language semantics without a full specification dump."
+      },
+      "seoTitle": {
+        "fa": "خلاصه رسمی ECMA-262 برای JavaScript | TC39 Summary | MEGA JS",
+        "en": "Official ECMA-262 JavaScript Summaries | TC39 Summary | MEGA JS"
+      },
+      "seoDescription": {
+        "fa": "خلاصه رسمی ECMA-262 و TC39 برای JavaScript؛ language type، execution context، object، Promise، module و compatibility را دقیق مرور کنید همراه تمرین کاربردی.",
+        "en": "Read official ECMA-262 and TC39 JavaScript summaries covering language types, execution contexts, objects, promises, modules, and compatibility with practical."
+      },
+      "source": {
+        "name": "ECMA-262",
+        "url": "https://tc39.es/ecma262/"
+      },
+      "liveEditor": false,
+      "nav": [
+        {
+          "slug": "overview",
+          "title": {
+            "fa": "نمای کلی ECMA-262",
+            "en": "ECMA-262 Overview"
+          }
+        },
+        {
+          "slug": "language-types",
+          "title": {
+            "fa": "Typeهای زبان ECMAScript",
+            "en": "ECMAScript Language Types"
+          }
+        },
+        {
+          "slug": "execution-contexts",
+          "title": {
+            "fa": "Execution Context و Realm",
+            "en": "Execution Contexts and Realms"
+          }
+        },
+        {
+          "slug": "ordinary-exotic-objects",
+          "title": {
+            "fa": "Objectهای Ordinary و Exotic",
+            "en": "Ordinary and Exotic Objects"
+          }
+        },
+        {
+          "slug": "function-objects",
+          "title": {
+            "fa": "Function Object و Call",
+            "en": "Function Objects and Calls"
+          }
+        },
+        {
+          "slug": "promises-jobs",
+          "title": {
+            "fa": "Promise، Job و Microtask",
+            "en": "Promises, Jobs, and Microtasks"
+          }
+        },
+        {
+          "slug": "modules-spec",
+          "title": {
+            "fa": "Moduleهای ECMAScript در Spec",
+            "en": "ECMAScript Modules in the Spec"
+          }
+        },
+        {
+          "slug": "syntax-lexical",
+          "title": {
+            "fa": "Grammar واژگانی و Syntax",
+            "en": "Lexical and Syntactic Grammar"
+          }
+        },
+        {
+          "slug": "annexes-compatibility",
+          "title": {
+            "fa": "Annexها و Compatibility",
+            "en": "Annexes and Compatibility"
+          }
+        }
+      ]
     }
   ]
 }

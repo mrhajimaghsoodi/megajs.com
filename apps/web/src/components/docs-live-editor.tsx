@@ -25,13 +25,13 @@ export function DocsLiveEditor({
   const labels =
     locale === 'fa'
       ? {
-          title: 'ادیتور لحظه‌ای HTML / CSS',
+          title: 'ادیتور لحظه‌ای HTML / CSS / JS',
           run: 'اجرا',
           reset: 'بازنشانی',
           hint: 'کد را ویرایش کنید و اجرا بزنید',
         }
       : {
-          title: 'Live HTML / CSS editor',
+          title: 'Live HTML / CSS / JS editor',
           run: 'Run',
           reset: 'Reset',
           hint: 'Edit the code and press Run',
