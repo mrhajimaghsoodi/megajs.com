@@ -1,9 +1,9 @@
 ---
 title: "Drag and Drop در HTML"
-description: "درس Drag and Drop در HTML برای یادگیری draggable کردن elementها و مدیریت drop target."
-seoTitle: "Drag and Drop در HTML — آموزش قدم‌به‌قدم | مستندات MEGA JS"
-seoDescription: "آموزش HTML Drag and Drop به سبک قدم‌به‌قدم W3Schools؛ با syntax، مثال کاربردی، best practice و گام بعدی برای ساخت صفحه‌های واقعی. با تمرین کوتاه و نتیجه روشن."
-keywords: "آموزش HTML, Drag and Drop, HTML, W3Schools, طراحی وب"
+description: "در این درس ارسال data از element draggable به drop target را با مثال‌های واقعی HTML تمرین می‌کنید."
+seoTitle: "آموزش Drag and Drop در HTML | مستندات MEGA JS"
+seoDescription: "آموزش Drag and Drop در HTML با مثال‌های قدم‌به‌قدم، جدول syntax، خطاهای رایج و تمرین عملی برای ساخت صفحه‌های استاندارد و قابل دسترس. برای شروع مطمئن و کاربردی."
+keywords: "آموزش HTML, Drag and Drop در HTML, آموزش HTML drag and drop, draggable dragstart drop, DataTransfer"
 order: 57
 sources:
   - name: W3Schools HTML
@@ -13,49 +13,117 @@ sources:
 ---
 # Drag and Drop در HTML
 
-در این درس draggable کردن elementها و مدیریت drop target را یاد می‌گیرید. ترتیب درس‌ها از ساختار آموزش HTML در W3Schools الهام گرفته شده، اما متن و مثال‌ها برای مستندات MEGA JS بازنویسی شده‌اند تا یادگیری مرحله‌به‌مرحله و کاربردی بماند.
+Drag and Drop در HTML روی ارسال data از element draggable به drop target تمرکز دارد. در این درس درباره Drag and Drop در HTML با مثال‌های واقعی HTML کار می‌کنید، نه فقط تعریف‌های کوتاه و حفظی.
 
-## چیستی و چرایی
+این موضوع زمانی مهم می‌شود که وقتی کاربر باید card، file یا item را با pointer جابه‌جا کند. هر مثال را اجرا کنید، سپس یک attribute یا مقدار را تغییر دهید تا رفتار مرورگر را ببینید.
 
-Drag and Drop در HTML مهم است چون HTML قرارداد اصلی میان محتوا، مرورگر، موتورهای جست‌وجو، ابزارهای کمکی، CSS و JavaScript است. وقتی markup دقیق باشد، style ساده‌تر می‌شود، scriptها target پایدار دارند و صفحه در دستگاه‌های مختلف قابل اعتمادتر کار می‌کند.
+## چیستی Drag and Drop در HTML
 
-در تمرین، اول نقش element یا attribute را بفهمید و بعد به ظاهر فکر کنید. ظاهر با CSS تغییر می‌کند، اما معنای درست HTML پایه تجربه کاربری، SEO و accessibility است.
+- این بخش به Drag and Drop در HTML نقش روشن می‌دهد و فقط به ظاهر CSS تکیه نمی‌کند.
+- syntaxهای مهم این درس شامل `draggable="true"`, `dragstart` و `drop` است.
+- وقتی وقتی کاربر باید card، file یا item را با pointer جابه‌جا کند، markup درست باعث می‌شود صفحه قابل اعتمادتر و قابل نگه‌داری‌تر باشد.
+- HTML خوب به CSS و JavaScript target پایدار می‌دهد و هم‌زمان معنا را برای کاربر و ابزارهای کمکی حفظ می‌کند.
 
-## Syntax
+## Syntax و مثال‌ها
+
+ابتدا ساده‌ترین الگوی کاربردی را ببینید و بعد آن را با مثال‌های کامل‌تر مقایسه کنید.
+
+### مثال 1: الگوی اصلی
 
 ```html
 <div draggable="true" id="card">Drag me</div>
 <div id="drop-zone">Drop here</div>
 <script>
+  const card = document.querySelector('#card');
+  const dropZone = document.querySelector('#drop-zone');
   card.addEventListener('dragstart', (event) => event.dataTransfer.setData('text/plain', card.id));
   dropZone.addEventListener('dragover', (event) => event.preventDefault());
 </script>
 ```
 
-کد را از بیرون به داخل بخوانید: ابتدا container، سپس attributeها، و بعد متن یا elementهای تو در تو. این عادت debug کردن سندهای بزرگ‌تر را بسیار ساده‌تر می‌کند.
+### مثال 2: گزینه‌ها در context
 
-## جدول سریع
+```html
+<section class="drag-drop-notes" aria-labelledby="drag-drop-title">
+  <h2 id="drag-drop-title">HTML Drag and Drop API options</h2>
+  <table>
+    <caption>Key syntax for HTML Drag and Drop API</caption>
+    <thead>
+      <tr><th scope="col">Syntax</th><th scope="col">Purpose</th></tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>draggable=&quot;true&quot;</code></td>
+      <td>allows an element to start dragging</td>
+    </tr>
+    <tr>
+      <td><code>dragstart</code></td>
+      <td>stores data for the drag operation</td>
+    </tr>
+    <tr>
+      <td><code>drop</code></td>
+      <td>handles the result on the target</td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+```
 
-| مورد | کاربرد | نشانه در مثال |
+### مثال 3: صفحه تمرینی کامل
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Drag and Drop API practice</title>
+  </head>
+  <body>
+    <div draggable="true" id="card">Drag me</div>
+    <div id="drop-zone">Drop here</div>
+    <script>
+      const card = document.querySelector('#card');
+      const dropZone = document.querySelector('#drop-zone');
+      card.addEventListener('dragstart', (event) => event.dataTransfer.setData('text/plain', card.id));
+      dropZone.addEventListener('dragover', (event) => event.preventDefault());
+    </script>
+  </body>
+</html>
+```
+
+## توضیح مثال
+
+- مثال اول pattern اصلی Drag and Drop در HTML را بدون کد layout اضافی نشان می‌دهد.
+- به `draggable="true"` دقت کنید: شروع drag را برای element ممکن می‌کند.
+- مثال دوم و سوم نشان می‌دهند همین ایده در صفحه بزرگ‌تر چطور کنار event handler، permission، state و مدیریت خطا قرار می‌گیرد.
+- اگر خروجی مرورگر غیرمنتظره بود، element را در DevTools inspect کنید و DOM را با source markup مقایسه کنید.
+
+## مثال‌های بیشتر و جدول گزینه‌ها
+
+| Syntax یا گزینه | کاربرد | زمان استفاده |
 | --- | --- | --- |
-| مفهوم اصلی | نقش این درس در ساختار HTML | Drag and Drop |
-| syntax | شکل نوشتن element، attribute یا API مرتبط | به opening tag و مقدار attribute دقت کنید |
-| رفتار مرورگر | آنچه browser به صورت پیش‌فرض انجام می‌دهد | با DevTools بررسی کنید |
-| کیفیت | ارتباط با accessibility، SEO یا maintainability | نام‌گذاری و متن جایگزین را جدی بگیرید |
+| `draggable="true"` | شروع drag را برای element ممکن می‌کند | هنگام تمرین Drag and Drop در HTML از آن استفاده کنید. |
+| `dragstart` | data عملیات drag را ذخیره می‌کند | هنگام تمرین Drag and Drop در HTML از آن استفاده کنید. |
+| `drop` | نتیجه را روی target مدیریت می‌کند | هنگام تمرین Drag and Drop در HTML از آن استفاده کنید. |
 
-## نکته‌ها و Best Practice
+## نکته‌های مرورگر، accessibility و SEO
 
-- قبل از استفاده از `div` یا JavaScript، ببینید element معنایی مناسب وجود دارد یا نه.
-- هنگام یادگیری مثال را کوچک نگه دارید، سپس همان ایده را داخل یک سند کامل HTML امتحان کنید.
-- attributeهایی مثل `name`، `alt`، `title`، `href` و `id` باید هدف روشن و قابل فهم داشته باشند.
-- صفحه را در DevTools بررسی کنید و برای بخش‌های تعاملی، navigation با keyboard را هم تست کنید.
+- پشتیبانی مرورگر برای Drag and Drop در HTML را با یک فایل کوچک تست کنید؛ default style همیشه معیار کیفیت markup نیست.
+- برای accessibility، متن قابل فهم، label، alt، caption یا title را فقط وقتی لازم است ولی دقیق بنویسید.
+- بسیاری از Web APIها به HTTPS، permission یا پشتیبانی مرورگر وابسته‌اند؛ همیشه حالت خطا را هم مدیریت کنید.
 
 ## اشتباه‌های رایج
 
-- نگاه کردن به Drag and Drop فقط به عنوان موضوع ظاهری، نه بخشی از معنای سند.
-- حذف contextهای لازم مثل label، title، fallback text یا character encoding.
-- کپی کردن markup بدون تغییر نام‌ها، pathها و متن‌ها بر اساس صفحه واقعی.
+- استفاده از Drag and Drop در HTML فقط برای ظاهر، در حالی که باید نقش محتوایی آن روشن باشد.
+- فراموش کردن `draggable="true"` یا نوشتن مقدارهایی که با هدف واقعی صفحه هماهنگ نیستند.
+- کپی کردن مثال بدون تغییر متن، path، id، name یا label بر اساس پروژه خودتان.
+- تست نکردن نتیجه با keyboard، صفحه کوچک موبایل و DevTools.
+
+## نکته تمرینی
+
+یک فایل به نام `drag-drop.html` بسازید، مثال اول را کپی کنید و سپس یک خط جدید اضافه کنید که `draggable="true"` را درست در محتوای خودتان به کار ببرد.
 
 ## گام بعدی
 
-گام بعدی: درس **Web Storage در HTML** را باز کنید و همین الگو را روی موضوع بعدی تمرین کنید.
+گام بعدی: درس **Web Storage در HTML** را بخوانید تا مفهوم بعدی روی همین پایه ساخته شود.

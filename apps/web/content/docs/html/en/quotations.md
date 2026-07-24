@@ -1,9 +1,9 @@
 ---
 title: "HTML Quotations"
-description: "A focused lesson on representing quotes, abbreviations, addresses, and citations."
-seoTitle: "Quotations in HTML — Step-by-Step Tutorial | MEGA JS Docs"
-seoDescription: "Learn HTML Quotations with a W3Schools-style step-by-step guide to syntax, examples, best practices, and next steps for real web pages. Practice it today."
-keywords: "learn HTML, Quotations, HTML tutorial, W3Schools, web development"
+description: "Learn how to represent quoted sources, abbreviations, addresses, and citations with real HTML examples and practical checks."
+seoTitle: "HTML Quotations Tutorial | MEGA JS Docs"
+seoDescription: "Learn HTML Quotations with step-by-step HTML examples, syntax tables, common mistakes, and practice tips for building accessible real pages. Practice it today."
+keywords: "HTML tutorial, HTML quotations, blockquote q abbr cite, HTML citation"
 order: 11
 sources:
   - name: W3Schools HTML
@@ -13,15 +13,22 @@ sources:
 ---
 # HTML Quotations
 
-This chapter teaches representing quotes, abbreviations, addresses, and citations. The order follows the W3Schools HTML tutorial spine, but the explanations are rewritten for MEGA JS so you can learn the same concepts without memorizing copied examples.
+In HTML Quotations, you learn how to represent quoted sources, abbreviations, addresses, and citations. The focus is HTML quotations, so the examples use the exact tags, attributes, or browser APIs you will meet in real pages.
 
-## What and why
+Use this lesson when you quote another source or clarify a shortened term. Read each example slowly, then change one value at a time to see what the browser does.
 
-HTML Quotations matters because HTML is the contract between your content, the browser, search engines, assistive technologies, CSS, and JavaScript. When the markup is precise, styling becomes easier, scripts have stable targets, and users get a page that works across devices.
+## What is HTML quotations?
 
-In practice, focus on the role of the element or attribute before you focus on visual output. Browsers provide default behavior, but good HTML gives that behavior a clear purpose.
+- It gives HTML quotations a clear semantic purpose instead of relying on visual styling alone.
+- The important syntax in this chapter includes `<blockquote>`, `<q>` and `<abbr title>`.
+- It improves real pages when you quote another source or clarify a shortened term, especially after you test the result in a browser.
+- Good markup here gives CSS and JavaScript predictable targets without hiding meaning from users.
 
-## Syntax
+## Syntax and examples
+
+Start with the smallest useful pattern, then compare it with the more complete examples below.
+
+### Example 1: Core pattern
 
 ```html
 <blockquote cite="https://developer.mozilla.org/">
@@ -30,30 +37,85 @@ In practice, focus on the role of the element or attribute before you focus on v
 <p><abbr title="HyperText Markup Language">HTML</abbr> structures web pages.</p>
 ```
 
-Read the snippet from the outside in: identify the containing element, then the attributes, then the text or nested elements. This habit makes larger documents much easier to debug.
+### Example 2: Options in context
 
-## Quick reference
+```html
+<section class="quotations-notes" aria-labelledby="quotations-title">
+  <h2 id="quotations-title">HTML Quotations options</h2>
+  <table>
+    <caption>Key syntax for HTML quotations</caption>
+    <thead>
+      <tr><th scope="col">Syntax</th><th scope="col">Purpose</th></tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>&lt;blockquote&gt;</code></td>
+      <td>wraps a longer quoted passage</td>
+    </tr>
+    <tr>
+      <td><code>&lt;q&gt;</code></td>
+      <td>marks a short inline quote</td>
+    </tr>
+    <tr>
+      <td><code>&lt;abbr title&gt;</code></td>
+      <td>expands abbreviations for users</td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+```
 
-| Item | Purpose | Example cue |
+### Example 3: Complete practice page
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Quotations practice</title>
+  </head>
+  <body>
+    <blockquote cite="https://developer.mozilla.org/">
+      <p>Use blockquote for longer quoted passages.</p>
+    </blockquote>
+    <p><abbr title="HyperText Markup Language">HTML</abbr> structures web pages.</p>
+  </body>
+</html>
+```
+
+## Example explained
+
+- The first example shows the core pattern for HTML quotations without unrelated layout code.
+- Pay attention to `<blockquote>`: wraps a longer quoted passage.
+- The second and third examples show how the same idea fits into a larger page with meaningful text, stable attributes, and readable structure.
+- If the browser output is surprising, inspect the element in DevTools and compare the DOM with the source markup.
+
+## More examples and options
+
+| Syntax or option | What it does | When to use it |
 | --- | --- | --- |
-| Core concept | The role this lesson plays in HTML structure | Quotations |
-| Syntax | How the related element, attribute, or API is written | Watch opening tags and attribute values |
-| Browser behavior | What the browser provides by default | Inspect the result in DevTools |
-| Quality check | Accessibility, SEO, or maintainability impact | Use clear names and fallback text |
+| `<blockquote>` | wraps a longer quoted passage | Use it while practicing HTML quotations. |
+| `<q>` | marks a short inline quote | Use it while practicing HTML quotations. |
+| `<abbr title>` | expands abbreviations for users | Use it while practicing HTML quotations. |
 
-## Best practices
+## Browser, accessibility, and SEO notes
 
-- Prefer semantic HTML before adding generic containers or JavaScript behavior.
-- Keep examples small while learning, then test the same idea inside a complete document.
-- Write attributes intentionally: names, labels, alternative text, and URLs should explain their purpose.
-- Validate the page, inspect it in DevTools, and test it with keyboard navigation when interaction is involved.
+- Test HTML quotations in a small file; default browser styling is not the same thing as good markup.
+- For accessibility, provide meaningful text, labels, alt text, captions, or titles when the feature needs them.
+- For SEO, write headings, link text, titles, and semantic structure that still make sense without CSS.
 
-## Common mistakes to avoid
+## Common mistakes
 
-- Treating Quotations as only a visual feature instead of part of document meaning.
-- Skipping required context such as labels, titles, fallback text, or character encoding.
-- Copying markup without changing names, paths, and text to match the real page.
+- Using HTML quotations only for appearance instead of matching the content role.
+- Forgetting `<blockquote>` or writing values that do not match the real page purpose.
+- Copying an example without changing text, paths, ids, names, or labels for your project.
+- Skipping keyboard, small-screen, and DevTools checks after the page appears to work.
+
+## Practice tip
+
+Create a file named `quotations.html`, copy the first example, then add one extra line that uses `<blockquote>` correctly in your own content.
 
 ## Next step
 
-Next step: open **HTML Comments** and build on this lesson while the syntax is still fresh.
+Next step: continue with **HTML Comments** so the next concept builds on this one.

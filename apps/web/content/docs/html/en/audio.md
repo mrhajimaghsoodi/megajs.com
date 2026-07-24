@@ -1,9 +1,9 @@
 ---
 title: "HTML Audio"
-description: "A focused lesson on playing audio files with controls and multiple sources."
-seoTitle: "Audio in HTML — Step-by-Step Tutorial | MEGA JS Docs"
-seoDescription: "Learn HTML Audio with a W3Schools-style step-by-step guide to syntax, examples, best practices, and next steps for real web pages. Practice it today."
-keywords: "learn HTML, Audio, HTML tutorial, W3Schools, web development"
+description: "Learn how audio files play with controls, multiple sources, and fallback text with real HTML examples and practical checks."
+seoTitle: "HTML Audio Tutorial | MEGA JS Docs"
+seoDescription: "Learn HTML Audio with step-by-step HTML examples, syntax tables, common mistakes, and practice tips for building accessible real pages. Practice it today."
+keywords: "HTML tutorial, HTML audio, audio controls source, audio player HTML"
 order: 51
 sources:
   - name: W3Schools HTML
@@ -13,15 +13,22 @@ sources:
 ---
 # HTML Audio
 
-This chapter teaches playing audio files with controls and multiple sources. The order follows the W3Schools HTML tutorial spine, but the explanations are rewritten for MEGA JS so you can learn the same concepts without memorizing copied examples.
+In HTML Audio, you learn how audio files play with controls, multiple sources, and fallback text. The focus is HTML audio, so the examples use the exact tags, attributes, or browser APIs you will meet in real pages.
 
-## What and why
+Use this lesson when you publish music, narration, pronunciation, or podcast clips. Read each example slowly, then change one value at a time to see what the browser does.
 
-HTML Audio matters because HTML is the contract between your content, the browser, search engines, assistive technologies, CSS, and JavaScript. When the markup is precise, styling becomes easier, scripts have stable targets, and users get a page that works across devices.
+## What is HTML audio?
 
-In practice, focus on the role of the element or attribute before you focus on visual output. Browsers provide default behavior, but good HTML gives that behavior a clear purpose.
+- It gives HTML audio a clear semantic purpose instead of relying on visual styling alone.
+- The important syntax in this chapter includes `<audio controls>`, `<source>` and `fallback text`.
+- It improves real pages when you publish music, narration, pronunciation, or podcast clips, especially after you test the result in a browser.
+- Good markup here gives CSS and JavaScript predictable targets without hiding meaning from users.
 
-## Syntax
+## Syntax and examples
+
+Start with the smallest useful pattern, then compare it with the more complete examples below.
+
+### Example 1: Core pattern
 
 ```html
 <audio controls>
@@ -31,30 +38,86 @@ In practice, focus on the role of the element or attribute before you focus on v
 </audio>
 ```
 
-Read the snippet from the outside in: identify the containing element, then the attributes, then the text or nested elements. This habit makes larger documents much easier to debug.
+### Example 2: Options in context
 
-## Quick reference
+```html
+<section class="audio-notes" aria-labelledby="audio-title">
+  <h2 id="audio-title">HTML Audio options</h2>
+  <table>
+    <caption>Key syntax for HTML audio</caption>
+    <thead>
+      <tr><th scope="col">Syntax</th><th scope="col">Purpose</th></tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>&lt;audio controls&gt;</code></td>
+      <td>creates an audio player</td>
+    </tr>
+    <tr>
+      <td><code>&lt;source&gt;</code></td>
+      <td>offers alternate audio formats</td>
+    </tr>
+    <tr>
+      <td><code>fallback text</code></td>
+      <td>helps unsupported browsers</td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+```
 
-| Item | Purpose | Example cue |
+### Example 3: Complete practice page
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Audio practice</title>
+  </head>
+  <body>
+    <audio controls>
+      <source src="podcast.mp3" type="audio/mpeg">
+      <source src="podcast.ogg" type="audio/ogg">
+      Your browser does not support the audio element.
+    </audio>
+  </body>
+</html>
+```
+
+## Example explained
+
+- The first example shows the core pattern for HTML audio without unrelated layout code.
+- Pay attention to `<audio controls>`: creates an audio player.
+- The second and third examples show how the same idea fits into a larger page with sources, controls, captions, and useful fallback.
+- If the browser output is surprising, inspect the element in DevTools and compare the DOM with the source markup.
+
+## More examples and options
+
+| Syntax or option | What it does | When to use it |
 | --- | --- | --- |
-| Core concept | The role this lesson plays in HTML structure | Audio |
-| Syntax | How the related element, attribute, or API is written | Watch opening tags and attribute values |
-| Browser behavior | What the browser provides by default | Inspect the result in DevTools |
-| Quality check | Accessibility, SEO, or maintainability impact | Use clear names and fallback text |
+| `<audio controls>` | creates an audio player | Use it while practicing HTML audio. |
+| `<source>` | offers alternate audio formats | Use it while practicing HTML audio. |
+| `fallback text` | helps unsupported browsers | Use it while practicing HTML audio. |
 
-## Best practices
+## Browser, accessibility, and SEO notes
 
-- Prefer semantic HTML before adding generic containers or JavaScript behavior.
-- Keep examples small while learning, then test the same idea inside a complete document.
-- Write attributes intentionally: names, labels, alternative text, and URLs should explain their purpose.
-- Validate the page, inspect it in DevTools, and test it with keyboard navigation when interaction is involved.
+- Test HTML audio in a small file; default browser styling is not the same thing as good markup.
+- For accessibility, provide meaningful text, labels, alt text, captions, or titles when the feature needs them.
+- Use controls, captions or subtitles, and fallback links for media; be careful with autoplay.
 
-## Common mistakes to avoid
+## Common mistakes
 
-- Treating Audio as only a visual feature instead of part of document meaning.
-- Skipping required context such as labels, titles, fallback text, or character encoding.
-- Copying markup without changing names, paths, and text to match the real page.
+- Using HTML audio only for appearance instead of matching the content role.
+- Forgetting `<audio controls>` or writing values that do not match the real page purpose.
+- Copying an example without changing text, paths, ids, names, or labels for your project.
+- Skipping keyboard, small-screen, and DevTools checks after the page appears to work.
+
+## Practice tip
+
+Create a file named `audio.html`, copy the first example, then add one extra line that uses `<audio controls>` correctly in your own content.
 
 ## Next step
 
-Next step: open **HTML Plug-ins** and build on this lesson while the syntax is still fresh.
+Next step: continue with **HTML Plug-ins** so the next concept builds on this one.

@@ -1,9 +1,9 @@
 ---
 title: "HTML JavaScript"
-description: "A focused lesson on adding scripts that interact with the DOM after markup loads."
-seoTitle: "JavaScript in HTML — Step-by-Step Tutorial | MEGA JS Docs"
-seoDescription: "Learn HTML JavaScript with a W3Schools-style step-by-step guide to syntax, examples, best practices, and next steps for real web pages. Practice it today."
-keywords: "learn HTML, JavaScript, HTML tutorial, W3Schools, web development"
+description: "Learn how script tags connect DOM behavior to markup with real HTML examples and practical checks."
+seoTitle: "HTML JavaScript Tutorial | MEGA JS Docs"
+seoDescription: "Learn HTML JavaScript with step-by-step HTML examples, syntax tables, common mistakes, and practice tips for building accessible real pages. Practice it today."
+keywords: "HTML tutorial, HTML JavaScript, script tag defer, DOM events"
 order: 25
 sources:
   - name: W3Schools HTML
@@ -13,15 +13,22 @@ sources:
 ---
 # HTML JavaScript
 
-This chapter teaches adding scripts that interact with the DOM after markup loads. The order follows the W3Schools HTML tutorial spine, but the explanations are rewritten for MEGA JS so you can learn the same concepts without memorizing copied examples.
+In HTML JavaScript, you learn how script tags connect DOM behavior to markup. The focus is JavaScript in HTML, so the examples use the exact tags, attributes, or browser APIs you will meet in real pages.
 
-## What and why
+Use this lesson when a page needs interaction after the HTML loads. Read each example slowly, then change one value at a time to see what the browser does.
 
-HTML JavaScript matters because HTML is the contract between your content, the browser, search engines, assistive technologies, CSS, and JavaScript. When the markup is precise, styling becomes easier, scripts have stable targets, and users get a page that works across devices.
+## What is JavaScript in HTML?
 
-In practice, focus on the role of the element or attribute before you focus on visual output. Browsers provide default behavior, but good HTML gives that behavior a clear purpose.
+- It gives JavaScript in HTML a clear semantic purpose instead of relying on visual styling alone.
+- The important syntax in this chapter includes `<script>`, `defer` and `DOM selector`.
+- It improves real pages when a page needs interaction after the HTML loads, especially after you test the result in a browser.
+- Good markup here gives CSS and JavaScript predictable targets without hiding meaning from users.
 
-## Syntax
+## Syntax and examples
+
+Start with the smallest useful pattern, then compare it with the more complete examples below.
+
+### Example 1: Core pattern
 
 ```html
 <button id="theme-toggle" type="button">Toggle theme</button>
@@ -32,30 +39,87 @@ In practice, focus on the role of the element or attribute before you focus on v
 </script>
 ```
 
-Read the snippet from the outside in: identify the containing element, then the attributes, then the text or nested elements. This habit makes larger documents much easier to debug.
+### Example 2: Options in context
 
-## Quick reference
+```html
+<section class="javascript-notes" aria-labelledby="javascript-title">
+  <h2 id="javascript-title">HTML JavaScript options</h2>
+  <table>
+    <caption>Key syntax for JavaScript in HTML</caption>
+    <thead>
+      <tr><th scope="col">Syntax</th><th scope="col">Purpose</th></tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>&lt;script&gt;</code></td>
+      <td>runs or loads JavaScript</td>
+    </tr>
+    <tr>
+      <td><code>defer</code></td>
+      <td>loads scripts without blocking parsing</td>
+    </tr>
+    <tr>
+      <td><code>DOM selector</code></td>
+      <td>finds elements by id, class, or tag</td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+```
 
-| Item | Purpose | Example cue |
+### Example 3: Complete practice page
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML JavaScript practice</title>
+  </head>
+  <body>
+    <button id="theme-toggle" type="button">Toggle theme</button>
+    <script>
+      document.querySelector('#theme-toggle').addEventListener('click', () => {
+        document.documentElement.classList.toggle('dark');
+      });
+    </script>
+  </body>
+</html>
+```
+
+## Example explained
+
+- The first example shows the core pattern for JavaScript in HTML without unrelated layout code.
+- Pay attention to `<script>`: runs or loads JavaScript.
+- The second and third examples show how the same idea fits into a larger page with meaningful text, stable attributes, and readable structure.
+- If the browser output is surprising, inspect the element in DevTools and compare the DOM with the source markup.
+
+## More examples and options
+
+| Syntax or option | What it does | When to use it |
 | --- | --- | --- |
-| Core concept | The role this lesson plays in HTML structure | JavaScript |
-| Syntax | How the related element, attribute, or API is written | Watch opening tags and attribute values |
-| Browser behavior | What the browser provides by default | Inspect the result in DevTools |
-| Quality check | Accessibility, SEO, or maintainability impact | Use clear names and fallback text |
+| `<script>` | runs or loads JavaScript | Use it while practicing JavaScript in HTML. |
+| `defer` | loads scripts without blocking parsing | Use it while practicing JavaScript in HTML. |
+| `DOM selector` | finds elements by id, class, or tag | Use it while practicing JavaScript in HTML. |
 
-## Best practices
+## Browser, accessibility, and SEO notes
 
-- Prefer semantic HTML before adding generic containers or JavaScript behavior.
-- Keep examples small while learning, then test the same idea inside a complete document.
-- Write attributes intentionally: names, labels, alternative text, and URLs should explain their purpose.
-- Validate the page, inspect it in DevTools, and test it with keyboard navigation when interaction is involved.
+- Test JavaScript in HTML in a small file; default browser styling is not the same thing as good markup.
+- For accessibility, provide meaningful text, labels, alt text, captions, or titles when the feature needs them.
+- For SEO, write headings, link text, titles, and semantic structure that still make sense without CSS.
 
-## Common mistakes to avoid
+## Common mistakes
 
-- Treating JavaScript as only a visual feature instead of part of document meaning.
-- Skipping required context such as labels, titles, fallback text, or character encoding.
-- Copying markup without changing names, paths, and text to match the real page.
+- Using JavaScript in HTML only for appearance instead of matching the content role.
+- Forgetting `<script>` or writing values that do not match the real page purpose.
+- Copying an example without changing text, paths, ids, names, or labels for your project.
+- Skipping keyboard, small-screen, and DevTools checks after the page appears to work.
+
+## Practice tip
+
+Create a file named `javascript.html`, copy the first example, then add one extra line that uses `<script>` correctly in your own content.
 
 ## Next step
 
-Next step: open **HTML File Paths** and build on this lesson while the syntax is still fresh.
+Next step: continue with **HTML File Paths** so the next concept builds on this one.

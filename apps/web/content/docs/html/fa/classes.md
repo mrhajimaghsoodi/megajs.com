@@ -1,9 +1,9 @@
 ---
 title: "کلاس‌ها در HTML"
-description: "درس کلاس‌ها در HTML برای یادگیری گروه‌بندی elementها برای styling و رفتار JavaScript."
-seoTitle: "کلاس‌ها در HTML — آموزش قدم‌به‌قدم | مستندات MEGA JS"
-seoDescription: "آموزش HTML کلاس‌ها به سبک قدم‌به‌قدم W3Schools؛ با syntax، مثال کاربردی، best practice و گام بعدی برای ساخت صفحه‌های واقعی. مناسب تمرین عملی و یادگیری مطمئن."
-keywords: "آموزش HTML, کلاس‌ها, HTML, W3Schools, طراحی وب"
+description: "در این درس گروه‌بندی elementها با class قابل استفاده مجدد برای styling و behavior را با مثال‌های واقعی HTML تمرین می‌کنید."
+seoTitle: "آموزش کلاس در HTML | مستندات MEGA JS"
+seoDescription: "آموزش کلاس در HTML با مثال‌های قدم‌به‌قدم، جدول syntax، خطاهای رایج و تمرین عملی برای ساخت صفحه‌های استاندارد و قابل دسترس. مناسب تمرین عملی و یادگیری مطمئن."
+keywords: "آموزش HTML, کلاس در HTML, آموزش HTML classes, class attribute, CSS class selector"
 order: 22
 sources:
   - name: W3Schools HTML
@@ -13,15 +13,22 @@ sources:
 ---
 # کلاس‌ها در HTML
 
-در این درس گروه‌بندی elementها برای styling و رفتار JavaScript را یاد می‌گیرید. ترتیب درس‌ها از ساختار آموزش HTML در W3Schools الهام گرفته شده، اما متن و مثال‌ها برای مستندات MEGA JS بازنویسی شده‌اند تا یادگیری مرحله‌به‌مرحله و کاربردی بماند.
+کلاس‌ها در HTML روی گروه‌بندی elementها با class قابل استفاده مجدد برای styling و behavior تمرکز دارد. در این درس درباره کلاس در HTML با مثال‌های واقعی HTML کار می‌کنید، نه فقط تعریف‌های کوتاه و حفظی.
 
-## چیستی و چرایی
+این موضوع زمانی مهم می‌شود که وقتی چند element pattern ظاهری یا scripted مشترک دارند. هر مثال را اجرا کنید، سپس یک attribute یا مقدار را تغییر دهید تا رفتار مرورگر را ببینید.
 
-کلاس‌ها در HTML مهم است چون HTML قرارداد اصلی میان محتوا، مرورگر، موتورهای جست‌وجو، ابزارهای کمکی، CSS و JavaScript است. وقتی markup دقیق باشد، style ساده‌تر می‌شود، scriptها target پایدار دارند و صفحه در دستگاه‌های مختلف قابل اعتمادتر کار می‌کند.
+## چیستی کلاس در HTML
 
-در تمرین، اول نقش element یا attribute را بفهمید و بعد به ظاهر فکر کنید. ظاهر با CSS تغییر می‌کند، اما معنای درست HTML پایه تجربه کاربری، SEO و accessibility است.
+- این بخش به کلاس‌ها در HTML نقش روشن می‌دهد و فقط به ظاهر CSS تکیه نمی‌کند.
+- syntaxهای مهم این درس شامل `class`, `multiple classes` و `CSS selector` است.
+- وقتی وقتی چند element pattern ظاهری یا scripted مشترک دارند، markup درست باعث می‌شود صفحه قابل اعتمادتر و قابل نگه‌داری‌تر باشد.
+- HTML خوب به CSS و JavaScript target پایدار می‌دهد و هم‌زمان معنا را برای کاربر و ابزارهای کمکی حفظ می‌کند.
 
-## Syntax
+## Syntax و مثال‌ها
+
+ابتدا ساده‌ترین الگوی کاربردی را ببینید و بعد آن را با مثال‌های کامل‌تر مقایسه کنید.
+
+### مثال 1: الگوی اصلی
 
 ```html
 <article class="card featured">
@@ -30,30 +37,85 @@ sources:
 </article>
 ```
 
-کد را از بیرون به داخل بخوانید: ابتدا container، سپس attributeها، و بعد متن یا elementهای تو در تو. این عادت debug کردن سندهای بزرگ‌تر را بسیار ساده‌تر می‌کند.
+### مثال 2: گزینه‌ها در context
 
-## جدول سریع
+```html
+<section class="classes-notes" aria-labelledby="classes-title">
+  <h2 id="classes-title">HTML Classes options</h2>
+  <table>
+    <caption>Key syntax for HTML classes</caption>
+    <thead>
+      <tr><th scope="col">Syntax</th><th scope="col">Purpose</th></tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>class</code></td>
+      <td>assigns one or more reusable names</td>
+    </tr>
+    <tr>
+      <td><code>multiple classes</code></td>
+      <td>combine small styling responsibilities</td>
+    </tr>
+    <tr>
+      <td><code>CSS selector</code></td>
+      <td>targets class names with a dot</td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+```
 
-| مورد | کاربرد | نشانه در مثال |
+### مثال 3: صفحه تمرینی کامل
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Classes practice</title>
+  </head>
+  <body>
+    <article class="card featured">
+      <h2 class="card-title">Reusable class names</h2>
+      <p class="card-copy">Classes can be shared by many elements.</p>
+    </article>
+  </body>
+</html>
+```
+
+## توضیح مثال
+
+- مثال اول pattern اصلی کلاس در HTML را بدون کد layout اضافی نشان می‌دهد.
+- به `class` دقت کنید: یک یا چند نام قابل استفاده مجدد می‌دهد.
+- مثال دوم و سوم نشان می‌دهند همین ایده در صفحه بزرگ‌تر چطور کنار متن معنادار، attributeهای پایدار و ساختار قابل فهم قرار می‌گیرد.
+- اگر خروجی مرورگر غیرمنتظره بود، element را در DevTools inspect کنید و DOM را با source markup مقایسه کنید.
+
+## مثال‌های بیشتر و جدول گزینه‌ها
+
+| Syntax یا گزینه | کاربرد | زمان استفاده |
 | --- | --- | --- |
-| مفهوم اصلی | نقش این درس در ساختار HTML | کلاس‌ها |
-| syntax | شکل نوشتن element، attribute یا API مرتبط | به opening tag و مقدار attribute دقت کنید |
-| رفتار مرورگر | آنچه browser به صورت پیش‌فرض انجام می‌دهد | با DevTools بررسی کنید |
-| کیفیت | ارتباط با accessibility، SEO یا maintainability | نام‌گذاری و متن جایگزین را جدی بگیرید |
+| `class` | یک یا چند نام قابل استفاده مجدد می‌دهد | هنگام تمرین کلاس در HTML از آن استفاده کنید. |
+| `multiple classes` | چند مسئولیت کوچک style را ترکیب می‌کند | هنگام تمرین کلاس در HTML از آن استفاده کنید. |
+| `CSS selector` | class را با نقطه target می‌کند | هنگام تمرین کلاس در HTML از آن استفاده کنید. |
 
-## نکته‌ها و Best Practice
+## نکته‌های مرورگر، accessibility و SEO
 
-- قبل از استفاده از `div` یا JavaScript، ببینید element معنایی مناسب وجود دارد یا نه.
-- هنگام یادگیری مثال را کوچک نگه دارید، سپس همان ایده را داخل یک سند کامل HTML امتحان کنید.
-- attributeهایی مثل `name`، `alt`، `title`، `href` و `id` باید هدف روشن و قابل فهم داشته باشند.
-- صفحه را در DevTools بررسی کنید و برای بخش‌های تعاملی، navigation با keyboard را هم تست کنید.
+- پشتیبانی مرورگر برای کلاس در HTML را با یک فایل کوچک تست کنید؛ default style همیشه معیار کیفیت markup نیست.
+- برای accessibility، متن قابل فهم، label، alt، caption یا title را فقط وقتی لازم است ولی دقیق بنویسید.
+- برای SEO، heading، link text، title و ساختار معنایی را طوری بنویسید که بدون CSS هم قابل فهم باشد.
 
 ## اشتباه‌های رایج
 
-- نگاه کردن به کلاس‌ها فقط به عنوان موضوع ظاهری، نه بخشی از معنای سند.
-- حذف contextهای لازم مثل label، title، fallback text یا character encoding.
-- کپی کردن markup بدون تغییر نام‌ها، pathها و متن‌ها بر اساس صفحه واقعی.
+- استفاده از کلاس در HTML فقط برای ظاهر، در حالی که باید نقش محتوایی آن روشن باشد.
+- فراموش کردن `class` یا نوشتن مقدارهایی که با هدف واقعی صفحه هماهنگ نیستند.
+- کپی کردن مثال بدون تغییر متن، path، id، name یا label بر اساس پروژه خودتان.
+- تست نکردن نتیجه با keyboard، صفحه کوچک موبایل و DevTools.
+
+## نکته تمرینی
+
+یک فایل به نام `classes.html` بسازید، مثال اول را کپی کنید و سپس یک خط جدید اضافه کنید که `class` را درست در محتوای خودتان به کار ببرد.
 
 ## گام بعدی
 
-گام بعدی: درس **شناسه id در HTML** را باز کنید و همین الگو را روی موضوع بعدی تمرین کنید.
+گام بعدی: درس **شناسه id در HTML** را بخوانید تا مفهوم بعدی روی همین پایه ساخته شود.

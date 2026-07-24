@@ -1,9 +1,9 @@
 ---
 title: "HTML Block and Inline Elements"
-description: "A focused lesson on understanding layout flow and inline text-level elements."
-seoTitle: "Block and Inline Elements in HTML — Step-by-Step Tutorial | MEGA JS Docs"
-seoDescription: "Learn HTML Block and Inline Elements with a W3Schools-style step-by-step guide to syntax, examples, best practices, and next steps for real web pages."
-keywords: "learn HTML, Block and Inline Elements, HTML tutorial, W3Schools, web development"
+description: "Learn how elements participate in normal document flow with real HTML examples and practical checks."
+seoTitle: "HTML Block and Inline Elements Tutorial | MEGA JS Docs"
+seoDescription: "Learn HTML Block and Inline Elements with step-by-step HTML examples, syntax tables, common mistakes, and practice tips for building accessible real pages."
+keywords: "HTML tutorial, HTML block inline, div span display, HTML layout flow"
 order: 21
 sources:
   - name: W3Schools HTML
@@ -13,15 +13,22 @@ sources:
 ---
 # HTML Block and Inline Elements
 
-This chapter teaches understanding layout flow and inline text-level elements. The order follows the W3Schools HTML tutorial spine, but the explanations are rewritten for MEGA JS so you can learn the same concepts without memorizing copied examples.
+In HTML Block and Inline Elements, you learn how elements participate in normal document flow. The focus is block and inline elements, so the examples use the exact tags, attributes, or browser APIs you will meet in real pages.
 
-## What and why
+Use this lesson when layout surprises come from how elements occupy space. Read each example slowly, then change one value at a time to see what the browser does.
 
-HTML Block and Inline Elements matters because HTML is the contract between your content, the browser, search engines, assistive technologies, CSS, and JavaScript. When the markup is precise, styling becomes easier, scripts have stable targets, and users get a page that works across devices.
+## What is block and inline elements?
 
-In practice, focus on the role of the element or attribute before you focus on visual output. Browsers provide default behavior, but good HTML gives that behavior a clear purpose.
+- It gives block and inline elements a clear semantic purpose instead of relying on visual styling alone.
+- The important syntax in this chapter includes `block elements`, `inline elements` and `display CSS`.
+- It improves real pages when layout surprises come from how elements occupy space, especially after you test the result in a browser.
+- Good markup here gives CSS and JavaScript predictable targets without hiding meaning from users.
 
-## Syntax
+## Syntax and examples
+
+Start with the smallest useful pattern, then compare it with the more complete examples below.
+
+### Example 1: Core pattern
 
 ```html
 <div class="card">
@@ -30,30 +37,85 @@ In practice, focus on the role of the element or attribute before you focus on v
 </div>
 ```
 
-Read the snippet from the outside in: identify the containing element, then the attributes, then the text or nested elements. This habit makes larger documents much easier to debug.
+### Example 2: Options in context
 
-## Quick reference
+```html
+<section class="block-inline-notes" aria-labelledby="block-inline-title">
+  <h2 id="block-inline-title">HTML Block and Inline Elements options</h2>
+  <table>
+    <caption>Key syntax for block and inline elements</caption>
+    <thead>
+      <tr><th scope="col">Syntax</th><th scope="col">Purpose</th></tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>block elements</code></td>
+      <td>usually start on a new line and fill width</td>
+    </tr>
+    <tr>
+      <td><code>inline elements</code></td>
+      <td>flow inside text without a line break</td>
+    </tr>
+    <tr>
+      <td><code>display CSS</code></td>
+      <td>can change visual layout without changing semantics</td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+```
 
-| Item | Purpose | Example cue |
+### Example 3: Complete practice page
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Block and Inline Elements practice</title>
+  </head>
+  <body>
+    <div class="card">
+      <h2>Block elements start on a new line.</h2>
+      <p>Inline elements like <a href="/docs">links</a> stay inside text flow.</p>
+    </div>
+  </body>
+</html>
+```
+
+## Example explained
+
+- The first example shows the core pattern for block and inline elements without unrelated layout code.
+- Pay attention to `block elements`: usually start on a new line and fill width.
+- The second and third examples show how the same idea fits into a larger page with meaningful text, stable attributes, and readable structure.
+- If the browser output is surprising, inspect the element in DevTools and compare the DOM with the source markup.
+
+## More examples and options
+
+| Syntax or option | What it does | When to use it |
 | --- | --- | --- |
-| Core concept | The role this lesson plays in HTML structure | Block and Inline Elements |
-| Syntax | How the related element, attribute, or API is written | Watch opening tags and attribute values |
-| Browser behavior | What the browser provides by default | Inspect the result in DevTools |
-| Quality check | Accessibility, SEO, or maintainability impact | Use clear names and fallback text |
+| `block elements` | usually start on a new line and fill width | Use it while practicing block and inline elements. |
+| `inline elements` | flow inside text without a line break | Use it while practicing block and inline elements. |
+| `display CSS` | can change visual layout without changing semantics | Use it while practicing block and inline elements. |
 
-## Best practices
+## Browser, accessibility, and SEO notes
 
-- Prefer semantic HTML before adding generic containers or JavaScript behavior.
-- Keep examples small while learning, then test the same idea inside a complete document.
-- Write attributes intentionally: names, labels, alternative text, and URLs should explain their purpose.
-- Validate the page, inspect it in DevTools, and test it with keyboard navigation when interaction is involved.
+- Test block and inline elements in a small file; default browser styling is not the same thing as good markup.
+- For accessibility, provide meaningful text, labels, alt text, captions, or titles when the feature needs them.
+- For SEO, write headings, link text, titles, and semantic structure that still make sense without CSS.
 
-## Common mistakes to avoid
+## Common mistakes
 
-- Treating Block and Inline Elements as only a visual feature instead of part of document meaning.
-- Skipping required context such as labels, titles, fallback text, or character encoding.
-- Copying markup without changing names, paths, and text to match the real page.
+- Using block and inline elements only for appearance instead of matching the content role.
+- Forgetting `block elements` or writing values that do not match the real page purpose.
+- Copying an example without changing text, paths, ids, names, or labels for your project.
+- Skipping keyboard, small-screen, and DevTools checks after the page appears to work.
+
+## Practice tip
+
+Create a file named `block-inline.html`, copy the first example, then add one extra line that uses `block elements` correctly in your own content.
 
 ## Next step
 
-Next step: open **HTML Classes** and build on this lesson while the syntax is still fresh.
+Next step: continue with **HTML Classes** so the next concept builds on this one.

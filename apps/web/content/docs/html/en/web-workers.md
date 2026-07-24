@@ -1,9 +1,9 @@
 ---
 title: "HTML Web Workers API"
-description: "A focused lesson on running heavy JavaScript work away from the UI thread."
-seoTitle: "Web Workers API in HTML — Step-by-Step Tutorial | MEGA JS Docs"
-seoDescription: "Learn HTML Web Workers API with a W3Schools-style step-by-step guide to syntax, examples, best practices, and next steps for real web pages. Practice it today."
-keywords: "learn HTML, Web Workers API, HTML tutorial, W3Schools, web development"
+description: "Learn how heavy JavaScript runs away from the UI thread with real HTML examples and practical checks."
+seoTitle: "HTML Web Workers API Tutorial | MEGA JS Docs"
+seoDescription: "Learn HTML Web Workers API with step-by-step HTML examples, syntax tables, common mistakes, and practice tips for building accessible real pages."
+keywords: "HTML tutorial, HTML web workers, Worker postMessage, JavaScript background thread"
 order: 59
 sources:
   - name: W3Schools HTML
@@ -13,49 +13,115 @@ sources:
 ---
 # HTML Web Workers API
 
-This chapter teaches running heavy JavaScript work away from the UI thread. The order follows the W3Schools HTML tutorial spine, but the explanations are rewritten for MEGA JS so you can learn the same concepts without memorizing copied examples.
+In HTML Web Workers API, you learn how heavy JavaScript runs away from the UI thread. The focus is HTML Web Workers API, so the examples use the exact tags, attributes, or browser APIs you will meet in real pages.
 
-## What and why
+Use this lesson when calculations would otherwise freeze typing, scrolling, or animation. Read each example slowly, then change one value at a time to see what the browser does.
 
-HTML Web Workers API matters because HTML is the contract between your content, the browser, search engines, assistive technologies, CSS, and JavaScript. When the markup is precise, styling becomes easier, scripts have stable targets, and users get a page that works across devices.
+## What are HTML Web Workers API?
 
-In practice, focus on the role of the element or attribute before you focus on visual output. Browsers provide default behavior, but good HTML gives that behavior a clear purpose.
+- It gives HTML Web Workers API a clear semantic purpose instead of relying on visual styling alone.
+- The important syntax in this chapter includes `new Worker()`, `postMessage()` and `onmessage`.
+- It improves real pages when calculations would otherwise freeze typing, scrolling, or animation, especially after you test the result in a browser.
+- Good markup here gives CSS and JavaScript predictable targets without hiding meaning from users.
 
-## Syntax
+## Syntax and examples
+
+Start with the smallest useful pattern, then compare it with the more complete examples below.
+
+### Example 1: Core pattern
 
 ```html
 <button id="calculate" type="button">Calculate</button>
 <script>
   const worker = new Worker('/workers/calculate.js');
+  const calculate = document.querySelector('#calculate');
   calculate.addEventListener('click', () => worker.postMessage({ limit: 100000 }));
   worker.onmessage = (event) => console.log(event.data);
 </script>
 ```
 
-Read the snippet from the outside in: identify the containing element, then the attributes, then the text or nested elements. This habit makes larger documents much easier to debug.
+### Example 2: Options in context
 
-## Quick reference
+```html
+<section class="web-workers-notes" aria-labelledby="web-workers-title">
+  <h2 id="web-workers-title">HTML Web Workers API options</h2>
+  <table>
+    <caption>Key syntax for HTML Web Workers API</caption>
+    <thead>
+      <tr><th scope="col">Syntax</th><th scope="col">Purpose</th></tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>new Worker()</code></td>
+      <td>starts a background script</td>
+    </tr>
+    <tr>
+      <td><code>postMessage()</code></td>
+      <td>sends data between page and worker</td>
+    </tr>
+    <tr>
+      <td><code>onmessage</code></td>
+      <td>receives results asynchronously</td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+```
 
-| Item | Purpose | Example cue |
+### Example 3: Complete practice page
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Web Workers API practice</title>
+  </head>
+  <body>
+    <button id="calculate" type="button">Calculate</button>
+    <script>
+      const worker = new Worker('/workers/calculate.js');
+      const calculate = document.querySelector('#calculate');
+      calculate.addEventListener('click', () => worker.postMessage({ limit: 100000 }));
+      worker.onmessage = (event) => console.log(event.data);
+    </script>
+  </body>
+</html>
+```
+
+## Example explained
+
+- The first example shows the core pattern for HTML Web Workers API without unrelated layout code.
+- Pay attention to `new Worker()`: starts a background script.
+- The second and third examples show how the same idea fits into a larger page with event handlers, permissions, state, and error handling.
+- If the browser output is surprising, inspect the element in DevTools and compare the DOM with the source markup.
+
+## More examples and options
+
+| Syntax or option | What it does | When to use it |
 | --- | --- | --- |
-| Core concept | The role this lesson plays in HTML structure | Web Workers API |
-| Syntax | How the related element, attribute, or API is written | Watch opening tags and attribute values |
-| Browser behavior | What the browser provides by default | Inspect the result in DevTools |
-| Quality check | Accessibility, SEO, or maintainability impact | Use clear names and fallback text |
+| `new Worker()` | starts a background script | Use it while practicing HTML Web Workers API. |
+| `postMessage()` | sends data between page and worker | Use it while practicing HTML Web Workers API. |
+| `onmessage` | receives results asynchronously | Use it while practicing HTML Web Workers API. |
 
-## Best practices
+## Browser, accessibility, and SEO notes
 
-- Prefer semantic HTML before adding generic containers or JavaScript behavior.
-- Keep examples small while learning, then test the same idea inside a complete document.
-- Write attributes intentionally: names, labels, alternative text, and URLs should explain their purpose.
-- Validate the page, inspect it in DevTools, and test it with keyboard navigation when interaction is involved.
+- Test HTML Web Workers API in a small file; default browser styling is not the same thing as good markup.
+- For accessibility, provide meaningful text, labels, alt text, captions, or titles when the feature needs them.
+- Many Web APIs depend on HTTPS, permissions, or browser support, so always handle errors.
 
-## Common mistakes to avoid
+## Common mistakes
 
-- Treating Web Workers API as only a visual feature instead of part of document meaning.
-- Skipping required context such as labels, titles, fallback text, or character encoding.
-- Copying markup without changing names, paths, and text to match the real page.
+- Using HTML Web Workers API only for appearance instead of matching the content role.
+- Forgetting `new Worker()` or writing values that do not match the real page purpose.
+- Copying an example without changing text, paths, ids, names, or labels for your project.
+- Skipping keyboard, small-screen, and DevTools checks after the page appears to work.
+
+## Practice tip
+
+Create a file named `web-workers.html`, copy the first example, then add one extra line that uses `new Worker()` correctly in your own content.
 
 ## Next step
 
-Next step: open **HTML Server-Sent Events** and build on this lesson while the syntax is still fresh.
+Next step: continue with **HTML Server-Sent Events** so the next concept builds on this one.

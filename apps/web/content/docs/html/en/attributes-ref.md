@@ -1,9 +1,9 @@
 ---
 title: "HTML Attribute Reference"
-description: "A focused lesson on looking up attributes and the elements that accept them."
-seoTitle: "Attribute Reference in HTML — Step-by-Step Tutorial | MEGA JS Docs"
-seoDescription: "Learn HTML Attribute Reference step by step with W3Schools-style syntax, examples, best practices, and next steps for real accessible pages. Practice it today."
-keywords: "learn HTML, Attribute Reference, HTML tutorial, W3Schools, web development"
+description: "Learn how attributes configure elements and which elements accept them with real HTML examples and practical checks."
+seoTitle: "HTML Attribute Reference Tutorial | MEGA JS Docs"
+seoDescription: "Learn HTML Attribute Reference with step-by-step HTML examples, syntax tables, common mistakes, and practice tips for building accessible real pages."
+keywords: "HTML tutorial, HTML attributes reference, global attributes, boolean attributes"
 order: 63
 sources:
   - name: W3Schools HTML
@@ -13,15 +13,22 @@ sources:
 ---
 # HTML Attribute Reference
 
-This chapter teaches looking up attributes and the elements that accept them. The order follows the W3Schools HTML tutorial spine, but the explanations are rewritten for MEGA JS so you can learn the same concepts without memorizing copied examples.
+In HTML Attribute Reference, you learn how attributes configure elements and which elements accept them. The focus is HTML attribute reference, so the examples use the exact tags, attributes, or browser APIs you will meet in real pages.
 
-## What and why
+Use this lesson when you need the exact spelling, value type, or valid element. Read each example slowly, then change one value at a time to see what the browser does.
 
-HTML Attribute Reference matters because HTML is the contract between your content, the browser, search engines, assistive technologies, CSS, and JavaScript. When the markup is precise, styling becomes easier, scripts have stable targets, and users get a page that works across devices.
+## What is HTML attribute reference?
 
-In practice, focus on the role of the element or attribute before you focus on visual output. Browsers provide default behavior, but good HTML gives that behavior a clear purpose.
+- It gives HTML attribute reference a clear semantic purpose instead of relying on visual styling alone.
+- The important syntax in this chapter includes `global attributes`, `element-specific attributes` and `boolean attributes`.
+- It improves real pages when you need the exact spelling, value type, or valid element, especially after you test the result in a browser.
+- Good markup here gives CSS and JavaScript predictable targets without hiding meaning from users.
 
-## Syntax
+## Syntax and examples
+
+Start with the smallest useful pattern, then compare it with the more complete examples below.
+
+### Example 1: Core pattern
 
 ```html
 <img src="avatar.png" alt="Profile avatar" width="96" height="96">
@@ -29,30 +36,84 @@ In practice, focus on the role of the element or attribute before you focus on v
 <input name="email" type="email" required>
 ```
 
-Read the snippet from the outside in: identify the containing element, then the attributes, then the text or nested elements. This habit makes larger documents much easier to debug.
+### Example 2: Options in context
 
-## Quick reference
+```html
+<section class="attributes-ref-notes" aria-labelledby="attributes-ref-title">
+  <h2 id="attributes-ref-title">HTML Attribute Reference options</h2>
+  <table>
+    <caption>Key syntax for HTML attribute reference</caption>
+    <thead>
+      <tr><th scope="col">Syntax</th><th scope="col">Purpose</th></tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>global attributes</code></td>
+      <td>work on most HTML elements</td>
+    </tr>
+    <tr>
+      <td><code>element-specific attributes</code></td>
+      <td>belong only to certain tags</td>
+    </tr>
+    <tr>
+      <td><code>boolean attributes</code></td>
+      <td>are true when present</td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+```
 
-| Item | Purpose | Example cue |
+### Example 3: Complete practice page
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Attribute Reference practice</title>
+  </head>
+  <body>
+    <img src="avatar.png" alt="Profile avatar" width="96" height="96">
+    <a href="/profile" rel="author">Author profile</a>
+    <input name="email" type="email" required>
+  </body>
+</html>
+```
+
+## Example explained
+
+- The first example shows the core pattern for HTML attribute reference without unrelated layout code.
+- Pay attention to `global attributes`: work on most HTML elements.
+- The second and third examples show how the same idea fits into a larger page with exact syntax, purpose, and limitations for each item.
+- If the browser output is surprising, inspect the element in DevTools and compare the DOM with the source markup.
+
+## More examples and options
+
+| Syntax or option | What it does | When to use it |
 | --- | --- | --- |
-| Core concept | The role this lesson plays in HTML structure | Attribute Reference |
-| Syntax | How the related element, attribute, or API is written | Watch opening tags and attribute values |
-| Browser behavior | What the browser provides by default | Inspect the result in DevTools |
-| Quality check | Accessibility, SEO, or maintainability impact | Use clear names and fallback text |
+| `global attributes` | work on most HTML elements | Use it while practicing HTML attribute reference. |
+| `element-specific attributes` | belong only to certain tags | Use it while practicing HTML attribute reference. |
+| `boolean attributes` | are true when present | Use it while practicing HTML attribute reference. |
 
-## Best practices
+## Browser, accessibility, and SEO notes
 
-- Prefer semantic HTML before adding generic containers or JavaScript behavior.
-- Keep examples small while learning, then test the same idea inside a complete document.
-- Write attributes intentionally: names, labels, alternative text, and URLs should explain their purpose.
-- Validate the page, inspect it in DevTools, and test it with keyboard navigation when interaction is involved.
+- Test HTML attribute reference in a small file; default browser styling is not the same thing as good markup.
+- For accessibility, provide meaningful text, labels, alt text, captions, or titles when the feature needs them.
+- For SEO, write headings, link text, titles, and semantic structure that still make sense without CSS.
 
-## Common mistakes to avoid
+## Common mistakes
 
-- Treating Attribute Reference as only a visual feature instead of part of document meaning.
-- Skipping required context such as labels, titles, fallback text, or character encoding.
-- Copying markup without changing names, paths, and text to match the real page.
+- Using HTML attribute reference only for appearance instead of matching the content role.
+- Forgetting `global attributes` or writing values that do not match the real page purpose.
+- Copying an example without changing text, paths, ids, names, or labels for your project.
+- Skipping keyboard, small-screen, and DevTools checks after the page appears to work.
+
+## Practice tip
+
+Create a file named `attributes-ref.html`, copy the first example, then add one extra line that uses `global attributes` correctly in your own content.
 
 ## Next step
 
-Next step: open **HTML Global Attributes** and build on this lesson while the syntax is still fresh.
+Next step: continue with **HTML Global Attributes** so the next concept builds on this one.

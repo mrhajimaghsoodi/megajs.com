@@ -1,9 +1,9 @@
 ---
 title: "مرجع‌های HTML"
-description: "درس مرجع‌های HTML برای یادگیری استفاده از صفحه‌های reference پس از درک مسیر آموزشی."
-seoTitle: "مرجع‌های در HTML — آموزش قدم‌به‌قدم | مستندات MEGA JS"
-seoDescription: "آموزش HTML مرجع‌های به سبک قدم‌به‌قدم W3Schools؛ با syntax، مثال کاربردی، best practice و گام بعدی برای ساخت صفحه‌های واقعی. مناسب تمرین عملی و یادگیری مطمئن."
-keywords: "آموزش HTML, مرجع‌های, HTML, W3Schools, طراحی وب"
+description: "در این درس جست‌وجوی دقیق element، attribute و event در صفحه‌های reference را با مثال‌های واقعی HTML تمرین می‌کنید."
+seoTitle: "آموزش مرجع‌های HTML | مستندات MEGA JS"
+seoDescription: "آموزش مرجع‌های HTML با مثال‌های قدم‌به‌قدم، جدول syntax، خطاهای رایج و تمرین عملی برای ساخت صفحه‌های استاندارد و قابل دسترس. مناسب تمرین عملی و یادگیری مطمئن."
+keywords: "آموزش HTML, مرجع‌های HTML, آموزش HTML references, آموزش HTML tag reference, آموزش HTML attributes reference"
 order: 61
 sources:
   - name: W3Schools HTML
@@ -13,45 +13,105 @@ sources:
 ---
 # مرجع‌های HTML
 
-در این درس استفاده از صفحه‌های reference پس از درک مسیر آموزشی را یاد می‌گیرید. ترتیب درس‌ها از ساختار آموزش HTML در W3Schools الهام گرفته شده، اما متن و مثال‌ها برای مستندات MEGA JS بازنویسی شده‌اند تا یادگیری مرحله‌به‌مرحله و کاربردی بماند.
+مرجع‌های HTML روی جست‌وجوی دقیق element، attribute و event در صفحه‌های reference تمرکز دارد. در این درس درباره مرجع‌های HTML با مثال‌های واقعی HTML کار می‌کنید، نه فقط تعریف‌های کوتاه و حفظی.
 
-## چیستی و چرایی
+این موضوع زمانی مهم می‌شود که وقتی مفهوم را می‌دانید و syntax یا جزئیات مرورگر را می‌خواهید. هر مثال را اجرا کنید، سپس یک attribute یا مقدار را تغییر دهید تا رفتار مرورگر را ببینید.
 
-مرجع‌های HTML مهم است چون HTML قرارداد اصلی میان محتوا، مرورگر، موتورهای جست‌وجو، ابزارهای کمکی، CSS و JavaScript است. وقتی markup دقیق باشد، style ساده‌تر می‌شود، scriptها target پایدار دارند و صفحه در دستگاه‌های مختلف قابل اعتمادتر کار می‌کند.
+## چیستی مرجع‌های HTML
 
-در تمرین، اول نقش element یا attribute را بفهمید و بعد به ظاهر فکر کنید. ظاهر با CSS تغییر می‌کند، اما معنای درست HTML پایه تجربه کاربری، SEO و accessibility است.
+- این بخش به مرجع‌های HTML نقش روشن می‌دهد و فقط به ظاهر CSS تکیه نمی‌کند.
+- syntaxهای مهم این درس شامل `tag reference`, `attribute reference` و `event reference` است.
+- وقتی وقتی مفهوم را می‌دانید و syntax یا جزئیات مرورگر را می‌خواهید، markup درست باعث می‌شود صفحه قابل اعتمادتر و قابل نگه‌داری‌تر باشد.
+- HTML خوب به CSS و JavaScript target پایدار می‌دهد و هم‌زمان معنا را برای کاربر و ابزارهای کمکی حفظ می‌کند.
 
-## Syntax
+## Syntax و مثال‌ها
+
+ابتدا ساده‌ترین الگوی کاربردی را ببینید و بعد آن را با مثال‌های کامل‌تر مقایسه کنید.
+
+### مثال 1: الگوی اصلی
 
 ```html
 <p>Use references when you need exact element, attribute, or event details.</p>
 <a href="/docs/html/tag-list">Open the tag list</a>
 ```
 
-کد را از بیرون به داخل بخوانید: ابتدا container، سپس attributeها، و بعد متن یا elementهای تو در تو. این عادت debug کردن سندهای بزرگ‌تر را بسیار ساده‌تر می‌کند.
+### مثال 2: گزینه‌ها در context
 
-## جدول سریع
+```html
+<section class="references-notes" aria-labelledby="references-title">
+  <h2 id="references-title">HTML References options</h2>
+  <table>
+    <caption>Key syntax for HTML references</caption>
+    <thead>
+      <tr><th scope="col">Syntax</th><th scope="col">Purpose</th></tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>tag reference</code></td>
+      <td>lists elements and their purpose</td>
+    </tr>
+    <tr>
+      <td><code>attribute reference</code></td>
+      <td>shows where attributes are valid</td>
+    </tr>
+    <tr>
+      <td><code>event reference</code></td>
+      <td>lists browser and user events</td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+```
 
-| مورد | کاربرد | نشانه در مثال |
+### مثال 3: صفحه تمرینی کامل
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML References practice</title>
+  </head>
+  <body>
+    <p>Use references when you need exact element, attribute, or event details.</p>
+    <a href="/docs/html/tag-list">Open the tag list</a>
+  </body>
+</html>
+```
+
+## توضیح مثال
+
+- مثال اول pattern اصلی مرجع‌های HTML را بدون کد layout اضافی نشان می‌دهد.
+- به `tag reference` دقت کنید: elementها و کاربردشان را فهرست می‌کند.
+- مثال دوم و سوم نشان می‌دهند همین ایده در صفحه بزرگ‌تر چطور کنار syntax دقیق، کاربرد و محدودیت‌های هر مورد قرار می‌گیرد.
+- اگر خروجی مرورگر غیرمنتظره بود، element را در DevTools inspect کنید و DOM را با source markup مقایسه کنید.
+
+## مثال‌های بیشتر و جدول گزینه‌ها
+
+| Syntax یا گزینه | کاربرد | زمان استفاده |
 | --- | --- | --- |
-| مفهوم اصلی | نقش این درس در ساختار HTML | مرجع‌های |
-| syntax | شکل نوشتن element، attribute یا API مرتبط | به opening tag و مقدار attribute دقت کنید |
-| رفتار مرورگر | آنچه browser به صورت پیش‌فرض انجام می‌دهد | با DevTools بررسی کنید |
-| کیفیت | ارتباط با accessibility، SEO یا maintainability | نام‌گذاری و متن جایگزین را جدی بگیرید |
+| `tag reference` | elementها و کاربردشان را فهرست می‌کند | هنگام تمرین مرجع‌های HTML از آن استفاده کنید. |
+| `attribute reference` | نشان می‌دهد attribute کجا معتبر است | هنگام تمرین مرجع‌های HTML از آن استفاده کنید. |
+| `event reference` | eventهای مرورگر و کاربر را فهرست می‌کند | هنگام تمرین مرجع‌های HTML از آن استفاده کنید. |
 
-## نکته‌ها و Best Practice
+## نکته‌های مرورگر، accessibility و SEO
 
-- قبل از استفاده از `div` یا JavaScript، ببینید element معنایی مناسب وجود دارد یا نه.
-- هنگام یادگیری مثال را کوچک نگه دارید، سپس همان ایده را داخل یک سند کامل HTML امتحان کنید.
-- attributeهایی مثل `name`، `alt`، `title`، `href` و `id` باید هدف روشن و قابل فهم داشته باشند.
-- صفحه را در DevTools بررسی کنید و برای بخش‌های تعاملی، navigation با keyboard را هم تست کنید.
+- پشتیبانی مرورگر برای مرجع‌های HTML را با یک فایل کوچک تست کنید؛ default style همیشه معیار کیفیت markup نیست.
+- برای accessibility، متن قابل فهم، label، alt، caption یا title را فقط وقتی لازم است ولی دقیق بنویسید.
+- برای SEO، heading، link text، title و ساختار معنایی را طوری بنویسید که بدون CSS هم قابل فهم باشد.
 
 ## اشتباه‌های رایج
 
-- نگاه کردن به مرجع‌های فقط به عنوان موضوع ظاهری، نه بخشی از معنای سند.
-- حذف contextهای لازم مثل label، title، fallback text یا character encoding.
-- کپی کردن markup بدون تغییر نام‌ها، pathها و متن‌ها بر اساس صفحه واقعی.
+- استفاده از مرجع‌های HTML فقط برای ظاهر، در حالی که باید نقش محتوایی آن روشن باشد.
+- فراموش کردن `tag reference` یا نوشتن مقدارهایی که با هدف واقعی صفحه هماهنگ نیستند.
+- کپی کردن مثال بدون تغییر متن، path، id، name یا label بر اساس پروژه خودتان.
+- تست نکردن نتیجه با keyboard، صفحه کوچک موبایل و DevTools.
+
+## نکته تمرینی
+
+یک فایل به نام `references.html` بسازید، مثال اول را کپی کنید و سپس یک خط جدید اضافه کنید که `tag reference` را درست در محتوای خودتان به کار ببرد.
 
 ## گام بعدی
 
-گام بعدی: درس **فهرست tagهای HTML** را باز کنید و همین الگو را روی موضوع بعدی تمرین کنید.
+گام بعدی: درس **فهرست tagهای HTML** را بخوانید تا مفهوم بعدی روی همین پایه ساخته شود.

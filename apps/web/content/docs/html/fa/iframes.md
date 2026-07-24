@@ -1,9 +1,9 @@
 ---
 title: "آی‌فریم‌ها در HTML"
-description: "درس آی‌فریم‌ها در HTML برای یادگیری قراردادن امن یک صفحه دیگر داخل صفحه فعلی."
-seoTitle: "آی‌فریم‌ها در HTML — آموزش قدم‌به‌قدم | مستندات MEGA JS"
-seoDescription: "آموزش HTML آی‌فریم‌ها به سبک قدم‌به‌قدم W3Schools؛ با syntax، مثال کاربردی، best practice و گام بعدی برای ساخت صفحه‌های واقعی. مناسب تمرین عملی و یادگیری مطمئن."
-keywords: "آموزش HTML, آی‌فریم‌ها, HTML, W3Schools, طراحی وب"
+description: "در این درس قرار دادن یک سند دیگر داخل صفحه فعلی را با مثال‌های واقعی HTML تمرین می‌کنید."
+seoTitle: "آموزش iframe در HTML | مستندات MEGA JS"
+seoDescription: "آموزش iframe در HTML با مثال‌های قدم‌به‌قدم، جدول syntax، خطاهای رایج و تمرین عملی برای ساخت صفحه‌های استاندارد و قابل دسترس. مناسب تمرین عملی و یادگیری مطمئن."
+keywords: "آموزش HTML, iframe در HTML, آموزش HTML iframe, iframe src title, embed page"
 order: 24
 sources:
   - name: W3Schools HTML
@@ -13,15 +13,22 @@ sources:
 ---
 # آی‌فریم‌ها در HTML
 
-در این درس قراردادن امن یک صفحه دیگر داخل صفحه فعلی را یاد می‌گیرید. ترتیب درس‌ها از ساختار آموزش HTML در W3Schools الهام گرفته شده، اما متن و مثال‌ها برای مستندات MEGA JS بازنویسی شده‌اند تا یادگیری مرحله‌به‌مرحله و کاربردی بماند.
+آی‌فریم‌ها در HTML روی قرار دادن یک سند دیگر داخل صفحه فعلی تمرکز دارد. در این درس درباره iframe در HTML با مثال‌های واقعی HTML کار می‌کنید، نه فقط تعریف‌های کوتاه و حفظی.
 
-## چیستی و چرایی
+این موضوع زمانی مهم می‌شود که وقتی محتوای خارجی معتبر مثل map یا video باید inline دیده شود. هر مثال را اجرا کنید، سپس یک attribute یا مقدار را تغییر دهید تا رفتار مرورگر را ببینید.
 
-آی‌فریم‌ها در HTML مهم است چون HTML قرارداد اصلی میان محتوا، مرورگر، موتورهای جست‌وجو، ابزارهای کمکی، CSS و JavaScript است. وقتی markup دقیق باشد، style ساده‌تر می‌شود، scriptها target پایدار دارند و صفحه در دستگاه‌های مختلف قابل اعتمادتر کار می‌کند.
+## چیستی iframe در HTML
 
-در تمرین، اول نقش element یا attribute را بفهمید و بعد به ظاهر فکر کنید. ظاهر با CSS تغییر می‌کند، اما معنای درست HTML پایه تجربه کاربری، SEO و accessibility است.
+- این بخش به آی‌فریم‌ها در HTML نقش روشن می‌دهد و فقط به ظاهر CSS تکیه نمی‌کند.
+- syntaxهای مهم این درس شامل `src`, `title` و `loading="lazy"` است.
+- وقتی وقتی محتوای خارجی معتبر مثل map یا video باید inline دیده شود، markup درست باعث می‌شود صفحه قابل اعتمادتر و قابل نگه‌داری‌تر باشد.
+- HTML خوب به CSS و JavaScript target پایدار می‌دهد و هم‌زمان معنا را برای کاربر و ابزارهای کمکی حفظ می‌کند.
 
-## Syntax
+## Syntax و مثال‌ها
+
+ابتدا ساده‌ترین الگوی کاربردی را ببینید و بعد آن را با مثال‌های کامل‌تر مقایسه کنید.
+
+### مثال 1: الگوی اصلی
 
 ```html
 <iframe
@@ -32,30 +39,87 @@ sources:
 </iframe>
 ```
 
-کد را از بیرون به داخل بخوانید: ابتدا container، سپس attributeها، و بعد متن یا elementهای تو در تو. این عادت debug کردن سندهای بزرگ‌تر را بسیار ساده‌تر می‌کند.
+### مثال 2: گزینه‌ها در context
 
-## جدول سریع
+```html
+<section class="iframes-notes" aria-labelledby="iframes-title">
+  <h2 id="iframes-title">HTML Iframes options</h2>
+  <table>
+    <caption>Key syntax for HTML iframes</caption>
+    <thead>
+      <tr><th scope="col">Syntax</th><th scope="col">Purpose</th></tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>src</code></td>
+      <td>sets the embedded page URL</td>
+    </tr>
+    <tr>
+      <td><code>title</code></td>
+      <td>labels the frame for screen readers</td>
+    </tr>
+    <tr>
+      <td><code>loading=&quot;lazy&quot;</code></td>
+      <td>defers offscreen frame loading</td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+```
 
-| مورد | کاربرد | نشانه در مثال |
+### مثال 3: صفحه تمرینی کامل
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Iframes practice</title>
+  </head>
+  <body>
+    <iframe
+      src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+      title="HTML tutorial video"
+      loading="lazy"
+      allowfullscreen>
+    </iframe>
+  </body>
+</html>
+```
+
+## توضیح مثال
+
+- مثال اول pattern اصلی iframe در HTML را بدون کد layout اضافی نشان می‌دهد.
+- به `src` دقت کنید: URL صفحه embedded را تعیین می‌کند.
+- مثال دوم و سوم نشان می‌دهند همین ایده در صفحه بزرگ‌تر چطور کنار متن معنادار، attributeهای پایدار و ساختار قابل فهم قرار می‌گیرد.
+- اگر خروجی مرورگر غیرمنتظره بود، element را در DevTools inspect کنید و DOM را با source markup مقایسه کنید.
+
+## مثال‌های بیشتر و جدول گزینه‌ها
+
+| Syntax یا گزینه | کاربرد | زمان استفاده |
 | --- | --- | --- |
-| مفهوم اصلی | نقش این درس در ساختار HTML | آی‌فریم‌ها |
-| syntax | شکل نوشتن element، attribute یا API مرتبط | به opening tag و مقدار attribute دقت کنید |
-| رفتار مرورگر | آنچه browser به صورت پیش‌فرض انجام می‌دهد | با DevTools بررسی کنید |
-| کیفیت | ارتباط با accessibility، SEO یا maintainability | نام‌گذاری و متن جایگزین را جدی بگیرید |
+| `src` | URL صفحه embedded را تعیین می‌کند | هنگام تمرین iframe در HTML از آن استفاده کنید. |
+| `title` | frame را برای screen reader نام‌گذاری می‌کند | هنگام تمرین iframe در HTML از آن استفاده کنید. |
+| `loading="lazy"` | load شدن frame بیرون از دید را عقب می‌اندازد | هنگام تمرین iframe در HTML از آن استفاده کنید. |
 
-## نکته‌ها و Best Practice
+## نکته‌های مرورگر، accessibility و SEO
 
-- قبل از استفاده از `div` یا JavaScript، ببینید element معنایی مناسب وجود دارد یا نه.
-- هنگام یادگیری مثال را کوچک نگه دارید، سپس همان ایده را داخل یک سند کامل HTML امتحان کنید.
-- attributeهایی مثل `name`، `alt`، `title`، `href` و `id` باید هدف روشن و قابل فهم داشته باشند.
-- صفحه را در DevTools بررسی کنید و برای بخش‌های تعاملی، navigation با keyboard را هم تست کنید.
+- پشتیبانی مرورگر برای iframe در HTML را با یک فایل کوچک تست کنید؛ default style همیشه معیار کیفیت markup نیست.
+- برای accessibility، متن قابل فهم، label، alt، caption یا title را فقط وقتی لازم است ولی دقیق بنویسید.
+- برای SEO، heading، link text، title و ساختار معنایی را طوری بنویسید که بدون CSS هم قابل فهم باشد.
 
 ## اشتباه‌های رایج
 
-- نگاه کردن به آی‌فریم‌ها فقط به عنوان موضوع ظاهری، نه بخشی از معنای سند.
-- حذف contextهای لازم مثل label، title، fallback text یا character encoding.
-- کپی کردن markup بدون تغییر نام‌ها، pathها و متن‌ها بر اساس صفحه واقعی.
+- استفاده از iframe در HTML فقط برای ظاهر، در حالی که باید نقش محتوایی آن روشن باشد.
+- فراموش کردن `src` یا نوشتن مقدارهایی که با هدف واقعی صفحه هماهنگ نیستند.
+- کپی کردن مثال بدون تغییر متن، path، id، name یا label بر اساس پروژه خودتان.
+- تست نکردن نتیجه با keyboard، صفحه کوچک موبایل و DevTools.
+
+## نکته تمرینی
+
+یک فایل به نام `iframes.html` بسازید، مثال اول را کپی کنید و سپس یک خط جدید اضافه کنید که `src` را درست در محتوای خودتان به کار ببرد.
 
 ## گام بعدی
 
-گام بعدی: درس **JavaScript در HTML** را باز کنید و همین الگو را روی موضوع بعدی تمرین کنید.
+گام بعدی: درس **JavaScript در HTML** را بخوانید تا مفهوم بعدی روی همین پایه ساخته شود.

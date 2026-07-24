@@ -1,9 +1,9 @@
 ---
 title: "HTML Video"
-description: "A focused lesson on playing video with controls, captions, and fallback text."
-seoTitle: "Video in HTML — Step-by-Step Tutorial | MEGA JS Docs"
-seoDescription: "Learn HTML Video with a W3Schools-style step-by-step guide to syntax, examples, best practices, and next steps for real web pages. Practice it today."
-keywords: "learn HTML, Video, HTML tutorial, W3Schools, web development"
+description: "Learn how the video element plays files with controls, sources, posters, captions, and fallback text with real HTML examples and practical checks."
+seoTitle: "HTML Video Tutorial | MEGA JS Docs"
+seoDescription: "Learn HTML Video with step-by-step HTML examples, syntax tables, common mistakes, and practice tips for building accessible real pages. Practice it today."
+keywords: "HTML tutorial, HTML video, video controls source track, video captions HTML"
 order: 50
 sources:
   - name: W3Schools HTML
@@ -13,15 +13,22 @@ sources:
 ---
 # HTML Video
 
-This chapter teaches playing video with controls, captions, and fallback text. The order follows the W3Schools HTML tutorial spine, but the explanations are rewritten for MEGA JS so you can learn the same concepts without memorizing copied examples.
+In HTML Video, you learn how the video element plays files with controls, sources, posters, captions, and fallback text. The focus is HTML video, so the examples use the exact tags, attributes, or browser APIs you will meet in real pages.
 
-## What and why
+Use this lesson when you host a video file and need accessible playback in the browser. Read each example slowly, then change one value at a time to see what the browser does.
 
-HTML Video matters because HTML is the contract between your content, the browser, search engines, assistive technologies, CSS, and JavaScript. When the markup is precise, styling becomes easier, scripts have stable targets, and users get a page that works across devices.
+## What is HTML video?
 
-In practice, focus on the role of the element or attribute before you focus on visual output. Browsers provide default behavior, but good HTML gives that behavior a clear purpose.
+- It gives HTML video a clear semantic purpose instead of relying on visual styling alone.
+- The important syntax in this chapter includes `controls`, `<source>` and `<track kind="captions">`.
+- It improves real pages when you host a video file and need accessible playback in the browser, especially after you test the result in a browser.
+- Good markup here gives CSS and JavaScript predictable targets without hiding meaning from users.
 
-## Syntax
+## Syntax and examples
+
+Start with the smallest useful pattern, then compare it with the more complete examples below.
+
+### Example 1: Sources and tracks
 
 ```html
 <video controls poster="poster.jpg" width="640">
@@ -31,30 +38,61 @@ In practice, focus on the role of the element or attribute before you focus on v
 </video>
 ```
 
-Read the snippet from the outside in: identify the containing element, then the attributes, then the text or nested elements. This habit makes larger documents much easier to debug.
+### Example 2: Downloadable fallback
 
-## Quick reference
+```html
+<video controls preload="metadata" poster="course-poster.jpg">
+  <source src="course-intro.webm" type="video/webm">
+  <source src="course-intro.mp4" type="video/mp4">
+  <p>Your browser cannot play this video. <a href="course-intro.mp4">Download it</a>.</p>
+</video>
+```
 
-| Item | Purpose | Example cue |
+### Example 3: Multilingual captions
+
+```html
+<figure>
+  <video controls width="720">
+    <source src="demo.mp4" type="video/mp4">
+    <track src="demo-fa.vtt" kind="subtitles" srclang="fa" label="فارسی">
+    <track src="demo-en.vtt" kind="captions" srclang="en" label="English">
+  </video>
+  <figcaption>Course introduction with captions.</figcaption>
+</figure>
+```
+
+## Example explained
+
+- The first example shows the core pattern for HTML video without unrelated layout code.
+- Pay attention to `controls`: shows built-in playback controls.
+- The second and third examples show how the same idea fits into a larger page with sources, controls, captions, and useful fallback.
+- If the browser output is surprising, inspect the element in DevTools and compare the DOM with the source markup.
+
+## More examples and options
+
+| Syntax or option | What it does | When to use it |
 | --- | --- | --- |
-| Core concept | The role this lesson plays in HTML structure | Video |
-| Syntax | How the related element, attribute, or API is written | Watch opening tags and attribute values |
-| Browser behavior | What the browser provides by default | Inspect the result in DevTools |
-| Quality check | Accessibility, SEO, or maintainability impact | Use clear names and fallback text |
+| `controls` | shows built-in playback controls | Use it while practicing HTML video. |
+| `<source>` | offers multiple video formats | Use it while practicing HTML video. |
+| `<track kind="captions">` | adds captions for accessibility | Use it while practicing HTML video. |
 
-## Best practices
+## Browser, accessibility, and SEO notes
 
-- Prefer semantic HTML before adding generic containers or JavaScript behavior.
-- Keep examples small while learning, then test the same idea inside a complete document.
-- Write attributes intentionally: names, labels, alternative text, and URLs should explain their purpose.
-- Validate the page, inspect it in DevTools, and test it with keyboard navigation when interaction is involved.
+- Test HTML video in a small file; default browser styling is not the same thing as good markup.
+- For accessibility, provide meaningful text, labels, alt text, captions, or titles when the feature needs them.
+- Use controls, captions or subtitles, and fallback links for media; be careful with autoplay.
 
-## Common mistakes to avoid
+## Common mistakes
 
-- Treating Video as only a visual feature instead of part of document meaning.
-- Skipping required context such as labels, titles, fallback text, or character encoding.
-- Copying markup without changing names, paths, and text to match the real page.
+- Using HTML video only for appearance instead of matching the content role.
+- Forgetting `controls` or writing values that do not match the real page purpose.
+- Copying an example without changing text, paths, ids, names, or labels for your project.
+- Skipping keyboard, small-screen, and DevTools checks after the page appears to work.
+
+## Practice tip
+
+Create a file named `video.html`, copy the first example, then add one extra line that uses `controls` correctly in your own content.
 
 ## Next step
 
-Next step: open **HTML Audio** and build on this lesson while the syntax is still fresh.
+Next step: continue with **HTML Audio** so the next concept builds on this one.

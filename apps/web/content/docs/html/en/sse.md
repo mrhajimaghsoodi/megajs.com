@@ -1,9 +1,9 @@
 ---
 title: "HTML Server-Sent Events"
-description: "A focused lesson on receiving one-way live updates from a server."
-seoTitle: "Server-Sent Events in HTML — Step-by-Step Tutorial | MEGA JS Docs"
-seoDescription: "Learn HTML Server-Sent Events step by step with W3Schools-style syntax, examples, best practices, and next steps for real accessible pages. Practice it today."
-keywords: "learn HTML, Server-Sent Events, HTML tutorial, W3Schools, web development"
+description: "Learn how EventSource receives one-way live updates from a server with real HTML examples and practical checks."
+seoTitle: "HTML Server-Sent Events Tutorial | MEGA JS Docs"
+seoDescription: "Learn HTML Server-Sent Events with step-by-step HTML examples, syntax tables, common mistakes, and practice tips for building accessible real pages."
+keywords: "HTML tutorial, HTML Server-Sent Events, EventSource SSE, live updates HTML"
 order: 60
 sources:
   - name: W3Schools HTML
@@ -13,15 +13,22 @@ sources:
 ---
 # HTML Server-Sent Events
 
-This chapter teaches receiving one-way live updates from a server. The order follows the W3Schools HTML tutorial spine, but the explanations are rewritten for MEGA JS so you can learn the same concepts without memorizing copied examples.
+In HTML Server-Sent Events, you learn how EventSource receives one-way live updates from a server. The focus is HTML Server-Sent Events, so the examples use the exact tags, attributes, or browser APIs you will meet in real pages.
 
-## What and why
+Use this lesson when news, scores, build logs, or notifications stream from server to page. Read each example slowly, then change one value at a time to see what the browser does.
 
-HTML Server-Sent Events matters because HTML is the contract between your content, the browser, search engines, assistive technologies, CSS, and JavaScript. When the markup is precise, styling becomes easier, scripts have stable targets, and users get a page that works across devices.
+## What is HTML Server-Sent Events?
 
-In practice, focus on the role of the element or attribute before you focus on visual output. Browsers provide default behavior, but good HTML gives that behavior a clear purpose.
+- It gives HTML Server-Sent Events a clear semantic purpose instead of relying on visual styling alone.
+- The important syntax in this chapter includes `EventSource`, `message event` and `text/event-stream`.
+- It improves real pages when news, scores, build logs, or notifications stream from server to page, especially after you test the result in a browser.
+- Good markup here gives CSS and JavaScript predictable targets without hiding meaning from users.
 
-## Syntax
+## Syntax and examples
+
+Start with the smallest useful pattern, then compare it with the more complete examples below.
+
+### Example 1: Core pattern
 
 ```html
 <output id="news"></output>
@@ -34,30 +41,89 @@ In practice, focus on the role of the element or attribute before you focus on v
 </script>
 ```
 
-Read the snippet from the outside in: identify the containing element, then the attributes, then the text or nested elements. This habit makes larger documents much easier to debug.
+### Example 2: Options in context
 
-## Quick reference
+```html
+<section class="sse-notes" aria-labelledby="sse-title">
+  <h2 id="sse-title">HTML Server-Sent Events options</h2>
+  <table>
+    <caption>Key syntax for HTML Server-Sent Events</caption>
+    <thead>
+      <tr><th scope="col">Syntax</th><th scope="col">Purpose</th></tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>EventSource</code></td>
+      <td>opens a persistent event stream</td>
+    </tr>
+    <tr>
+      <td><code>message event</code></td>
+      <td>receives default server messages</td>
+    </tr>
+    <tr>
+      <td><code>text/event-stream</code></td>
+      <td>server response format for SSE</td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+```
 
-| Item | Purpose | Example cue |
+### Example 3: Complete practice page
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Server-Sent Events practice</title>
+  </head>
+  <body>
+    <output id="news"></output>
+    <script>
+      const events = new EventSource('/events');
+      const news = document.querySelector('#news');
+      events.addEventListener('message', (event) => {
+        news.value = event.data;
+      });
+    </script>
+  </body>
+</html>
+```
+
+## Example explained
+
+- The first example shows the core pattern for HTML Server-Sent Events without unrelated layout code.
+- Pay attention to `EventSource`: opens a persistent event stream.
+- The second and third examples show how the same idea fits into a larger page with event handlers, permissions, state, and error handling.
+- If the browser output is surprising, inspect the element in DevTools and compare the DOM with the source markup.
+
+## More examples and options
+
+| Syntax or option | What it does | When to use it |
 | --- | --- | --- |
-| Core concept | The role this lesson plays in HTML structure | Server-Sent Events |
-| Syntax | How the related element, attribute, or API is written | Watch opening tags and attribute values |
-| Browser behavior | What the browser provides by default | Inspect the result in DevTools |
-| Quality check | Accessibility, SEO, or maintainability impact | Use clear names and fallback text |
+| `EventSource` | opens a persistent event stream | Use it while practicing HTML Server-Sent Events. |
+| `message event` | receives default server messages | Use it while practicing HTML Server-Sent Events. |
+| `text/event-stream` | server response format for SSE | Use it while practicing HTML Server-Sent Events. |
 
-## Best practices
+## Browser, accessibility, and SEO notes
 
-- Prefer semantic HTML before adding generic containers or JavaScript behavior.
-- Keep examples small while learning, then test the same idea inside a complete document.
-- Write attributes intentionally: names, labels, alternative text, and URLs should explain their purpose.
-- Validate the page, inspect it in DevTools, and test it with keyboard navigation when interaction is involved.
+- Test HTML Server-Sent Events in a small file; default browser styling is not the same thing as good markup.
+- For accessibility, provide meaningful text, labels, alt text, captions, or titles when the feature needs them.
+- Many Web APIs depend on HTTPS, permissions, or browser support, so always handle errors.
 
-## Common mistakes to avoid
+## Common mistakes
 
-- Treating Server-Sent Events as only a visual feature instead of part of document meaning.
-- Skipping required context such as labels, titles, fallback text, or character encoding.
-- Copying markup without changing names, paths, and text to match the real page.
+- Using HTML Server-Sent Events only for appearance instead of matching the content role.
+- Forgetting `EventSource` or writing values that do not match the real page purpose.
+- Copying an example without changing text, paths, ids, names, or labels for your project.
+- Skipping keyboard, small-screen, and DevTools checks after the page appears to work.
+
+## Practice tip
+
+Create a file named `sse.html`, copy the first example, then add one extra line that uses `EventSource` correctly in your own content.
 
 ## Next step
 
-Next step: open **HTML References** and build on this lesson while the syntax is still fresh.
+Next step: continue with **HTML References** so the next concept builds on this one.

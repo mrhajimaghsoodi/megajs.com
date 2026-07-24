@@ -1,9 +1,9 @@
 ---
 title: "HTML Geolocation API"
-description: "A focused lesson on requesting a user location only with permission and clear purpose."
-seoTitle: "Geolocation API in HTML — Step-by-Step Tutorial | MEGA JS Docs"
-seoDescription: "Learn HTML Geolocation API with a W3Schools-style step-by-step guide to syntax, examples, best practices, and next steps for real web pages. Practice it today."
-keywords: "learn HTML, Geolocation API, HTML tutorial, W3Schools, web development"
+description: "Learn how location is requested only after user permission with real HTML examples and practical checks."
+seoTitle: "HTML Geolocation API Tutorial | MEGA JS Docs"
+seoDescription: "Learn HTML Geolocation API with step-by-step HTML examples, syntax tables, common mistakes, and practice tips for building accessible real pages."
+keywords: "HTML tutorial, HTML geolocation, navigator geolocation, getCurrentPosition"
 order: 56
 sources:
   - name: W3Schools HTML
@@ -13,20 +13,28 @@ sources:
 ---
 # HTML Geolocation API
 
-This chapter teaches requesting a user location only with permission and clear purpose. The order follows the W3Schools HTML tutorial spine, but the explanations are rewritten for MEGA JS so you can learn the same concepts without memorizing copied examples.
+In HTML Geolocation API, you learn how location is requested only after user permission. The focus is HTML Geolocation API, so the examples use the exact tags, attributes, or browser APIs you will meet in real pages.
 
-## What and why
+Use this lesson when a map, delivery, weather, or store-locator feature truly needs location. Read each example slowly, then change one value at a time to see what the browser does.
 
-HTML Geolocation API matters because HTML is the contract between your content, the browser, search engines, assistive technologies, CSS, and JavaScript. When the markup is precise, styling becomes easier, scripts have stable targets, and users get a page that works across devices.
+## What is HTML Geolocation API?
 
-In practice, focus on the role of the element or attribute before you focus on visual output. Browsers provide default behavior, but good HTML gives that behavior a clear purpose.
+- It gives HTML Geolocation API a clear semantic purpose instead of relying on visual styling alone.
+- The important syntax in this chapter includes `navigator.geolocation`, `getCurrentPosition()` and `coords`.
+- It improves real pages when a map, delivery, weather, or store-locator feature truly needs location, especially after you test the result in a browser.
+- Good markup here gives CSS and JavaScript predictable targets without hiding meaning from users.
 
-## Syntax
+## Syntax and examples
+
+Start with the smallest useful pattern, then compare it with the more complete examples below.
+
+### Example 1: Core pattern
 
 ```html
 <button id="locate" type="button">Find my location</button>
 <output id="result"></output>
 <script>
+  const result = document.querySelector('#result');
   document.querySelector('#locate').addEventListener('click', () => {
     navigator.geolocation.getCurrentPosition((pos) => {
       result.value = pos.coords.latitude + ', ' + pos.coords.longitude;
@@ -35,30 +43,91 @@ In practice, focus on the role of the element or attribute before you focus on v
 </script>
 ```
 
-Read the snippet from the outside in: identify the containing element, then the attributes, then the text or nested elements. This habit makes larger documents much easier to debug.
+### Example 2: Options in context
 
-## Quick reference
+```html
+<section class="geolocation-notes" aria-labelledby="geolocation-title">
+  <h2 id="geolocation-title">HTML Geolocation API options</h2>
+  <table>
+    <caption>Key syntax for HTML Geolocation API</caption>
+    <thead>
+      <tr><th scope="col">Syntax</th><th scope="col">Purpose</th></tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>navigator.geolocation</code></td>
+      <td>entry point for location requests</td>
+    </tr>
+    <tr>
+      <td><code>getCurrentPosition()</code></td>
+      <td>asks for one current location result</td>
+    </tr>
+    <tr>
+      <td><code>coords</code></td>
+      <td>contains latitude, longitude, and accuracy</td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+```
 
-| Item | Purpose | Example cue |
+### Example 3: Complete practice page
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Geolocation API practice</title>
+  </head>
+  <body>
+    <button id="locate" type="button">Find my location</button>
+    <output id="result"></output>
+    <script>
+      const result = document.querySelector('#result');
+      document.querySelector('#locate').addEventListener('click', () => {
+        navigator.geolocation.getCurrentPosition((pos) => {
+          result.value = pos.coords.latitude + ', ' + pos.coords.longitude;
+        });
+      });
+    </script>
+  </body>
+</html>
+```
+
+## Example explained
+
+- The first example shows the core pattern for HTML Geolocation API without unrelated layout code.
+- Pay attention to `navigator.geolocation`: entry point for location requests.
+- The second and third examples show how the same idea fits into a larger page with event handlers, permissions, state, and error handling.
+- If the browser output is surprising, inspect the element in DevTools and compare the DOM with the source markup.
+
+## More examples and options
+
+| Syntax or option | What it does | When to use it |
 | --- | --- | --- |
-| Core concept | The role this lesson plays in HTML structure | Geolocation API |
-| Syntax | How the related element, attribute, or API is written | Watch opening tags and attribute values |
-| Browser behavior | What the browser provides by default | Inspect the result in DevTools |
-| Quality check | Accessibility, SEO, or maintainability impact | Use clear names and fallback text |
+| `navigator.geolocation` | entry point for location requests | Use it while practicing HTML Geolocation API. |
+| `getCurrentPosition()` | asks for one current location result | Use it while practicing HTML Geolocation API. |
+| `coords` | contains latitude, longitude, and accuracy | Use it while practicing HTML Geolocation API. |
 
-## Best practices
+## Browser, accessibility, and SEO notes
 
-- Prefer semantic HTML before adding generic containers or JavaScript behavior.
-- Keep examples small while learning, then test the same idea inside a complete document.
-- Write attributes intentionally: names, labels, alternative text, and URLs should explain their purpose.
-- Validate the page, inspect it in DevTools, and test it with keyboard navigation when interaction is involved.
+- Test HTML Geolocation API in a small file; default browser styling is not the same thing as good markup.
+- For accessibility, provide meaningful text, labels, alt text, captions, or titles when the feature needs them.
+- Many Web APIs depend on HTTPS, permissions, or browser support, so always handle errors.
 
-## Common mistakes to avoid
+## Common mistakes
 
-- Treating Geolocation API as only a visual feature instead of part of document meaning.
-- Skipping required context such as labels, titles, fallback text, or character encoding.
-- Copying markup without changing names, paths, and text to match the real page.
+- Using HTML Geolocation API only for appearance instead of matching the content role.
+- Forgetting `navigator.geolocation` or writing values that do not match the real page purpose.
+- Copying an example without changing text, paths, ids, names, or labels for your project.
+- Skipping keyboard, small-screen, and DevTools checks after the page appears to work.
+
+## Practice tip
+
+Create a file named `geolocation.html`, copy the first example, then add one extra line that uses `navigator.geolocation` correctly in your own content.
 
 ## Next step
 
-Next step: open **HTML Drag and Drop API** and build on this lesson while the syntax is still fresh.
+Next step: continue with **HTML Drag and Drop API** so the next concept builds on this one.

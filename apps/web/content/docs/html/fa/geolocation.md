@@ -1,9 +1,9 @@
 ---
 title: "API موقعیت جغرافیایی در HTML"
-description: "درس API موقعیت جغرافیایی در HTML برای یادگیری درخواست موقعیت کاربر فقط با permission و هدف روشن."
-seoTitle: "API موقعیت جغرافیایی در HTML — آموزش قدم‌به‌قدم | مستندات MEGA JS"
-seoDescription: "آموزش HTML API موقعیت جغرافیایی قدم‌به‌قدم و شبیه W3Schools؛ همراه syntax، مثال، best practice و مسیر تمرین برای صفحه‌های واقعی. با تمرین کوتاه و نتیجه روشن."
-keywords: "آموزش HTML, API موقعیت جغرافیایی, HTML, W3Schools, طراحی وب"
+description: "در این درس درخواست location فقط بعد از permission کاربر را با مثال‌های واقعی HTML تمرین می‌کنید."
+seoTitle: "آموزش API موقعیت جغرافیایی در HTML | مستندات MEGA JS"
+seoDescription: "آموزش API موقعیت جغرافیایی در HTML با مثال‌های قدم‌به‌قدم، جدول syntax، خطاهای رایج و تمرین عملی برای ساخت صفحه‌های استاندارد و قابل دسترس. مناسب تمرین عملی و."
+keywords: "آموزش HTML, API موقعیت جغرافیایی در HTML, آموزش HTML geolocation, navigator geolocation, getCurrentPosition"
 order: 56
 sources:
   - name: W3Schools HTML
@@ -13,20 +13,28 @@ sources:
 ---
 # API موقعیت جغرافیایی در HTML
 
-در این درس درخواست موقعیت کاربر فقط با permission و هدف روشن را یاد می‌گیرید. ترتیب درس‌ها از ساختار آموزش HTML در W3Schools الهام گرفته شده، اما متن و مثال‌ها برای مستندات MEGA JS بازنویسی شده‌اند تا یادگیری مرحله‌به‌مرحله و کاربردی بماند.
+API موقعیت جغرافیایی در HTML روی درخواست location فقط بعد از permission کاربر تمرکز دارد. در این درس درباره API موقعیت جغرافیایی در HTML با مثال‌های واقعی HTML کار می‌کنید، نه فقط تعریف‌های کوتاه و حفظی.
 
-## چیستی و چرایی
+این موضوع زمانی مهم می‌شود که وقتی map، delivery، weather یا store locator واقعاً به location نیاز دارد. هر مثال را اجرا کنید، سپس یک attribute یا مقدار را تغییر دهید تا رفتار مرورگر را ببینید.
 
-API موقعیت جغرافیایی در HTML مهم است چون HTML قرارداد اصلی میان محتوا، مرورگر، موتورهای جست‌وجو، ابزارهای کمکی، CSS و JavaScript است. وقتی markup دقیق باشد، style ساده‌تر می‌شود، scriptها target پایدار دارند و صفحه در دستگاه‌های مختلف قابل اعتمادتر کار می‌کند.
+## چیستی API موقعیت جغرافیایی در HTML
 
-در تمرین، اول نقش element یا attribute را بفهمید و بعد به ظاهر فکر کنید. ظاهر با CSS تغییر می‌کند، اما معنای درست HTML پایه تجربه کاربری، SEO و accessibility است.
+- این بخش به API موقعیت جغرافیایی در HTML نقش روشن می‌دهد و فقط به ظاهر CSS تکیه نمی‌کند.
+- syntaxهای مهم این درس شامل `navigator.geolocation`, `getCurrentPosition()` و `coords` است.
+- وقتی وقتی map، delivery، weather یا store locator واقعاً به location نیاز دارد، markup درست باعث می‌شود صفحه قابل اعتمادتر و قابل نگه‌داری‌تر باشد.
+- HTML خوب به CSS و JavaScript target پایدار می‌دهد و هم‌زمان معنا را برای کاربر و ابزارهای کمکی حفظ می‌کند.
 
-## Syntax
+## Syntax و مثال‌ها
+
+ابتدا ساده‌ترین الگوی کاربردی را ببینید و بعد آن را با مثال‌های کامل‌تر مقایسه کنید.
+
+### مثال 1: الگوی اصلی
 
 ```html
 <button id="locate" type="button">Find my location</button>
 <output id="result"></output>
 <script>
+  const result = document.querySelector('#result');
   document.querySelector('#locate').addEventListener('click', () => {
     navigator.geolocation.getCurrentPosition((pos) => {
       result.value = pos.coords.latitude + ', ' + pos.coords.longitude;
@@ -35,30 +43,91 @@ API موقعیت جغرافیایی در HTML مهم است چون HTML قرار
 </script>
 ```
 
-کد را از بیرون به داخل بخوانید: ابتدا container، سپس attributeها، و بعد متن یا elementهای تو در تو. این عادت debug کردن سندهای بزرگ‌تر را بسیار ساده‌تر می‌کند.
+### مثال 2: گزینه‌ها در context
 
-## جدول سریع
+```html
+<section class="geolocation-notes" aria-labelledby="geolocation-title">
+  <h2 id="geolocation-title">HTML Geolocation API options</h2>
+  <table>
+    <caption>Key syntax for HTML Geolocation API</caption>
+    <thead>
+      <tr><th scope="col">Syntax</th><th scope="col">Purpose</th></tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>navigator.geolocation</code></td>
+      <td>entry point for location requests</td>
+    </tr>
+    <tr>
+      <td><code>getCurrentPosition()</code></td>
+      <td>asks for one current location result</td>
+    </tr>
+    <tr>
+      <td><code>coords</code></td>
+      <td>contains latitude, longitude, and accuracy</td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+```
 
-| مورد | کاربرد | نشانه در مثال |
+### مثال 3: صفحه تمرینی کامل
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Geolocation API practice</title>
+  </head>
+  <body>
+    <button id="locate" type="button">Find my location</button>
+    <output id="result"></output>
+    <script>
+      const result = document.querySelector('#result');
+      document.querySelector('#locate').addEventListener('click', () => {
+        navigator.geolocation.getCurrentPosition((pos) => {
+          result.value = pos.coords.latitude + ', ' + pos.coords.longitude;
+        });
+      });
+    </script>
+  </body>
+</html>
+```
+
+## توضیح مثال
+
+- مثال اول pattern اصلی API موقعیت جغرافیایی در HTML را بدون کد layout اضافی نشان می‌دهد.
+- به `navigator.geolocation` دقت کنید: نقطه ورود درخواست location.
+- مثال دوم و سوم نشان می‌دهند همین ایده در صفحه بزرگ‌تر چطور کنار event handler، permission، state و مدیریت خطا قرار می‌گیرد.
+- اگر خروجی مرورگر غیرمنتظره بود، element را در DevTools inspect کنید و DOM را با source markup مقایسه کنید.
+
+## مثال‌های بیشتر و جدول گزینه‌ها
+
+| Syntax یا گزینه | کاربرد | زمان استفاده |
 | --- | --- | --- |
-| مفهوم اصلی | نقش این درس در ساختار HTML | API موقعیت جغرافیایی |
-| syntax | شکل نوشتن element، attribute یا API مرتبط | به opening tag و مقدار attribute دقت کنید |
-| رفتار مرورگر | آنچه browser به صورت پیش‌فرض انجام می‌دهد | با DevTools بررسی کنید |
-| کیفیت | ارتباط با accessibility، SEO یا maintainability | نام‌گذاری و متن جایگزین را جدی بگیرید |
+| `navigator.geolocation` | نقطه ورود درخواست location | هنگام تمرین API موقعیت جغرافیایی در HTML از آن استفاده کنید. |
+| `getCurrentPosition()` | یک نتیجه location فعلی می‌خواهد | هنگام تمرین API موقعیت جغرافیایی در HTML از آن استفاده کنید. |
+| `coords` | latitude، longitude و accuracy را نگه می‌دارد | هنگام تمرین API موقعیت جغرافیایی در HTML از آن استفاده کنید. |
 
-## نکته‌ها و Best Practice
+## نکته‌های مرورگر، accessibility و SEO
 
-- قبل از استفاده از `div` یا JavaScript، ببینید element معنایی مناسب وجود دارد یا نه.
-- هنگام یادگیری مثال را کوچک نگه دارید، سپس همان ایده را داخل یک سند کامل HTML امتحان کنید.
-- attributeهایی مثل `name`، `alt`، `title`، `href` و `id` باید هدف روشن و قابل فهم داشته باشند.
-- صفحه را در DevTools بررسی کنید و برای بخش‌های تعاملی، navigation با keyboard را هم تست کنید.
+- پشتیبانی مرورگر برای API موقعیت جغرافیایی در HTML را با یک فایل کوچک تست کنید؛ default style همیشه معیار کیفیت markup نیست.
+- برای accessibility، متن قابل فهم، label، alt، caption یا title را فقط وقتی لازم است ولی دقیق بنویسید.
+- بسیاری از Web APIها به HTTPS، permission یا پشتیبانی مرورگر وابسته‌اند؛ همیشه حالت خطا را هم مدیریت کنید.
 
 ## اشتباه‌های رایج
 
-- نگاه کردن به API موقعیت جغرافیایی فقط به عنوان موضوع ظاهری، نه بخشی از معنای سند.
-- حذف contextهای لازم مثل label، title، fallback text یا character encoding.
-- کپی کردن markup بدون تغییر نام‌ها، pathها و متن‌ها بر اساس صفحه واقعی.
+- استفاده از API موقعیت جغرافیایی در HTML فقط برای ظاهر، در حالی که باید نقش محتوایی آن روشن باشد.
+- فراموش کردن `navigator.geolocation` یا نوشتن مقدارهایی که با هدف واقعی صفحه هماهنگ نیستند.
+- کپی کردن مثال بدون تغییر متن، path، id، name یا label بر اساس پروژه خودتان.
+- تست نکردن نتیجه با keyboard، صفحه کوچک موبایل و DevTools.
+
+## نکته تمرینی
+
+یک فایل به نام `geolocation.html` بسازید، مثال اول را کپی کنید و سپس یک خط جدید اضافه کنید که `navigator.geolocation` را درست در محتوای خودتان به کار ببرد.
 
 ## گام بعدی
 
-گام بعدی: درس **Drag and Drop در HTML** را باز کنید و همین الگو را روی موضوع بعدی تمرین کنید.
+گام بعدی: درس **Drag and Drop در HTML** را بخوانید تا مفهوم بعدی روی همین پایه ساخته شود.

@@ -1,9 +1,9 @@
 ---
 title: "پاراگراف‌های HTML"
-description: "درس پاراگراف‌های HTML برای یادگیری نوشتن بلوک‌های متنی خوانا با فاصله‌گذاری درست."
-seoTitle: "پاراگراف‌های در HTML — آموزش قدم‌به‌قدم | مستندات MEGA JS"
-seoDescription: "آموزش HTML پاراگراف‌های به سبک قدم‌به‌قدم W3Schools؛ با syntax، مثال کاربردی، best practice و گام بعدی برای ساخت صفحه‌های واقعی. با تمرین کوتاه و نتیجه روشن."
-keywords: "آموزش HTML, پاراگراف‌های, HTML, W3Schools, طراحی وب"
+description: "در این درس گروه‌بندی متن با paragraph و رفتار مرورگر در collapse کردن فاصله‌ها را با مثال‌های واقعی HTML تمرین می‌کنید."
+seoTitle: "آموزش پاراگراف در HTML | مستندات MEGA JS"
+seoDescription: "آموزش پاراگراف در HTML با مثال‌های قدم‌به‌قدم، جدول syntax، خطاهای رایج و تمرین عملی برای ساخت صفحه‌های استاندارد و قابل دسترس. با تمرین کوتاه و نتیجه روشن."
+keywords: "آموزش HTML, پاراگراف در HTML, آموزش HTML paragraphs, p br hr, آموزش HTML whitespace"
 order: 8
 sources:
   - name: W3Schools HTML
@@ -13,15 +13,22 @@ sources:
 ---
 # پاراگراف‌های HTML
 
-در این درس نوشتن بلوک‌های متنی خوانا با فاصله‌گذاری درست را یاد می‌گیرید. ترتیب درس‌ها از ساختار آموزش HTML در W3Schools الهام گرفته شده، اما متن و مثال‌ها برای مستندات MEGA JS بازنویسی شده‌اند تا یادگیری مرحله‌به‌مرحله و کاربردی بماند.
+پاراگراف‌های HTML روی گروه‌بندی متن با paragraph و رفتار مرورگر در collapse کردن فاصله‌ها تمرکز دارد. در این درس درباره پاراگراف در HTML با مثال‌های واقعی HTML کار می‌کنید، نه فقط تعریف‌های کوتاه و حفظی.
 
-## چیستی و چرایی
+این موضوع زمانی مهم می‌شود که وقتی متن خوانا می‌نویسید نه فاصله‌گذاری ظاهری خط‌به‌خط. هر مثال را اجرا کنید، سپس یک attribute یا مقدار را تغییر دهید تا رفتار مرورگر را ببینید.
 
-پاراگراف‌های HTML مهم است چون HTML قرارداد اصلی میان محتوا، مرورگر، موتورهای جست‌وجو، ابزارهای کمکی، CSS و JavaScript است. وقتی markup دقیق باشد، style ساده‌تر می‌شود، scriptها target پایدار دارند و صفحه در دستگاه‌های مختلف قابل اعتمادتر کار می‌کند.
+## چیستی پاراگراف در HTML
 
-در تمرین، اول نقش element یا attribute را بفهمید و بعد به ظاهر فکر کنید. ظاهر با CSS تغییر می‌کند، اما معنای درست HTML پایه تجربه کاربری، SEO و accessibility است.
+- این بخش به پاراگراف‌های HTML نقش روشن می‌دهد و فقط به ظاهر CSS تکیه نمی‌کند.
+- syntaxهای مهم این درس شامل `<p>`, `<br>` و `<hr>` است.
+- وقتی وقتی متن خوانا می‌نویسید نه فاصله‌گذاری ظاهری خط‌به‌خط، markup درست باعث می‌شود صفحه قابل اعتمادتر و قابل نگه‌داری‌تر باشد.
+- HTML خوب به CSS و JavaScript target پایدار می‌دهد و هم‌زمان معنا را برای کاربر و ابزارهای کمکی حفظ می‌کند.
 
-## Syntax
+## Syntax و مثال‌ها
+
+ابتدا ساده‌ترین الگوی کاربردی را ببینید و بعد آن را با مثال‌های کامل‌تر مقایسه کنید.
+
+### مثال 1: الگوی اصلی
 
 ```html
 <p>HTML collapses extra spaces in normal paragraphs.</p>
@@ -30,30 +37,85 @@ sources:
 <p>The hr element separates related sections.</p>
 ```
 
-کد را از بیرون به داخل بخوانید: ابتدا container، سپس attributeها، و بعد متن یا elementهای تو در تو. این عادت debug کردن سندهای بزرگ‌تر را بسیار ساده‌تر می‌کند.
+### مثال 2: گزینه‌ها در context
 
-## جدول سریع
+```html
+<section class="paragraphs-notes" aria-labelledby="paragraphs-title">
+  <h2 id="paragraphs-title">HTML Paragraphs options</h2>
+  <table>
+    <caption>Key syntax for HTML paragraphs</caption>
+    <thead>
+      <tr><th scope="col">Syntax</th><th scope="col">Purpose</th></tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>&lt;p&gt;</code></td>
+      <td>wraps one idea or short block of text</td>
+    </tr>
+    <tr>
+      <td><code>&lt;br&gt;</code></td>
+      <td>forces a line break only when meaningful</td>
+    </tr>
+    <tr>
+      <td><code>&lt;hr&gt;</code></td>
+      <td>marks a thematic break between sections</td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+```
 
-| مورد | کاربرد | نشانه در مثال |
+### مثال 3: صفحه تمرینی کامل
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Paragraphs practice</title>
+  </head>
+  <body>
+    <p>HTML collapses extra spaces in normal paragraphs.</p>
+    <p>Use a new paragraph when the idea changes.</p>
+    <hr>
+    <p>The hr element separates related sections.</p>
+  </body>
+</html>
+```
+
+## توضیح مثال
+
+- مثال اول pattern اصلی پاراگراف در HTML را بدون کد layout اضافی نشان می‌دهد.
+- به `<p>` دقت کنید: یک ایده یا بلوک کوتاه متن را می‌پوشاند.
+- مثال دوم و سوم نشان می‌دهند همین ایده در صفحه بزرگ‌تر چطور کنار متن معنادار، attributeهای پایدار و ساختار قابل فهم قرار می‌گیرد.
+- اگر خروجی مرورگر غیرمنتظره بود، element را در DevTools inspect کنید و DOM را با source markup مقایسه کنید.
+
+## مثال‌های بیشتر و جدول گزینه‌ها
+
+| Syntax یا گزینه | کاربرد | زمان استفاده |
 | --- | --- | --- |
-| مفهوم اصلی | نقش این درس در ساختار HTML | پاراگراف‌های |
-| syntax | شکل نوشتن element، attribute یا API مرتبط | به opening tag و مقدار attribute دقت کنید |
-| رفتار مرورگر | آنچه browser به صورت پیش‌فرض انجام می‌دهد | با DevTools بررسی کنید |
-| کیفیت | ارتباط با accessibility، SEO یا maintainability | نام‌گذاری و متن جایگزین را جدی بگیرید |
+| `<p>` | یک ایده یا بلوک کوتاه متن را می‌پوشاند | هنگام تمرین پاراگراف در HTML از آن استفاده کنید. |
+| `<br>` | فقط وقتی لازم است line break ایجاد می‌کند | هنگام تمرین پاراگراف در HTML از آن استفاده کنید. |
+| `<hr>` | جدایی موضوعی بین بخش‌ها را نشان می‌دهد | هنگام تمرین پاراگراف در HTML از آن استفاده کنید. |
 
-## نکته‌ها و Best Practice
+## نکته‌های مرورگر، accessibility و SEO
 
-- قبل از استفاده از `div` یا JavaScript، ببینید element معنایی مناسب وجود دارد یا نه.
-- هنگام یادگیری مثال را کوچک نگه دارید، سپس همان ایده را داخل یک سند کامل HTML امتحان کنید.
-- attributeهایی مثل `name`، `alt`، `title`، `href` و `id` باید هدف روشن و قابل فهم داشته باشند.
-- صفحه را در DevTools بررسی کنید و برای بخش‌های تعاملی، navigation با keyboard را هم تست کنید.
+- پشتیبانی مرورگر برای پاراگراف در HTML را با یک فایل کوچک تست کنید؛ default style همیشه معیار کیفیت markup نیست.
+- برای accessibility، متن قابل فهم، label، alt، caption یا title را فقط وقتی لازم است ولی دقیق بنویسید.
+- برای SEO، heading، link text، title و ساختار معنایی را طوری بنویسید که بدون CSS هم قابل فهم باشد.
 
 ## اشتباه‌های رایج
 
-- نگاه کردن به پاراگراف‌های فقط به عنوان موضوع ظاهری، نه بخشی از معنای سند.
-- حذف contextهای لازم مثل label، title، fallback text یا character encoding.
-- کپی کردن markup بدون تغییر نام‌ها، pathها و متن‌ها بر اساس صفحه واقعی.
+- استفاده از پاراگراف در HTML فقط برای ظاهر، در حالی که باید نقش محتوایی آن روشن باشد.
+- فراموش کردن `<p>` یا نوشتن مقدارهایی که با هدف واقعی صفحه هماهنگ نیستند.
+- کپی کردن مثال بدون تغییر متن، path، id، name یا label بر اساس پروژه خودتان.
+- تست نکردن نتیجه با keyboard، صفحه کوچک موبایل و DevTools.
+
+## نکته تمرینی
+
+یک فایل به نام `paragraphs.html` بسازید، مثال اول را کپی کنید و سپس یک خط جدید اضافه کنید که `<p>` را درست در محتوای خودتان به کار ببرد.
 
 ## گام بعدی
 
-گام بعدی: درس **استایل‌های HTML** را باز کنید و همین الگو را روی موضوع بعدی تمرین کنید.
+گام بعدی: درس **استایل‌های HTML** را بخوانید تا مفهوم بعدی روی همین پایه ساخته شود.

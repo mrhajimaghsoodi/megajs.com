@@ -1,9 +1,9 @@
 ---
 title: "گرافیک در HTML"
-description: "درس گرافیک در HTML برای یادگیری رسم و قراردادن گرافیک با قابلیت‌های native مرورگر."
-seoTitle: "گرافیک در HTML — آموزش قدم‌به‌قدم | مستندات MEGA JS"
-seoDescription: "آموزش HTML گرافیک به سبک قدم‌به‌قدم W3Schools؛ با syntax، مثال کاربردی، best practice و گام بعدی برای ساخت صفحه‌های واقعی. مناسب تمرین عملی و یادگیری مطمئن."
-keywords: "آموزش HTML, گرافیک, HTML, W3Schools, طراحی وب"
+description: "در این درس پوشش نیازهای مختلف گرافیک با canvas، SVG و image را با مثال‌های واقعی HTML تمرین می‌کنید."
+seoTitle: "آموزش گرافیک در HTML | مستندات MEGA JS"
+seoDescription: "آموزش گرافیک در HTML با مثال‌های قدم‌به‌قدم، جدول syntax، خطاهای رایج و تمرین عملی برای ساخت صفحه‌های استاندارد و قابل دسترس. مناسب تمرین عملی و یادگیری مطمئن."
+keywords: "آموزش HTML, گرافیک در HTML, آموزش HTML graphics, canvas SVG img, web graphics"
 order: 46
 sources:
   - name: W3Schools HTML
@@ -13,15 +13,22 @@ sources:
 ---
 # گرافیک در HTML
 
-در این درس رسم و قراردادن گرافیک با قابلیت‌های native مرورگر را یاد می‌گیرید. ترتیب درس‌ها از ساختار آموزش HTML در W3Schools الهام گرفته شده، اما متن و مثال‌ها برای مستندات MEGA JS بازنویسی شده‌اند تا یادگیری مرحله‌به‌مرحله و کاربردی بماند.
+گرافیک در HTML روی پوشش نیازهای مختلف گرافیک با canvas، SVG و image تمرکز دارد. در این درس درباره گرافیک در HTML با مثال‌های واقعی HTML کار می‌کنید، نه فقط تعریف‌های کوتاه و حفظی.
 
-## چیستی و چرایی
+این موضوع زمانی مهم می‌شود که وقتی اطلاعات بصری باید در مرورگر رسم، scale یا embed شود. هر مثال را اجرا کنید، سپس یک attribute یا مقدار را تغییر دهید تا رفتار مرورگر را ببینید.
 
-گرافیک در HTML مهم است چون HTML قرارداد اصلی میان محتوا، مرورگر، موتورهای جست‌وجو، ابزارهای کمکی، CSS و JavaScript است. وقتی markup دقیق باشد، style ساده‌تر می‌شود، scriptها target پایدار دارند و صفحه در دستگاه‌های مختلف قابل اعتمادتر کار می‌کند.
+## چیستی گرافیک در HTML
 
-در تمرین، اول نقش element یا attribute را بفهمید و بعد به ظاهر فکر کنید. ظاهر با CSS تغییر می‌کند، اما معنای درست HTML پایه تجربه کاربری، SEO و accessibility است.
+- این بخش به گرافیک در HTML نقش روشن می‌دهد و فقط به ظاهر CSS تکیه نمی‌کند.
+- syntaxهای مهم این درس شامل `<canvas>`, `<svg>` و `<img>` است.
+- وقتی وقتی اطلاعات بصری باید در مرورگر رسم، scale یا embed شود، markup درست باعث می‌شود صفحه قابل اعتمادتر و قابل نگه‌داری‌تر باشد.
+- HTML خوب به CSS و JavaScript target پایدار می‌دهد و هم‌زمان معنا را برای کاربر و ابزارهای کمکی حفظ می‌کند.
 
-## Syntax
+## Syntax و مثال‌ها
+
+ابتدا ساده‌ترین الگوی کاربردی را ببینید و بعد آن را با مثال‌های کامل‌تر مقایسه کنید.
+
+### مثال 1: الگوی اصلی
 
 ```html
 <figure>
@@ -32,30 +39,87 @@ sources:
 </figure>
 ```
 
-کد را از بیرون به داخل بخوانید: ابتدا container، سپس attributeها، و بعد متن یا elementهای تو در تو. این عادت debug کردن سندهای بزرگ‌تر را بسیار ساده‌تر می‌کند.
+### مثال 2: گزینه‌ها در context
 
-## جدول سریع
+```html
+<section class="graphics-notes" aria-labelledby="graphics-title">
+  <h2 id="graphics-title">HTML Graphics options</h2>
+  <table>
+    <caption>Key syntax for HTML graphics</caption>
+    <thead>
+      <tr><th scope="col">Syntax</th><th scope="col">Purpose</th></tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>&lt;canvas&gt;</code></td>
+      <td>draws pixels with JavaScript</td>
+    </tr>
+    <tr>
+      <td><code>&lt;svg&gt;</code></td>
+      <td>describes scalable vector shapes in markup</td>
+    </tr>
+    <tr>
+      <td><code>&lt;img&gt;</code></td>
+      <td>embeds finished bitmap or vector files</td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+```
 
-| مورد | کاربرد | نشانه در مثال |
+### مثال 3: صفحه تمرینی کامل
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Graphics practice</title>
+  </head>
+  <body>
+    <figure>
+      <svg viewBox="0 0 120 80" role="img" aria-labelledby="chart-title">
+        <title id="chart-title">Simple bar chart</title>
+        <rect width="40" height="70" x="10" y="10"></rect>
+      </svg>
+    </figure>
+  </body>
+</html>
+```
+
+## توضیح مثال
+
+- مثال اول pattern اصلی گرافیک در HTML را بدون کد layout اضافی نشان می‌دهد.
+- به `<canvas>` دقت کنید: pixel را با JavaScript رسم می‌کند.
+- مثال دوم و سوم نشان می‌دهند همین ایده در صفحه بزرگ‌تر چطور کنار fallback، title، اندازه canvas یا viewBox قرار می‌گیرد.
+- اگر خروجی مرورگر غیرمنتظره بود، element را در DevTools inspect کنید و DOM را با source markup مقایسه کنید.
+
+## مثال‌های بیشتر و جدول گزینه‌ها
+
+| Syntax یا گزینه | کاربرد | زمان استفاده |
 | --- | --- | --- |
-| مفهوم اصلی | نقش این درس در ساختار HTML | گرافیک |
-| syntax | شکل نوشتن element، attribute یا API مرتبط | به opening tag و مقدار attribute دقت کنید |
-| رفتار مرورگر | آنچه browser به صورت پیش‌فرض انجام می‌دهد | با DevTools بررسی کنید |
-| کیفیت | ارتباط با accessibility، SEO یا maintainability | نام‌گذاری و متن جایگزین را جدی بگیرید |
+| `<canvas>` | pixel را با JavaScript رسم می‌کند | هنگام تمرین گرافیک در HTML از آن استفاده کنید. |
+| `<svg>` | shapeهای vector مقیاس‌پذیر را در markup توصیف می‌کند | هنگام تمرین گرافیک در HTML از آن استفاده کنید. |
+| `<img>` | فایل bitmap یا vector آماده را embed می‌کند | هنگام تمرین گرافیک در HTML از آن استفاده کنید. |
 
-## نکته‌ها و Best Practice
+## نکته‌های مرورگر، accessibility و SEO
 
-- قبل از استفاده از `div` یا JavaScript، ببینید element معنایی مناسب وجود دارد یا نه.
-- هنگام یادگیری مثال را کوچک نگه دارید، سپس همان ایده را داخل یک سند کامل HTML امتحان کنید.
-- attributeهایی مثل `name`، `alt`، `title`، `href` و `id` باید هدف روشن و قابل فهم داشته باشند.
-- صفحه را در DevTools بررسی کنید و برای بخش‌های تعاملی، navigation با keyboard را هم تست کنید.
+- پشتیبانی مرورگر برای گرافیک در HTML را با یک فایل کوچک تست کنید؛ default style همیشه معیار کیفیت markup نیست.
+- برای accessibility، متن قابل فهم، label، alt، caption یا title را فقط وقتی لازم است ولی دقیق بنویسید.
+- برای graphics، محتوای جایگزین یا title مناسب فراهم کنید؛ canvas بدون fallback برای screen reader کافی نیست.
 
 ## اشتباه‌های رایج
 
-- نگاه کردن به گرافیک فقط به عنوان موضوع ظاهری، نه بخشی از معنای سند.
-- حذف contextهای لازم مثل label، title، fallback text یا character encoding.
-- کپی کردن markup بدون تغییر نام‌ها، pathها و متن‌ها بر اساس صفحه واقعی.
+- استفاده از گرافیک در HTML فقط برای ظاهر، در حالی که باید نقش محتوایی آن روشن باشد.
+- فراموش کردن `<canvas>` یا نوشتن مقدارهایی که با هدف واقعی صفحه هماهنگ نیستند.
+- کپی کردن مثال بدون تغییر متن، path، id، name یا label بر اساس پروژه خودتان.
+- تست نکردن نتیجه با keyboard، صفحه کوچک موبایل و DevTools.
+
+## نکته تمرینی
+
+یک فایل به نام `graphics.html` بسازید، مثال اول را کپی کنید و سپس یک خط جدید اضافه کنید که `<canvas>` را درست در محتوای خودتان به کار ببرد.
 
 ## گام بعدی
 
-گام بعدی: درس **Canvas در HTML** را باز کنید و همین الگو را روی موضوع بعدی تمرین کنید.
+گام بعدی: درس **Canvas در HTML** را بخوانید تا مفهوم بعدی روی همین پایه ساخته شود.

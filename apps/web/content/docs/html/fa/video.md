@@ -1,9 +1,9 @@
 ---
 title: "ویدیو در HTML"
-description: "درس ویدیو در HTML برای یادگیری پخش video با controls، caption و متن fallback."
-seoTitle: "ویدیو در HTML — آموزش قدم‌به‌قدم | مستندات MEGA JS"
-seoDescription: "آموزش HTML ویدیو به سبک قدم‌به‌قدم W3Schools؛ با syntax، مثال کاربردی، best practice و گام بعدی برای ساخت صفحه‌های واقعی. مناسب تمرین عملی و یادگیری مطمئن."
-keywords: "آموزش HTML, ویدیو, HTML, W3Schools, طراحی وب"
+description: "در این درس پخش فایل با controls، source، poster، caption و fallback text را با مثال‌های واقعی HTML تمرین می‌کنید."
+seoTitle: "آموزش ویدیو در HTML | مستندات MEGA JS"
+seoDescription: "آموزش ویدیو در HTML با مثال‌های قدم‌به‌قدم، جدول syntax، خطاهای رایج و تمرین عملی برای ساخت صفحه‌های استاندارد و قابل دسترس. مناسب تمرین عملی و یادگیری مطمئن."
+keywords: "آموزش HTML, ویدیو در HTML, آموزش HTML video, video controls source track, video captions HTML"
 order: 50
 sources:
   - name: W3Schools HTML
@@ -13,15 +13,22 @@ sources:
 ---
 # ویدیو در HTML
 
-در این درس پخش video با controls، caption و متن fallback را یاد می‌گیرید. ترتیب درس‌ها از ساختار آموزش HTML در W3Schools الهام گرفته شده، اما متن و مثال‌ها برای مستندات MEGA JS بازنویسی شده‌اند تا یادگیری مرحله‌به‌مرحله و کاربردی بماند.
+ویدیو در HTML روی پخش فایل با controls، source، poster، caption و fallback text تمرکز دارد. در این درس درباره ویدیو در HTML با مثال‌های واقعی HTML کار می‌کنید، نه فقط تعریف‌های کوتاه و حفظی.
 
-## چیستی و چرایی
+این موضوع زمانی مهم می‌شود که وقتی فایل video را host می‌کنید و پخش accessible در مرورگر می‌خواهید. هر مثال را اجرا کنید، سپس یک attribute یا مقدار را تغییر دهید تا رفتار مرورگر را ببینید.
 
-ویدیو در HTML مهم است چون HTML قرارداد اصلی میان محتوا، مرورگر، موتورهای جست‌وجو، ابزارهای کمکی، CSS و JavaScript است. وقتی markup دقیق باشد، style ساده‌تر می‌شود، scriptها target پایدار دارند و صفحه در دستگاه‌های مختلف قابل اعتمادتر کار می‌کند.
+## چیستی ویدیو در HTML
 
-در تمرین، اول نقش element یا attribute را بفهمید و بعد به ظاهر فکر کنید. ظاهر با CSS تغییر می‌کند، اما معنای درست HTML پایه تجربه کاربری، SEO و accessibility است.
+- این بخش به ویدیو در HTML نقش روشن می‌دهد و فقط به ظاهر CSS تکیه نمی‌کند.
+- syntaxهای مهم این درس شامل `controls`, `<source>` و `<track kind="captions">` است.
+- وقتی وقتی فایل video را host می‌کنید و پخش accessible در مرورگر می‌خواهید، markup درست باعث می‌شود صفحه قابل اعتمادتر و قابل نگه‌داری‌تر باشد.
+- HTML خوب به CSS و JavaScript target پایدار می‌دهد و هم‌زمان معنا را برای کاربر و ابزارهای کمکی حفظ می‌کند.
 
-## Syntax
+## Syntax و مثال‌ها
+
+ابتدا ساده‌ترین الگوی کاربردی را ببینید و بعد آن را با مثال‌های کامل‌تر مقایسه کنید.
+
+### مثال 1: source و track
 
 ```html
 <video controls poster="poster.jpg" width="640">
@@ -31,30 +38,61 @@ sources:
 </video>
 ```
 
-کد را از بیرون به داخل بخوانید: ابتدا container، سپس attributeها، و بعد متن یا elementهای تو در تو. این عادت debug کردن سندهای بزرگ‌تر را بسیار ساده‌تر می‌کند.
+### مثال 2: fallback قابل دانلود
 
-## جدول سریع
+```html
+<video controls preload="metadata" poster="course-poster.jpg">
+  <source src="course-intro.webm" type="video/webm">
+  <source src="course-intro.mp4" type="video/mp4">
+  <p>Your browser cannot play this video. <a href="course-intro.mp4">Download it</a>.</p>
+</video>
+```
 
-| مورد | کاربرد | نشانه در مثال |
+### مثال 3: caption چندزبانه
+
+```html
+<figure>
+  <video controls width="720">
+    <source src="demo.mp4" type="video/mp4">
+    <track src="demo-fa.vtt" kind="subtitles" srclang="fa" label="فارسی">
+    <track src="demo-en.vtt" kind="captions" srclang="en" label="English">
+  </video>
+  <figcaption>Course introduction with captions.</figcaption>
+</figure>
+```
+
+## توضیح مثال
+
+- مثال اول pattern اصلی ویدیو در HTML را بدون کد layout اضافی نشان می‌دهد.
+- به `controls` دقت کنید: کنترل‌های built-in پخش را نشان می‌دهد.
+- مثال دوم و سوم نشان می‌دهند همین ایده در صفحه بزرگ‌تر چطور کنار source، controls، caption و fallback مناسب قرار می‌گیرد.
+- اگر خروجی مرورگر غیرمنتظره بود، element را در DevTools inspect کنید و DOM را با source markup مقایسه کنید.
+
+## مثال‌های بیشتر و جدول گزینه‌ها
+
+| Syntax یا گزینه | کاربرد | زمان استفاده |
 | --- | --- | --- |
-| مفهوم اصلی | نقش این درس در ساختار HTML | ویدیو |
-| syntax | شکل نوشتن element، attribute یا API مرتبط | به opening tag و مقدار attribute دقت کنید |
-| رفتار مرورگر | آنچه browser به صورت پیش‌فرض انجام می‌دهد | با DevTools بررسی کنید |
-| کیفیت | ارتباط با accessibility، SEO یا maintainability | نام‌گذاری و متن جایگزین را جدی بگیرید |
+| `controls` | کنترل‌های built-in پخش را نشان می‌دهد | هنگام تمرین ویدیو در HTML از آن استفاده کنید. |
+| `<source>` | چند فرمت video ارائه می‌کند | هنگام تمرین ویدیو در HTML از آن استفاده کنید. |
+| `<track kind="captions">` | برای accessibility caption اضافه می‌کند | هنگام تمرین ویدیو در HTML از آن استفاده کنید. |
 
-## نکته‌ها و Best Practice
+## نکته‌های مرورگر، accessibility و SEO
 
-- قبل از استفاده از `div` یا JavaScript، ببینید element معنایی مناسب وجود دارد یا نه.
-- هنگام یادگیری مثال را کوچک نگه دارید، سپس همان ایده را داخل یک سند کامل HTML امتحان کنید.
-- attributeهایی مثل `name`، `alt`، `title`، `href` و `id` باید هدف روشن و قابل فهم داشته باشند.
-- صفحه را در DevTools بررسی کنید و برای بخش‌های تعاملی، navigation با keyboard را هم تست کنید.
+- پشتیبانی مرورگر برای ویدیو در HTML را با یک فایل کوچک تست کنید؛ default style همیشه معیار کیفیت markup نیست.
+- برای accessibility، متن قابل فهم، label، alt، caption یا title را فقط وقتی لازم است ولی دقیق بنویسید.
+- برای media از controls، caption/subtitle و fallback link استفاده کنید و autoplay را با احتیاط به کار ببرید.
 
 ## اشتباه‌های رایج
 
-- نگاه کردن به ویدیو فقط به عنوان موضوع ظاهری، نه بخشی از معنای سند.
-- حذف contextهای لازم مثل label، title، fallback text یا character encoding.
-- کپی کردن markup بدون تغییر نام‌ها، pathها و متن‌ها بر اساس صفحه واقعی.
+- استفاده از ویدیو در HTML فقط برای ظاهر، در حالی که باید نقش محتوایی آن روشن باشد.
+- فراموش کردن `controls` یا نوشتن مقدارهایی که با هدف واقعی صفحه هماهنگ نیستند.
+- کپی کردن مثال بدون تغییر متن، path، id، name یا label بر اساس پروژه خودتان.
+- تست نکردن نتیجه با keyboard، صفحه کوچک موبایل و DevTools.
+
+## نکته تمرینی
+
+یک فایل به نام `video.html` بسازید، مثال اول را کپی کنید و سپس یک خط جدید اضافه کنید که `controls` را درست در محتوای خودتان به کار ببرد.
 
 ## گام بعدی
 
-گام بعدی: درس **صدا در HTML** را باز کنید و همین الگو را روی موضوع بعدی تمرین کنید.
+گام بعدی: درس **صدا در HTML** را بخوانید تا مفهوم بعدی روی همین پایه ساخته شود.

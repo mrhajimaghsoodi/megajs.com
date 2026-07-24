@@ -1,9 +1,9 @@
 ---
 title: "HTML Drag and Drop API"
-description: "A focused lesson on making elements draggable and handling drop targets."
-seoTitle: "Drag and Drop API in HTML — Step-by-Step Tutorial | MEGA JS Docs"
-seoDescription: "Learn HTML Drag and Drop API with a W3Schools-style step-by-step guide to syntax, examples, best practices, and next steps for real web pages. Build confidence."
-keywords: "learn HTML, Drag and Drop API, HTML tutorial, W3Schools, web development"
+description: "Learn how draggable elements send data to drop targets with real HTML examples and practical checks."
+seoTitle: "HTML Drag and Drop API Tutorial | MEGA JS Docs"
+seoDescription: "Learn HTML Drag and Drop API with step-by-step HTML examples, syntax tables, common mistakes, and practice tips for building accessible real pages."
+keywords: "HTML tutorial, HTML drag and drop, draggable dragstart drop, DataTransfer"
 order: 57
 sources:
   - name: W3Schools HTML
@@ -13,49 +13,117 @@ sources:
 ---
 # HTML Drag and Drop API
 
-This chapter teaches making elements draggable and handling drop targets. The order follows the W3Schools HTML tutorial spine, but the explanations are rewritten for MEGA JS so you can learn the same concepts without memorizing copied examples.
+In HTML Drag and Drop API, you learn how draggable elements send data to drop targets. The focus is HTML Drag and Drop API, so the examples use the exact tags, attributes, or browser APIs you will meet in real pages.
 
-## What and why
+Use this lesson when users should move cards, files, or items with a pointer. Read each example slowly, then change one value at a time to see what the browser does.
 
-HTML Drag and Drop API matters because HTML is the contract between your content, the browser, search engines, assistive technologies, CSS, and JavaScript. When the markup is precise, styling becomes easier, scripts have stable targets, and users get a page that works across devices.
+## What is HTML Drag and Drop API?
 
-In practice, focus on the role of the element or attribute before you focus on visual output. Browsers provide default behavior, but good HTML gives that behavior a clear purpose.
+- It gives HTML Drag and Drop API a clear semantic purpose instead of relying on visual styling alone.
+- The important syntax in this chapter includes `draggable="true"`, `dragstart` and `drop`.
+- It improves real pages when users should move cards, files, or items with a pointer, especially after you test the result in a browser.
+- Good markup here gives CSS and JavaScript predictable targets without hiding meaning from users.
 
-## Syntax
+## Syntax and examples
+
+Start with the smallest useful pattern, then compare it with the more complete examples below.
+
+### Example 1: Core pattern
 
 ```html
 <div draggable="true" id="card">Drag me</div>
 <div id="drop-zone">Drop here</div>
 <script>
+  const card = document.querySelector('#card');
+  const dropZone = document.querySelector('#drop-zone');
   card.addEventListener('dragstart', (event) => event.dataTransfer.setData('text/plain', card.id));
   dropZone.addEventListener('dragover', (event) => event.preventDefault());
 </script>
 ```
 
-Read the snippet from the outside in: identify the containing element, then the attributes, then the text or nested elements. This habit makes larger documents much easier to debug.
+### Example 2: Options in context
 
-## Quick reference
+```html
+<section class="drag-drop-notes" aria-labelledby="drag-drop-title">
+  <h2 id="drag-drop-title">HTML Drag and Drop API options</h2>
+  <table>
+    <caption>Key syntax for HTML Drag and Drop API</caption>
+    <thead>
+      <tr><th scope="col">Syntax</th><th scope="col">Purpose</th></tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>draggable=&quot;true&quot;</code></td>
+      <td>allows an element to start dragging</td>
+    </tr>
+    <tr>
+      <td><code>dragstart</code></td>
+      <td>stores data for the drag operation</td>
+    </tr>
+    <tr>
+      <td><code>drop</code></td>
+      <td>handles the result on the target</td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+```
 
-| Item | Purpose | Example cue |
+### Example 3: Complete practice page
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Drag and Drop API practice</title>
+  </head>
+  <body>
+    <div draggable="true" id="card">Drag me</div>
+    <div id="drop-zone">Drop here</div>
+    <script>
+      const card = document.querySelector('#card');
+      const dropZone = document.querySelector('#drop-zone');
+      card.addEventListener('dragstart', (event) => event.dataTransfer.setData('text/plain', card.id));
+      dropZone.addEventListener('dragover', (event) => event.preventDefault());
+    </script>
+  </body>
+</html>
+```
+
+## Example explained
+
+- The first example shows the core pattern for HTML Drag and Drop API without unrelated layout code.
+- Pay attention to `draggable="true"`: allows an element to start dragging.
+- The second and third examples show how the same idea fits into a larger page with event handlers, permissions, state, and error handling.
+- If the browser output is surprising, inspect the element in DevTools and compare the DOM with the source markup.
+
+## More examples and options
+
+| Syntax or option | What it does | When to use it |
 | --- | --- | --- |
-| Core concept | The role this lesson plays in HTML structure | Drag and Drop API |
-| Syntax | How the related element, attribute, or API is written | Watch opening tags and attribute values |
-| Browser behavior | What the browser provides by default | Inspect the result in DevTools |
-| Quality check | Accessibility, SEO, or maintainability impact | Use clear names and fallback text |
+| `draggable="true"` | allows an element to start dragging | Use it while practicing HTML Drag and Drop API. |
+| `dragstart` | stores data for the drag operation | Use it while practicing HTML Drag and Drop API. |
+| `drop` | handles the result on the target | Use it while practicing HTML Drag and Drop API. |
 
-## Best practices
+## Browser, accessibility, and SEO notes
 
-- Prefer semantic HTML before adding generic containers or JavaScript behavior.
-- Keep examples small while learning, then test the same idea inside a complete document.
-- Write attributes intentionally: names, labels, alternative text, and URLs should explain their purpose.
-- Validate the page, inspect it in DevTools, and test it with keyboard navigation when interaction is involved.
+- Test HTML Drag and Drop API in a small file; default browser styling is not the same thing as good markup.
+- For accessibility, provide meaningful text, labels, alt text, captions, or titles when the feature needs them.
+- Many Web APIs depend on HTTPS, permissions, or browser support, so always handle errors.
 
-## Common mistakes to avoid
+## Common mistakes
 
-- Treating Drag and Drop API as only a visual feature instead of part of document meaning.
-- Skipping required context such as labels, titles, fallback text, or character encoding.
-- Copying markup without changing names, paths, and text to match the real page.
+- Using HTML Drag and Drop API only for appearance instead of matching the content role.
+- Forgetting `draggable="true"` or writing values that do not match the real page purpose.
+- Copying an example without changing text, paths, ids, names, or labels for your project.
+- Skipping keyboard, small-screen, and DevTools checks after the page appears to work.
+
+## Practice tip
+
+Create a file named `drag-drop.html`, copy the first example, then add one extra line that uses `draggable="true"` correctly in your own content.
 
 ## Next step
 
-Next step: open **HTML Web Storage API** and build on this lesson while the syntax is still fresh.
+Next step: continue with **HTML Web Storage API** so the next concept builds on this one.

@@ -1,9 +1,9 @@
 ---
 title: "HTML Head"
-description: "A focused lesson on placing metadata, titles, styles, and resource links in the head."
-seoTitle: "Head in HTML — Step-by-Step Tutorial | MEGA JS Docs"
-seoDescription: "Learn HTML Head with a W3Schools-style step-by-step guide to syntax, examples, best practices, and next steps for real web pages. Practice it today."
-keywords: "learn HTML, Head, HTML tutorial, W3Schools, web development"
+description: "Learn how metadata, title, viewport, styles, and resource hints live outside visible content with real HTML examples and practical checks."
+seoTitle: "HTML Head Tutorial | MEGA JS Docs"
+seoDescription: "Learn HTML Head with step-by-step HTML examples, syntax tables, common mistakes, and practice tips for building accessible real pages. Practice it today."
+keywords: "HTML tutorial, HTML head, meta title link, HTML metadata"
 order: 27
 sources:
   - name: W3Schools HTML
@@ -13,15 +13,22 @@ sources:
 ---
 # HTML Head
 
-This chapter teaches placing metadata, titles, styles, and resource links in the head. The order follows the W3Schools HTML tutorial spine, but the explanations are rewritten for MEGA JS so you can learn the same concepts without memorizing copied examples.
+In HTML Head, you learn how metadata, title, viewport, styles, and resource hints live outside visible content. The focus is HTML head element, so the examples use the exact tags, attributes, or browser APIs you will meet in real pages.
 
-## What and why
+Use this lesson when you configure the document before the browser paints body content. Read each example slowly, then change one value at a time to see what the browser does.
 
-HTML Head matters because HTML is the contract between your content, the browser, search engines, assistive technologies, CSS, and JavaScript. When the markup is precise, styling becomes easier, scripts have stable targets, and users get a page that works across devices.
+## What is HTML head element?
 
-In practice, focus on the role of the element or attribute before you focus on visual output. Browsers provide default behavior, but good HTML gives that behavior a clear purpose.
+- It gives HTML head element a clear semantic purpose instead of relying on visual styling alone.
+- The important syntax in this chapter includes `<meta charset>`, `<title>` and `<link>`.
+- It improves real pages when you configure the document before the browser paints body content, especially after you test the result in a browser.
+- Good markup here gives CSS and JavaScript predictable targets without hiding meaning from users.
 
-## Syntax
+## Syntax and examples
+
+Start with the smallest useful pattern, then compare it with the more complete examples below.
+
+### Example 1: Core pattern
 
 ```html
 <head>
@@ -32,30 +39,87 @@ In practice, focus on the role of the element or attribute before you focus on v
 </head>
 ```
 
-Read the snippet from the outside in: identify the containing element, then the attributes, then the text or nested elements. This habit makes larger documents much easier to debug.
+### Example 2: Options in context
 
-## Quick reference
+```html
+<section class="head-notes" aria-labelledby="head-title">
+  <h2 id="head-title">HTML Head options</h2>
+  <table>
+    <caption>Key syntax for HTML head element</caption>
+    <thead>
+      <tr><th scope="col">Syntax</th><th scope="col">Purpose</th></tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>&lt;meta charset&gt;</code></td>
+      <td>declares character encoding early</td>
+    </tr>
+    <tr>
+      <td><code>&lt;title&gt;</code></td>
+      <td>sets the document title</td>
+    </tr>
+    <tr>
+      <td><code>&lt;link&gt;</code></td>
+      <td>connects styles, icons, and preloads</td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+```
 
-| Item | Purpose | Example cue |
+### Example 3: Complete practice page
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Head practice</title>
+  </head>
+  <body>
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>HTML Head Example</title>
+      <link rel="stylesheet" href="/styles.css">
+    </head>
+  </body>
+</html>
+```
+
+## Example explained
+
+- The first example shows the core pattern for HTML head element without unrelated layout code.
+- Pay attention to `<meta charset>`: declares character encoding early.
+- The second and third examples show how the same idea fits into a larger page with meaningful text, stable attributes, and readable structure.
+- If the browser output is surprising, inspect the element in DevTools and compare the DOM with the source markup.
+
+## More examples and options
+
+| Syntax or option | What it does | When to use it |
 | --- | --- | --- |
-| Core concept | The role this lesson plays in HTML structure | Head |
-| Syntax | How the related element, attribute, or API is written | Watch opening tags and attribute values |
-| Browser behavior | What the browser provides by default | Inspect the result in DevTools |
-| Quality check | Accessibility, SEO, or maintainability impact | Use clear names and fallback text |
+| `<meta charset>` | declares character encoding early | Use it while practicing HTML head element. |
+| `<title>` | sets the document title | Use it while practicing HTML head element. |
+| `<link>` | connects styles, icons, and preloads | Use it while practicing HTML head element. |
 
-## Best practices
+## Browser, accessibility, and SEO notes
 
-- Prefer semantic HTML before adding generic containers or JavaScript behavior.
-- Keep examples small while learning, then test the same idea inside a complete document.
-- Write attributes intentionally: names, labels, alternative text, and URLs should explain their purpose.
-- Validate the page, inspect it in DevTools, and test it with keyboard navigation when interaction is involved.
+- Test HTML head element in a small file; default browser styling is not the same thing as good markup.
+- For accessibility, provide meaningful text, labels, alt text, captions, or titles when the feature needs them.
+- For SEO, write headings, link text, titles, and semantic structure that still make sense without CSS.
 
-## Common mistakes to avoid
+## Common mistakes
 
-- Treating Head as only a visual feature instead of part of document meaning.
-- Skipping required context such as labels, titles, fallback text, or character encoding.
-- Copying markup without changing names, paths, and text to match the real page.
+- Using HTML head element only for appearance instead of matching the content role.
+- Forgetting `<meta charset>` or writing values that do not match the real page purpose.
+- Copying an example without changing text, paths, ids, names, or labels for your project.
+- Skipping keyboard, small-screen, and DevTools checks after the page appears to work.
+
+## Practice tip
+
+Create a file named `head.html`, copy the first example, then add one extra line that uses `<meta charset>` correctly in your own content.
 
 ## Next step
 
-Next step: open **HTML Layout** and build on this lesson while the syntax is still fresh.
+Next step: continue with **HTML Layout** so the next concept builds on this one.

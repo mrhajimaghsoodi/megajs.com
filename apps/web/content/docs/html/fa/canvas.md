@@ -1,9 +1,9 @@
 ---
 title: "Canvas در HTML"
-description: "درس Canvas در HTML برای یادگیری رسم pixel با JavaScript روی سطح canvas."
-seoTitle: "Canvas در HTML — آموزش قدم‌به‌قدم | مستندات MEGA JS"
-seoDescription: "آموزش HTML Canvas به سبک قدم‌به‌قدم W3Schools؛ با syntax، مثال کاربردی، best practice و گام بعدی برای ساخت صفحه‌های واقعی. مناسب تمرین عملی و یادگیری مطمئن."
-keywords: "آموزش HTML, Canvas, HTML, W3Schools, طراحی وب"
+description: "در این درس رسم pixel، chart، game یا effect بصری با JavaScript روی سطح bitmap را با مثال‌های واقعی HTML تمرین می‌کنید."
+seoTitle: "آموزش Canvas در HTML | مستندات MEGA JS"
+seoDescription: "آموزش Canvas در HTML با مثال‌های قدم‌به‌قدم، جدول syntax، خطاهای رایج و تمرین عملی برای ساخت صفحه‌های استاندارد و قابل دسترس. مناسب تمرین عملی و یادگیری مطمئن."
+keywords: "آموزش HTML, Canvas در HTML, آموزش HTML canvas, canvas getContext 2d, JavaScript drawing"
 order: 47
 sources:
   - name: W3Schools HTML
@@ -13,15 +13,22 @@ sources:
 ---
 # Canvas در HTML
 
-در این درس رسم pixel با JavaScript روی سطح canvas را یاد می‌گیرید. ترتیب درس‌ها از ساختار آموزش HTML در W3Schools الهام گرفته شده، اما متن و مثال‌ها برای مستندات MEGA JS بازنویسی شده‌اند تا یادگیری مرحله‌به‌مرحله و کاربردی بماند.
+Canvas در HTML روی رسم pixel، chart، game یا effect بصری با JavaScript روی سطح bitmap تمرکز دارد. در این درس درباره Canvas در HTML با مثال‌های واقعی HTML کار می‌کنید، نه فقط تعریف‌های کوتاه و حفظی.
 
-## چیستی و چرایی
+این موضوع زمانی مهم می‌شود که وقتی به drawing پویا نیاز دارید نه shape ثابت در markup. هر مثال را اجرا کنید، سپس یک attribute یا مقدار را تغییر دهید تا رفتار مرورگر را ببینید.
 
-Canvas در HTML مهم است چون HTML قرارداد اصلی میان محتوا، مرورگر، موتورهای جست‌وجو، ابزارهای کمکی، CSS و JavaScript است. وقتی markup دقیق باشد، style ساده‌تر می‌شود، scriptها target پایدار دارند و صفحه در دستگاه‌های مختلف قابل اعتمادتر کار می‌کند.
+## چیستی Canvas در HTML
 
-در تمرین، اول نقش element یا attribute را بفهمید و بعد به ظاهر فکر کنید. ظاهر با CSS تغییر می‌کند، اما معنای درست HTML پایه تجربه کاربری، SEO و accessibility است.
+- این بخش به Canvas در HTML نقش روشن می‌دهد و فقط به ظاهر CSS تکیه نمی‌کند.
+- syntaxهای مهم این درس شامل `<canvas>`, `getContext("2d")` و `fallback text` است.
+- وقتی وقتی به drawing پویا نیاز دارید نه shape ثابت در markup، markup درست باعث می‌شود صفحه قابل اعتمادتر و قابل نگه‌داری‌تر باشد.
+- HTML خوب به CSS و JavaScript target پایدار می‌دهد و هم‌زمان معنا را برای کاربر و ابزارهای کمکی حفظ می‌کند.
 
-## Syntax
+## Syntax و مثال‌ها
+
+ابتدا ساده‌ترین الگوی کاربردی را ببینید و بعد آن را با مثال‌های کامل‌تر مقایسه کنید.
+
+### مثال 1: مستطیل ساده
 
 ```html
 <canvas id="chart" width="300" height="150">Canvas is not supported.</canvas>
@@ -33,30 +40,67 @@ Canvas در HTML مهم است چون HTML قرارداد اصلی میان مح
 </script>
 ```
 
-کد را از بیرون به داخل بخوانید: ابتدا container، سپس attributeها، و بعد متن یا elementهای تو در تو. این عادت debug کردن سندهای بزرگ‌تر را بسیار ساده‌تر می‌کند.
+### مثال 2: نوار پیشرفت
 
-## جدول سریع
+```html
+<canvas id="progress" width="320" height="120">Progress chart fallback</canvas>
+<script>
+  const progress = document.querySelector('#progress');
+  const ctx = progress.getContext('2d');
+  ctx.fillStyle = '#e5e7eb';
+  ctx.fillRect(20, 45, 280, 30);
+  ctx.fillStyle = '#22c55e';
+  ctx.fillRect(20, 45, 190, 30);
+</script>
+```
 
-| مورد | کاربرد | نشانه در مثال |
+### مثال 3: رسم badge
+
+```html
+<canvas id="badge" width="200" height="200" aria-label="Canvas badge"></canvas>
+<script>
+  const badge = document.querySelector('#badge');
+  const ctx = badge.getContext('2d');
+  ctx.beginPath();
+  ctx.arc(100, 100, 70, 0, Math.PI * 2);
+  ctx.fillStyle = 'gold';
+  ctx.fill();
+  ctx.strokeText('HTML', 76, 105);
+</script>
+```
+
+## توضیح مثال
+
+- مثال اول pattern اصلی Canvas در HTML را بدون کد layout اضافی نشان می‌دهد.
+- به `<canvas>` دقت کنید: سطح drawing را می‌سازد.
+- مثال دوم و سوم نشان می‌دهند همین ایده در صفحه بزرگ‌تر چطور کنار fallback، title، اندازه canvas یا viewBox قرار می‌گیرد.
+- اگر خروجی مرورگر غیرمنتظره بود، element را در DevTools inspect کنید و DOM را با source markup مقایسه کنید.
+
+## مثال‌های بیشتر و جدول گزینه‌ها
+
+| Syntax یا گزینه | کاربرد | زمان استفاده |
 | --- | --- | --- |
-| مفهوم اصلی | نقش این درس در ساختار HTML | Canvas |
-| syntax | شکل نوشتن element، attribute یا API مرتبط | به opening tag و مقدار attribute دقت کنید |
-| رفتار مرورگر | آنچه browser به صورت پیش‌فرض انجام می‌دهد | با DevTools بررسی کنید |
-| کیفیت | ارتباط با accessibility، SEO یا maintainability | نام‌گذاری و متن جایگزین را جدی بگیرید |
+| `<canvas>` | سطح drawing را می‌سازد | هنگام تمرین Canvas در HTML از آن استفاده کنید. |
+| `getContext("2d")` | API دوبعدی drawing را برمی‌گرداند | هنگام تمرین Canvas در HTML از آن استفاده کنید. |
+| `fallback text` | وقتی canvas پشتیبانی نشود نمایش داده می‌شود | هنگام تمرین Canvas در HTML از آن استفاده کنید. |
 
-## نکته‌ها و Best Practice
+## نکته‌های مرورگر، accessibility و SEO
 
-- قبل از استفاده از `div` یا JavaScript، ببینید element معنایی مناسب وجود دارد یا نه.
-- هنگام یادگیری مثال را کوچک نگه دارید، سپس همان ایده را داخل یک سند کامل HTML امتحان کنید.
-- attributeهایی مثل `name`، `alt`، `title`، `href` و `id` باید هدف روشن و قابل فهم داشته باشند.
-- صفحه را در DevTools بررسی کنید و برای بخش‌های تعاملی، navigation با keyboard را هم تست کنید.
+- پشتیبانی مرورگر برای Canvas در HTML را با یک فایل کوچک تست کنید؛ default style همیشه معیار کیفیت markup نیست.
+- برای accessibility، متن قابل فهم، label، alt، caption یا title را فقط وقتی لازم است ولی دقیق بنویسید.
+- برای graphics، محتوای جایگزین یا title مناسب فراهم کنید؛ canvas بدون fallback برای screen reader کافی نیست.
 
 ## اشتباه‌های رایج
 
-- نگاه کردن به Canvas فقط به عنوان موضوع ظاهری، نه بخشی از معنای سند.
-- حذف contextهای لازم مثل label، title، fallback text یا character encoding.
-- کپی کردن markup بدون تغییر نام‌ها، pathها و متن‌ها بر اساس صفحه واقعی.
+- استفاده از Canvas در HTML فقط برای ظاهر، در حالی که باید نقش محتوایی آن روشن باشد.
+- فراموش کردن `<canvas>` یا نوشتن مقدارهایی که با هدف واقعی صفحه هماهنگ نیستند.
+- کپی کردن مثال بدون تغییر متن، path، id، name یا label بر اساس پروژه خودتان.
+- تست نکردن نتیجه با keyboard، صفحه کوچک موبایل و DevTools.
+
+## نکته تمرینی
+
+یک فایل به نام `canvas.html` بسازید، مثال اول را کپی کنید و سپس یک خط جدید اضافه کنید که `<canvas>` را درست در محتوای خودتان به کار ببرد.
 
 ## گام بعدی
 
-گام بعدی: درس **SVG در HTML** را باز کنید و همین الگو را روی موضوع بعدی تمرین کنید.
+گام بعدی: درس **SVG در HTML** را بخوانید تا مفهوم بعدی روی همین پایه ساخته شود.

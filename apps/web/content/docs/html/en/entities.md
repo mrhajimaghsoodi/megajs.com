@@ -1,9 +1,9 @@
 ---
 title: "HTML Entities"
-description: "A focused lesson on printing reserved characters and non-breaking spaces safely."
-seoTitle: "Entities in HTML — Step-by-Step Tutorial | MEGA JS Docs"
-seoDescription: "Learn HTML Entities with a W3Schools-style step-by-step guide to syntax, examples, best practices, and next steps for real web pages. Practice it today."
-keywords: "learn HTML, Entities, HTML tutorial, W3Schools, web development"
+description: "Learn how reserved characters and special spaces are written safely with real HTML examples and practical checks."
+seoTitle: "HTML Entities Tutorial | MEGA JS Docs"
+seoDescription: "Learn HTML Entities with step-by-step HTML examples, syntax tables, common mistakes, and practice tips for building accessible real pages. Practice it today."
+keywords: "HTML tutorial, HTML entities, amp lt gt nbsp, reserved characters HTML"
 order: 33
 sources:
   - name: W3Schools HTML
@@ -13,45 +13,105 @@ sources:
 ---
 # HTML Entities
 
-This chapter teaches printing reserved characters and non-breaking spaces safely. The order follows the W3Schools HTML tutorial spine, but the explanations are rewritten for MEGA JS so you can learn the same concepts without memorizing copied examples.
+In HTML Entities, you learn how reserved characters and special spaces are written safely. The focus is HTML entities, so the examples use the exact tags, attributes, or browser APIs you will meet in real pages.
 
-## What and why
+Use this lesson when text must show symbols that HTML would otherwise parse as markup. Read each example slowly, then change one value at a time to see what the browser does.
 
-HTML Entities matters because HTML is the contract between your content, the browser, search engines, assistive technologies, CSS, and JavaScript. When the markup is precise, styling becomes easier, scripts have stable targets, and users get a page that works across devices.
+## What are HTML entities?
 
-In practice, focus on the role of the element or attribute before you focus on visual output. Browsers provide default behavior, but good HTML gives that behavior a clear purpose.
+- It gives HTML entities a clear semantic purpose instead of relying on visual styling alone.
+- The important syntax in this chapter includes `&amp;`, `&lt; / &gt;` and `&nbsp;`.
+- It improves real pages when text must show symbols that HTML would otherwise parse as markup, especially after you test the result in a browser.
+- Good markup here gives CSS and JavaScript predictable targets without hiding meaning from users.
 
-## Syntax
+## Syntax and examples
+
+Start with the smallest useful pattern, then compare it with the more complete examples below.
+
+### Example 1: Core pattern
 
 ```html
 <p>Use &amp; for an ampersand and &lt; for a less-than sign.</p>
 <p>Keep these words together with&nbsp;a non-breaking space.</p>
 ```
 
-Read the snippet from the outside in: identify the containing element, then the attributes, then the text or nested elements. This habit makes larger documents much easier to debug.
+### Example 2: Options in context
 
-## Quick reference
+```html
+<section class="entities-notes" aria-labelledby="entities-title">
+  <h2 id="entities-title">HTML Entities options</h2>
+  <table>
+    <caption>Key syntax for HTML entities</caption>
+    <thead>
+      <tr><th scope="col">Syntax</th><th scope="col">Purpose</th></tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>&amp;amp;</code></td>
+      <td>prints an ampersand</td>
+    </tr>
+    <tr>
+      <td><code>&amp;lt; / &amp;gt;</code></td>
+      <td>prints less-than and greater-than signs</td>
+    </tr>
+    <tr>
+      <td><code>&amp;nbsp;</code></td>
+      <td>keeps words from breaking apart</td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+```
 
-| Item | Purpose | Example cue |
+### Example 3: Complete practice page
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Entities practice</title>
+  </head>
+  <body>
+    <p>Use &amp; for an ampersand and &lt; for a less-than sign.</p>
+    <p>Keep these words together with&nbsp;a non-breaking space.</p>
+  </body>
+</html>
+```
+
+## Example explained
+
+- The first example shows the core pattern for HTML entities without unrelated layout code.
+- Pay attention to `&amp;`: prints an ampersand.
+- The second and third examples show how the same idea fits into a larger page with meaningful text, stable attributes, and readable structure.
+- If the browser output is surprising, inspect the element in DevTools and compare the DOM with the source markup.
+
+## More examples and options
+
+| Syntax or option | What it does | When to use it |
 | --- | --- | --- |
-| Core concept | The role this lesson plays in HTML structure | Entities |
-| Syntax | How the related element, attribute, or API is written | Watch opening tags and attribute values |
-| Browser behavior | What the browser provides by default | Inspect the result in DevTools |
-| Quality check | Accessibility, SEO, or maintainability impact | Use clear names and fallback text |
+| `&amp;` | prints an ampersand | Use it while practicing HTML entities. |
+| `&lt; / &gt;` | prints less-than and greater-than signs | Use it while practicing HTML entities. |
+| `&nbsp;` | keeps words from breaking apart | Use it while practicing HTML entities. |
 
-## Best practices
+## Browser, accessibility, and SEO notes
 
-- Prefer semantic HTML before adding generic containers or JavaScript behavior.
-- Keep examples small while learning, then test the same idea inside a complete document.
-- Write attributes intentionally: names, labels, alternative text, and URLs should explain their purpose.
-- Validate the page, inspect it in DevTools, and test it with keyboard navigation when interaction is involved.
+- Test HTML entities in a small file; default browser styling is not the same thing as good markup.
+- For accessibility, provide meaningful text, labels, alt text, captions, or titles when the feature needs them.
+- For SEO, write headings, link text, titles, and semantic structure that still make sense without CSS.
 
-## Common mistakes to avoid
+## Common mistakes
 
-- Treating Entities as only a visual feature instead of part of document meaning.
-- Skipping required context such as labels, titles, fallback text, or character encoding.
-- Copying markup without changing names, paths, and text to match the real page.
+- Using HTML entities only for appearance instead of matching the content role.
+- Forgetting `&amp;` or writing values that do not match the real page purpose.
+- Copying an example without changing text, paths, ids, names, or labels for your project.
+- Skipping keyboard, small-screen, and DevTools checks after the page appears to work.
+
+## Practice tip
+
+Create a file named `entities.html`, copy the first example, then add one extra line that uses `&amp;` correctly in your own content.
 
 ## Next step
 
-Next step: open **HTML Symbols** and build on this lesson while the syntax is still fresh.
+Next step: continue with **HTML Symbols** so the next concept builds on this one.

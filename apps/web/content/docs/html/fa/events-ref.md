@@ -1,9 +1,9 @@
 ---
 title: "مرجع eventهای HTML"
-description: "درس مرجع eventهای HTML برای یادگیری وصل کردن eventهای کاربر و مرورگر به handlerهای JavaScript."
-seoTitle: "مرجع eventهای در HTML — آموزش قدم‌به‌قدم | مستندات MEGA JS"
-seoDescription: "آموزش HTML مرجع eventهای به سبک قدم‌به‌قدم W3Schools؛ با syntax، مثال کاربردی، best practice و گام بعدی برای ساخت صفحه‌های واقعی. با تمرین کوتاه و نتیجه روشن."
-keywords: "آموزش HTML, مرجع eventهای, HTML, W3Schools, طراحی وب"
+description: "در این درس وصل کردن eventهای کاربر و مرورگر به handlerهای JavaScript را با مثال‌های واقعی HTML تمرین می‌کنید."
+seoTitle: "آموزش مرجع eventهای HTML | مستندات MEGA JS"
+seoDescription: "آموزش مرجع eventهای HTML با مثال‌های قدم‌به‌قدم، جدول syntax، خطاهای رایج و تمرین عملی برای ساخت صفحه‌های استاندارد و قابل دسترس. با تمرین کوتاه و نتیجه روشن."
+keywords: "آموزش HTML, مرجع eventهای HTML, آموزش HTML events reference, onclick input submit, JavaScript events HTML"
 order: 65
 sources:
   - name: W3Schools HTML
@@ -13,46 +13,113 @@ sources:
 ---
 # مرجع eventهای HTML
 
-در این درس وصل کردن eventهای کاربر و مرورگر به handlerهای JavaScript را یاد می‌گیرید. ترتیب درس‌ها از ساختار آموزش HTML در W3Schools الهام گرفته شده، اما متن و مثال‌ها برای مستندات MEGA JS بازنویسی شده‌اند تا یادگیری مرحله‌به‌مرحله و کاربردی بماند.
+مرجع eventهای HTML روی وصل کردن eventهای کاربر و مرورگر به handlerهای JavaScript تمرکز دارد. در این درس درباره مرجع eventهای HTML با مثال‌های واقعی HTML کار می‌کنید، نه فقط تعریف‌های کوتاه و حفظی.
 
-## چیستی و چرایی
+این موضوع زمانی مهم می‌شود که وقتی interaction به واکنش به click، input، submit، load یا drag نیاز دارد. هر مثال را اجرا کنید، سپس یک attribute یا مقدار را تغییر دهید تا رفتار مرورگر را ببینید.
 
-مرجع eventهای HTML مهم است چون HTML قرارداد اصلی میان محتوا، مرورگر، موتورهای جست‌وجو، ابزارهای کمکی، CSS و JavaScript است. وقتی markup دقیق باشد، style ساده‌تر می‌شود، scriptها target پایدار دارند و صفحه در دستگاه‌های مختلف قابل اعتمادتر کار می‌کند.
+## چیستی مرجع eventهای HTML
 
-در تمرین، اول نقش element یا attribute را بفهمید و بعد به ظاهر فکر کنید. ظاهر با CSS تغییر می‌کند، اما معنای درست HTML پایه تجربه کاربری، SEO و accessibility است.
+- این بخش به مرجع eventهای HTML نقش روشن می‌دهد و فقط به ظاهر CSS تکیه نمی‌کند.
+- syntaxهای مهم این درس شامل `click`, `input` و `submit` است.
+- وقتی وقتی interaction به واکنش به click، input، submit، load یا drag نیاز دارد، markup درست باعث می‌شود صفحه قابل اعتمادتر و قابل نگه‌داری‌تر باشد.
+- HTML خوب به CSS و JavaScript target پایدار می‌دهد و هم‌زمان معنا را برای کاربر و ابزارهای کمکی حفظ می‌کند.
 
-## Syntax
+## Syntax و مثال‌ها
+
+ابتدا ساده‌ترین الگوی کاربردی را ببینید و بعد آن را با مثال‌های کامل‌تر مقایسه کنید.
+
+### مثال 1: الگوی اصلی
 
 ```html
-<button type="button" onclick="alert('Saved')">Save</button>
-<input oninput="console.log(this.value)" aria-label="Live search">
-<form onsubmit="return confirm('Submit?')"></form>
+<button id="save" type="button">Save</button>
+<input id="search" aria-label="Live search">
+<script>
+  document.querySelector('#save').addEventListener('click', () => alert('Saved'));
+  document.querySelector('#search').addEventListener('input', (event) => console.log(event.target.value));
+</script>
 ```
 
-کد را از بیرون به داخل بخوانید: ابتدا container، سپس attributeها، و بعد متن یا elementهای تو در تو. این عادت debug کردن سندهای بزرگ‌تر را بسیار ساده‌تر می‌کند.
+### مثال 2: گزینه‌ها در context
 
-## جدول سریع
+```html
+<section class="events-ref-notes" aria-labelledby="events-ref-title">
+  <h2 id="events-ref-title">HTML Event Reference options</h2>
+  <table>
+    <caption>Key syntax for HTML event reference</caption>
+    <thead>
+      <tr><th scope="col">Syntax</th><th scope="col">Purpose</th></tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>click</code></td>
+      <td>fires when a user activates an element</td>
+    </tr>
+    <tr>
+      <td><code>input</code></td>
+      <td>fires as form values change</td>
+    </tr>
+    <tr>
+      <td><code>submit</code></td>
+      <td>fires when a form is submitted</td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+```
 
-| مورد | کاربرد | نشانه در مثال |
+### مثال 3: صفحه تمرینی کامل
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Event Reference practice</title>
+  </head>
+  <body>
+    <button id="save" type="button">Save</button>
+    <input id="search" aria-label="Live search">
+    <script>
+      document.querySelector('#save').addEventListener('click', () => alert('Saved'));
+      document.querySelector('#search').addEventListener('input', (event) => console.log(event.target.value));
+    </script>
+  </body>
+</html>
+```
+
+## توضیح مثال
+
+- مثال اول pattern اصلی مرجع eventهای HTML را بدون کد layout اضافی نشان می‌دهد.
+- به `click` دقت کنید: وقتی کاربر element را فعال کند رخ می‌دهد.
+- مثال دوم و سوم نشان می‌دهند همین ایده در صفحه بزرگ‌تر چطور کنار syntax دقیق، کاربرد و محدودیت‌های هر مورد قرار می‌گیرد.
+- اگر خروجی مرورگر غیرمنتظره بود، element را در DevTools inspect کنید و DOM را با source markup مقایسه کنید.
+
+## مثال‌های بیشتر و جدول گزینه‌ها
+
+| Syntax یا گزینه | کاربرد | زمان استفاده |
 | --- | --- | --- |
-| مفهوم اصلی | نقش این درس در ساختار HTML | مرجع eventهای |
-| syntax | شکل نوشتن element، attribute یا API مرتبط | به opening tag و مقدار attribute دقت کنید |
-| رفتار مرورگر | آنچه browser به صورت پیش‌فرض انجام می‌دهد | با DevTools بررسی کنید |
-| کیفیت | ارتباط با accessibility، SEO یا maintainability | نام‌گذاری و متن جایگزین را جدی بگیرید |
+| `click` | وقتی کاربر element را فعال کند رخ می‌دهد | هنگام تمرین مرجع eventهای HTML از آن استفاده کنید. |
+| `input` | هنگام تغییر مقدار form رخ می‌دهد | هنگام تمرین مرجع eventهای HTML از آن استفاده کنید. |
+| `submit` | هنگام submit شدن form رخ می‌دهد | هنگام تمرین مرجع eventهای HTML از آن استفاده کنید. |
 
-## نکته‌ها و Best Practice
+## نکته‌های مرورگر، accessibility و SEO
 
-- قبل از استفاده از `div` یا JavaScript، ببینید element معنایی مناسب وجود دارد یا نه.
-- هنگام یادگیری مثال را کوچک نگه دارید، سپس همان ایده را داخل یک سند کامل HTML امتحان کنید.
-- attributeهایی مثل `name`، `alt`، `title`، `href` و `id` باید هدف روشن و قابل فهم داشته باشند.
-- صفحه را در DevTools بررسی کنید و برای بخش‌های تعاملی، navigation با keyboard را هم تست کنید.
+- پشتیبانی مرورگر برای مرجع eventهای HTML را با یک فایل کوچک تست کنید؛ default style همیشه معیار کیفیت markup نیست.
+- برای accessibility، متن قابل فهم، label، alt، caption یا title را فقط وقتی لازم است ولی دقیق بنویسید.
+- برای SEO، heading، link text، title و ساختار معنایی را طوری بنویسید که بدون CSS هم قابل فهم باشد.
 
 ## اشتباه‌های رایج
 
-- نگاه کردن به مرجع eventهای فقط به عنوان موضوع ظاهری، نه بخشی از معنای سند.
-- حذف contextهای لازم مثل label، title، fallback text یا character encoding.
-- کپی کردن markup بدون تغییر نام‌ها، pathها و متن‌ها بر اساس صفحه واقعی.
+- استفاده از مرجع eventهای HTML فقط برای ظاهر، در حالی که باید نقش محتوایی آن روشن باشد.
+- فراموش کردن `click` یا نوشتن مقدارهایی که با هدف واقعی صفحه هماهنگ نیستند.
+- کپی کردن مثال بدون تغییر متن، path، id، name یا label بر اساس پروژه خودتان.
+- تست نکردن نتیجه با keyboard، صفحه کوچک موبایل و DevTools.
+
+## نکته تمرینی
+
+یک فایل به نام `events-ref.html` بسازید، مثال اول را کپی کنید و سپس یک خط جدید اضافه کنید که `click` را درست در محتوای خودتان به کار ببرد.
 
 ## گام بعدی
 
-گام بعدی: به مرجع‌ها برگردید و یک صفحه واقعی را با HTML معنایی و دسترس‌پذیر بازنویسی کنید.
+گام بعدی: به صفحه‌های reference برگردید و یک صفحه واقعی را از نظر semantics، accessibility و validation بهتر کنید.

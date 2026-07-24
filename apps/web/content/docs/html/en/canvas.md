@@ -1,9 +1,9 @@
 ---
 title: "HTML Canvas"
-description: "A focused lesson on drawing pixels with JavaScript on a canvas surface."
-seoTitle: "Canvas in HTML — Step-by-Step Tutorial | MEGA JS Docs"
-seoDescription: "Learn HTML Canvas with a W3Schools-style step-by-step guide to syntax, examples, best practices, and next steps for real web pages. Practice it today."
-keywords: "learn HTML, Canvas, HTML tutorial, W3Schools, web development"
+description: "Learn how JavaScript draws pixels, charts, games, or visual effects on a bitmap surface with real HTML examples and practical checks."
+seoTitle: "HTML Canvas Tutorial | MEGA JS Docs"
+seoDescription: "Learn HTML Canvas with step-by-step HTML examples, syntax tables, common mistakes, and practice tips for building accessible real pages. Practice it today."
+keywords: "HTML tutorial, HTML canvas, canvas getContext 2d, JavaScript drawing"
 order: 47
 sources:
   - name: W3Schools HTML
@@ -13,15 +13,22 @@ sources:
 ---
 # HTML Canvas
 
-This chapter teaches drawing pixels with JavaScript on a canvas surface. The order follows the W3Schools HTML tutorial spine, but the explanations are rewritten for MEGA JS so you can learn the same concepts without memorizing copied examples.
+In HTML Canvas, you learn how JavaScript draws pixels, charts, games, or visual effects on a bitmap surface. The focus is HTML canvas, so the examples use the exact tags, attributes, or browser APIs you will meet in real pages.
 
-## What and why
+Use this lesson when you need dynamic drawing rather than static markup shapes. Read each example slowly, then change one value at a time to see what the browser does.
 
-HTML Canvas matters because HTML is the contract between your content, the browser, search engines, assistive technologies, CSS, and JavaScript. When the markup is precise, styling becomes easier, scripts have stable targets, and users get a page that works across devices.
+## What is HTML canvas?
 
-In practice, focus on the role of the element or attribute before you focus on visual output. Browsers provide default behavior, but good HTML gives that behavior a clear purpose.
+- It gives HTML canvas a clear semantic purpose instead of relying on visual styling alone.
+- The important syntax in this chapter includes `<canvas>`, `getContext("2d")` and `fallback text`.
+- It improves real pages when you need dynamic drawing rather than static markup shapes, especially after you test the result in a browser.
+- Good markup here gives CSS and JavaScript predictable targets without hiding meaning from users.
 
-## Syntax
+## Syntax and examples
+
+Start with the smallest useful pattern, then compare it with the more complete examples below.
+
+### Example 1: Simple rectangle
 
 ```html
 <canvas id="chart" width="300" height="150">Canvas is not supported.</canvas>
@@ -33,30 +40,67 @@ In practice, focus on the role of the element or attribute before you focus on v
 </script>
 ```
 
-Read the snippet from the outside in: identify the containing element, then the attributes, then the text or nested elements. This habit makes larger documents much easier to debug.
+### Example 2: Progress bar
 
-## Quick reference
+```html
+<canvas id="progress" width="320" height="120">Progress chart fallback</canvas>
+<script>
+  const progress = document.querySelector('#progress');
+  const ctx = progress.getContext('2d');
+  ctx.fillStyle = '#e5e7eb';
+  ctx.fillRect(20, 45, 280, 30);
+  ctx.fillStyle = '#22c55e';
+  ctx.fillRect(20, 45, 190, 30);
+</script>
+```
 
-| Item | Purpose | Example cue |
+### Example 3: Drawing a badge
+
+```html
+<canvas id="badge" width="200" height="200" aria-label="Canvas badge"></canvas>
+<script>
+  const badge = document.querySelector('#badge');
+  const ctx = badge.getContext('2d');
+  ctx.beginPath();
+  ctx.arc(100, 100, 70, 0, Math.PI * 2);
+  ctx.fillStyle = 'gold';
+  ctx.fill();
+  ctx.strokeText('HTML', 76, 105);
+</script>
+```
+
+## Example explained
+
+- The first example shows the core pattern for HTML canvas without unrelated layout code.
+- Pay attention to `<canvas>`: creates the drawing surface.
+- The second and third examples show how the same idea fits into a larger page with fallback text, titles, canvas size, or viewBox details.
+- If the browser output is surprising, inspect the element in DevTools and compare the DOM with the source markup.
+
+## More examples and options
+
+| Syntax or option | What it does | When to use it |
 | --- | --- | --- |
-| Core concept | The role this lesson plays in HTML structure | Canvas |
-| Syntax | How the related element, attribute, or API is written | Watch opening tags and attribute values |
-| Browser behavior | What the browser provides by default | Inspect the result in DevTools |
-| Quality check | Accessibility, SEO, or maintainability impact | Use clear names and fallback text |
+| `<canvas>` | creates the drawing surface | Use it while practicing HTML canvas. |
+| `getContext("2d")` | returns the 2D drawing API | Use it while practicing HTML canvas. |
+| `fallback text` | appears when canvas is unsupported | Use it while practicing HTML canvas. |
 
-## Best practices
+## Browser, accessibility, and SEO notes
 
-- Prefer semantic HTML before adding generic containers or JavaScript behavior.
-- Keep examples small while learning, then test the same idea inside a complete document.
-- Write attributes intentionally: names, labels, alternative text, and URLs should explain their purpose.
-- Validate the page, inspect it in DevTools, and test it with keyboard navigation when interaction is involved.
+- Test HTML canvas in a small file; default browser styling is not the same thing as good markup.
+- For accessibility, provide meaningful text, labels, alt text, captions, or titles when the feature needs them.
+- Provide alternative text or titles for graphics; canvas without fallback is not enough for screen readers.
 
-## Common mistakes to avoid
+## Common mistakes
 
-- Treating Canvas as only a visual feature instead of part of document meaning.
-- Skipping required context such as labels, titles, fallback text, or character encoding.
-- Copying markup without changing names, paths, and text to match the real page.
+- Using HTML canvas only for appearance instead of matching the content role.
+- Forgetting `<canvas>` or writing values that do not match the real page purpose.
+- Copying an example without changing text, paths, ids, names, or labels for your project.
+- Skipping keyboard, small-screen, and DevTools checks after the page appears to work.
+
+## Practice tip
+
+Create a file named `canvas.html`, copy the first example, then add one extra line that uses `<canvas>` correctly in your own content.
 
 ## Next step
 
-Next step: open **HTML SVG** and build on this lesson while the syntax is still fresh.
+Next step: continue with **HTML SVG** so the next concept builds on this one.

@@ -1,9 +1,9 @@
 ---
 title: "کامنت‌های HTML"
-description: "درس کامنت‌های HTML برای یادگیری نوشتن یادداشت در source code بدون نمایش در صفحه."
-seoTitle: "کامنت‌های در HTML — آموزش قدم‌به‌قدم | مستندات MEGA JS"
-seoDescription: "آموزش HTML کامنت‌های به سبک قدم‌به‌قدم W3Schools؛ با syntax، مثال کاربردی، best practice و گام بعدی برای ساخت صفحه‌های واقعی. مناسب تمرین عملی و یادگیری مطمئن."
-keywords: "آموزش HTML, کامنت‌های, HTML, W3Schools, طراحی وب"
+description: "در این درس نوشتن یادداشت‌های فقط source که روی صفحه نمایش داده نمی‌شوند را با مثال‌های واقعی HTML تمرین می‌کنید."
+seoTitle: "آموزش کامنت در HTML | مستندات MEGA JS"
+seoDescription: "آموزش کامنت در HTML با مثال‌های قدم‌به‌قدم، جدول syntax، خطاهای رایج و تمرین عملی برای ساخت صفحه‌های استاندارد و قابل دسترس. مناسب تمرین عملی و یادگیری مطمئن."
+keywords: "آموزش HTML, کامنت در HTML, آموزش HTML comments, آموزش HTML comment syntax, comment in HTML"
 order: 12
 sources:
   - name: W3Schools HTML
@@ -13,15 +13,22 @@ sources:
 ---
 # کامنت‌های HTML
 
-در این درس نوشتن یادداشت در source code بدون نمایش در صفحه را یاد می‌گیرید. ترتیب درس‌ها از ساختار آموزش HTML در W3Schools الهام گرفته شده، اما متن و مثال‌ها برای مستندات MEGA JS بازنویسی شده‌اند تا یادگیری مرحله‌به‌مرحله و کاربردی بماند.
+کامنت‌های HTML روی نوشتن یادداشت‌های فقط source که روی صفحه نمایش داده نمی‌شوند تمرکز دارد. در این درس درباره کامنت در HTML با مثال‌های واقعی HTML کار می‌کنید، نه فقط تعریف‌های کوتاه و حفظی.
 
-## چیستی و چرایی
+این موضوع زمانی مهم می‌شود که وقتی خواننده آینده به دلیل تصمیم‌های markup نیاز دارد. هر مثال را اجرا کنید، سپس یک attribute یا مقدار را تغییر دهید تا رفتار مرورگر را ببینید.
 
-کامنت‌های HTML مهم است چون HTML قرارداد اصلی میان محتوا، مرورگر، موتورهای جست‌وجو، ابزارهای کمکی، CSS و JavaScript است. وقتی markup دقیق باشد، style ساده‌تر می‌شود، scriptها target پایدار دارند و صفحه در دستگاه‌های مختلف قابل اعتمادتر کار می‌کند.
+## چیستی کامنت در HTML
 
-در تمرین، اول نقش element یا attribute را بفهمید و بعد به ظاهر فکر کنید. ظاهر با CSS تغییر می‌کند، اما معنای درست HTML پایه تجربه کاربری، SEO و accessibility است.
+- این بخش به کامنت‌های HTML نقش روشن می‌دهد و فقط به ظاهر CSS تکیه نمی‌کند.
+- syntaxهای مهم این درس شامل `<!-- ... -->`, `TODO notes` و `conditional notes` است.
+- وقتی وقتی خواننده آینده به دلیل تصمیم‌های markup نیاز دارد، markup درست باعث می‌شود صفحه قابل اعتمادتر و قابل نگه‌داری‌تر باشد.
+- HTML خوب به CSS و JavaScript target پایدار می‌دهد و هم‌زمان معنا را برای کاربر و ابزارهای کمکی حفظ می‌کند.
 
-## Syntax
+## Syntax و مثال‌ها
+
+ابتدا ساده‌ترین الگوی کاربردی را ببینید و بعد آن را با مثال‌های کامل‌تر مقایسه کنید.
+
+### مثال 1: الگوی اصلی
 
 ```html
 <!-- Explain why this section exists, not what every line does. -->
@@ -30,30 +37,85 @@ sources:
 </section>
 ```
 
-کد را از بیرون به داخل بخوانید: ابتدا container، سپس attributeها، و بعد متن یا elementهای تو در تو. این عادت debug کردن سندهای بزرگ‌تر را بسیار ساده‌تر می‌کند.
+### مثال 2: گزینه‌ها در context
 
-## جدول سریع
+```html
+<section class="comments-notes" aria-labelledby="comments-title">
+  <h2 id="comments-title">HTML Comments options</h2>
+  <table>
+    <caption>Key syntax for HTML comments</caption>
+    <thead>
+      <tr><th scope="col">Syntax</th><th scope="col">Purpose</th></tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>&lt;!-- ... --&gt;</code></td>
+      <td>creates an HTML comment</td>
+    </tr>
+    <tr>
+      <td><code>TODO notes</code></td>
+      <td>mark unfinished content carefully</td>
+    </tr>
+    <tr>
+      <td><code>conditional notes</code></td>
+      <td>explain unusual markup choices</td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+```
 
-| مورد | کاربرد | نشانه در مثال |
+### مثال 3: صفحه تمرینی کامل
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Comments practice</title>
+  </head>
+  <body>
+    <!-- Explain why this section exists, not what every line does. -->
+    <section aria-labelledby="pricing-title">
+      <h2 id="pricing-title">Pricing</h2>
+    </section>
+  </body>
+</html>
+```
+
+## توضیح مثال
+
+- مثال اول pattern اصلی کامنت در HTML را بدون کد layout اضافی نشان می‌دهد.
+- به `<!-- ... -->` دقت کنید: کامنت HTML می‌سازد.
+- مثال دوم و سوم نشان می‌دهند همین ایده در صفحه بزرگ‌تر چطور کنار متن معنادار، attributeهای پایدار و ساختار قابل فهم قرار می‌گیرد.
+- اگر خروجی مرورگر غیرمنتظره بود، element را در DevTools inspect کنید و DOM را با source markup مقایسه کنید.
+
+## مثال‌های بیشتر و جدول گزینه‌ها
+
+| Syntax یا گزینه | کاربرد | زمان استفاده |
 | --- | --- | --- |
-| مفهوم اصلی | نقش این درس در ساختار HTML | کامنت‌های |
-| syntax | شکل نوشتن element، attribute یا API مرتبط | به opening tag و مقدار attribute دقت کنید |
-| رفتار مرورگر | آنچه browser به صورت پیش‌فرض انجام می‌دهد | با DevTools بررسی کنید |
-| کیفیت | ارتباط با accessibility، SEO یا maintainability | نام‌گذاری و متن جایگزین را جدی بگیرید |
+| `<!-- ... -->` | کامنت HTML می‌سازد | هنگام تمرین کامنت در HTML از آن استفاده کنید. |
+| `TODO notes` | کار ناتمام را با دقت علامت می‌زند | هنگام تمرین کامنت در HTML از آن استفاده کنید. |
+| `conditional notes` | انتخاب‌های غیرمعمول markup را توضیح می‌دهد | هنگام تمرین کامنت در HTML از آن استفاده کنید. |
 
-## نکته‌ها و Best Practice
+## نکته‌های مرورگر، accessibility و SEO
 
-- قبل از استفاده از `div` یا JavaScript، ببینید element معنایی مناسب وجود دارد یا نه.
-- هنگام یادگیری مثال را کوچک نگه دارید، سپس همان ایده را داخل یک سند کامل HTML امتحان کنید.
-- attributeهایی مثل `name`، `alt`، `title`، `href` و `id` باید هدف روشن و قابل فهم داشته باشند.
-- صفحه را در DevTools بررسی کنید و برای بخش‌های تعاملی، navigation با keyboard را هم تست کنید.
+- پشتیبانی مرورگر برای کامنت در HTML را با یک فایل کوچک تست کنید؛ default style همیشه معیار کیفیت markup نیست.
+- برای accessibility، متن قابل فهم، label، alt، caption یا title را فقط وقتی لازم است ولی دقیق بنویسید.
+- برای SEO، heading، link text، title و ساختار معنایی را طوری بنویسید که بدون CSS هم قابل فهم باشد.
 
 ## اشتباه‌های رایج
 
-- نگاه کردن به کامنت‌های فقط به عنوان موضوع ظاهری، نه بخشی از معنای سند.
-- حذف contextهای لازم مثل label، title، fallback text یا character encoding.
-- کپی کردن markup بدون تغییر نام‌ها، pathها و متن‌ها بر اساس صفحه واقعی.
+- استفاده از کامنت در HTML فقط برای ظاهر، در حالی که باید نقش محتوایی آن روشن باشد.
+- فراموش کردن `<!-- ... -->` یا نوشتن مقدارهایی که با هدف واقعی صفحه هماهنگ نیستند.
+- کپی کردن مثال بدون تغییر متن، path، id، name یا label بر اساس پروژه خودتان.
+- تست نکردن نتیجه با keyboard، صفحه کوچک موبایل و DevTools.
+
+## نکته تمرینی
+
+یک فایل به نام `comments.html` بسازید، مثال اول را کپی کنید و سپس یک خط جدید اضافه کنید که `<!-- ... -->` را درست در محتوای خودتان به کار ببرد.
 
 ## گام بعدی
 
-گام بعدی: درس **رنگ‌ها در HTML** را باز کنید و همین الگو را روی موضوع بعدی تمرین کنید.
+گام بعدی: درس **رنگ‌ها در HTML** را بخوانید تا مفهوم بعدی روی همین پایه ساخته شود.

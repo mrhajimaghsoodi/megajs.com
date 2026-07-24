@@ -1,9 +1,9 @@
 ---
 title: "عنوان صفحه HTML"
-description: "درس عنوان صفحه HTML برای یادگیری نوشتن title مناسب برای تب، bookmark و نتیجه جست‌وجو."
-seoTitle: "عنوان صفحه در HTML — آموزش قدم‌به‌قدم | مستندات MEGA JS"
-seoDescription: "آموزش HTML عنوان صفحه به سبک قدم‌به‌قدم W3Schools؛ با syntax، مثال کاربردی، best practice و گام بعدی برای ساخت صفحه‌های واقعی. مناسب تمرین عملی و یادگیری مطمئن."
-keywords: "آموزش HTML, عنوان صفحه, HTML, W3Schools, طراحی وب"
+description: "در این درس نام‌گذاری tab، bookmark و نتیجه جست‌وجو با title را با مثال‌های واقعی HTML تمرین می‌کنید."
+seoTitle: "آموزش عنوان صفحه HTML | مستندات MEGA JS"
+seoDescription: "آموزش عنوان صفحه HTML با مثال‌های قدم‌به‌قدم، جدول syntax، خطاهای رایج و تمرین عملی برای ساخت صفحه‌های استاندارد و قابل دسترس. مناسب تمرین عملی و یادگیری مطمئن."
+keywords: "آموزش HTML, عنوان صفحه HTML, آموزش HTML title, page title SEO, title element"
 order: 18
 sources:
   - name: W3Schools HTML
@@ -13,15 +13,22 @@ sources:
 ---
 # عنوان صفحه HTML
 
-در این درس نوشتن title مناسب برای تب، bookmark و نتیجه جست‌وجو را یاد می‌گیرید. ترتیب درس‌ها از ساختار آموزش HTML در W3Schools الهام گرفته شده، اما متن و مثال‌ها برای مستندات MEGA JS بازنویسی شده‌اند تا یادگیری مرحله‌به‌مرحله و کاربردی بماند.
+عنوان صفحه HTML روی نام‌گذاری tab، bookmark و نتیجه جست‌وجو با title تمرکز دارد. در این درس درباره عنوان صفحه HTML با مثال‌های واقعی HTML کار می‌کنید، نه فقط تعریف‌های کوتاه و حفظی.
 
-## چیستی و چرایی
+این موضوع زمانی مهم می‌شود که وقتی صفحه به label کوتاه بیرون از body نیاز دارد. هر مثال را اجرا کنید، سپس یک attribute یا مقدار را تغییر دهید تا رفتار مرورگر را ببینید.
 
-عنوان صفحه HTML مهم است چون HTML قرارداد اصلی میان محتوا، مرورگر، موتورهای جست‌وجو، ابزارهای کمکی، CSS و JavaScript است. وقتی markup دقیق باشد، style ساده‌تر می‌شود، scriptها target پایدار دارند و صفحه در دستگاه‌های مختلف قابل اعتمادتر کار می‌کند.
+## چیستی عنوان صفحه HTML
 
-در تمرین، اول نقش element یا attribute را بفهمید و بعد به ظاهر فکر کنید. ظاهر با CSS تغییر می‌کند، اما معنای درست HTML پایه تجربه کاربری، SEO و accessibility است.
+- این بخش به عنوان صفحه HTML نقش روشن می‌دهد و فقط به ظاهر CSS تکیه نمی‌کند.
+- syntaxهای مهم این درس شامل `<title>`, `unique title` و `title length` است.
+- وقتی وقتی صفحه به label کوتاه بیرون از body نیاز دارد، markup درست باعث می‌شود صفحه قابل اعتمادتر و قابل نگه‌داری‌تر باشد.
+- HTML خوب به CSS و JavaScript target پایدار می‌دهد و هم‌زمان معنا را برای کاربر و ابزارهای کمکی حفظ می‌کند.
 
-## Syntax
+## Syntax و مثال‌ها
+
+ابتدا ساده‌ترین الگوی کاربردی را ببینید و بعد آن را با مثال‌های کامل‌تر مقایسه کنید.
+
+### مثال 1: الگوی اصلی
 
 ```html
 <head>
@@ -30,30 +37,85 @@ sources:
 </head>
 ```
 
-کد را از بیرون به داخل بخوانید: ابتدا container، سپس attributeها، و بعد متن یا elementهای تو در تو. این عادت debug کردن سندهای بزرگ‌تر را بسیار ساده‌تر می‌کند.
+### مثال 2: گزینه‌ها در context
 
-## جدول سریع
+```html
+<section class="page-title-notes" aria-labelledby="page-title-title">
+  <h2 id="page-title-title">HTML Page Title options</h2>
+  <table>
+    <caption>Key syntax for HTML page title</caption>
+    <thead>
+      <tr><th scope="col">Syntax</th><th scope="col">Purpose</th></tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>&lt;title&gt;</code></td>
+      <td>sets the browser tab text</td>
+    </tr>
+    <tr>
+      <td><code>unique title</code></td>
+      <td>distinguishes similar pages in search and history</td>
+    </tr>
+    <tr>
+      <td><code>title length</code></td>
+      <td>keeps important words visible</td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+```
 
-| مورد | کاربرد | نشانه در مثال |
+### مثال 3: صفحه تمرینی کامل
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Page Title practice</title>
+  </head>
+  <body>
+    <head>
+      <title>HTML Forms Tutorial | MEGA JS Docs</title>
+      <meta name="description" content="Learn how to build accessible HTML forms.">
+    </head>
+  </body>
+</html>
+```
+
+## توضیح مثال
+
+- مثال اول pattern اصلی عنوان صفحه HTML را بدون کد layout اضافی نشان می‌دهد.
+- به `<title>` دقت کنید: متن تب مرورگر را تعیین می‌کند.
+- مثال دوم و سوم نشان می‌دهند همین ایده در صفحه بزرگ‌تر چطور کنار متن معنادار، attributeهای پایدار و ساختار قابل فهم قرار می‌گیرد.
+- اگر خروجی مرورگر غیرمنتظره بود، element را در DevTools inspect کنید و DOM را با source markup مقایسه کنید.
+
+## مثال‌های بیشتر و جدول گزینه‌ها
+
+| Syntax یا گزینه | کاربرد | زمان استفاده |
 | --- | --- | --- |
-| مفهوم اصلی | نقش این درس در ساختار HTML | عنوان صفحه |
-| syntax | شکل نوشتن element، attribute یا API مرتبط | به opening tag و مقدار attribute دقت کنید |
-| رفتار مرورگر | آنچه browser به صورت پیش‌فرض انجام می‌دهد | با DevTools بررسی کنید |
-| کیفیت | ارتباط با accessibility، SEO یا maintainability | نام‌گذاری و متن جایگزین را جدی بگیرید |
+| `<title>` | متن تب مرورگر را تعیین می‌کند | هنگام تمرین عنوان صفحه HTML از آن استفاده کنید. |
+| `unique title` | صفحه‌های مشابه را در search و history جدا می‌کند | هنگام تمرین عنوان صفحه HTML از آن استفاده کنید. |
+| `title length` | کلمات مهم را قابل مشاهده نگه می‌دارد | هنگام تمرین عنوان صفحه HTML از آن استفاده کنید. |
 
-## نکته‌ها و Best Practice
+## نکته‌های مرورگر، accessibility و SEO
 
-- قبل از استفاده از `div` یا JavaScript، ببینید element معنایی مناسب وجود دارد یا نه.
-- هنگام یادگیری مثال را کوچک نگه دارید، سپس همان ایده را داخل یک سند کامل HTML امتحان کنید.
-- attributeهایی مثل `name`، `alt`، `title`، `href` و `id` باید هدف روشن و قابل فهم داشته باشند.
-- صفحه را در DevTools بررسی کنید و برای بخش‌های تعاملی، navigation با keyboard را هم تست کنید.
+- پشتیبانی مرورگر برای عنوان صفحه HTML را با یک فایل کوچک تست کنید؛ default style همیشه معیار کیفیت markup نیست.
+- برای accessibility، متن قابل فهم، label، alt، caption یا title را فقط وقتی لازم است ولی دقیق بنویسید.
+- برای SEO، heading، link text، title و ساختار معنایی را طوری بنویسید که بدون CSS هم قابل فهم باشد.
 
 ## اشتباه‌های رایج
 
-- نگاه کردن به عنوان صفحه فقط به عنوان موضوع ظاهری، نه بخشی از معنای سند.
-- حذف contextهای لازم مثل label، title، fallback text یا character encoding.
-- کپی کردن markup بدون تغییر نام‌ها، pathها و متن‌ها بر اساس صفحه واقعی.
+- استفاده از عنوان صفحه HTML فقط برای ظاهر، در حالی که باید نقش محتوایی آن روشن باشد.
+- فراموش کردن `<title>` یا نوشتن مقدارهایی که با هدف واقعی صفحه هماهنگ نیستند.
+- کپی کردن مثال بدون تغییر متن، path، id، name یا label بر اساس پروژه خودتان.
+- تست نکردن نتیجه با keyboard، صفحه کوچک موبایل و DevTools.
+
+## نکته تمرینی
+
+یک فایل به نام `page-title.html` بسازید، مثال اول را کپی کنید و سپس یک خط جدید اضافه کنید که `<title>` را درست در محتوای خودتان به کار ببرد.
 
 ## گام بعدی
 
-گام بعدی: درس **جدول‌های HTML** را باز کنید و همین الگو را روی موضوع بعدی تمرین کنید.
+گام بعدی: درس **جدول‌های HTML** را بخوانید تا مفهوم بعدی روی همین پایه ساخته شود.

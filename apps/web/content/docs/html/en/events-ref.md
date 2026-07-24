@@ -1,9 +1,9 @@
 ---
 title: "HTML Event Reference"
-description: "A focused lesson on connecting user and browser events to JavaScript handlers."
-seoTitle: "Event Reference in HTML — Step-by-Step Tutorial | MEGA JS Docs"
-seoDescription: "Learn HTML Event Reference with a W3Schools-style step-by-step guide to syntax, examples, best practices, and next steps for real web pages. Practice it today."
-keywords: "learn HTML, Event Reference, HTML tutorial, W3Schools, web development"
+description: "Learn how user and browser events connect elements to JavaScript handlers with real HTML examples and practical checks."
+seoTitle: "HTML Event Reference Tutorial | MEGA JS Docs"
+seoDescription: "Learn HTML Event Reference with step-by-step HTML examples, syntax tables, common mistakes, and practice tips for building accessible real pages."
+keywords: "HTML tutorial, HTML events reference, onclick input submit, JavaScript events HTML"
 order: 65
 sources:
   - name: W3Schools HTML
@@ -13,46 +13,113 @@ sources:
 ---
 # HTML Event Reference
 
-This chapter teaches connecting user and browser events to JavaScript handlers. The order follows the W3Schools HTML tutorial spine, but the explanations are rewritten for MEGA JS so you can learn the same concepts without memorizing copied examples.
+In HTML Event Reference, you learn how user and browser events connect elements to JavaScript handlers. The focus is HTML event reference, so the examples use the exact tags, attributes, or browser APIs you will meet in real pages.
 
-## What and why
+Use this lesson when interaction requires reacting to clicks, input, submit, load, or drag events. Read each example slowly, then change one value at a time to see what the browser does.
 
-HTML Event Reference matters because HTML is the contract between your content, the browser, search engines, assistive technologies, CSS, and JavaScript. When the markup is precise, styling becomes easier, scripts have stable targets, and users get a page that works across devices.
+## What is HTML event reference?
 
-In practice, focus on the role of the element or attribute before you focus on visual output. Browsers provide default behavior, but good HTML gives that behavior a clear purpose.
+- It gives HTML event reference a clear semantic purpose instead of relying on visual styling alone.
+- The important syntax in this chapter includes `click`, `input` and `submit`.
+- It improves real pages when interaction requires reacting to clicks, input, submit, load, or drag events, especially after you test the result in a browser.
+- Good markup here gives CSS and JavaScript predictable targets without hiding meaning from users.
 
-## Syntax
+## Syntax and examples
+
+Start with the smallest useful pattern, then compare it with the more complete examples below.
+
+### Example 1: Core pattern
 
 ```html
-<button type="button" onclick="alert('Saved')">Save</button>
-<input oninput="console.log(this.value)" aria-label="Live search">
-<form onsubmit="return confirm('Submit?')"></form>
+<button id="save" type="button">Save</button>
+<input id="search" aria-label="Live search">
+<script>
+  document.querySelector('#save').addEventListener('click', () => alert('Saved'));
+  document.querySelector('#search').addEventListener('input', (event) => console.log(event.target.value));
+</script>
 ```
 
-Read the snippet from the outside in: identify the containing element, then the attributes, then the text or nested elements. This habit makes larger documents much easier to debug.
+### Example 2: Options in context
 
-## Quick reference
+```html
+<section class="events-ref-notes" aria-labelledby="events-ref-title">
+  <h2 id="events-ref-title">HTML Event Reference options</h2>
+  <table>
+    <caption>Key syntax for HTML event reference</caption>
+    <thead>
+      <tr><th scope="col">Syntax</th><th scope="col">Purpose</th></tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>click</code></td>
+      <td>fires when a user activates an element</td>
+    </tr>
+    <tr>
+      <td><code>input</code></td>
+      <td>fires as form values change</td>
+    </tr>
+    <tr>
+      <td><code>submit</code></td>
+      <td>fires when a form is submitted</td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+```
 
-| Item | Purpose | Example cue |
+### Example 3: Complete practice page
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Event Reference practice</title>
+  </head>
+  <body>
+    <button id="save" type="button">Save</button>
+    <input id="search" aria-label="Live search">
+    <script>
+      document.querySelector('#save').addEventListener('click', () => alert('Saved'));
+      document.querySelector('#search').addEventListener('input', (event) => console.log(event.target.value));
+    </script>
+  </body>
+</html>
+```
+
+## Example explained
+
+- The first example shows the core pattern for HTML event reference without unrelated layout code.
+- Pay attention to `click`: fires when a user activates an element.
+- The second and third examples show how the same idea fits into a larger page with exact syntax, purpose, and limitations for each item.
+- If the browser output is surprising, inspect the element in DevTools and compare the DOM with the source markup.
+
+## More examples and options
+
+| Syntax or option | What it does | When to use it |
 | --- | --- | --- |
-| Core concept | The role this lesson plays in HTML structure | Event Reference |
-| Syntax | How the related element, attribute, or API is written | Watch opening tags and attribute values |
-| Browser behavior | What the browser provides by default | Inspect the result in DevTools |
-| Quality check | Accessibility, SEO, or maintainability impact | Use clear names and fallback text |
+| `click` | fires when a user activates an element | Use it while practicing HTML event reference. |
+| `input` | fires as form values change | Use it while practicing HTML event reference. |
+| `submit` | fires when a form is submitted | Use it while practicing HTML event reference. |
 
-## Best practices
+## Browser, accessibility, and SEO notes
 
-- Prefer semantic HTML before adding generic containers or JavaScript behavior.
-- Keep examples small while learning, then test the same idea inside a complete document.
-- Write attributes intentionally: names, labels, alternative text, and URLs should explain their purpose.
-- Validate the page, inspect it in DevTools, and test it with keyboard navigation when interaction is involved.
+- Test HTML event reference in a small file; default browser styling is not the same thing as good markup.
+- For accessibility, provide meaningful text, labels, alt text, captions, or titles when the feature needs them.
+- For SEO, write headings, link text, titles, and semantic structure that still make sense without CSS.
 
-## Common mistakes to avoid
+## Common mistakes
 
-- Treating Event Reference as only a visual feature instead of part of document meaning.
-- Skipping required context such as labels, titles, fallback text, or character encoding.
-- Copying markup without changing names, paths, and text to match the real page.
+- Using HTML event reference only for appearance instead of matching the content role.
+- Forgetting `click` or writing values that do not match the real page purpose.
+- Copying an example without changing text, paths, ids, names, or labels for your project.
+- Skipping keyboard, small-screen, and DevTools checks after the page appears to work.
+
+## Practice tip
+
+Create a file named `events-ref.html`, copy the first example, then add one extra line that uses `click` correctly in your own content.
 
 ## Next step
 
-Next step: revisit the references and refactor one real page with semantic, accessible HTML.
+Next step: revisit the reference pages and improve one real project page for semantics, accessibility, and validation.

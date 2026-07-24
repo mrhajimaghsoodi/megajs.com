@@ -1,9 +1,9 @@
 ---
 title: "attributeهای سراسری HTML"
-description: "درس attributeهای سراسری HTML برای یادگیری استفاده از attributeهایی که تقریباً روی همه elementها کار می‌کنند."
-seoTitle: "attributeهای سراسری در HTML — آموزش قدم‌به‌قدم | مستندات MEGA JS"
-seoDescription: "آموزش HTML attributeهای سراسری قدم‌به‌قدم و شبیه W3Schools؛ همراه syntax، مثال، best practice و مسیر تمرین برای صفحه‌های واقعی. با تمرین کوتاه و نتیجه روشن."
-keywords: "آموزش HTML, attributeهای سراسری, HTML, W3Schools, طراحی وب"
+description: "در این درس کاربرد تقریباً همه‌جایی id، class، style، title، hidden، lang و data-* را با مثال‌های واقعی HTML تمرین می‌کنید."
+seoTitle: "آموزش attributeهای سراسری HTML | مستندات MEGA JS"
+seoDescription: "آموزش attributeهای سراسری HTML با مثال‌های قدم‌به‌قدم، جدول syntax، خطاهای رایج و تمرین عملی برای ساخت صفحه‌های استاندارد و قابل دسترس. مناسب تمرین عملی و."
+keywords: "آموزش HTML, attributeهای سراسری HTML, آموزش HTML global attributes, data attribute, id class title hidden"
 order: 64
 sources:
   - name: W3Schools HTML
@@ -13,15 +13,22 @@ sources:
 ---
 # attributeهای سراسری HTML
 
-در این درس استفاده از attributeهایی که تقریباً روی همه elementها کار می‌کنند را یاد می‌گیرید. ترتیب درس‌ها از ساختار آموزش HTML در W3Schools الهام گرفته شده، اما متن و مثال‌ها برای مستندات MEGA JS بازنویسی شده‌اند تا یادگیری مرحله‌به‌مرحله و کاربردی بماند.
+attributeهای سراسری HTML روی کاربرد تقریباً همه‌جایی id، class، style، title، hidden، lang و data-* تمرکز دارد. در این درس درباره attributeهای سراسری HTML با مثال‌های واقعی HTML کار می‌کنید، نه فقط تعریف‌های کوتاه و حفظی.
 
-## چیستی و چرایی
+این موضوع زمانی مهم می‌شود که وقتی روی هر element به hook مشترک، hint زبان یا data سفارشی نیاز دارید. هر مثال را اجرا کنید، سپس یک attribute یا مقدار را تغییر دهید تا رفتار مرورگر را ببینید.
 
-attributeهای سراسری HTML مهم است چون HTML قرارداد اصلی میان محتوا، مرورگر، موتورهای جست‌وجو، ابزارهای کمکی، CSS و JavaScript است. وقتی markup دقیق باشد، style ساده‌تر می‌شود، scriptها target پایدار دارند و صفحه در دستگاه‌های مختلف قابل اعتمادتر کار می‌کند.
+## چیستی attributeهای سراسری HTML
 
-در تمرین، اول نقش element یا attribute را بفهمید و بعد به ظاهر فکر کنید. ظاهر با CSS تغییر می‌کند، اما معنای درست HTML پایه تجربه کاربری، SEO و accessibility است.
+- این بخش به attributeهای سراسری HTML نقش روشن می‌دهد و فقط به ظاهر CSS تکیه نمی‌کند.
+- syntaxهای مهم این درس شامل `id / class`, `lang / dir` و `data-*` است.
+- وقتی وقتی روی هر element به hook مشترک، hint زبان یا data سفارشی نیاز دارید، markup درست باعث می‌شود صفحه قابل اعتمادتر و قابل نگه‌داری‌تر باشد.
+- HTML خوب به CSS و JavaScript target پایدار می‌دهد و هم‌زمان معنا را برای کاربر و ابزارهای کمکی حفظ می‌کند.
 
-## Syntax
+## Syntax و مثال‌ها
+
+ابتدا ساده‌ترین الگوی کاربردی را ببینید و بعد آن را با مثال‌های کامل‌تر مقایسه کنید.
+
+### مثال 1: الگوی اصلی
 
 ```html
 <section id="profile" class="card" hidden>
@@ -30,30 +37,85 @@ attributeهای سراسری HTML مهم است چون HTML قرارداد اص�
 </section>
 ```
 
-کد را از بیرون به داخل بخوانید: ابتدا container، سپس attributeها، و بعد متن یا elementهای تو در تو. این عادت debug کردن سندهای بزرگ‌تر را بسیار ساده‌تر می‌کند.
+### مثال 2: گزینه‌ها در context
 
-## جدول سریع
+```html
+<section class="global-attributes-notes" aria-labelledby="global-attributes-title">
+  <h2 id="global-attributes-title">HTML Global Attributes options</h2>
+  <table>
+    <caption>Key syntax for HTML global attributes</caption>
+    <thead>
+      <tr><th scope="col">Syntax</th><th scope="col">Purpose</th></tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>id / class</code></td>
+      <td>provide unique and reusable hooks</td>
+    </tr>
+    <tr>
+      <td><code>lang / dir</code></td>
+      <td>declare language and text direction</td>
+    </tr>
+    <tr>
+      <td><code>data-*</code></td>
+      <td>stores custom data for scripts</td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+```
 
-| مورد | کاربرد | نشانه در مثال |
+### مثال 3: صفحه تمرینی کامل
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Global Attributes practice</title>
+  </head>
+  <body>
+    <section id="profile" class="card" hidden>
+      <h2 title="Visible profile name">Profile</h2>
+      <p data-user-id="42">Custom data belongs in data-* attributes.</p>
+    </section>
+  </body>
+</html>
+```
+
+## توضیح مثال
+
+- مثال اول pattern اصلی attributeهای سراسری HTML را بدون کد layout اضافی نشان می‌دهد.
+- به `id / class` دقت کنید: hook یکتا و قابل استفاده مجدد می‌دهند.
+- مثال دوم و سوم نشان می‌دهند همین ایده در صفحه بزرگ‌تر چطور کنار syntax دقیق، کاربرد و محدودیت‌های هر مورد قرار می‌گیرد.
+- اگر خروجی مرورگر غیرمنتظره بود، element را در DevTools inspect کنید و DOM را با source markup مقایسه کنید.
+
+## مثال‌های بیشتر و جدول گزینه‌ها
+
+| Syntax یا گزینه | کاربرد | زمان استفاده |
 | --- | --- | --- |
-| مفهوم اصلی | نقش این درس در ساختار HTML | attributeهای سراسری |
-| syntax | شکل نوشتن element، attribute یا API مرتبط | به opening tag و مقدار attribute دقت کنید |
-| رفتار مرورگر | آنچه browser به صورت پیش‌فرض انجام می‌دهد | با DevTools بررسی کنید |
-| کیفیت | ارتباط با accessibility، SEO یا maintainability | نام‌گذاری و متن جایگزین را جدی بگیرید |
+| `id / class` | hook یکتا و قابل استفاده مجدد می‌دهند | هنگام تمرین attributeهای سراسری HTML از آن استفاده کنید. |
+| `lang / dir` | زبان و جهت متن را اعلام می‌کنند | هنگام تمرین attributeهای سراسری HTML از آن استفاده کنید. |
+| `data-*` | data سفارشی برای script نگه می‌دارد | هنگام تمرین attributeهای سراسری HTML از آن استفاده کنید. |
 
-## نکته‌ها و Best Practice
+## نکته‌های مرورگر، accessibility و SEO
 
-- قبل از استفاده از `div` یا JavaScript، ببینید element معنایی مناسب وجود دارد یا نه.
-- هنگام یادگیری مثال را کوچک نگه دارید، سپس همان ایده را داخل یک سند کامل HTML امتحان کنید.
-- attributeهایی مثل `name`، `alt`، `title`، `href` و `id` باید هدف روشن و قابل فهم داشته باشند.
-- صفحه را در DevTools بررسی کنید و برای بخش‌های تعاملی، navigation با keyboard را هم تست کنید.
+- پشتیبانی مرورگر برای attributeهای سراسری HTML را با یک فایل کوچک تست کنید؛ default style همیشه معیار کیفیت markup نیست.
+- برای accessibility، متن قابل فهم، label، alt، caption یا title را فقط وقتی لازم است ولی دقیق بنویسید.
+- برای SEO، heading، link text، title و ساختار معنایی را طوری بنویسید که بدون CSS هم قابل فهم باشد.
 
 ## اشتباه‌های رایج
 
-- نگاه کردن به attributeهای سراسری فقط به عنوان موضوع ظاهری، نه بخشی از معنای سند.
-- حذف contextهای لازم مثل label، title، fallback text یا character encoding.
-- کپی کردن markup بدون تغییر نام‌ها، pathها و متن‌ها بر اساس صفحه واقعی.
+- استفاده از attributeهای سراسری HTML فقط برای ظاهر، در حالی که باید نقش محتوایی آن روشن باشد.
+- فراموش کردن `id / class` یا نوشتن مقدارهایی که با هدف واقعی صفحه هماهنگ نیستند.
+- کپی کردن مثال بدون تغییر متن، path، id، name یا label بر اساس پروژه خودتان.
+- تست نکردن نتیجه با keyboard، صفحه کوچک موبایل و DevTools.
+
+## نکته تمرینی
+
+یک فایل به نام `global-attributes.html` بسازید، مثال اول را کپی کنید و سپس یک خط جدید اضافه کنید که `id / class` را درست در محتوای خودتان به کار ببرد.
 
 ## گام بعدی
 
-گام بعدی: درس **مرجع eventهای HTML** را باز کنید و همین الگو را روی موضوع بعدی تمرین کنید.
+گام بعدی: درس **مرجع eventهای HTML** را بخوانید تا مفهوم بعدی روی همین پایه ساخته شود.

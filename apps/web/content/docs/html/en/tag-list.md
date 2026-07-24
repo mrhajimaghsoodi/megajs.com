@@ -1,9 +1,9 @@
 ---
 title: "HTML Tag List"
-description: "A focused lesson on finding elements by purpose and choosing semantic tags first."
-seoTitle: "Tag List in HTML — Step-by-Step Tutorial | MEGA JS Docs"
-seoDescription: "Learn HTML Tag List with a W3Schools-style step-by-step guide to syntax, examples, best practices, and next steps for real web pages. Practice it today."
-keywords: "learn HTML, Tag List, HTML tutorial, W3Schools, web development"
+description: "Learn how elements are grouped by purpose so you can choose semantic markup with real HTML examples and practical checks."
+seoTitle: "HTML Tag List Tutorial | MEGA JS Docs"
+seoDescription: "Learn HTML Tag List with step-by-step HTML examples, syntax tables, common mistakes, and practice tips for building accessible real pages. Practice it today."
+keywords: "HTML tutorial, HTML tag list, HTML tags, semantic tags"
 order: 62
 sources:
   - name: W3Schools HTML
@@ -13,15 +13,22 @@ sources:
 ---
 # HTML Tag List
 
-This chapter teaches finding elements by purpose and choosing semantic tags first. The order follows the W3Schools HTML tutorial spine, but the explanations are rewritten for MEGA JS so you can learn the same concepts without memorizing copied examples.
+In HTML Tag List, you learn how elements are grouped by purpose so you can choose semantic markup. The focus is HTML tag list, so the examples use the exact tags, attributes, or browser APIs you will meet in real pages.
 
-## What and why
+Use this lesson when you cannot remember which tag best matches the content role. Read each example slowly, then change one value at a time to see what the browser does.
 
-HTML Tag List matters because HTML is the contract between your content, the browser, search engines, assistive technologies, CSS, and JavaScript. When the markup is precise, styling becomes easier, scripts have stable targets, and users get a page that works across devices.
+## What is HTML tag list?
 
-In practice, focus on the role of the element or attribute before you focus on visual output. Browsers provide default behavior, but good HTML gives that behavior a clear purpose.
+- It gives HTML tag list a clear semantic purpose instead of relying on visual styling alone.
+- The important syntax in this chapter includes `document tags`, `text tags` and `form/media tags`.
+- It improves real pages when you cannot remember which tag best matches the content role, especially after you test the result in a browser.
+- Good markup here gives CSS and JavaScript predictable targets without hiding meaning from users.
 
-## Syntax
+## Syntax and examples
+
+Start with the smallest useful pattern, then compare it with the more complete examples below.
+
+### Example 1: Core pattern
 
 ```html
 <main>
@@ -31,30 +38,86 @@ In practice, focus on the role of the element or attribute before you focus on v
 </main>
 ```
 
-Read the snippet from the outside in: identify the containing element, then the attributes, then the text or nested elements. This habit makes larger documents much easier to debug.
+### Example 2: Options in context
 
-## Quick reference
+```html
+<section class="tag-list-notes" aria-labelledby="tag-list-title">
+  <h2 id="tag-list-title">HTML Tag List options</h2>
+  <table>
+    <caption>Key syntax for HTML tag list</caption>
+    <thead>
+      <tr><th scope="col">Syntax</th><th scope="col">Purpose</th></tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>document tags</code></td>
+      <td>html, head, body, main structure</td>
+    </tr>
+    <tr>
+      <td><code>text tags</code></td>
+      <td>headings, paragraphs, emphasis, code</td>
+    </tr>
+    <tr>
+      <td><code>form/media tags</code></td>
+      <td>controls and embedded content</td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+```
 
-| Item | Purpose | Example cue |
+### Example 3: Complete practice page
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Tag List practice</title>
+  </head>
+  <body>
+    <main>
+      <article>Use for independent content.</article>
+      <aside>Use for related side content.</aside>
+      <footer>Use for footer information.</footer>
+    </main>
+  </body>
+</html>
+```
+
+## Example explained
+
+- The first example shows the core pattern for HTML tag list without unrelated layout code.
+- Pay attention to `document tags`: html, head, body, main structure.
+- The second and third examples show how the same idea fits into a larger page with exact syntax, purpose, and limitations for each item.
+- If the browser output is surprising, inspect the element in DevTools and compare the DOM with the source markup.
+
+## More examples and options
+
+| Syntax or option | What it does | When to use it |
 | --- | --- | --- |
-| Core concept | The role this lesson plays in HTML structure | Tag List |
-| Syntax | How the related element, attribute, or API is written | Watch opening tags and attribute values |
-| Browser behavior | What the browser provides by default | Inspect the result in DevTools |
-| Quality check | Accessibility, SEO, or maintainability impact | Use clear names and fallback text |
+| `document tags` | html, head, body, main structure | Use it while practicing HTML tag list. |
+| `text tags` | headings, paragraphs, emphasis, code | Use it while practicing HTML tag list. |
+| `form/media tags` | controls and embedded content | Use it while practicing HTML tag list. |
 
-## Best practices
+## Browser, accessibility, and SEO notes
 
-- Prefer semantic HTML before adding generic containers or JavaScript behavior.
-- Keep examples small while learning, then test the same idea inside a complete document.
-- Write attributes intentionally: names, labels, alternative text, and URLs should explain their purpose.
-- Validate the page, inspect it in DevTools, and test it with keyboard navigation when interaction is involved.
+- Test HTML tag list in a small file; default browser styling is not the same thing as good markup.
+- For accessibility, provide meaningful text, labels, alt text, captions, or titles when the feature needs them.
+- For SEO, write headings, link text, titles, and semantic structure that still make sense without CSS.
 
-## Common mistakes to avoid
+## Common mistakes
 
-- Treating Tag List as only a visual feature instead of part of document meaning.
-- Skipping required context such as labels, titles, fallback text, or character encoding.
-- Copying markup without changing names, paths, and text to match the real page.
+- Using HTML tag list only for appearance instead of matching the content role.
+- Forgetting `document tags` or writing values that do not match the real page purpose.
+- Copying an example without changing text, paths, ids, names, or labels for your project.
+- Skipping keyboard, small-screen, and DevTools checks after the page appears to work.
+
+## Practice tip
+
+Create a file named `tag-list.html`, copy the first example, then add one extra line that uses `document tags` correctly in your own content.
 
 ## Next step
 
-Next step: open **HTML Attribute Reference** and build on this lesson while the syntax is still fresh.
+Next step: continue with **HTML Attribute Reference** so the next concept builds on this one.

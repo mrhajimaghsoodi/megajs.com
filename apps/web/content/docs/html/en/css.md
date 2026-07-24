@@ -1,9 +1,9 @@
 ---
 title: "HTML CSS"
-description: "A focused lesson on connecting CSS to HTML with inline, internal, and external styles."
-seoTitle: "CSS in HTML — Step-by-Step Tutorial | MEGA JS Docs"
-seoDescription: "Learn HTML CSS with a W3Schools-style step-by-step guide to syntax, examples, best practices, and next steps for real web pages. Practice it today."
-keywords: "learn HTML, CSS, HTML tutorial, W3Schools, web development"
+description: "Learn how inline, internal, and external CSS connect presentation to markup with real HTML examples and practical checks."
+seoTitle: "HTML CSS Tutorial | MEGA JS Docs"
+seoDescription: "Learn HTML CSS with step-by-step HTML examples, syntax tables, common mistakes, and practice tips for building accessible real pages. Practice it today."
+keywords: "HTML tutorial, HTML CSS, link stylesheet, internal CSS"
 order: 14
 sources:
   - name: W3Schools HTML
@@ -13,15 +13,22 @@ sources:
 ---
 # HTML CSS
 
-This chapter teaches connecting CSS to HTML with inline, internal, and external styles. The order follows the W3Schools HTML tutorial spine, but the explanations are rewritten for MEGA JS so you can learn the same concepts without memorizing copied examples.
+In HTML CSS, you learn how inline, internal, and external CSS connect presentation to markup. The focus is CSS in HTML, so the examples use the exact tags, attributes, or browser APIs you will meet in real pages.
 
-## What and why
+Use this lesson when you decide where styles should live for a page or project. Read each example slowly, then change one value at a time to see what the browser does.
 
-HTML CSS matters because HTML is the contract between your content, the browser, search engines, assistive technologies, CSS, and JavaScript. When the markup is precise, styling becomes easier, scripts have stable targets, and users get a page that works across devices.
+## What is CSS in HTML?
 
-In practice, focus on the role of the element or attribute before you focus on visual output. Browsers provide default behavior, but good HTML gives that behavior a clear purpose.
+- It gives CSS in HTML a clear semantic purpose instead of relying on visual styling alone.
+- The important syntax in this chapter includes `style attribute`, `<style>` and `<link rel="stylesheet">`.
+- It improves real pages when you decide where styles should live for a page or project, especially after you test the result in a browser.
+- Good markup here gives CSS and JavaScript predictable targets without hiding meaning from users.
 
-## Syntax
+## Syntax and examples
+
+Start with the smallest useful pattern, then compare it with the more complete examples below.
+
+### Example 1: Core pattern
 
 ```html
 <head>
@@ -33,30 +40,88 @@ In practice, focus on the role of the element or attribute before you focus on v
 <p class="notice" style="padding: 1rem;">CSS can be external, internal, or inline.</p>
 ```
 
-Read the snippet from the outside in: identify the containing element, then the attributes, then the text or nested elements. This habit makes larger documents much easier to debug.
+### Example 2: Options in context
 
-## Quick reference
+```html
+<section class="css-notes" aria-labelledby="css-title">
+  <h2 id="css-title">HTML CSS options</h2>
+  <table>
+    <caption>Key syntax for CSS in HTML</caption>
+    <thead>
+      <tr><th scope="col">Syntax</th><th scope="col">Purpose</th></tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><code>style attribute</code></td>
+      <td>applies one-off styles to one element</td>
+    </tr>
+    <tr>
+      <td><code>&lt;style&gt;</code></td>
+      <td>keeps page-specific CSS in the head</td>
+    </tr>
+    <tr>
+      <td><code>&lt;link rel=&quot;stylesheet&quot;&gt;</code></td>
+      <td>loads reusable external CSS</td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+```
 
-| Item | Purpose | Example cue |
+### Example 3: Complete practice page
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML CSS practice</title>
+  </head>
+  <body>
+    <head>
+      <link rel="stylesheet" href="styles.css">
+      <style>
+        .notice { border-left: 4px solid royalblue; }
+      </style>
+    </head>
+    <p class="notice" style="padding: 1rem;">CSS can be external, internal, or inline.</p>
+  </body>
+</html>
+```
+
+## Example explained
+
+- The first example shows the core pattern for CSS in HTML without unrelated layout code.
+- Pay attention to `style attribute`: applies one-off styles to one element.
+- The second and third examples show how the same idea fits into a larger page with meaningful text, stable attributes, and readable structure.
+- If the browser output is surprising, inspect the element in DevTools and compare the DOM with the source markup.
+
+## More examples and options
+
+| Syntax or option | What it does | When to use it |
 | --- | --- | --- |
-| Core concept | The role this lesson plays in HTML structure | CSS |
-| Syntax | How the related element, attribute, or API is written | Watch opening tags and attribute values |
-| Browser behavior | What the browser provides by default | Inspect the result in DevTools |
-| Quality check | Accessibility, SEO, or maintainability impact | Use clear names and fallback text |
+| `style attribute` | applies one-off styles to one element | Use it while practicing CSS in HTML. |
+| `<style>` | keeps page-specific CSS in the head | Use it while practicing CSS in HTML. |
+| `<link rel="stylesheet">` | loads reusable external CSS | Use it while practicing CSS in HTML. |
 
-## Best practices
+## Browser, accessibility, and SEO notes
 
-- Prefer semantic HTML before adding generic containers or JavaScript behavior.
-- Keep examples small while learning, then test the same idea inside a complete document.
-- Write attributes intentionally: names, labels, alternative text, and URLs should explain their purpose.
-- Validate the page, inspect it in DevTools, and test it with keyboard navigation when interaction is involved.
+- Test CSS in HTML in a small file; default browser styling is not the same thing as good markup.
+- For accessibility, provide meaningful text, labels, alt text, captions, or titles when the feature needs them.
+- For SEO, write headings, link text, titles, and semantic structure that still make sense without CSS.
 
-## Common mistakes to avoid
+## Common mistakes
 
-- Treating CSS as only a visual feature instead of part of document meaning.
-- Skipping required context such as labels, titles, fallback text, or character encoding.
-- Copying markup without changing names, paths, and text to match the real page.
+- Using CSS in HTML only for appearance instead of matching the content role.
+- Forgetting `style attribute` or writing values that do not match the real page purpose.
+- Copying an example without changing text, paths, ids, names, or labels for your project.
+- Skipping keyboard, small-screen, and DevTools checks after the page appears to work.
+
+## Practice tip
+
+Create a file named `css.html`, copy the first example, then add one extra line that uses `style attribute` correctly in your own content.
 
 ## Next step
 
-Next step: open **HTML Links** and build on this lesson while the syntax is still fresh.
+Next step: continue with **HTML Links** so the next concept builds on this one.
