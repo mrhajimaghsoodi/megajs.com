@@ -52,8 +52,9 @@ export const dark = {
 
 export const fonts = {
   display: 'Vazirmatn',
-  body: 'IBM Plex Sans',
+  body: 'Vazirmatn',
   persian: 'Vazirmatn',
+  sans: 'Vazirmatn',
   mono: 'JetBrains Mono',
 } as const;
 

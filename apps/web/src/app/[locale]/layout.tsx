@@ -1,4 +1,3 @@
-import { IBM_Plex_Sans, JetBrains_Mono, Vazirmatn } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import type { ReactNode } from 'react';
 import { LocaleDocument } from '@/components/locale-document';
@@ -6,28 +5,6 @@ import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
 import { getDictionary } from '@/i18n/dictionaries';
 import { dirFor, isLocale, type Locale } from '@/lib/utils';
-
-/** Code / LTR mono only — not used for Persian UI text */
-const jetbrains = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-mono',
-  display: 'swap',
-});
-
-const ibmPlex = IBM_Plex_Sans({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-body',
-  display: 'swap',
-});
-
-/** Modern Persian UI font (Vazirmatn) — primary for FA body + headings */
-const vazirmatn = Vazirmatn({
-  subsets: ['arabic', 'latin'],
-  weight: ['300', '400', '500', '600', '700', '800', '900'],
-  variable: '--font-persian',
-  display: 'swap',
-});
 
 export function generateStaticParams() {
   return [{ locale: 'fa' }, { locale: 'en' }];
@@ -45,16 +22,13 @@ export default async function LocaleLayout({
   const locale = raw as Locale;
   const dict = getDictionary(locale);
   const dir = dirFor(locale);
-  const displayFont =
-    locale === 'fa' ? 'var(--font-persian)' : 'var(--font-mono)';
 
   return (
     <div
       lang={locale}
       dir={dir}
       data-locale={locale}
-      style={{ ['--font-display' as string]: displayFont }}
-      className={`${jetbrains.variable} ${ibmPlex.variable} ${vazirmatn.variable} flex min-h-dvh flex-col bg-background text-foreground`}
+      className="flex min-h-dvh flex-col bg-background text-foreground"
     >
       <LocaleDocument locale={locale} />
       <SiteHeader locale={locale} dict={dict} />

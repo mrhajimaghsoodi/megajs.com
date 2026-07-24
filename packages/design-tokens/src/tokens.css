@@ -8,6 +8,11 @@
 @import "./motion.css";
 
 :root {
+  /* Typography — Vazirmatn is the project UI font */
+  --mj-font-sans: 'Vazirmatn', system-ui, sans-serif;
+  --mj-font-display: 'Vazirmatn', system-ui, sans-serif;
+  --mj-font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
   /* Syntax highlighting (shared roles; not brand yellow) */
   --mj-syn-keyword: #7c3aed;
   --mj-syn-string: #15803d;
