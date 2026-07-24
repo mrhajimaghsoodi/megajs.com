@@ -30,7 +30,7 @@ Stack wiring (required reading): [`UI_STACK.md`](./UI_STACK.md)
 
 `packages/design-tokens` exports:
 
-- Accent `#22C55E` / canvas `#020617` (light `#F8FAFC`)
+- Brand yellow `#ffd400` / canvas `#020617` (light `#F8FAFC`)
 - Light + dark CSS variables (`src/tokens.css`)
 - Fonts: Space Grotesk · IBM Plex Sans · Vazirmatn · JetBrains Mono
 - Motion + radii

@@ -47,7 +47,7 @@ docs/             Architecture & onboarding for hired engineers
 
 ## Brand
 
-- Accent `#22c55e` (developer-tools green; light/dark)
+- Brand yellow `#ffd400` (developer-tools surfaces; light/dark)
 - Ink `#1a1a1a`
 - Logo: `design/brand/logo.svg` (copied to app `public/`)
 

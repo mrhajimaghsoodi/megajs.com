@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 120" role="img" aria-label="MEGA JS">
   <title>MEGA JS</title>
   <!-- Icon: yellow squircle + graduation/code mark -->
-  <rect x="0" y="10" width="100" height="100" rx="28" ry="28" fill="#22c55e"/>
+  <rect x="0" y="10" width="100" height="100" rx="28" ry="28" fill="#ffd400"/>
   <g fill="none" stroke="#1a1a1a" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
     <!-- mortarboard diamond -->
     <path d="M50 28 L78 46 L50 64 L22 46 Z"/>

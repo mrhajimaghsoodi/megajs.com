@@ -167,7 +167,7 @@ const fa = {
     howBody:
       'درس متن و ویدیو، پادکست، مقاله SEO، چالش با توکن، و وبینار هم‌زمان روی سایت و شبکه‌های اجتماعی.',
     brandTitle: 'هویت برند',
-    brandBody: 'سبز endpoint `#22c55e` روی سطح slate — تم ابزار توسعه‌دهنده با رنگ‌های syntax، بدون زرد قدیمی.',
+    brandBody: 'زرد برند `#ffd400` روی سطوح slate — تم ابزار توسعه‌دهنده با رنگ‌های syntax برای پیش‌نمایش کد.',
   },
   articles: {
     title: 'مقالات',
@@ -491,7 +491,7 @@ const en: typeof fa = {
     howBody:
       'Text and video lessons, podcasts, SEO articles, token challenges, and webinars simulcast to the site and social channels.',
     brandTitle: 'Brand',
-    brandBody: 'Endpoint green `#22c55e` on slate surfaces — developer-tools theme with syntax colors; legacy yellow removed.',
+    brandBody: 'Brand yellow `#ffd400` on slate surfaces — developer-tools theme with syntax colors for code previews.',
   },
   articles: {
     title: 'Articles',

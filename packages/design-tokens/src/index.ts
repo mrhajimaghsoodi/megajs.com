@@ -1,19 +1,16 @@
 /**
  * MEGA JS Design Tokens — UI/UX Pro Max developer-tools system.
- * Accent: endpoint green #22C55E · surfaces: slate OLED / light slate
- * Yellow brand accent removed by product direction.
+ * Brand accent: yellow #ffd400 · surfaces: slate OLED / light slate
  */
 
 export const brand = {
   name: 'MEGA JS',
-  accent: '#22c55e',
+  yellow: '#ffd400',
+  accent: '#ffd400',
   ink: '#0f172a',
   white: '#ffffff',
   canvas: '#020617',
 } as const;
-
-/** @deprecated use brand.accent — kept for mobile until migrated */
-export const yellow = brand.accent;
 
 export const syntax = {
   keyword: '#c4b5fd',
@@ -31,11 +28,11 @@ export const light = {
   muted: '#f1f5f9',
   mutedForeground: '#64748b',
   border: '#e2e8f0',
-  accent: '#16a34a',
-  accentForeground: brand.white,
+  accent: brand.yellow,
+  accentForeground: brand.ink,
   success: '#16a34a',
   danger: '#ef4444',
-  ring: '#16a34a',
+  ring: brand.yellow,
   card: brand.white,
 } as const;
 
@@ -45,11 +42,11 @@ export const dark = {
   muted: '#1a1e2f',
   mutedForeground: '#94a3b8',
   border: '#334155',
-  accent: brand.accent,
+  accent: brand.yellow,
   accentForeground: brand.ink,
-  success: brand.accent,
+  success: '#22c55e',
   danger: '#ef4444',
-  ring: brand.accent,
+  ring: brand.yellow,
   card: '#0e1223',
 } as const;
 

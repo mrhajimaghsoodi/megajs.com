@@ -1,9 +1,9 @@
 # MEGA JS Design System — Source of Truth
 
-> Regenerated from **UI/UX Pro Max** dump prompt:
+> UI/UX Pro Max dump prompt (structure kept):
 > *“Build a minimal developer tools landing page with dark mode, code snippet previews, feature comparison table, integration logos, and documentation link. Use syntax highlighting colors.”*
 >
-> Product override: **remove legacy yellow `#ffd400`**. Keep **light + dark**.
+> Brand lock: **primary accent = yellow `#ffd400`**. Keep **light + dark**.
 
 ## Product
 
@@ -11,14 +11,14 @@
 
 ## Direction
 
-| Layer | Choice | Source |
-|-------|--------|--------|
-| Archetype | API Developer Portal / Developer Tool IDE | UUPM colors.csv |
-| Style | Minimal developer tools · OLED dark + light slate | dump prompt |
-| Accent | Endpoint green `#22C55E` (light: `#16A34A`) | UUPM |
-| Surfaces | Dark `#020617` / Light `#F8FAFC` | UUPM |
-| Type | JetBrains Mono (display+code) · IBM Plex Sans · Vazirmatn | Developer Mono |
-| Landing | Hero + code previews + comparison table + integrations + docs | dump prompt |
+| Layer | Choice |
+|-------|--------|
+| Archetype | Minimal developer tools landing |
+| Accent | Brand yellow `#ffd400` (text on accent: `#0F172A`) |
+| Surfaces | Dark `#020617` / Light `#F8FAFC` |
+| Type | JetBrains Mono (display+code) · IBM Plex Sans · Vazirmatn |
+| Landing | Hero + code previews + comparison table + integrations + docs |
+| Code color | Syntax tokens (`.syn-*`) — separate from brand yellow |
 
 ## Color tokens
 
@@ -31,11 +31,10 @@
 | Background | `#F8FAFC` | `#020617` |
 | Foreground | `#0F172A` | `#F8FAFC` |
 | Card | `#FFFFFF` | `#0E1223` |
-| Accent / Primary | `#16A34A` | `#22C55E` |
+| Accent / Primary | `#FFD400` | `#FFD400` |
+| Accent FG | `#0F172A` | `#0F172A` |
+| Success | `#16A34A` | `#22C55E` |
 | Border | `#E2E8F0` | `#334155` |
-| Muted FG | `#64748B` | `#94A3B8` |
-
-**Removed:** `#ffd400` yellow brand accent.
 
 ## Stack
 
@@ -46,7 +45,7 @@ See `docs/guides/UI_STACK.md`.
 ## Rules
 
 1. Prefer semantic classes (`bg-primary`, `text-muted-foreground`)
-2. Code previews use `.syn-*` classes only — never paint whole UI purple
+2. Code previews use `.syn-*` — brand yellow is for CTAs / focus, not every token
 3. Lucide icons only
 4. FA RTL / EN LTR
 5. Light + dark via `.dark`

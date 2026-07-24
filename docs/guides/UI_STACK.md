@@ -23,7 +23,7 @@ shadcn/ui components     →  Button, Input, Card, Sheet, …
 
 ## Brand lock
 
-- Accent / primary: `#22C55E` (endpoint green; legacy yellow removed)
+- Accent / primary: `#ffd400` (brand yellow; light/dark)
 - Ink / canvas: `#1a1a1a`
 - Do not introduce purple SaaS gradients or cream editorial defaults
 
