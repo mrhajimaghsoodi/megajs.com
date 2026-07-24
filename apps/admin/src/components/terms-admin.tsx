@@ -2,6 +2,7 @@
 
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { adminFetch } from '@/components/admin-shell';
+import { ContentEditorLazy as ContentEditor } from '@/components/content-editor-lazy';
 import { MediaImageField } from '@/components/media-image-field';
 import { SeoPanel, emptySeoFields, type SeoFields } from '@/components/seo-panel';
 import { Button } from '@/components/ui/button';
@@ -15,6 +16,8 @@ const TITLES: Record<string, { fa: string; en: string }> = {
   post_tag: { fa: 'برچسب مقالات', en: 'Post tags' },
   product_category: { fa: 'دسته‌بندی محصولات', en: 'Product categories' },
   product_tag: { fa: 'برچسب محصولات', en: 'Product tags' },
+  tunnel_category: { fa: 'تونل‌های یادگیری (رودمپ)', en: 'Learning tunnels (roadmaps)' },
+  tunnel_tag: { fa: 'برچسب تونل یادگیری', en: 'Learning tunnel tags' },
 };
 
 type TermRow = {
@@ -24,8 +27,10 @@ type TermRow = {
   taxonomy: string;
   sortOrder?: number;
   imageUrl?: string | null;
+  coverUrl?: string | null;
+  bannerUrl?: string | null;
   isDefault?: boolean;
-  i18n?: Array<{ locale: string; name: string; description?: string }>;
+  i18n?: Array<{ locale: string; name: string; description?: string; landingMdx?: string }>;
   focusKeyword?: string;
   seo?: {
     metaTitle?: string;
@@ -36,7 +41,7 @@ type TermRow = {
     noFollow?: boolean;
     breadcrumbTitle?: string;
   };
-  _count?: { articles?: number; courses?: number };
+  _count?: { articles?: number; courses?: number; tunnelEpisodes?: number };
 };
 
 /** WordPress-style layered taxonomy admin (categories & tags) */
@@ -44,13 +49,17 @@ export function TermsAdmin({ taxonomy }: { taxonomy: string }) {
   const { locale, dict } = useAdminLocale();
   const d = dict.cms;
   const hierarchical = taxonomy.endsWith('_category');
+  const isTunnelCategory = taxonomy === 'tunnel_category';
   const [rows, setRows] = useState<TermRow[]>([]);
   const [name, setName] = useState('');
   const [slug, setSlug] = useState('');
   const [description, setDescription] = useState('');
+  const [landingMdx, setLandingMdx] = useState('');
   const [parentId, setParentId] = useState('');
   const [sortOrder, setSortOrder] = useState('0');
   const [imageUrl, setImageUrl] = useState('');
+  const [coverUrl, setCoverUrl] = useState('');
+  const [bannerUrl, setBannerUrl] = useState('');
   const [isDefault, setIsDefault] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [quickId, setQuickId] = useState<string | null>(null);
@@ -78,6 +87,10 @@ export function TermsAdmin({ taxonomy }: { taxonomy: string }) {
     t.i18n?.find((x) => x.locale === locale)?.name ?? t.i18n?.[0]?.name ?? t.slug;
   const termDesc = (t: TermRow) =>
     t.i18n?.find((x) => x.locale === locale)?.description ?? t.i18n?.[0]?.description ?? '';
+  const termLanding = (t: TermRow) =>
+    t.i18n?.find((x) => x.locale === locale)?.landingMdx ?? t.i18n?.[0]?.landingMdx ?? '';
+  const termCount = (t: TermRow) =>
+    (t._count?.articles ?? 0) + (t._count?.courses ?? 0) + (t._count?.tunnelEpisodes ?? 0);
 
   const depthMap = useMemo(() => {
     const byId = new Map(rows.map((r) => [r.id, r]));
@@ -136,9 +149,12 @@ export function TermsAdmin({ taxonomy }: { taxonomy: string }) {
     setName('');
     setSlug('');
     setDescription('');
+    setLandingMdx('');
     setParentId('');
     setSortOrder('0');
     setImageUrl('');
+    setCoverUrl('');
+    setBannerUrl('');
     setIsDefault(false);
     setSeo(emptySeoFields());
     setEditingId(null);
@@ -150,15 +166,18 @@ export function TermsAdmin({ taxonomy }: { taxonomy: string }) {
     setName(termName(row));
     setSlug(row.slug);
     setDescription(termDesc(row));
+    setLandingMdx(termLanding(row));
     setParentId(row.parentId ?? '');
     setSortOrder(String(row.sortOrder ?? 0));
     setImageUrl(row.imageUrl ?? '');
+    setCoverUrl(row.coverUrl ?? '');
+    setBannerUrl(row.bannerUrl ?? '');
     setIsDefault(Boolean(row.isDefault));
     setSeo({
       metaTitle: row.seo?.metaTitle ?? '',
       metaDescription: row.seo?.metaDescription ?? '',
       canonicalPath: row.seo?.canonicalPath ?? '',
-      ogImageUrl: row.seo?.ogImageUrl ?? row.imageUrl ?? '',
+      ogImageUrl: row.seo?.ogImageUrl ?? row.coverUrl ?? row.imageUrl ?? '',
       noIndex: Boolean(row.seo?.noIndex),
       noFollow: Boolean(row.seo?.noFollow),
       breadcrumbTitle: row.seo?.breadcrumbTitle ?? '',
@@ -208,9 +227,12 @@ export function TermsAdmin({ taxonomy }: { taxonomy: string }) {
       name,
       slug,
       description,
+      landingMdx: isTunnelCategory ? landingMdx : undefined,
       parentId: hierarchical ? parentId || null : null,
       sortOrder: Number(sortOrder) || 0,
       imageUrl: hierarchical ? imageUrl || null : undefined,
+      coverUrl: isTunnelCategory ? coverUrl || null : undefined,
+      bannerUrl: isTunnelCategory ? bannerUrl || null : undefined,
       isDefault: hierarchical ? isDefault : undefined,
       focusKeyword: seo.focusKeyword,
       locale,
@@ -219,7 +241,7 @@ export function TermsAdmin({ taxonomy }: { taxonomy: string }) {
         metaTitle: seo.metaTitle || name,
         metaDescription: seo.metaDescription || description,
         canonicalPath: seo.canonicalPath || undefined,
-        ogImageUrl: seo.ogImageUrl || imageUrl || undefined,
+        ogImageUrl: seo.ogImageUrl || coverUrl || imageUrl || undefined,
         noIndex: seo.noIndex,
         noFollow: seo.noFollow,
         breadcrumbTitle: seo.breadcrumbTitle,
@@ -338,7 +360,7 @@ export function TermsAdmin({ taxonomy }: { taxonomy: string }) {
                         {row.slug}
                       </td>
                       <td className="p-3 font-mono">
-                        {(row._count?.articles ?? 0) + (row._count?.courses ?? 0)}
+                        {termCount(row)}
                       </td>
                       {hierarchical ? (
                         <td className="p-3 font-mono text-xs">{row.sortOrder ?? 0}</td>
@@ -507,6 +529,21 @@ export function TermsAdmin({ taxonomy }: { taxonomy: string }) {
                 value={imageUrl}
                 onChange={setImageUrl}
               />
+              {isTunnelCategory ? (
+                <>
+                  <MediaImageField
+                    label={d.coverImage}
+                    help={d.landingMdxHelp}
+                    value={coverUrl}
+                    onChange={setCoverUrl}
+                  />
+                  <MediaImageField
+                    label={d.bannerImageTerm}
+                    value={bannerUrl}
+                    onChange={setBannerUrl}
+                  />
+                </>
+              ) : null}
               <label className="flex cursor-pointer items-center gap-2 text-sm">
                 <input
                   type="checkbox"
@@ -516,6 +553,19 @@ export function TermsAdmin({ taxonomy }: { taxonomy: string }) {
                 {d.setAsDefault}
               </label>
             </>
+          ) : null}
+          {isTunnelCategory ? (
+            <div className="space-y-2">
+              <Label>{d.landingMdx}</Label>
+              <p className="text-[11px] text-[var(--mj-muted-fg)]">{d.landingMdxHelp}</p>
+              <ContentEditor
+                value={landingMdx}
+                onChange={setLandingMdx}
+                dir={locale === 'fa' ? 'rtl' : 'ltr'}
+                rows={12}
+                enableCodeEditor
+              />
+            </div>
           ) : null}
           <SeoPanel
             value={seo}
@@ -529,10 +579,9 @@ export function TermsAdmin({ taxonomy }: { taxonomy: string }) {
               description,
               taxonomy,
               itemCount: editingId
-                ? (rows.find((r) => r.id === editingId)?._count?.articles ?? 0) +
-                  (rows.find((r) => r.id === editingId)?._count?.courses ?? 0)
+                ? termCount(rows.find((r) => r.id === editingId) ?? ({ _count: {} } as TermRow))
                 : 0,
-              ogImageUrl: seo.ogImageUrl || imageUrl,
+              ogImageUrl: seo.ogImageUrl || coverUrl || imageUrl,
               locale,
             }}
           />

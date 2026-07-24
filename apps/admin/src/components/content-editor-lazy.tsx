@@ -1,9 +1,9 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import type { ComponentProps } from 'react';
 
-/** Lazy ContentEditor — keeps media picker / markdown preview out of initial admin chunks. */
-export const ContentEditorLazy = dynamic(
+const Editor = dynamic(
   () => import('@/components/content-editor').then((m) => m.ContentEditor),
   {
     ssr: false,
@@ -12,3 +12,8 @@ export const ContentEditorLazy = dynamic(
     ),
   },
 );
+
+/** Lazy ContentEditor — keeps media picker / markdown preview out of initial admin chunks. */
+export function ContentEditorLazy(props: ComponentProps<typeof Editor>) {
+  return <Editor {...props} />;
+}

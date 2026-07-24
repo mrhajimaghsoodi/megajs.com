@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AuthModule } from '../auth/auth.module';
+import { CmsModule } from '../cms/cms.module';
 import {
   PluginsAdminController,
   PublicContentController,
@@ -11,9 +12,15 @@ import { SmushService } from './smush.service';
 import { WpRocketService } from './wprocket.service';
 
 @Module({
-  imports: [AuthModule, SecurityModule],
+  imports: [AuthModule, SecurityModule, CmsModule],
   controllers: [PluginsAdminController, PublicContentController],
   providers: [RankMathService, WpRocketService, SmushService, SitemapService],
-  exports: [RankMathService, WpRocketService, SmushService, SitemapService, SecurityModule],
+  exports: [
+    RankMathService,
+    WpRocketService,
+    SmushService,
+    SitemapService,
+    SecurityModule,
+  ],
 })
 export class PluginsModule {}

@@ -29,6 +29,7 @@ const RESERVED = new Set([
   'profile',
   'terms',
   'tokens',
+  'tunnel',
 ]);
 
 async function resolve(path: string, locale: string) {

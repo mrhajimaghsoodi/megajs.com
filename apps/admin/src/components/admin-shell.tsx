@@ -41,6 +41,14 @@ export function AdminShell({ children }: { children: ReactNode }) {
         ],
       },
       {
+        label: dict.nav.groupTunnel,
+        items: [
+          { href: '/tunnel-episodes', label: dict.nav.allTunnelEpisodes },
+          { href: '/tunnel-episodes/new', label: dict.nav.addTunnelEpisode },
+          { href: '/tunnel-categories', label: dict.nav.tunnelCategories },
+        ],
+      },
+      {
         label: dict.nav.groupMedia,
         items: [
           { href: '/media', label: dict.nav.library },

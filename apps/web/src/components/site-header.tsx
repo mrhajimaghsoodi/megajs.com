@@ -47,6 +47,7 @@ export function SiteHeader({
     { href: `${base}/practice`, label: dict.nav.practice },
     { href: `${base}/live`, label: dict.nav.live },
     { href: `${base}/articles`, label: dict.nav.articles },
+    { href: `${base}/tunnel`, label: dict.nav.tunnel },
     { href: `${base}/pricing`, label: dict.nav.pricing },
   ];
   const more = [

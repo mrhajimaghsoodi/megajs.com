@@ -9,7 +9,7 @@ import { useAdminLocale } from '@/i18n/locale-context';
 import type { TermRow } from '@/components/category-checklist';
 
 type Props = {
-  taxonomy: 'post_tag' | 'product_tag';
+  taxonomy: 'post_tag' | 'product_tag' | 'tunnel_tag';
   terms: TermRow[];
   selectedIds: string[];
   onChange: (ids: string[]) => void;

@@ -22,6 +22,7 @@ import {
   termPermalinkPath,
 } from '../cms/article-permalink';
 import { AuthService } from '../auth/auth.service';
+import { TunnelService } from '../cms/tunnel.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { RankMathService } from './rankmath.service';
 import { SitemapService, SITEMAP_TYPES, type SitemapType } from './sitemap.service';
@@ -296,6 +297,7 @@ export class PublicContentController {
     private readonly smush: SmushService,
     private readonly rankmath: RankMathService,
     private readonly sitemapSvc: SitemapService,
+    private readonly tunnel: TunnelService,
   ) {}
 
   private async loadPostCategoryIndex() {
@@ -404,6 +406,36 @@ export class PublicContentController {
   @Get('cache-config')
   async cacheConfig() {
     return this.rocket.getPublicConfig();
+  }
+
+  // ——— Learning Tunnel ———
+  @Get('tunnel/categories')
+  async tunnelCategories(@Query('locale') locale = 'fa') {
+    return this.tunnel.publicCategories(locale);
+  }
+
+  @Get('tunnel/categories/:slug')
+  async tunnelCategory(
+    @Param('slug') slug: string,
+    @Query('locale') locale = 'fa',
+  ) {
+    return this.tunnel.publicCategory(slug, locale);
+  }
+
+  @Get('tunnel/episodes')
+  async tunnelEpisodes(
+    @Query('locale') locale = 'fa',
+    @Query('category') category?: string,
+  ) {
+    return this.tunnel.publicList(locale, category);
+  }
+
+  @Get('tunnel/episodes/:slug')
+  async tunnelEpisodeBySlug(
+    @Param('slug') slug: string,
+    @Query('locale') locale = 'fa',
+  ) {
+    return this.tunnel.publicGetBySlug(slug, locale);
   }
 
   @Get('articles')

@@ -19,12 +19,14 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
 import { AuthService } from '../auth/auth.service';
 import { CmsService } from './cms.service';
-import { MAX_UPLOAD_BYTES } from './upload.util';
+import { TunnelService } from './tunnel.service';
+import { MAX_UPLOAD_BYTES, MAX_VIDEO_UPLOAD_BYTES } from './upload.util';
 
 @Controller('admin/cms')
 export class CmsController {
   constructor(
     private readonly cms: CmsService,
+    private readonly tunnel: TunnelService,
     private readonly auth: AuthService,
   ) {}
 
@@ -334,6 +336,77 @@ export class CmsController {
     const me = await this.requireStaff(authorization);
     this.requireEditor(me);
     return this.cms.upsertSeo(me.id, body ?? {});
+  }
+
+  // Learning Tunnel episodes
+  @Get('tunnel-episodes')
+  async tunnelEpisodes(
+    @Headers('authorization') authorization?: string,
+    @Query('q') q?: string,
+    @Query('status') status?: string,
+  ) {
+    await this.requireStaff(authorization);
+    return this.tunnel.listEpisodes(q, status);
+  }
+
+  @Get('tunnel-episodes/:id')
+  async tunnelEpisode(
+    @Param('id') id: string,
+    @Headers('authorization') authorization?: string,
+  ) {
+    await this.requireStaff(authorization);
+    return this.tunnel.getEpisode(id);
+  }
+
+  @Post('tunnel-episodes')
+  async createTunnelEpisode(
+    @Headers('authorization') authorization?: string,
+    @Body() body?: Record<string, unknown>,
+  ) {
+    const me = await this.requireStaff(authorization);
+    this.requireEditor(me);
+    return this.tunnel.createEpisode(me.id, body ?? {});
+  }
+
+  @Patch('tunnel-episodes/:id')
+  async updateTunnelEpisode(
+    @Param('id') id: string,
+    @Headers('authorization') authorization?: string,
+    @Body() body?: Record<string, unknown>,
+  ) {
+    const me = await this.requireStaff(authorization);
+    this.requireEditor(me);
+    return this.tunnel.updateEpisode(id, me.id, body ?? {});
+  }
+
+  @Delete('tunnel-episodes/:id')
+  async deleteTunnelEpisode(
+    @Param('id') id: string,
+    @Headers('authorization') authorization?: string,
+  ) {
+    const me = await this.requireStaff(authorization);
+    this.requireEditor(me);
+    return this.tunnel.deleteEpisode(id, me.id);
+  }
+
+  @Post('media/upload-video')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: memoryStorage(),
+      limits: { fileSize: MAX_VIDEO_UPLOAD_BYTES },
+    }),
+  )
+  async uploadVideo(
+    @Headers('authorization') authorization: string | undefined,
+    @UploadedFile() file: Express.Multer.File,
+    @Body() body?: { alt?: string; title?: string },
+  ) {
+    const me = await this.requireStaff(authorization);
+    this.requireEditor(me);
+    return this.cms.uploadVideoFile(me.id, file, {
+      alt: body?.alt,
+      title: body?.title,
+    });
   }
 
   // Settings

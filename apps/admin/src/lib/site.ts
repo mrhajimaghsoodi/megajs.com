@@ -14,5 +14,7 @@ export function termArchivePath(taxonomy: string, slug: string) {
   if (taxonomy === 'post_tag') return `/articles/tag/${slug}`;
   if (taxonomy === 'product_category') return `/learn/category/${slug}`;
   if (taxonomy === 'product_tag') return `/learn?tag=${encodeURIComponent(slug)}`;
+  if (taxonomy === 'tunnel_category') return `/tunnel/${slug}`;
+  if (taxonomy === 'tunnel_tag') return `/tunnel?tag=${encodeURIComponent(slug)}`;
   return `/`;
 }

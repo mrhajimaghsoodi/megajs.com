@@ -12,7 +12,9 @@ import {
 import { PrismaService } from '../prisma/prisma.service';
 import {
   ALLOWED_IMAGE_MIME,
+  ALLOWED_VIDEO_MIME,
   MAX_UPLOAD_BYTES,
+  MAX_VIDEO_UPLOAD_BYTES,
   deleteStoredFile,
   writeUploadedFile,
 } from './upload.util';
@@ -24,6 +26,8 @@ const TAXONOMIES = [
   'product_category',
   'post_tag',
   'product_tag',
+  'tunnel_category',
+  'tunnel_tag',
 ] as const;
 
 @Injectable()
@@ -668,11 +672,14 @@ export class CmsService {
       parentId?: string | null;
       sortOrder?: number;
       imageUrl?: string | null;
+      coverUrl?: string | null;
+      bannerUrl?: string | null;
       isDefault?: boolean;
       focusKeyword?: string;
       locale?: string;
       name?: string;
       description?: string;
+      landingMdx?: string;
       seo?: {
         metaTitle?: string;
         metaDescription?: string;
@@ -707,6 +714,8 @@ export class CmsService {
         parentId: body.parentId ?? null,
         sortOrder: body.sortOrder ?? 0,
         imageUrl: body.imageUrl ?? null,
+        coverUrl: body.coverUrl ?? null,
+        bannerUrl: body.bannerUrl ?? null,
         isDefault: body.isDefault ?? false,
         focusKeyword: body.focusKeyword ?? '',
         i18n: {
@@ -714,6 +723,7 @@ export class CmsService {
             locale,
             name,
             description: body.description ?? '',
+            landingMdx: body.landingMdx ?? '',
           },
         },
       },
@@ -721,7 +731,7 @@ export class CmsService {
         i18n: true,
         seo: true,
         children: true,
-        _count: { select: { articles: true, courses: true } },
+        _count: { select: { articles: true, courses: true, tunnelEpisodes: true } },
       },
     });
 
@@ -736,7 +746,7 @@ export class CmsService {
         i18n: true,
         seo: true,
         children: true,
-        _count: { select: { articles: true, courses: true } },
+        _count: { select: { articles: true, courses: true, tunnelEpisodes: true } },
       },
     });
   }
@@ -749,11 +759,14 @@ export class CmsService {
       parentId?: string | null;
       sortOrder?: number;
       imageUrl?: string | null;
+      coverUrl?: string | null;
+      bannerUrl?: string | null;
       isDefault?: boolean;
       focusKeyword?: string;
       locale?: string;
       name?: string;
       description?: string;
+      landingMdx?: string;
       seo?: {
         metaTitle?: string;
         metaDescription?: string;
@@ -789,12 +802,18 @@ export class CmsService {
           parentId: body.parentId === undefined ? undefined : body.parentId,
           sortOrder: body.sortOrder,
           imageUrl: body.imageUrl === undefined ? undefined : body.imageUrl,
+          coverUrl: body.coverUrl === undefined ? undefined : body.coverUrl,
+          bannerUrl: body.bannerUrl === undefined ? undefined : body.bannerUrl,
           isDefault: body.isDefault === undefined ? undefined : body.isDefault,
           focusKeyword:
             body.focusKeyword === undefined ? undefined : body.focusKeyword,
         },
       });
-      if (body.name !== undefined || body.description !== undefined) {
+      if (
+        body.name !== undefined ||
+        body.description !== undefined ||
+        body.landingMdx !== undefined
+      ) {
         const cur = await tx.termI18n.findUnique({
           where: { termId_locale: { termId: id, locale } },
         });
@@ -804,6 +823,7 @@ export class CmsService {
             data: {
               name: body.name ?? cur.name,
               description: body.description ?? cur.description,
+              landingMdx: body.landingMdx ?? cur.landingMdx,
             },
           });
         } else {
@@ -813,6 +833,7 @@ export class CmsService {
               locale,
               name: body.name ?? 'Untitled',
               description: body.description ?? '',
+              landingMdx: body.landingMdx ?? '',
             },
           });
         }
@@ -841,7 +862,7 @@ export class CmsService {
         seo: true,
         parent: { include: { i18n: true } },
         children: { include: { i18n: true }, orderBy: { sortOrder: 'asc' } },
-        _count: { select: { articles: true, courses: true } },
+        _count: { select: { articles: true, courses: true, tunnelEpisodes: true } },
       },
     });
   }
@@ -949,6 +970,35 @@ export class CmsService {
     }
     if (file.size > MAX_UPLOAD_BYTES) {
       throw new BadRequestException('File too large (max 5MB)');
+    }
+    const saved = writeUploadedFile({
+      originalname: file.originalname,
+      mimetype: file.mimetype,
+      buffer: file.buffer,
+      size: file.size,
+    });
+    return this.createMedia(actorId, {
+      url: saved.url,
+      storageKey: saved.storageKey,
+      filename: saved.filename,
+      mimeType: saved.mimeType,
+      sizeBytes: saved.sizeBytes,
+      alt: meta.alt,
+      title: meta.title || saved.filename,
+    });
+  }
+
+  async uploadVideoFile(
+    actorId: string,
+    file: Express.Multer.File | undefined,
+    meta: { alt?: string; title?: string } = {},
+  ) {
+    if (!file) throw new BadRequestException('file required');
+    if (!ALLOWED_VIDEO_MIME.has(file.mimetype)) {
+      throw new BadRequestException('Only mp4, webm, mov videos allowed');
+    }
+    if (file.size > MAX_VIDEO_UPLOAD_BYTES) {
+      throw new BadRequestException('Video too large (max 200MB)');
     }
     const saved = writeUploadedFile({
       originalname: file.originalname,
@@ -1143,6 +1193,7 @@ export class CmsService {
     if (body.entityType === 'podcast') link.podcastId = body.entityId;
     if (body.entityType === 'live') link.liveId = body.entityId;
     if (body.entityType === 'term') link.termId = body.entityId;
+    if (body.entityType === 'tunnel_episode') link.tunnelEpisodeId = body.entityId;
 
     const existing = await this.prisma.seoMeta.findFirst({
       where: {

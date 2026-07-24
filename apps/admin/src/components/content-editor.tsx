@@ -13,7 +13,11 @@ type Props = {
   rows?: number;
   placeholder?: string;
   dir?: 'rtl' | 'ltr' | 'auto';
+  /** Show extended code-language picker (Learning Tunnel) */
+  enableCodeEditor?: boolean;
 };
+
+const CODE_LANGS = ['js', 'ts', 'tsx', 'jsx', 'python', 'bash', 'json', 'css', 'html', 'sql'];
 
 function wrap(selection: string, before: string, after = before) {
   if (!selection) return `${before}${after}`;
@@ -25,6 +29,9 @@ function simpleMarkdownToHtml(md: string) {
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
+  html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, (_m, lang, code) => {
+    return `<pre data-lang="${lang || 'code'}"><code>${code}</code></pre>`;
+  });
   html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
   html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
   html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
@@ -50,11 +57,15 @@ export function ContentEditor({
   rows = 18,
   placeholder,
   dir = 'auto',
+  enableCodeEditor = false,
 }: Props) {
   const { dict } = useAdminLocale();
   const d = dict.cms;
   const [preview, setPreview] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
+  const [codeOpen, setCodeOpen] = useState(false);
+  const [codeLang, setCodeLang] = useState('js');
+  const [codeBody, setCodeBody] = useState('');
 
   const apply = (fn: (selected: string) => string) => {
     const el = document.getElementById('mj-content-editor') as HTMLTextAreaElement | null;
@@ -75,6 +86,13 @@ export function ContentEditor({
     });
   };
 
+  const insertCodeBlock = () => {
+    const body = codeBody.trim() || '// code';
+    apply(() => `\n\`\`\`${codeLang}\n${body}\n\`\`\`\n`);
+    setCodeBody('');
+    setCodeOpen(false);
+  };
+
   const tools: Array<{ label: string; run: () => void }> = [
     { label: 'H2', run: () => apply((s) => `\n## ${s || 'heading'}\n`) },
     { label: 'H3', run: () => apply((s) => `\n### ${s || 'heading'}\n`) },
@@ -85,8 +103,17 @@ export function ContentEditor({
     { label: 'Img', run: () => setPickerOpen(true) },
     { label: 'List', run: () => apply((s) => `\n- ${s || 'item'}\n`) },
     {
-      label: 'Code',
-      run: () => apply((s) => `\n\`\`\`js\n${s || '// code'}\n\`\`\`\n`),
+      label: enableCodeEditor ? d.codeBlock : 'Code',
+      run: () => {
+        if (enableCodeEditor) {
+          const el = document.getElementById('mj-content-editor') as HTMLTextAreaElement | null;
+          const selected = el ? value.slice(el.selectionStart, el.selectionEnd) : '';
+          setCodeBody(selected);
+          setCodeOpen(true);
+        } else {
+          apply((s) => `\n\`\`\`js\n${s || '// code'}\n\`\`\`\n`);
+        }
+      },
     },
     { label: 'Quote', run: () => apply((s) => `\n> ${s || 'quote'}\n`) },
     { label: 'HR', run: () => apply(() => '\n---\n') },
@@ -136,6 +163,7 @@ export function ContentEditor({
       )}
       <div className="border-t border-[var(--mj-border)] bg-[var(--mj-muted)] px-3 py-1.5 font-mono text-[10px] text-[var(--mj-muted-fg)]">
         MDX / Markdown · {d.insertImageHint}
+        {enableCodeEditor ? ` · ${d.codeBlockHint}` : ''}
       </div>
       <MediaPickerModal
         open={pickerOpen}
@@ -146,6 +174,49 @@ export function ContentEditor({
           apply(() => `![${alt}](${item.url})`);
         }}
       />
+      {codeOpen ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <button
+            type="button"
+            className="absolute inset-0 bg-black/50"
+            aria-label={dict.close}
+            onClick={() => setCodeOpen(false)}
+          />
+          <div className="relative z-10 w-full max-w-xl space-y-3 rounded-lg border border-[var(--mj-border)] bg-[var(--mj-card)] p-4 shadow-xl">
+            <h3 className="font-display text-lg font-bold">{d.codeBlock}</h3>
+            <div className="flex flex-wrap gap-2">
+              {CODE_LANGS.map((lang) => (
+                <Button
+                  key={lang}
+                  type="button"
+                  size="sm"
+                  variant={codeLang === lang ? 'default' : 'outline'}
+                  className="cursor-pointer font-mono text-xs"
+                  onClick={() => setCodeLang(lang)}
+                >
+                  {lang}
+                </Button>
+              ))}
+            </div>
+            <Textarea
+              dir="ltr"
+              rows={12}
+              value={codeBody}
+              onChange={(e) => setCodeBody(e.target.value)}
+              className="font-mono text-sm"
+              placeholder="// your code"
+            />
+            <div className="flex justify-end gap-2">
+              <Button type="button" variant="outline" onClick={() => setCodeOpen(false)}>
+                {dict.close}
+              </Button>
+              <Button type="button" onClick={insertCodeBlock}>
+                {d.insertCode}
+              </Button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

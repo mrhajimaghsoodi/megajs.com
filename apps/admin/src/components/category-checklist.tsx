@@ -20,7 +20,7 @@ export type TermRow = {
 };
 
 type Props = {
-  taxonomy: 'post_category' | 'product_category';
+  taxonomy: 'post_category' | 'product_category' | 'tunnel_category';
   terms: TermRow[];
   selectedIds: string[];
   onChange: (ids: string[]) => void;

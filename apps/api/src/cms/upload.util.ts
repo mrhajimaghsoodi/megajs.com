@@ -10,7 +10,14 @@ export const ALLOWED_IMAGE_MIME = new Set([
   'image/gif',
 ]);
 
+export const ALLOWED_VIDEO_MIME = new Set([
+  'video/mp4',
+  'video/webm',
+  'video/quicktime',
+]);
+
 export const MAX_UPLOAD_BYTES = 5 * 1024 * 1024;
+export const MAX_VIDEO_UPLOAD_BYTES = 200 * 1024 * 1024;
 
 export function uploadsRoot() {
   return process.env.UPLOAD_DIR || join(process.cwd(), 'uploads');
@@ -29,10 +36,13 @@ export function publicUploadUrl(storageKey: string) {
 
 export function safeExt(originalName: string, mimeType: string) {
   const fromName = extname(originalName || '').toLowerCase();
-  if (fromName && fromName.length <= 5) return fromName;
+  if (fromName && fromName.length <= 8) return fromName;
   if (mimeType === 'image/png') return '.png';
   if (mimeType === 'image/webp') return '.webp';
   if (mimeType === 'image/gif') return '.gif';
+  if (mimeType === 'video/mp4') return '.mp4';
+  if (mimeType === 'video/webm') return '.webm';
+  if (mimeType === 'video/quicktime') return '.mov';
   return '.jpg';
 }
 

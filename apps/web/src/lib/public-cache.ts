@@ -7,6 +7,7 @@ export type PublicCacheTag =
   | 'pages'
   | 'terms'
   | 'courses'
+  | 'tunnel'
   | 'sitemap';
 
 export function publicFetchInit(

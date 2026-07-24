@@ -262,6 +262,53 @@ model ArticleI18n {
   @@unique([articleId, locale])
 }
 
+/// Learning Tunnel episode (serial parts inside a tunnel category / roadmap)
+model TunnelEpisode {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  status        String   @default("draft")
+  publishedAt   DateTime?
+  authorId      String?
+  coverUrl      String?
+  bannerUrl     String?
+  sticky        Boolean  @default(false)
+  focusKeyword  String   @default("")
+  /// Order inside the primary series / roadmap category
+  sortOrder     Int      @default(0)
+  /// Primary tunnel category (series) for prev/next navigation
+  seriesTermId  String?
+  /// none | aparat | vod | upload
+  videoSource   String   @default("none")
+  /// Aparat share / watch URL or embed URL
+  aparatUrl     String?
+  /// External VOD / CDN stream URL
+  vodUrl        String?
+  /// Local uploaded video public URL (/api/uploads/...)
+  videoUrl      String?
+  videoPosterUrl String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  seriesTerm    Term?    @relation("TunnelSeries", fields: [seriesTermId], references: [id], onDelete: SetNull)
+  i18n          TunnelEpisodeI18n[]
+  seo           SeoMeta?
+  taxonomies    TunnelEpisodeTerm[]
+
+  @@index([seriesTermId, sortOrder])
+  @@index([status, publishedAt])
+}
+
+model TunnelEpisodeI18n {
+  id        String        @id @default(cuid())
+  episodeId String
+  locale    String
+  title     String
+  summary   String
+  bodyMdx   String
+  episode   TunnelEpisode @relation(fields: [episodeId], references: [id], onDelete: Cascade)
+
+  @@unique([episodeId, locale])
+}
+
 model PodcastEpisode {
   id          String        @id @default(cuid())
   slug        String        @unique
@@ -310,6 +357,7 @@ model SeoMeta {
   liveId    String? @unique
   pageId    String? @unique
   termId    String? @unique
+  tunnelEpisodeId String? @unique
 
   track   Track?          @relation(fields: [trackId], references: [id], onDelete: Cascade)
   course  Course?         @relation(fields: [courseId], references: [id], onDelete: Cascade)
@@ -319,6 +367,7 @@ model SeoMeta {
   live    LiveEvent?      @relation(fields: [liveId], references: [id], onDelete: Cascade)
   page    Page?           @relation(fields: [pageId], references: [id], onDelete: Cascade)
   term    Term?           @relation(fields: [termId], references: [id], onDelete: Cascade)
+  tunnelEpisode TunnelEpisode? @relation(fields: [tunnelEpisodeId], references: [id], onDelete: Cascade)
 
   @@index([entityType, entityId, locale])
 }
@@ -624,11 +673,11 @@ model PageI18n {
   @@unique([pageId, locale])
 }
 
-/// Category / tag taxonomy (post_category | product_category | post_tag | product_tag)
+/// Category / tag taxonomy (post_category | product_category | post_tag | product_tag | tunnel_category | tunnel_tag)
 model Term {
   id        String     @id @default(cuid())
   slug      String
-  /// post_category | product_category | post_tag | product_tag
+  /// post_category | product_category | post_tag | product_tag | tunnel_category | tunnel_tag
   taxonomy  String
   parentId  String?
   sortOrder Int        @default(0)
@@ -638,12 +687,18 @@ model Term {
   isDefault Boolean    @default(false)
   /// Rank Math focus keyword for term archives
   focusKeyword String  @default("")
+  /// Optional cover for tunnel category landing hero
+  coverUrl  String?
+  /// Optional banner for tunnel category landing
+  bannerUrl String?
   createdAt DateTime   @default(now())
   parent    Term?      @relation("TermTree", fields: [parentId], references: [id], onDelete: SetNull)
   children  Term[]     @relation("TermTree")
   i18n      TermI18n[]
   articles  ArticleTerm[]
   courses   CourseTerm[]
+  tunnelEpisodes TunnelEpisodeTerm[]
+  seriesEpisodes TunnelEpisode[] @relation("TunnelSeries")
   seo       SeoMeta?
 
   @@unique([taxonomy, slug])
@@ -657,6 +712,8 @@ model TermI18n {
   locale      String
   name        String
   description String @default("")
+  /// Rich landing copy for tunnel category pages (Markdown)
+  landingMdx  String @default("")
   term        Term   @relation(fields: [termId], references: [id], onDelete: Cascade)
 
   @@unique([termId, locale])
@@ -678,6 +735,15 @@ model CourseTerm {
   term     Term   @relation(fields: [termId], references: [id], onDelete: Cascade)
 
   @@id([courseId, termId])
+}
+
+model TunnelEpisodeTerm {
+  episodeId String
+  termId    String
+  episode   TunnelEpisode @relation(fields: [episodeId], references: [id], onDelete: Cascade)
+  term      Term          @relation(fields: [termId], references: [id], onDelete: Cascade)
+
+  @@id([episodeId, termId])
 }
 
 /// Media library item

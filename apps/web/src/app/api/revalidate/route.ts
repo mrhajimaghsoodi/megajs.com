@@ -36,6 +36,7 @@ export async function POST(req: Request) {
     revalidateTag('pages', 'max');
     revalidateTag('terms', 'max');
     revalidateTag('courses', 'max');
+    revalidateTag('tunnel', 'max');
     revalidatePath('/', 'layout');
     purged.push(
       'layout:/',
@@ -45,6 +46,7 @@ export async function POST(req: Request) {
       'tag:pages',
       'tag:terms',
       'tag:courses',
+      'tag:tunnel',
     );
   }
 
