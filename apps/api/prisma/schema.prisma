@@ -24,7 +24,11 @@ model User {
   avatarUrl     String?
   locale        String         @default("fa")
   theme         String         @default("light")
-  role          String           @default("user")
+  role          String         @default("user")
+  /// active | suspended | banned
+  status        String         @default("active")
+  suspendedAt   DateTime?
+  suspendedReason String?
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
 
@@ -41,6 +45,7 @@ model User {
   tickets      Ticket[]        @relation("TicketAuthor")
   assignedTickets Ticket[]     @relation("TicketAssignee")
   ticketMessages TicketMessage[]
+  staffNotes    StaffNote[]
 }
 
 model AuthIdentity {
@@ -514,4 +519,17 @@ model TicketMessage {
   author User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
   @@index([ticketId, createdAt])
+}
+
+/// Internal staff notes on a learner (not visible to the user)
+model StaffNote {
+  id        String   @id @default(cuid())
+  userId    String
+  authorId  String?
+  body      String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
 }
