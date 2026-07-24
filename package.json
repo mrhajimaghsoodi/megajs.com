@@ -22,8 +22,5 @@
   },
   "engines": {
     "node": ">=22"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": "[\"prisma\",\"@prisma/client\",\"@prisma/engines\",\"esbuild\",\"sharp\",\"unrs-resolver\"]"
   }
 }
