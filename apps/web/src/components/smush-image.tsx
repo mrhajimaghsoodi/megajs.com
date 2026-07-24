@@ -1,28 +1,37 @@
+import { MediaImage } from '@/components/media-image';
+
 type Props = {
   src: string;
   alt?: string;
   className?: string;
   width?: number;
   height?: number;
+  priority?: boolean;
+  sizes?: string;
+  fill?: boolean;
 };
 
-/** Smush-aware image: lazy-load + optional WebP query rewrite */
-export function SmushImage({ src, alt = '', className, width, height }: Props) {
-  const webp =
-    src.includes('format=webp') || src.startsWith('data:')
-      ? src
-      : `${src}${src.includes('?') ? '&' : '?'}format=webp&q=82`;
-
+/** Smush-aware wrapper — prefers next/image optimization pipeline */
+export function SmushImage({
+  src,
+  alt = '',
+  className,
+  width,
+  height,
+  priority,
+  sizes,
+  fill,
+}: Props) {
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={webp}
+    <MediaImage
+      src={src}
       alt={alt}
-      loading="lazy"
-      decoding="async"
+      className={className}
       width={width}
       height={height}
-      className={className}
+      priority={priority}
+      sizes={sizes}
+      fill={fill}
     />
   );
 }

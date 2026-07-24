@@ -15,32 +15,41 @@ type CacheConfig = {
   purgedAt?: string | null;
 };
 
-let redirectCache: { at: number; rows: RedirectRow[] } | null = null;
+let redirectCache: { at: number; map: Map<string, RedirectRow> } | null = null;
 let rocketCache: { at: number; config: CacheConfig } | null = null;
 
 const FALLBACK_CACHE: CacheConfig = {
   enabled: true,
   htmlCacheSeconds: 300,
-  browserCacheSeconds: 0,
+  browserCacheSeconds: 60,
   staleWhileRevalidateSeconds: 86400,
-  excludePaths: ['/login', '/profile', '/api', '/fa/login', '/en/login', '/fa/profile', '/en/profile'],
+  excludePaths: [
+    '/login',
+    '/profile',
+    '/api',
+    '/fa/login',
+    '/en/login',
+    '/fa/profile',
+    '/en/profile',
+  ],
   exposeDebugHeaders: true,
   purgedAt: null,
 };
 
-async function getRedirects(): Promise<RedirectRow[]> {
+async function getRedirectMap(): Promise<Map<string, RedirectRow>> {
   const now = Date.now();
-  if (redirectCache && now - redirectCache.at < 60_000) return redirectCache.rows;
+  if (redirectCache && now - redirectCache.at < 60_000) return redirectCache.map;
   try {
     const res = await fetch(`${API}/public/redirects`, {
       next: { revalidate: 60 },
     });
-    if (!res.ok) return [];
+    if (!res.ok) return new Map();
     const rows = (await res.json()) as RedirectRow[];
-    redirectCache = { at: now, rows };
-    return rows;
+    const map = new Map(rows.map((r) => [r.fromPath, r]));
+    redirectCache = { at: now, map };
+    return map;
   } catch {
-    return [];
+    return new Map();
   }
 }
 
@@ -60,14 +69,30 @@ async function getCacheConfig(): Promise<CacheConfig> {
   }
 }
 
-function isExcluded(pathname: string, excludePaths: string[]) {
+function isPrivatePath(pathname: string, excludePaths: string[]) {
+  if (pathname.includes('/login') || pathname.includes('/profile')) return true;
   return excludePaths.some((p) => pathname === p || pathname.startsWith(`${p}/`));
 }
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Security headers (Wordfence-inspired hardening on the edge)
+  // Fast path for private areas — skip cache-config fetch when obviously private
+  const likelyPrivate =
+    pathname.includes('/login') || pathname.includes('/profile');
+
+  const [redirects, cfg] = await Promise.all([
+    getRedirectMap(),
+    likelyPrivate ? Promise.resolve(FALLBACK_CACHE) : getCacheConfig(),
+  ]);
+
+  const hit = redirects.get(pathname);
+  if (hit) {
+    const url = request.nextUrl.clone();
+    url.pathname = hit.toPath;
+    return NextResponse.redirect(url, (hit.code === 302 ? 302 : 301) as 301 | 302);
+  }
+
   const response = NextResponse.next();
   response.headers.set('X-Content-Type-Options', 'nosniff');
   response.headers.set('X-Frame-Options', 'SAMEORIGIN');
@@ -77,37 +102,23 @@ export async function middleware(request: NextRequest) {
     'camera=(), microphone=(), geolocation=()',
   );
 
-  // RankMath redirects
-  const redirects = await getRedirects();
-  const hit = redirects.find((r) => r.fromPath === pathname);
-  if (hit) {
-    const url = request.nextUrl.clone();
-    url.pathname = hit.toPath;
-    return NextResponse.redirect(url, (hit.code === 302 ? 302 : 301) as 301 | 302);
-  }
-
-  // SEO-friendly HTML cache (WP Rocket settings) — SWR keeps pages fast for users & crawlers
   if (!pathname.startsWith('/_next') && !pathname.includes('.')) {
-    const cfg = await getCacheConfig();
-    const privatePath =
-      isExcluded(pathname, cfg.excludePaths) ||
-      pathname.includes('/login') ||
-      pathname.includes('/profile');
+    const privatePath = isPrivatePath(pathname, cfg.excludePaths);
 
     if (!cfg.enabled || privatePath) {
-      response.headers.set('Cache-Control', 'private, no-store, max-age=0, must-revalidate');
+      response.headers.set(
+        'Cache-Control',
+        'private, no-store, max-age=0, must-revalidate',
+      );
       response.headers.set('X-MEGA-Rocket', privatePath ? 'BYPASS' : 'OFF');
     } else {
       const sMax = Math.max(0, Number(cfg.htmlCacheSeconds) || 0);
       const maxAge = Math.max(0, Number(cfg.browserCacheSeconds) || 0);
       const swr = Math.max(0, Number(cfg.staleWhileRevalidateSeconds) || 0);
-      const parts = [
-        'public',
-        `max-age=${maxAge}`,
-        `s-maxage=${sMax}`,
-        `stale-while-revalidate=${swr}`,
-      ];
-      response.headers.set('Cache-Control', parts.join(', '));
+      response.headers.set(
+        'Cache-Control',
+        `public, max-age=${maxAge}, s-maxage=${sMax}, stale-while-revalidate=${swr}`,
+      );
       response.headers.set(
         'CDN-Cache-Control',
         `public, s-maxage=${sMax}, stale-while-revalidate=${swr}`,

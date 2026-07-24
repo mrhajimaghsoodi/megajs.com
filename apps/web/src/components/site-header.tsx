@@ -1,5 +1,6 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
@@ -17,13 +18,18 @@ import { Logo } from './logo';
 import { ThemeToggle } from './theme-toggle';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet';
+
+const MobileNavSheet = dynamic(
+  () => import('./mobile-nav-sheet').then((m) => m.MobileNavSheet),
+  {
+    ssr: false,
+    loading: () => (
+      <Button variant="outline" size="icon" className="rounded-xl lg:hidden" aria-hidden>
+        <MenuIcon />
+      </Button>
+    ),
+  },
+);
 
 export function SiteHeader({
   locale,
@@ -150,33 +156,16 @@ export function SiteHeader({
               </Link>
             </Button>
 
-            <Sheet open={open} onOpenChange={setOpen}>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon" className="rounded-xl lg:hidden" aria-label={dict.menu}>
-                  <MenuIcon />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side={locale === 'fa' ? 'right' : 'left'} className="w-[min(100%,20rem)]">
-                <SheetHeader>
-                  <SheetTitle>{dict.brand}</SheetTitle>
-                </SheetHeader>
-                <form onSubmit={onSearch} className="mt-4 md:hidden">
-                  <Input
-                    value={q}
-                    onChange={(e) => setQ(e.target.value)}
-                    placeholder={w.searchPlaceholder}
-                    className="rounded-xl"
-                  />
-                </form>
-                <div className="mt-4 flex flex-col gap-1">
-                  {[...primary, ...more].map((link) => (
-                    <Button key={link.href} asChild variant="ghost" className="justify-start rounded-xl">
-                      <Link href={link.href}>{link.label}</Link>
-                    </Button>
-                  ))}
-                </div>
-              </SheetContent>
-            </Sheet>
+            <MobileNavSheet
+              locale={locale}
+              dict={dict}
+              links={[...primary, ...more]}
+              open={open}
+              onOpenChange={setOpen}
+              q={q}
+              onQChange={setQ}
+              onSearch={onSearch}
+            />
           </div>
         </div>
 

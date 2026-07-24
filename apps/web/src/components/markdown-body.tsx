@@ -1,6 +1,6 @@
+import { MediaImage } from '@/components/media-image';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { resolveMediaUrl } from '@/lib/media-url';
 
 export function MarkdownBody({
   content,
@@ -15,11 +15,13 @@ export function MarkdownBody({
         remarkPlugins={[remarkGfm]}
         components={{
           img: ({ src, alt }) => (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={resolveMediaUrl(typeof src === 'string' ? src : '')}
+            <MediaImage
+              src={typeof src === 'string' ? src : ''}
               alt={alt || ''}
-              className="my-6 h-auto max-w-full"
+              width={1200}
+              height={675}
+              sizes="(max-width: 768px) 100vw, 48rem"
+              className="my-6 h-auto w-full max-w-full"
             />
           ),
           a: ({ href, children }) => (

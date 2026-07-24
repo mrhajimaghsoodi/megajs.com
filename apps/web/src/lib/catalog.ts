@@ -34,7 +34,7 @@ export type PublicArticle = {
 export async function fetchTracks(locale: Locale): Promise<CatalogTrack[]> {
   try {
     const res = await fetch(`${API_BASE}/catalog/tracks?locale=${locale}`, {
-      next: { revalidate: 300, tags: ['catalog'] },
+      next: { revalidate: 300, tags: ['catalog', 'courses'] },
     });
     if (!res.ok) return [];
     return (await res.json()) as CatalogTrack[];

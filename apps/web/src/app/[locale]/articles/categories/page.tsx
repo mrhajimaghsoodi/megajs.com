@@ -11,7 +11,7 @@ const API = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000/api';
 async function fetchCategories(locale: string) {
   const res = await fetch(
     `${API}/public/terms?taxonomy=post_category&locale=${locale}`,
-    { next: { revalidate: 60 } },
+    { next: { revalidate: 120, tags: ["terms", "articles"] } },
   );
   if (!res.ok) return [];
   return res.json();

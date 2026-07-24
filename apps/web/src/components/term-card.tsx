@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { resolveMediaUrl } from '@/lib/media-url';
+import { MediaImage } from '@/components/media-image';
 import type { Locale } from '@/lib/utils';
 import { cn } from '@/lib/utils';
 
@@ -41,11 +41,12 @@ export function TermCard({
     <div className="group flex flex-col overflow-hidden border border-border bg-card transition hover:-translate-y-0.5 hover:border-primary/40">
       <Link href={href} className="relative block aspect-[16/10] overflow-hidden">
         {term.imageUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={resolveMediaUrl(term.imageUrl)}
+          <MediaImage
+            src={term.imageUrl}
             alt=""
-            className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+            fill
+            sizes="(max-width: 768px) 100vw, 33vw"
+            className="transition duration-500 group-hover:scale-105"
           />
         ) : (
           <div className={cn('h-full w-full bg-gradient-to-br', gradient)} />

@@ -12,7 +12,7 @@ const API = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000/api';
 async function fetchTerm(slug: string, locale: string) {
   const res = await fetch(
     `${API}/public/terms?taxonomy=post_category&slug=${encodeURIComponent(slug)}&locale=${locale}`,
-    { next: { revalidate: 60 } },
+    { next: { revalidate: 120, tags: ["terms", "articles"] } },
   );
   if (!res.ok) return null;
   return res.json();
@@ -21,7 +21,7 @@ async function fetchTerm(slug: string, locale: string) {
 async function fetchArticles(locale: string, slug: string) {
   const res = await fetch(
     `${API}/public/articles?locale=${locale}&category=${encodeURIComponent(slug)}`,
-    { next: { revalidate: 60 } },
+    { next: { revalidate: 120, tags: ["terms", "articles"] } },
   );
   if (!res.ok) return [];
   return res.json();

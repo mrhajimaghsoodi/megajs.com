@@ -1,11 +1,11 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { adminFetch } from '@/components/admin-shell';
 import {
-  ElementorBuilder,
   emptyBuilder,
   type BuilderDoc,
 } from '@/components/elementor-builder';
@@ -13,6 +13,16 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAdminLocale } from '@/i18n/locale-context';
+
+const ElementorBuilder = dynamic(
+  () => import('@/components/elementor-builder').then((m) => m.ElementorBuilder),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="h-96 animate-pulse rounded-md border border-[var(--mj-border)] bg-[var(--mj-muted)]" />
+    ),
+  },
+);
 
 export default function ElementorPluginPage() {
   const { id } = useParams<{ id?: string }>();

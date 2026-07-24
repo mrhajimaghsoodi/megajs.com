@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { adminFetch } from '@/components/admin-shell';
 import { CategoryChecklist, type TermRow } from '@/components/category-checklist';
-import { ContentEditor } from '@/components/content-editor';
+import { ContentEditorLazy as ContentEditor } from '@/components/content-editor-lazy';
 import { MediaImageField } from '@/components/media-image-field';
 import { TagChecklist } from '@/components/tag-checklist';
 import { Badge } from '@/components/ui/badge';

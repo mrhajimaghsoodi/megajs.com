@@ -2,16 +2,18 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound, permanentRedirect } from 'next/navigation';
 import { MarkdownBody } from '@/components/markdown-body';
-import { resolveMediaUrl } from '@/lib/media-url';
+import { MediaImage } from '@/components/media-image';
+import { publicFetchInit } from '@/lib/public-cache';
 import { buildPublicMetadata, jsonLdScript, localePath } from '@/lib/seo';
 import { isLocale, type Locale } from '@/lib/utils';
 
 const API = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000/api';
 
 async function fetchArticle(slug: string, locale: string) {
-  const res = await fetch(`${API}/public/articles/${slug}?locale=${locale}`, {
-    next: { revalidate: 60 },
-  });
+  const res = await fetch(
+    `${API}/public/articles/${slug}?locale=${locale}`,
+    publicFetchInit(['articles']),
+  );
   if (!res.ok) return null;
   return res.json();
 }
@@ -101,11 +103,13 @@ export default async function ArticleDetailPage({
 
       {banner ? (
         <div className="relative isolate min-h-[14rem] w-full overflow-hidden bg-[#0c0c0c] sm:min-h-[18rem]">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={resolveMediaUrl(banner)}
+          <MediaImage
+            src={banner}
             alt=""
-            className="absolute inset-0 h-full w-full object-cover opacity-80"
+            fill
+            priority
+            sizes="100vw"
+            className="opacity-80"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
         </div>
@@ -163,12 +167,12 @@ export default async function ArticleDetailPage({
         </div>
 
         {showCoverSeparate ? (
-          <div className="mt-8 overflow-hidden border border-border">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={resolveMediaUrl(article.coverUrl)}
+          <div className="relative mt-8 aspect-[16/9] overflow-hidden border border-border">
+            <MediaImage
+              src={article.coverUrl}
               alt=""
-              className="h-auto w-full object-cover"
+              fill
+              sizes="(max-width: 768px) 100vw, 48rem"
             />
           </div>
         ) : null}

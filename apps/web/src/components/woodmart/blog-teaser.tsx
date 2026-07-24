@@ -1,6 +1,6 @@
 import Link from 'next/link';
+import { MediaImage } from '@/components/media-image';
 import type { PublicArticle } from '@/lib/catalog';
-import { resolveMediaUrl } from '@/lib/media-url';
 import type { Locale } from '@/lib/utils';
 
 export function BlogTeaser({
@@ -41,13 +41,14 @@ export function BlogTeaser({
           href={item.href}
           className="mj-lift group flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--mj-shadow-sm)]"
         >
-          <div className="aspect-[16/10] overflow-hidden bg-gradient-to-br from-[var(--mj-black)] via-[#2a2a2a] to-[var(--mj-yellow)]">
+          <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-[var(--mj-black)] via-[#2a2a2a] to-[var(--mj-yellow)]">
             {item.coverUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={resolveMediaUrl(item.coverUrl)}
+              <MediaImage
+                src={item.coverUrl}
                 alt=""
-                className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]"
+                fill
+                sizes="(max-width: 768px) 100vw, 33vw"
+                className="transition duration-300 group-hover:scale-[1.03]"
               />
             ) : (
               <div

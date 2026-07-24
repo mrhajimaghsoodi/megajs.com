@@ -33,8 +33,19 @@ export async function POST(req: Request) {
     revalidateTag('sitemap', 'max');
     revalidateTag('catalog', 'max');
     revalidateTag('articles', 'max');
+    revalidateTag('pages', 'max');
+    revalidateTag('terms', 'max');
+    revalidateTag('courses', 'max');
     revalidatePath('/', 'layout');
-    purged.push('layout:/', 'tag:sitemap', 'tag:catalog', 'tag:articles');
+    purged.push(
+      'layout:/',
+      'tag:sitemap',
+      'tag:catalog',
+      'tag:articles',
+      'tag:pages',
+      'tag:terms',
+      'tag:courses',
+    );
   }
 
   for (const path of body.paths ?? []) {

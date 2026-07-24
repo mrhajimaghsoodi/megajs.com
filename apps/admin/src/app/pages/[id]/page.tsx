@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { adminFetch } from '@/components/admin-shell';
-import { ContentEditor } from '@/components/content-editor';
+import { ContentEditorLazy as ContentEditor } from '@/components/content-editor-lazy';
 import { MediaImageField } from '@/components/media-image-field';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';

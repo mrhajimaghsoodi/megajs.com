@@ -9,7 +9,7 @@ import { API_BASE, isLocale, type Locale } from '@/lib/utils';
 async function getCourse(slug: string, locale: Locale) {
   try {
     const res = await fetch(`${API_BASE}/catalog/courses/${slug}?locale=${locale}`, {
-      next: { revalidate: 60 },
+      next: { revalidate: 120, tags: ["catalog", "courses"] },
     });
     if (!res.ok) return null;
     return res.json();

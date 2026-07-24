@@ -1,6 +1,6 @@
 import Link from 'next/link';
+import { MediaImage } from '@/components/media-image';
 import { formatTehranDateTime } from '@/lib/tehran-time';
-import { resolveMediaUrl } from '@/lib/media-url';
 import type { Locale } from '@/lib/utils';
 import { cn } from '@/lib/utils';
 
@@ -52,13 +52,14 @@ export function ArticleCard({
         href={href}
         className="group grid gap-4 overflow-hidden border border-border bg-card transition hover:border-primary/50 sm:grid-cols-[11rem_1fr]"
       >
-        <div className="aspect-[16/10] bg-muted sm:aspect-auto sm:min-h-[7.5rem]">
+        <div className="relative aspect-[16/10] overflow-hidden bg-muted sm:aspect-auto sm:min-h-[7.5rem]">
           {article.coverUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={resolveMediaUrl(article.coverUrl)}
+            <MediaImage
+              src={article.coverUrl}
               alt=""
-              className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
+              fill
+              sizes="(max-width: 640px) 100vw, 11rem"
+              className="transition duration-300 group-hover:scale-[1.02]"
             />
           ) : (
             <div className="h-full w-full bg-gradient-to-br from-[#1a1a1a] via-[#2a2410] to-primary/35" />
@@ -98,13 +99,19 @@ export function ArticleCard({
         variant === 'compact' && 'text-sm',
       )}
     >
-      <div className={cn('aspect-[16/10] bg-muted', variant === 'compact' && 'aspect-[16/9]')}>
+      <div
+        className={cn(
+          'relative aspect-[16/10] overflow-hidden bg-muted',
+          variant === 'compact' && 'aspect-[16/9]',
+        )}
+      >
         {article.coverUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={resolveMediaUrl(article.coverUrl)}
+          <MediaImage
+            src={article.coverUrl}
             alt=""
-            className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]"
+            fill
+            sizes="(max-width: 768px) 100vw, 33vw"
+            className="transition duration-300 group-hover:scale-[1.03]"
           />
         ) : (
           <div className="h-full w-full bg-gradient-to-br from-[#1a1a1a] via-[#2a2410] to-primary/40" />

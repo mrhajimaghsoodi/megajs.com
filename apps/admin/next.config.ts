@@ -5,7 +5,25 @@ const monorepoRoot = path.join(__dirname, '../..');
 
 const nextConfig: NextConfig = {
   output: 'standalone',
+  compress: true,
+  poweredByHeader: false,
   transpilePackages: ['@megajs/design-tokens', '@megajs/domain'],
+  experimental: {
+    optimizePackageImports: ['lucide-react', 'radix-ui'],
+  },
+  async headers() {
+    return [
+      {
+        source: '/_next/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+    ];
+  },
   turbopack: {
     root: monorepoRoot,
     resolveAlias: {

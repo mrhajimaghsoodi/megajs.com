@@ -3,9 +3,9 @@ import Link from 'next/link';
 import { notFound, permanentRedirect } from 'next/navigation';
 import { ArticleCard } from '@/components/article-card';
 import { MarkdownBody } from '@/components/markdown-body';
+import { MediaImage } from '@/components/media-image';
 import { TermCardsGrid } from '@/components/term-card';
 import { getDictionary } from '@/i18n/dictionaries';
-import { resolveMediaUrl } from '@/lib/media-url';
 import { buildPublicMetadata, jsonLdScript, localePath } from '@/lib/seo';
 import { isLocale, type Locale } from '@/lib/utils';
 
@@ -34,7 +34,7 @@ const RESERVED = new Set([
 async function resolve(path: string, locale: string) {
   const res = await fetch(
     `${API}/public/resolve?path=${encodeURIComponent(path)}&locale=${locale}`,
-    { next: { revalidate: 60 } },
+    { next: { revalidate: 120, tags: ["articles", "terms"] } },
   );
   if (res.status === 404) return null;
   if (!res.ok) return null;
@@ -134,11 +134,13 @@ export default async function HierarchicalPermalinkPage({
         ) : null}
         {banner ? (
           <div className="relative isolate min-h-[14rem] w-full overflow-hidden bg-[#0c0c0c] sm:min-h-[18rem]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={resolveMediaUrl(banner)}
+            <MediaImage
+              src={banner}
               alt=""
-              className="absolute inset-0 h-full w-full object-cover opacity-80"
+              fill
+              priority
+              sizes="100vw"
+              className="opacity-80"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
           </div>
@@ -192,7 +194,7 @@ export default async function HierarchicalPermalinkPage({
     const term = data.term;
     const artsRes = await fetch(
       `${API}/public/articles?locale=${locale}&category=${encodeURIComponent(term.slug)}`,
-      { next: { revalidate: 60 } },
+      { next: { revalidate: 120, tags: ["articles", "terms"] } },
     );
     const articles = artsRes.ok ? await artsRes.json() : [];
     const childTerms = (term.children ?? []).map((c: any) => ({

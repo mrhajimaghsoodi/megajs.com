@@ -9,16 +9,19 @@ import './globals.css';
 /** Project-wide UI font for the admin panel */
 const vazirmatn = Vazirmatn({
   subsets: ['arabic', 'latin'],
-  weight: ['300', '400', '500', '600', '700', '800', '900'],
+  weight: ['400', '500', '600', '700'],
   variable: '--font-persian',
   display: 'swap',
+  preload: true,
 });
 
 /** Code / mono only */
 const jetbrains = JetBrains_Mono({
   subsets: ['latin'],
+  weight: ['400', '500'],
   variable: '--font-mono',
   display: 'swap',
+  preload: false,
 });
 
 const fontVars = {

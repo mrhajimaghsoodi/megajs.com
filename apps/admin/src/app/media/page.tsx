@@ -1,6 +1,6 @@
 'use client';
 
-import { MediaLibrary } from '@/components/media-library';
+import { MediaLibraryLazy as MediaLibrary } from '@/components/media-library-lazy';
 import { useAdminLocale } from '@/i18n/locale-context';
 
 export default function MediaAdminPage() {
