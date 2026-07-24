@@ -3,7 +3,7 @@
 import { useEffect, useId, useState } from 'react';
 import { Button } from '@/components/ui/button';
 
-/** W3Schools-style live HTML playground (sandboxed iframe). */
+/** W3Schools-style live HTML/CSS playground (sandboxed iframe). */
 export function DocsLiveEditor({
   initialHtml,
   locale = 'fa',
@@ -24,8 +24,18 @@ export function DocsLiveEditor({
 
   const labels =
     locale === 'fa'
-      ? { title: 'ادیتور لحظه‌ای HTML', run: 'اجرا', reset: 'بازنشانی', hint: 'کد را ویرایش کنید و اجرا بزنید' }
-      : { title: 'Live HTML editor', run: 'Run', reset: 'Reset', hint: 'Edit the code and press Run' };
+      ? {
+          title: 'ادیتور لحظه‌ای HTML / CSS',
+          run: 'اجرا',
+          reset: 'بازنشانی',
+          hint: 'کد را ویرایش کنید و اجرا بزنید',
+        }
+      : {
+          title: 'Live HTML / CSS editor',
+          run: 'Run',
+          reset: 'Reset',
+          hint: 'Edit the code and press Run',
+        };
 
   return (
     <section className="my-10 overflow-hidden rounded-md border border-border" dir="ltr">
