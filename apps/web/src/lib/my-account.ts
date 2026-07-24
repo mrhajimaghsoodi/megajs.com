@@ -177,11 +177,16 @@ export function bannerCopy(b: MyAccountBanner, locale: string) {
 }
 
 export function flattenEnabledItems(items: MyAccountItem[], role?: string | null): MyAccountItem[] {
+  const effectiveRole = role || 'guest';
   const sorted = [...items].sort((a, b) => a.order - b.order);
   const out: MyAccountItem[] = [];
   for (const item of sorted) {
     if (!item.enabled) continue;
-    if (item.roles?.length && role && !item.roles.includes(role) && role !== 'super_admin') {
+    if (
+      item.roles?.length &&
+      !item.roles.includes(effectiveRole) &&
+      effectiveRole !== 'super_admin'
+    ) {
       continue;
     }
     if (item.type === 'group') {

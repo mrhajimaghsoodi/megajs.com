@@ -5,10 +5,14 @@ import {
 } from '@nestjs/common';
 import { createHash, randomInt, randomUUID } from 'crypto';
 import { PrismaService } from '../prisma/prisma.service';
+import { MyAccountPolicyService } from './my-account-policy.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly myAccount: MyAccountPolicyService,
+  ) {}
 
   private hash(value: string) {
     return createHash('sha256').update(value).digest('hex');
@@ -96,6 +100,8 @@ export class AuthService {
         user.status === 'banned' ? 'Account banned' : 'Account suspended',
       );
     }
+
+    await this.myAccount.assertCanLogin(user);
 
     const sessionId = randomUUID();
     const accessToken = `mj_${user.id}_${sessionId}`;

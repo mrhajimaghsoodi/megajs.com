@@ -3,6 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { MyAccountPolicyService } from '../auth/my-account-policy.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { WalletService } from '../wallet/wallet.service';
 
@@ -12,6 +13,7 @@ export class BillingService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly wallet: WalletService,
+    private readonly myAccount: MyAccountPolicyService,
   ) {}
 
   async listPlans() {
@@ -27,6 +29,7 @@ export class BillingService {
   }
 
   async checkoutSubscription(userId: string, planCode: string, tokenSpend: number) {
+    await this.myAccount.assertCanPurchase(userId);
     const plan = await this.prisma.plan.findUnique({ where: { code: planCode } });
     if (!plan || !plan.active) throw new NotFoundException('Plan not found');
 
@@ -79,6 +82,7 @@ export class BillingService {
   }
 
   async checkoutCourse(userId: string, courseSlug: string, tokenSpend: number) {
+    await this.myAccount.assertCanPurchase(userId);
     if (!courseSlug) throw new BadRequestException('courseSlug required');
     const course = await this.prisma.course.findUnique({ where: { slug: courseSlug } });
     if (!course) throw new NotFoundException('Course not found');

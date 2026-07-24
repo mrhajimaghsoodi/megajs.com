@@ -8,6 +8,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { AuthService } from '../auth/auth.service';
+import { MyAccountPolicyService } from '../auth/my-account-policy.service';
 import { WalletService } from './wallet.service';
 
 @Controller('wallet')
@@ -15,6 +16,7 @@ export class WalletController {
   constructor(
     private readonly wallet: WalletService,
     private readonly auth: AuthService,
+    private readonly myAccount: MyAccountPolicyService,
   ) {}
 
   private userId(authorization?: string) {
@@ -34,7 +36,7 @@ export class WalletController {
   }
 
   @Post('redeem')
-  redeem(
+  async redeem(
     @Headers('authorization') authorization?: string,
     @Body() body?: { tokens?: number; target?: 'subscription' | 'course'; targetId?: string },
   ) {
@@ -44,11 +46,8 @@ export class WalletController {
     if (!body.target || !body.targetId) {
       throw new BadRequestException('target and targetId are required');
     }
-    return this.wallet.redeem(
-      this.userId(authorization),
-      body.tokens,
-      body.target,
-      body.targetId,
-    );
+    const userId = this.userId(authorization);
+    await this.myAccount.assertCanPurchase(userId);
+    return this.wallet.redeem(userId, body.tokens, body.target, body.targetId);
   }
 }

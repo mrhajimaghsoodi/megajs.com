@@ -12,6 +12,7 @@ import {
   Radio,
   Settings,
   ShoppingBag,
+  UserRound,
   Wallet,
   type LucideIcon,
 } from 'lucide-react';
@@ -108,6 +109,13 @@ export function ProfileShell({ children }: { children: ReactNode }) {
   const p = dict.profile;
   const [config, setConfig] = useState<MyAccountSettings>(FALLBACK_MY_ACCOUNT);
   const [role, setRole] = useState<string | null>(null);
+  const [user, setUser] = useState<{
+    displayName?: string | null;
+    phone?: string | null;
+    email?: string | null;
+    emailVerified?: boolean;
+  } | null>(null);
+  const [authed, setAuthed] = useState(false);
 
   useEffect(() => {
     void fetch(`${API_BASE}/public/my-account`)
@@ -120,15 +128,24 @@ export function ProfileShell({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const token = localStorage.getItem('mj_token');
-    if (!token) return;
+    setAuthed(Boolean(token));
+    if (!token) {
+      setRole('guest');
+      return;
+    }
     void fetch(`${API_BASE}/auth/me`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((r) => (r.ok ? r.json() : null))
       .then((me) => {
-        if (me?.role) setRole(me.role);
+        if (!me) {
+          setRole('guest');
+          return;
+        }
+        setRole(me.role ?? 'user');
+        setUser(me);
       })
-      .catch(() => undefined);
+      .catch(() => setRole('guest'));
   }, []);
 
   const items = useMemo(
@@ -139,6 +156,11 @@ export function ProfileShell({ children }: { children: ReactNode }) {
   const colors = config.colors;
   const layout = config.layout === 'tabs' ? 'tabs' : 'sidebar';
   const sidebarEnd = config.sidebarPosition === 'end';
+  const needsEmail =
+    Boolean(config.emailVerification?.enabled) &&
+    authed &&
+    user &&
+    !user.emailVerified;
 
   const banners = (config.banners ?? []).filter(
     (b) =>
@@ -203,19 +225,40 @@ export function ProfileShell({ children }: { children: ReactNode }) {
       <div
         className={cn(
           'grid gap-6',
-          layout === 'sidebar' && 'lg:grid-cols-[260px_1fr]',
-          layout === 'sidebar' && sidebarEnd && 'lg:[grid-template-columns:1fr_260px]',
+          layout === 'sidebar' && 'lg:grid-cols-[280px_1fr]',
+          layout === 'sidebar' && sidebarEnd && 'lg:[grid-template-columns:1fr_280px]',
         )}
       >
         <aside
           className={cn(
-            'h-fit rounded-2xl border border-border p-3 shadow-[var(--mj-shadow-sm)]',
+            'h-fit overflow-hidden rounded-2xl border border-border shadow-[var(--mj-shadow-sm)]',
             layout === 'tabs' && 'lg:col-span-full',
             layout === 'sidebar' && sidebarEnd && 'lg:order-2',
           )}
           style={{ background: colors.menuBg }}
         >
-          {menu}
+          <div
+            className="flex items-center gap-3 border-b border-black/5 px-4 py-4"
+            style={{ borderColor: 'color-mix(in oklab, currentColor 8%, transparent)' }}
+          >
+            <div
+              className="flex size-12 items-center justify-center rounded-2xl text-white"
+              style={{ background: colors.accent }}
+            >
+              <UserRound className="size-5" />
+            </div>
+            <div className="min-w-0">
+              <p className="truncate text-sm font-bold" style={{ color: colors.menuText }}>
+                {authed
+                  ? `${p.hello}، ${user?.displayName ?? user?.phone ?? '—'}`
+                  : p.pleaseLogin}
+              </p>
+              <p className="truncate text-xs opacity-60" style={{ color: colors.menuText }}>
+                {authed ? user?.email || user?.phone || role : 'guest'}
+              </p>
+            </div>
+          </div>
+          <div className="p-3">{menu}</div>
         </aside>
 
         <div
@@ -227,6 +270,17 @@ export function ProfileShell({ children }: { children: ReactNode }) {
           style={{ background: colors.contentBg }}
           key={config.ajax ? pathname : 'static'}
         >
+          {needsEmail ? (
+            <div className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
+              <p>{p.verifyEmailBanner}</p>
+              <Link
+                href={`/${locale}/profile/settings`}
+                className="rounded-xl bg-amber-500 px-3 py-1.5 text-xs font-bold text-white"
+              >
+                {p.verifyEmailCta}
+              </Link>
+            </div>
+          ) : null}
           {banners.map((b) => {
             const copy = bannerCopy(b, locale);
             const inner = (

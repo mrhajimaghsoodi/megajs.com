@@ -21,6 +21,7 @@ model User {
   email         String?        @unique
   phone         String?        @unique
   phoneVerified Boolean        @default(false)
+  emailVerified Boolean        @default(false)
   avatarUrl     String?
   locale        String         @default("fa")
   theme         String         @default("light")
