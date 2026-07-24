@@ -116,14 +116,27 @@ model Course {
   trackId              String
   slug                 String        @unique
   status               String @default("draft")
+  /// free | paid | subscription
   accessTier           String    @default("paid")
   priceCents           Int           @default(0)
+  /// Optional sale / promotional price (Woo-style)
+  salePriceCents       Int?
   currency             String        @default("IRT")
   sortOrder            Int           @default(0)
   estimatedMinutes     Int           @default(0)
+  /// beginner | intermediate | advanced | ""
+  level                String        @default("")
   sku                  String?
+  /// Featured image (product thumbnail)
   coverUrl             String?
+  /// Internal hero / banner above product content
+  bannerUrl            String?
+  /// Extra gallery image URLs as JSON array
+  galleryJson          String        @default("[]")
   featured             Boolean       @default(false)
+  /// Rank Math focus keyword
+  focusKeyword         String        @default("")
+  publishedAt          DateTime?
   createdAt            DateTime      @default(now())
   updatedAt            DateTime      @updatedAt
   track                Track         @relation(fields: [trackId], references: [id], onDelete: Cascade)

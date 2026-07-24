@@ -69,7 +69,7 @@ export default function CatalogAdminPage() {
 
   const createCourse = async () => {
     try {
-      await adminFetch('/admin/commerce/courses', {
+      const row = await adminFetch('/admin/commerce/courses', {
         method: 'POST',
         body: JSON.stringify({
           trackId: courseTrackId,
@@ -80,10 +80,7 @@ export default function CatalogAdminPage() {
           status: 'draft',
         }),
       });
-      setCourseTitle('');
-      setCourseSlug('');
-      setMsg(c.saved);
-      load();
+      window.location.href = `/products/${row.id}`;
     } catch (e: any) {
       setError(e.message);
     }
@@ -96,9 +93,14 @@ export default function CatalogAdminPage() {
           <h1 className="font-display text-3xl font-bold">{c.productsTitle}</h1>
           <p className="mt-2 text-sm text-[var(--mj-muted-fg)]">{c.productsSubtitle}</p>
         </div>
-        <Button asChild variant="outline" className="cursor-pointer">
-          <Link href="/product-categories">{c.productCategories}</Link>
-        </Button>
+        <div className="flex flex-wrap gap-2">
+          <Button asChild className="cursor-pointer">
+            <Link href="/products/new">{c.newProduct}</Link>
+          </Button>
+          <Button asChild variant="outline" className="cursor-pointer">
+            <Link href="/product-categories">{c.productCategories}</Link>
+          </Button>
+        </div>
       </div>
       {error ? <p className="text-sm text-[var(--mj-danger)]">{error}</p> : null}
       {msg ? <p className="text-sm text-emerald-700">{msg}</p> : null}

@@ -32,6 +32,12 @@ export class CatalogService {
         status: c.status,
         accessTier: c.accessTier,
         priceCents: c.priceCents,
+        salePriceCents: c.salePriceCents,
+        coverUrl: c.coverUrl,
+        bannerUrl: c.bannerUrl,
+        featured: c.featured,
+        level: c.level,
+        estimatedMinutes: c.estimatedMinutes,
         title: c.i18n[0]?.title ?? c.slug,
         summary: c.i18n[0]?.summary ?? '',
       })),
@@ -70,11 +76,30 @@ export class CatalogService {
           },
         },
         seo: true,
+        taxonomies: { include: { term: { include: { i18n: true } } } },
         track: { include: { i18n: { where: { locale } } } },
       },
     });
     if (!course) throw new NotFoundException('Course not found');
-    return course;
+    const lessonCount = course.modules.reduce(
+      (n, m) => n + m.lessons.length,
+      0,
+    );
+    return {
+      ...course,
+      title: course.i18n[0]?.title ?? course.slug,
+      summary: course.i18n[0]?.summary ?? '',
+      description: course.i18n[0]?.description ?? '',
+      lessonCount,
+      gallery: (() => {
+        try {
+          const v = JSON.parse(course.galleryJson || '[]');
+          return Array.isArray(v) ? v : [];
+        } catch {
+          return [];
+        }
+      })(),
+    };
   }
 
   async listChallenges(locale: string) {

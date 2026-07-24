@@ -69,7 +69,7 @@ export function SeoPanel({
   onChange: (next: SeoFields) => void;
   /** Extra fields sent to Rank Math analyze (title, body, slug, …) */
   analyzePayload: Record<string, unknown>;
-  entityType?: 'article' | 'term';
+  entityType?: 'article' | 'term' | 'course';
   previewTitle?: string;
   previewUrl?: string;
 }) {

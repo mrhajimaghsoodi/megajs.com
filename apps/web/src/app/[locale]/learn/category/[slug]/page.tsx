@@ -75,7 +75,7 @@ export default async function ProductCategoryPage({
     wishlist: w.product.wishlist,
     enroll: w.product.enroll,
     free: w.product.free,
-    sale: w.product.hot,
+    sale: w.product.sale ?? w.product.hot,
     comingSoon: dict.sections.comingSoon,
   };
 
@@ -128,6 +128,11 @@ export default async function ProductCategoryPage({
                 status: course.status,
                 accessTier: course.accessTier,
                 priceCents: course.priceCents,
+                salePriceCents: course.salePriceCents,
+                coverUrl: course.coverUrl,
+                featured: course.featured,
+                level: course.level,
+                estimatedMinutes: course.estimatedMinutes,
               }}
               locale={locale}
               labels={productLabels}

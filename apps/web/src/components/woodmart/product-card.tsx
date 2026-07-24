@@ -1,6 +1,12 @@
 import Link from 'next/link';
 import { Eye, Heart, ShoppingBag } from 'lucide-react';
-import { formatPrice, type CatalogCourse } from '@/lib/catalog';
+import { MediaImage } from '@/components/media-image';
+import {
+  effectivePriceCents,
+  formatMoney,
+  formatPrice,
+  type CatalogCourse,
+} from '@/lib/catalog';
 import type { Locale } from '@/lib/utils';
 import { cn } from '@/lib/utils';
 
@@ -37,12 +43,25 @@ export function ProductCard({
 }) {
   const href = `/${locale}/learn/course/${course.slug}`;
   const accent = ACCENTS[hashSlug(course.slug)];
-  const isPaid = course.accessTier === 'paid' || course.accessTier === 'subscription';
   const isSoon = course.status === 'coming_soon';
+  const regular = course.priceCents ?? 0;
+  const sale = course.salePriceCents;
+  const onSale =
+    course.accessTier !== 'free' &&
+    sale != null &&
+    sale > 0 &&
+    sale < regular;
   const priceLabel =
     course.accessTier === 'subscription'
       ? 'Pro'
-      : formatPrice(locale, course.accessTier, course.priceCents, labels.free);
+      : formatPrice(
+          locale,
+          course.accessTier,
+          course.priceCents,
+          labels.free,
+          course.salePriceCents,
+        );
+  const regularLabel = onSale ? formatMoney(locale, regular) : null;
 
   return (
     <article
@@ -52,20 +71,34 @@ export function ProductCard({
       )}
     >
       <div className={cn('relative aspect-[4/3] overflow-hidden bg-gradient-to-br', accent)}>
-        <div
-          className="absolute inset-0 opacity-30"
-          style={{
-            backgroundImage:
-              'radial-gradient(circle at 20% 20%, rgba(255,212,0,0.35), transparent 45%)',
-          }}
-          aria-hidden
-        />
+        {course.coverUrl ? (
+          <MediaImage
+            src={course.coverUrl}
+            alt=""
+            fill
+            sizes="(max-width: 768px) 100vw, 25vw"
+            className="transition duration-300 group-hover:scale-[1.03]"
+          />
+        ) : (
+          <div
+            className="absolute inset-0 opacity-30"
+            style={{
+              backgroundImage:
+                'radial-gradient(circle at 20% 20%, rgba(255,212,0,0.35), transparent 45%)',
+            }}
+            aria-hidden
+          />
+        )}
         <div className="absolute inset-0 flex items-end p-4">
           <span className="rounded-lg bg-black/70 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
             {course.accessTier}
           </span>
         </div>
-        {isPaid ? (
+        {onSale ? (
+          <span className="absolute start-3 top-3 rounded-lg bg-[var(--mj-yellow)] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[var(--mj-ink)]">
+            {labels.sale ?? 'Sale'}
+          </span>
+        ) : course.featured ? (
           <span className="absolute start-3 top-3 rounded-lg bg-[var(--mj-yellow)] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[var(--mj-ink)]">
             {labels.sale ?? 'Hot'}
           </span>
@@ -107,12 +140,25 @@ export function ProductCard({
       </div>
 
       <div className="flex flex-1 flex-col gap-2 p-4">
+        {course.level ? (
+          <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+            {course.level}
+          </span>
+        ) : null}
         <Link href={href} className="font-display text-base font-semibold leading-snug hover:text-[var(--mj-yellow)]">
           {course.title}
         </Link>
         <p className="line-clamp-2 flex-1 text-sm leading-6 text-muted-foreground">{course.summary}</p>
         <div className="mt-1 flex items-center justify-between gap-2 border-t border-border pt-3">
-          <span className="font-display text-sm font-bold text-[var(--mj-yellow)]">{priceLabel}</span>
+          <span className="flex items-baseline gap-2 font-display text-sm font-bold text-[var(--mj-yellow)]">
+            {priceLabel}
+            {regularLabel ? (
+              <span className="text-xs font-normal text-muted-foreground line-through">
+                {regularLabel}
+              </span>
+            ) : null}
+            <span className="sr-only">{effectivePriceCents(course)}</span>
+          </span>
           <Link
             href={href}
             className="text-xs font-semibold text-muted-foreground transition-colors hover:text-[var(--mj-yellow)]"

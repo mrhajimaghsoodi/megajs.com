@@ -59,7 +59,7 @@ export default async function HomePage({
     wishlist: w.product.wishlist,
     enroll: w.product.enroll,
     free: w.product.free,
-    sale: w.product.hot,
+    sale: w.product.sale ?? w.product.hot,
     comingSoon: dict.sections.comingSoon,
   };
 

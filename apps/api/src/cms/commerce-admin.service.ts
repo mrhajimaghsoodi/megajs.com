@@ -445,37 +445,62 @@ export class CommerceAdminService {
       status?: string;
       accessTier?: string;
       priceCents?: number;
+      salePriceCents?: number | null;
       currency?: string;
       sortOrder?: number;
       estimatedMinutes?: number;
+      level?: string;
       sku?: string;
       coverUrl?: string;
+      bannerUrl?: string;
+      galleryJson?: string;
       featured?: boolean;
+      focusKeyword?: string;
       locale?: string;
       title?: string;
       summary?: string;
       description?: string;
       termIds?: string[];
+      seo?: {
+        metaTitle?: string;
+        metaDescription?: string;
+        canonicalPath?: string;
+        ogImageUrl?: string;
+        noIndex?: boolean;
+        noFollow?: boolean;
+        breadcrumbTitle?: string;
+        schemaJson?: string;
+      };
     },
   ) {
     if (!body.trackId) throw new BadRequestException('trackId required');
     const locale = body.locale ?? 'fa';
     const title = body.title?.trim() || 'Untitled course';
     const slug = body.slug?.trim() || this.slugify(title) || `course-${Date.now()}`;
+    const status = body.status ?? 'draft';
 
     const course = await this.prisma.course.create({
       data: {
         trackId: body.trackId,
         slug,
-        status: body.status ?? 'draft',
+        status,
         accessTier: body.accessTier ?? 'paid',
         priceCents: Number(body.priceCents ?? 0),
+        salePriceCents:
+          body.salePriceCents === undefined || body.salePriceCents === null
+            ? null
+            : Number(body.salePriceCents),
         currency: body.currency ?? 'IRT',
         sortOrder: body.sortOrder ?? 0,
         estimatedMinutes: body.estimatedMinutes ?? 0,
+        level: body.level ?? '',
         sku: body.sku,
         coverUrl: body.coverUrl,
+        bannerUrl: body.bannerUrl,
+        galleryJson: body.galleryJson ?? '[]',
         featured: body.featured ?? false,
+        focusKeyword: body.focusKeyword ?? '',
+        publishedAt: status === 'published' ? new Date() : null,
         i18n: {
           create: {
             locale,
@@ -492,10 +517,30 @@ export class CommerceAdminService {
             }
           : {}),
       },
-      include: { i18n: true, taxonomies: true },
+      include: { i18n: true, taxonomies: true, seo: true },
     });
+
+    if (body.seo) {
+      await this.prisma.seoMeta.create({
+        data: {
+          locale,
+          entityType: 'course',
+          entityId: course.id,
+          courseId: course.id,
+          metaTitle: body.seo.metaTitle ?? title,
+          metaDescription: body.seo.metaDescription ?? '',
+          canonicalPath: body.seo.canonicalPath || `/learn/course/${slug}`,
+          ogImageUrl: body.seo.ogImageUrl || body.coverUrl || body.bannerUrl,
+          noIndex: body.seo.noIndex ?? false,
+          noFollow: body.seo.noFollow ?? false,
+          breadcrumbTitle: body.seo.breadcrumbTitle ?? '',
+          schemaJson: body.seo.schemaJson ?? '{}',
+        },
+      });
+    }
+
     await this.audit(actorId, 'course.create', 'Course', course.id);
-    return course;
+    return this.getCourse(course.id);
   }
 
   async updateCourse(
@@ -507,21 +552,40 @@ export class CommerceAdminService {
       status?: string;
       accessTier?: string;
       priceCents?: number;
+      salePriceCents?: number | null;
       currency?: string;
       sortOrder?: number;
       estimatedMinutes?: number;
+      level?: string;
       sku?: string | null;
       coverUrl?: string | null;
+      bannerUrl?: string | null;
+      galleryJson?: string;
       featured?: boolean;
+      focusKeyword?: string;
       locale?: string;
       title?: string;
       summary?: string;
       description?: string;
       termIds?: string[];
+      seo?: {
+        metaTitle?: string;
+        metaDescription?: string;
+        canonicalPath?: string;
+        ogImageUrl?: string;
+        noIndex?: boolean;
+        noFollow?: boolean;
+        breadcrumbTitle?: string;
+        schemaJson?: string;
+      };
     },
   ) {
     const locale = body.locale ?? 'fa';
+    const existing = await this.prisma.course.findUnique({ where: { id } });
+    if (!existing) throw new NotFoundException('Course not found');
+
     await this.prisma.$transaction(async (tx) => {
+      const nextStatus = body.status ?? existing.status;
       await tx.course.update({
         where: { id },
         data: {
@@ -531,12 +595,29 @@ export class CommerceAdminService {
           accessTier: body.accessTier,
           priceCents:
             body.priceCents === undefined ? undefined : Number(body.priceCents),
+          salePriceCents:
+            body.salePriceCents === undefined
+              ? undefined
+              : body.salePriceCents === null
+                ? null
+                : Number(body.salePriceCents),
           currency: body.currency,
           sortOrder: body.sortOrder,
           estimatedMinutes: body.estimatedMinutes,
+          level: body.level === undefined ? undefined : body.level,
           sku: body.sku === undefined ? undefined : body.sku,
           coverUrl: body.coverUrl === undefined ? undefined : body.coverUrl,
+          bannerUrl: body.bannerUrl === undefined ? undefined : body.bannerUrl,
+          galleryJson: body.galleryJson === undefined ? undefined : body.galleryJson,
           featured: body.featured,
+          focusKeyword:
+            body.focusKeyword === undefined ? undefined : body.focusKeyword,
+          publishedAt:
+            nextStatus === 'published' && !existing.publishedAt
+              ? new Date()
+              : nextStatus !== 'published' && body.status
+                ? null
+                : undefined,
         },
       });
 
@@ -578,17 +659,34 @@ export class CommerceAdminService {
           });
         }
       }
+
+      if (body.seo) {
+        const slug = body.slug?.trim() || existing.slug;
+        const seoData = {
+          locale,
+          entityType: 'course',
+          entityId: id,
+          courseId: id,
+          metaTitle: body.seo.metaTitle ?? body.title ?? existing.slug,
+          metaDescription: body.seo.metaDescription ?? '',
+          canonicalPath: body.seo.canonicalPath || `/learn/course/${slug}`,
+          ogImageUrl: body.seo.ogImageUrl,
+          noIndex: body.seo.noIndex ?? false,
+          noFollow: body.seo.noFollow ?? false,
+          breadcrumbTitle: body.seo.breadcrumbTitle ?? '',
+          schemaJson: body.seo.schemaJson ?? '{}',
+        };
+        const existingSeo = await tx.seoMeta.findUnique({ where: { courseId: id } });
+        if (existingSeo) {
+          await tx.seoMeta.update({ where: { id: existingSeo.id }, data: seoData });
+        } else {
+          await tx.seoMeta.create({ data: seoData });
+        }
+      }
     });
 
     await this.audit(actorId, 'course.update', 'Course', id, body);
-    return this.prisma.course.findUnique({
-      where: { id },
-      include: {
-        i18n: true,
-        taxonomies: { include: { term: { include: { i18n: true } } } },
-        modules: { include: { i18n: true, lessons: { include: { i18n: true } } } },
-      },
-    });
+    return this.getCourse(id);
   }
 
   async getCourse(id: string) {
