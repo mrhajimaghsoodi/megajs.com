@@ -3,8 +3,9 @@
   "private": true,
   "packageManager": "pnpm@10.33.3",
   "scripts": {
-    "dev": "turbo run dev --filter=@megajs/api --filter=@megajs/web --filter=@megajs/admin",
-    "dev:all": "turbo run dev --filter=@megajs/api --filter=@megajs/web --filter=@megajs/admin --filter=@megajs/mobile --filter=@megajs/desktop",
+    "build:packages": "pnpm --filter @megajs/design-tokens build && pnpm --filter @megajs/domain build && pnpm --filter @megajs/sdk build",
+    "dev": "pnpm run build:packages && turbo run dev --filter=@megajs/api --filter=@megajs/web --filter=@megajs/admin",
+    "dev:all": "pnpm run build:packages && turbo run dev --filter=@megajs/api --filter=@megajs/web --filter=@megajs/admin --filter=@megajs/mobile --filter=@megajs/desktop",
     "dev:mobile": "pnpm --filter @megajs/mobile dev",
     "dev:desktop": "pnpm --filter @megajs/desktop dev",
     "build": "turbo run build",

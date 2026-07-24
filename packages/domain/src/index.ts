@@ -129,4 +129,4 @@ export {
   formatTehranDate,
   formatTehranDateTime,
   formatTehranYear,
-} from './datetime';
+} from './datetime.js';
