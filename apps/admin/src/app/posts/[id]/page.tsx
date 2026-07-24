@@ -25,6 +25,8 @@ export default function EditPostPage() {
   const [terms, setTerms] = useState<any[]>([]);
   const [metaTitle, setMetaTitle] = useState('');
   const [metaDescription, setMetaDescription] = useState('');
+  const [focusKeyword, setFocusKeyword] = useState('');
+  const [seoScore, setSeoScore] = useState<any>(null);
   const [msg, setMsg] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -42,6 +44,7 @@ export default function EditPostPage() {
       setSlug(row.slug);
       setStatus(row.status);
       setCoverUrl(row.coverUrl ?? '');
+      setFocusKeyword(row.focusKeyword ?? '');
       setTermIds(row.taxonomies?.map((t: any) => t.termId) ?? []);
       setTerms([...cats, ...tags]);
       setMetaTitle(row.seo?.metaTitle ?? '');
@@ -56,6 +59,23 @@ export default function EditPostPage() {
     void load();
   }, [load]);
 
+  const analyze = async () => {
+    const res = await adminFetch('/admin/plugins/rankmath/analyze', {
+      method: 'POST',
+      body: JSON.stringify({
+        title,
+        metaTitle: metaTitle || title,
+        metaDescription,
+        slug,
+        focusKeyword,
+        body: bodyMdx,
+        canonicalPath: `/articles/${slug}`,
+        ogImageUrl: coverUrl,
+      }),
+    });
+    setSeoScore(res);
+  };
+
   const save = async () => {
     setMsg(null);
     try {
@@ -68,12 +88,14 @@ export default function EditPostPage() {
           bodyMdx,
           status,
           coverUrl: coverUrl || null,
+          focusKeyword,
           termIds,
           locale,
-          seo: { metaTitle, metaDescription },
+          seo: { metaTitle, metaDescription, ogImageUrl: coverUrl || undefined },
         }),
       });
       setMsg(d.saved);
+      await analyze();
       await load();
     } catch (e: any) {
       setError(e.message);
@@ -180,6 +202,38 @@ export default function EditPostPage() {
             <Input value={metaDescription} onChange={(e) => setMetaDescription(e.target.value)} />
           </div>
         </div>
+        <div className="space-y-2">
+          <Label>{dict.plugins.focusKeyword}</Label>
+          <Input value={focusKeyword} onChange={(e) => setFocusKeyword(e.target.value)} />
+        </div>
+        <div className="flex flex-wrap items-center gap-3">
+          <Button type="button" variant="outline" className="cursor-pointer" onClick={() => void analyze()}>
+            {dict.plugins.runAnalyze}
+          </Button>
+          {seoScore ? (
+            <span className="font-display text-lg font-bold">
+              Rank Math: {seoScore.score}/100 ({seoScore.label})
+            </span>
+          ) : null}
+        </div>
+        {seoScore ? (
+          <ul className="space-y-1 text-sm">
+            {seoScore.issues.map((i: any) => (
+              <li
+                key={i.id}
+                className={
+                  i.severity === 'bad'
+                    ? 'text-[var(--mj-danger)]'
+                    : i.severity === 'good'
+                      ? 'text-emerald-700'
+                      : ''
+                }
+              >
+                [{i.severity}] {i.message}
+              </li>
+            ))}
+          </ul>
+        ) : null}
       </div>
     </div>
   );

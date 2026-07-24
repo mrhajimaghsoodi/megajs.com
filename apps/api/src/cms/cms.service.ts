@@ -91,6 +91,7 @@ export class CmsService {
       status?: string;
       coverUrl?: string;
       commentStatus?: string;
+      focusKeyword?: string;
       locale?: string;
       title?: string;
       summary?: string;
@@ -111,6 +112,7 @@ export class CmsService {
         status,
         coverUrl: body.coverUrl,
         commentStatus: body.commentStatus ?? 'open',
+        focusKeyword: body.focusKeyword ?? '',
         authorId: actorId,
         publishedAt: status === 'published' ? new Date() : null,
         i18n: {
@@ -143,6 +145,7 @@ export class CmsService {
       status?: string;
       coverUrl?: string | null;
       commentStatus?: string;
+      focusKeyword?: string;
       locale?: string;
       title?: string;
       summary?: string;
@@ -176,6 +179,8 @@ export class CmsService {
           status,
           coverUrl: body.coverUrl === undefined ? undefined : body.coverUrl,
           commentStatus: body.commentStatus,
+          focusKeyword:
+            body.focusKeyword === undefined ? undefined : body.focusKeyword,
           publishedAt:
             status === 'published'
               ? existing.publishedAt ?? new Date()
@@ -336,6 +341,7 @@ export class CmsService {
       slug?: string;
       status?: string;
       template?: string;
+      builderJson?: string | Record<string, unknown>;
       parentId?: string | null;
       sortOrder?: number;
       locale?: string;
@@ -355,6 +361,12 @@ export class CmsService {
     if (!existing) throw new NotFoundException('Page not found');
     const locale = body.locale ?? 'fa';
     const status = body.status ?? existing.status;
+    const builderJson =
+      body.builderJson === undefined
+        ? undefined
+        : typeof body.builderJson === 'string'
+          ? body.builderJson
+          : JSON.stringify(body.builderJson);
 
     await this.prisma.$transaction(async (tx) => {
       await tx.page.update({
@@ -363,6 +375,7 @@ export class CmsService {
           slug: body.slug?.trim(),
           status,
           template: body.template,
+          builderJson,
           parentId: body.parentId === undefined ? undefined : body.parentId,
           sortOrder: body.sortOrder,
           publishedAt:

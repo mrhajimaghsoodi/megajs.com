@@ -1,0 +1,18 @@
+import { Module } from '@nestjs/common';
+import { AuthModule } from '../auth/auth.module';
+import {
+  PluginsAdminController,
+  PublicContentController,
+} from './plugins.controller';
+import { RankMathService } from './rankmath.service';
+import { SecurityModule } from './security.module';
+import { SmushService } from './smush.service';
+import { WpRocketService } from './wprocket.service';
+
+@Module({
+  imports: [AuthModule, SecurityModule],
+  controllers: [PluginsAdminController, PublicContentController],
+  providers: [RankMathService, WpRocketService, SmushService],
+  exports: [RankMathService, WpRocketService, SmushService, SecurityModule],
+})
+export class PluginsModule {}

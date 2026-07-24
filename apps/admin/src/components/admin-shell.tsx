@@ -67,6 +67,16 @@ export function AdminShell({ children }: { children: ReactNode }) {
           { href: '/audit', label: dict.nav.audit },
         ],
       },
+      {
+        label: dict.nav.groupPlugins,
+        items: [
+          { href: '/plugins/rankmath', label: dict.nav.rankmath },
+          { href: '/plugins/wordfence', label: dict.nav.wordfence },
+          { href: '/plugins/wprocket', label: dict.nav.wprocket },
+          { href: '/plugins/smush', label: dict.nav.smush },
+          { href: '/plugins/elementor', label: dict.nav.elementor },
+        ],
+      },
     ],
     [dict],
   );

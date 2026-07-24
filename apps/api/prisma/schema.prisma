@@ -221,6 +221,8 @@ model Article {
   authorId      String?
   coverUrl      String?
   commentStatus String        @default("open")
+  /// RankMath-style focus keyword
+  focusKeyword  String        @default("")
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
   i18n          ArticleI18n[]
@@ -565,7 +567,10 @@ model Page {
   id          String     @id @default(cuid())
   slug        String     @unique
   status      String     @default("draft")
+  /// default | elementor
   template    String     @default("default")
+  /// Elementor-like page builder JSON
+  builderJson String     @default("{\"version\":1,\"sections\":[]}")
   parentId    String?
   sortOrder   Int        @default(0)
   publishedAt DateTime?
@@ -639,19 +644,26 @@ model CourseTerm {
 
 /// Media library item
 model MediaItem {
-  id           String   @id @default(cuid())
-  url          String
-  filename     String
-  mimeType     String   @default("application/octet-stream")
-  sizeBytes    Int      @default(0)
-  width        Int?
-  height       Int?
-  alt          String   @default("")
-  title        String   @default("")
-  uploadedById String?
-  createdAt    DateTime @default(now())
+  id             String   @id @default(cuid())
+  url            String
+  /// Smush-optimized / WebP-friendly URL when available
+  optimizedUrl   String?
+  filename       String
+  mimeType       String   @default("application/octet-stream")
+  sizeBytes      Int      @default(0)
+  originalBytes  Int      @default(0)
+  width          Int?
+  height         Int?
+  alt            String   @default("")
+  title          String   @default("")
+  /// pending | optimized | skipped
+  smushStatus    String   @default("pending")
+  uploadedById   String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
   @@index([createdAt])
+  @@index([smushStatus])
 }
 
 /// Comments on articles (moderated)
@@ -737,4 +749,45 @@ model SiteSetting {
   key       String   @id
   valueJson String   @default("{}")
   updatedAt DateTime @updatedAt
+}
+
+
+/// Wordfence-style security events & IP blocks
+model SecurityEvent {
+  id        String   @id @default(cuid())
+  /// login_fail | otp_rate | blocked_request | scan | unlock | ban_ip | unban_ip
+  type      String
+  severity  String   @default("info")
+  ip        String?
+  phone     String?
+  path      String?
+  userAgent String?
+  metaJson  String   @default("{}")
+  createdAt DateTime @default(now())
+
+  @@index([type, createdAt])
+  @@index([ip, createdAt])
+}
+
+model BlockedIp {
+  id        String    @id @default(cuid())
+  ip        String    @unique
+  reason    String    @default("")
+  expiresAt DateTime?
+  createdAt DateTime  @default(now())
+  createdBy String?
+
+  @@index([expiresAt])
+}
+
+model LoginLockout {
+  id           String   @id @default(cuid())
+  phone        String
+  ip           String?
+  failCount    Int      @default(0)
+  lockedUntil  DateTime?
+  updatedAt    DateTime @updatedAt
+
+  @@unique([phone])
+  @@index([ip])
 }
