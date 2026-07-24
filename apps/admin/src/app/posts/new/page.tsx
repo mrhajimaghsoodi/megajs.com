@@ -6,11 +6,13 @@ import { adminFetch } from '@/components/admin-shell';
 import { CategoryChecklist, type TermRow } from '@/components/category-checklist';
 import { ContentEditor } from '@/components/content-editor';
 import { MediaImageField } from '@/components/media-image-field';
+import { SeoPanel, emptySeoFields, type SeoFields } from '@/components/seo-panel';
 import { TagChecklist } from '@/components/tag-checklist';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAdminLocale } from '@/i18n/locale-context';
+import { publicSiteUrl } from '@/lib/site';
 
 export default function NewPostPage() {
   const router = useRouter();
@@ -28,6 +30,7 @@ export default function NewPostPage() {
   const [termIds, setTermIds] = useState<string[]>([]);
   const [cats, setCats] = useState<TermRow[]>([]);
   const [tags, setTags] = useState<TermRow[]>([]);
+  const [seo, setSeo] = useState<SeoFields>(emptySeoFields());
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -55,6 +58,9 @@ export default function NewPostPage() {
       .slice(0, 80);
   }, [title, slug]);
 
+  const effectiveSlug = slug || autoSlug;
+  const previewPath = `/articles/${effectiveSlug || 'new-post'}`;
+
   const save = async () => {
     setBusy(true);
     setError(null);
@@ -63,7 +69,7 @@ export default function NewPostPage() {
         method: 'POST',
         body: JSON.stringify({
           title,
-          slug: slug || autoSlug,
+          slug: effectiveSlug,
           summary,
           bodyMdx,
           status,
@@ -71,8 +77,18 @@ export default function NewPostPage() {
           bannerUrl: bannerUrl || undefined,
           sticky,
           commentStatus,
+          focusKeyword: seo.focusKeyword,
           termIds,
           locale,
+          seo: {
+            metaTitle: seo.metaTitle || title,
+            metaDescription: seo.metaDescription || summary,
+            canonicalPath: seo.canonicalPath || previewPath,
+            ogImageUrl: seo.ogImageUrl || coverUrl || bannerUrl || undefined,
+            noIndex: seo.noIndex,
+            noFollow: seo.noFollow,
+            breadcrumbTitle: seo.breadcrumbTitle,
+          },
         }),
       });
       router.push(`/posts/${row.id}`);
@@ -116,6 +132,23 @@ export default function NewPostPage() {
               dir={locale === 'fa' ? 'rtl' : 'ltr'}
             />
           </div>
+
+          <SeoPanel
+            value={seo}
+            onChange={setSeo}
+            entityType="article"
+            previewTitle={title}
+            previewUrl={publicSiteUrl(locale, previewPath)}
+            analyzePayload={{
+              title,
+              slug: effectiveSlug,
+              body: bodyMdx,
+              canonicalPath: seo.canonicalPath || previewPath,
+              ogImageUrl: seo.ogImageUrl || coverUrl || bannerUrl,
+              locale,
+            }}
+          />
+
           <Button className="cursor-pointer" disabled={busy} onClick={() => void save()}>
             {busy ? dict.loading : dict.save}
           </Button>

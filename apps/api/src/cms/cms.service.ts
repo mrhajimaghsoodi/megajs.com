@@ -154,6 +154,16 @@ export class CmsService {
       summary?: string;
       bodyMdx?: string;
       termIds?: string[];
+      seo?: {
+        metaTitle?: string;
+        metaDescription?: string;
+        canonicalPath?: string;
+        ogImageUrl?: string;
+        noIndex?: boolean;
+        noFollow?: boolean;
+        breadcrumbTitle?: string;
+        schemaJson?: string;
+      };
     },
   ) {
     const locale = body.locale ?? 'fa';
@@ -198,10 +208,30 @@ export class CmsService {
             }
           : {}),
       },
-      include: { i18n: true, taxonomies: true },
+      include: { i18n: true, taxonomies: true, seo: true },
     });
+
+    if (body.seo) {
+      await this.prisma.seoMeta.create({
+        data: {
+          locale,
+          entityType: 'article',
+          entityId: article.id,
+          articleId: article.id,
+          metaTitle: body.seo.metaTitle ?? title,
+          metaDescription: body.seo.metaDescription ?? '',
+          canonicalPath: body.seo.canonicalPath || `/articles/${slug}`,
+          ogImageUrl: body.seo.ogImageUrl || body.coverUrl || body.bannerUrl,
+          noIndex: body.seo.noIndex ?? false,
+          noFollow: body.seo.noFollow ?? false,
+          breadcrumbTitle: body.seo.breadcrumbTitle ?? '',
+          schemaJson: body.seo.schemaJson ?? '{}',
+        },
+      });
+    }
+
     await this.audit(actorId, 'article.create', 'Article', article.id, { slug });
-    return article;
+    return this.getArticle(article.id);
   }
 
   async updateArticle(
