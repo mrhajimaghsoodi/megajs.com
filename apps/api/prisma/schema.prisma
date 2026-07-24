@@ -791,3 +791,41 @@ model LoginLockout {
   @@unique([phone])
   @@index([ip])
 }
+
+
+/// WooCommerce-style product attributes (e.g. Level, Language)
+model ProductAttribute {
+  id        String                 @id @default(cuid())
+  slug      String                 @unique
+  name      String
+  type      String                 @default("select")
+  orderBy   String                 @default("menu_order")
+  hasArchives Boolean              @default(false)
+  createdAt DateTime               @default(now())
+  updatedAt DateTime               @updatedAt
+  terms     ProductAttributeTerm[]
+}
+
+model ProductAttributeTerm {
+  id          String           @id @default(cuid())
+  attributeId String
+  slug        String
+  name        String
+  description String           @default("")
+  sortOrder   Int              @default(0)
+  attribute   ProductAttribute @relation(fields: [attributeId], references: [id], onDelete: Cascade)
+
+  @@unique([attributeId, slug])
+  @@index([attributeId])
+}
+
+/// Appearance → Widgets areas (header/footer/sidebar)
+model WidgetArea {
+  id        String   @id @default(cuid())
+  /// header | footer | sidebar | shop_sidebar
+  location  String   @unique
+  name      String
+  /// JSON array of widgets {id,type,title,settings}
+  widgetsJson String @default("[]")
+  updatedAt DateTime @updatedAt
+}

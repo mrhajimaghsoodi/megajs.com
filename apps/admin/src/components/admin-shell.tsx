@@ -21,41 +21,113 @@ export function AdminShell({ children }: { children: ReactNode }) {
     null,
   );
 
+  // WordPress + WooCommerce menu order (point-by-point)
   const NAV: NavGroup[] = useMemo(
     () => [
-      { items: [{ href: '/', label: dict.nav.dashboard }] },
       {
-        label: dict.nav.groupContent,
+        label: dict.nav.groupDashboard,
         items: [
-          { href: '/posts', label: dict.nav.posts },
-          { href: '/categories', label: dict.cms.postCategories },
-          { href: '/tags', label: dict.cms.postTags },
-          { href: '/pages', label: dict.nav.pages },
-          { href: '/media', label: dict.nav.media },
-          { href: '/comments', label: dict.nav.comments },
+          { href: '/', label: dict.nav.dashboard },
+          { href: '/updates', label: dict.nav.updates },
         ],
       },
       {
-        label: dict.nav.groupShop,
+        label: dict.nav.groupPosts,
         items: [
-          { href: '/catalog', label: dict.nav.catalog },
-          { href: '/product-categories', label: dict.nav.productCategories },
+          { href: '/posts', label: dict.nav.allPosts },
+          { href: '/posts/new', label: dict.nav.addPost },
+          { href: '/categories', label: dict.nav.postCategories },
+          { href: '/tags', label: dict.nav.postTags },
+        ],
+      },
+      {
+        label: dict.nav.groupMedia,
+        items: [
+          { href: '/media', label: dict.nav.library },
+          { href: '/media/new', label: dict.nav.addMedia },
+        ],
+      },
+      {
+        label: dict.nav.groupPages,
+        items: [
+          { href: '/pages', label: dict.nav.allPages },
+          { href: '/pages/new', label: dict.nav.addPage },
+        ],
+      },
+      {
+        items: [{ href: '/comments', label: dict.nav.comments }],
+      },
+      {
+        label: dict.nav.groupWoo,
+        items: [
+          { href: '/woocommerce', label: dict.nav.wooHome },
           { href: '/orders', label: dict.nav.orders },
+          { href: '/customers', label: dict.nav.customers },
           { href: '/coupons', label: dict.nav.coupons },
-          { href: '/plans', label: dict.nav.plans },
           { href: '/reports', label: dict.nav.reports },
+          { href: '/settings?tab=woocommerce', label: dict.nav.wooSettings },
+          { href: '/woocommerce/status', label: dict.nav.wooStatus },
         ],
       },
       {
-        label: dict.nav.groupPeople,
-        items: [{ href: '/users', label: dict.nav.users }],
+        label: dict.nav.groupProducts,
+        items: [
+          { href: '/catalog', label: dict.nav.allProducts },
+          { href: '/catalog', label: dict.nav.addProduct },
+          { href: '/product-categories', label: dict.nav.productCategories },
+          { href: '/product-tags', label: dict.nav.productTags },
+          { href: '/attributes', label: dict.nav.attributes },
+          { href: '/plans', label: dict.nav.plans },
+        ],
       },
       {
-        label: dict.nav.groupSite,
+        label: dict.nav.groupAppearance,
         items: [
+          { href: '/appearance/themes', label: dict.nav.themes },
+          { href: '/appearance/customize', label: dict.nav.customize },
+          { href: '/appearance/widgets', label: dict.nav.widgets },
           { href: '/menus', label: dict.nav.menus },
+        ],
+      },
+      {
+        label: dict.nav.groupPlugins,
+        items: [
+          { href: '/plugins', label: dict.nav.installedPlugins },
+          { href: '/plugins/rankmath', label: dict.nav.rankmath },
+          { href: '/plugins/wordfence', label: dict.nav.wordfence },
+          { href: '/plugins/wprocket', label: dict.nav.wprocket },
+          { href: '/plugins/smush', label: dict.nav.smush },
+          { href: '/plugins/elementor', label: dict.nav.elementor },
+        ],
+      },
+      {
+        label: dict.nav.groupUsers,
+        items: [
+          { href: '/users', label: dict.nav.allUsers },
+          { href: '/users/new', label: dict.nav.addUser },
+          { href: '/profile', label: dict.nav.profile },
+        ],
+      },
+      {
+        label: dict.nav.groupTools,
+        items: [
+          { href: '/tools', label: dict.nav.availableTools },
+          { href: '/tools/import', label: dict.nav.import },
+          { href: '/tools/export', label: dict.nav.export },
+          { href: '/tools/site-health', label: dict.nav.siteHealth },
           { href: '/seo', label: dict.nav.seo },
-          { href: '/settings', label: dict.nav.settings },
+        ],
+      },
+      {
+        label: dict.nav.groupSettings,
+        items: [
+          { href: '/settings?tab=general', label: dict.nav.settingsGeneral },
+          { href: '/settings?tab=writing', label: dict.nav.settingsWriting },
+          { href: '/settings?tab=reading', label: dict.nav.settingsReading },
+          { href: '/settings?tab=discussion', label: dict.nav.settingsDiscussion },
+          { href: '/settings?tab=media', label: dict.nav.settingsMedia },
+          { href: '/settings?tab=permalinks', label: dict.nav.settingsPermalinks },
+          { href: '/settings?tab=privacy', label: dict.nav.settingsPrivacy },
         ],
       },
       {
@@ -65,16 +137,6 @@ export function AdminShell({ children }: { children: ReactNode }) {
           { href: '/live', label: dict.nav.live },
           { href: '/support', label: dict.nav.support },
           { href: '/audit', label: dict.nav.audit },
-        ],
-      },
-      {
-        label: dict.nav.groupPlugins,
-        items: [
-          { href: '/plugins/rankmath', label: dict.nav.rankmath },
-          { href: '/plugins/wordfence', label: dict.nav.wordfence },
-          { href: '/plugins/wprocket', label: dict.nav.wprocket },
-          { href: '/plugins/smush', label: dict.nav.smush },
-          { href: '/plugins/elementor', label: dict.nav.elementor },
         ],
       },
     ],
@@ -147,7 +209,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
       lang={locale}
       className="min-h-dvh bg-[var(--mj-bg)] lg:grid lg:grid-cols-[280px_1fr]"
     >
-      <aside className="border-b border-[var(--mj-border)] bg-[#121212] text-white lg:border-b-0 lg:border-e lg:border-[var(--mj-border)]">
+      <aside className="border-b border-[var(--mj-border)] bg-[#1d2327] text-white lg:border-b-0 lg:border-e lg:border-black/40">
         <div className="flex h-16 items-center gap-3 border-b border-white/10 px-4">
           <Image src="/logo-mark.svg" alt="" width={32} height={32} />
           <div>
@@ -155,27 +217,29 @@ export function AdminShell({ children }: { children: ReactNode }) {
             <div className="font-mono text-[10px] text-primary">{me.role}</div>
           </div>
         </div>
-        <nav className="max-h-[calc(100dvh-8rem)] space-y-4 overflow-y-auto p-3">
+        <nav className="max-h-[calc(100dvh-8rem)] space-y-3 overflow-y-auto p-3">
           {NAV.map((group, gi) => (
             <div key={gi}>
               {group.label ? (
-                <div className="mb-1 px-3 font-mono text-[10px] uppercase tracking-[0.16em] text-white/35">
+                <div className="mb-1 px-3 font-mono text-[10px] uppercase tracking-[0.14em] text-white/40">
                   {group.label}
                 </div>
               ) : null}
               <div className="flex flex-col gap-0.5">
                 {group.items.map((item) => {
+                  const pathOnly = item.href.split('?')[0];
                   const active =
-                    pathname === item.href ||
-                    (item.href !== '/' && pathname.startsWith(item.href + '/'));
+                    pathOnly === '/'
+                      ? pathname === '/'
+                      : pathname === pathOnly || pathname.startsWith(`${pathOnly}/`);
                   return (
                     <Link
-                      key={item.href}
+                      key={`${item.href}-${item.label}`}
                       href={item.href}
-                      className={`mj-nav-item cursor-pointer rounded-md px-3 py-2 text-sm transition-colors ${
+                      className={`mj-nav-item cursor-pointer rounded-md px-3 py-1.5 text-[13px] transition-colors ${
                         active
                           ? 'bg-[var(--mj-accent)] font-semibold text-[var(--mj-accent-fg)]'
-                          : 'text-white/70 hover:bg-white/5 hover:text-white'
+                          : 'text-white/75 hover:bg-white/5 hover:text-white'
                       }`}
                     >
                       {item.label}

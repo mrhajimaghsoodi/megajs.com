@@ -49,9 +49,17 @@ export default function UsersAdminPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="font-display text-3xl font-bold">{d.title}</h1>
-        <p className="mt-2 text-sm text-muted-foreground">{d.subtitle}</p>
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h1 className="font-display text-3xl font-bold">{d.title}</h1>
+          <p className="mt-2 text-sm text-muted-foreground">{d.subtitle}</p>
+        </div>
+        <Link
+          href="/users/new"
+          className="inline-flex h-9 items-center rounded-[var(--mj-radius-md)] bg-[var(--mj-accent)] px-3 text-sm font-semibold text-[var(--mj-accent-fg)]"
+        >
+          {dict.nav.addUser}
+        </Link>
       </div>
 
       <form
