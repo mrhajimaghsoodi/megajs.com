@@ -1,0 +1,126 @@
+# Production stack for MEGA JS on a WHM/cPanel VPS (side-by-side with WordPress)
+#
+# Docker binds ONLY to 127.0.0.1 — Apache/LiteSpeed (WHM) keeps ports 80/443.
+# WHM reverse-proxy configs: docker/whm/
+#
+# Usage on server:
+#   docker compose -f docker-compose.prod.yml --env-file .env.production up -d --build
+#
+# Optional dedicated-edge Nginx (ONLY if this VPS has NO WHM on 80/443):
+#   docker compose -f docker-compose.prod.yml --env-file .env.production --profile standalone up -d --build
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-megajs}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-megajs}
+    volumes:
+      - megajs_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-megajs}']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    # Never publish Postgres to the public internet
+    expose:
+      - '5432'
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    volumes:
+      - megajs_redis:/data
+    expose:
+      - '6379'
+
+  api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.api
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      DATABASE_URL: postgresql://${POSTGRES_USER:-megajs}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-megajs}?schema=public
+      WEB_ORIGIN: ${WEB_ORIGIN:-https://megajs.com}
+      ADMIN_ORIGIN: ${ADMIN_ORIGIN:-https://admin.megajs.com}
+      WEB_ORIGIN_ALT: ${WEB_ORIGIN_ALT:-}
+      JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET}
+      SMS_PROVIDER: ${SMS_PROVIDER:-}
+      SMS_API_KEY: ${SMS_API_KEY:-}
+      SMS_SENDER: ${SMS_SENDER:-}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+      GOOGLE_CALLBACK_URL: ${GOOGLE_CALLBACK_URL:-}
+      GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID:-}
+      GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET:-}
+      GITHUB_CALLBACK_URL: ${GITHUB_CALLBACK_URL:-}
+      ZARINPAL_MERCHANT_ID: ${ZARINPAL_MERCHANT_ID:-}
+      ZARINPAL_CALLBACK_URL: ${ZARINPAL_CALLBACK_URL:-}
+      STREAM_PROVIDER: ${STREAM_PROVIDER:-}
+      STREAM_API_KEY: ${STREAM_API_KEY:-}
+      STREAM_INGEST_BASE: ${STREAM_INGEST_BASE:-}
+      STREAM_PLAYBACK_BASE: ${STREAM_PLAYBACK_BASE:-}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      # Localhost only — WHM Apache proxies here
+      - '127.0.0.1:${API_HOST_PORT:-14000}:4000'
+
+  web:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.web
+      args:
+        NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-https://megajs.com/api}
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://megajs.com}
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      HOSTNAME: 0.0.0.0
+    depends_on:
+      - api
+    ports:
+      - '127.0.0.1:${WEB_HOST_PORT:-13000}:3000'
+
+  admin:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.admin
+      args:
+        NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-https://megajs.com/api}
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      HOSTNAME: 0.0.0.0
+    depends_on:
+      - api
+    ports:
+      - '127.0.0.1:${ADMIN_HOST_PORT:-13001}:3001'
+
+  # ONLY for bare VPS without WHM. Do not enable on a cPanel server.
+  nginx:
+    profiles: ['standalone']
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./docker/nginx/megajs.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./docker/certbot/www:/var/www/certbot:ro
+      - ./docker/certbot/conf:/etc/letsencrypt:ro
+    depends_on:
+      - web
+      - api
+      - admin
+
+volumes:
+  megajs_pg:
+  megajs_redis:

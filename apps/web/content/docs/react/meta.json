@@ -1,0 +1,804 @@
+{
+  "id": "react",
+  "order": 60,
+  "title": {
+    "fa": "React",
+    "en": "React"
+  },
+  "seoTitle": {
+    "fa": "React — آموزش W3Schools، مرجع MDN و API رسمی react.dev | MEGA JS",
+    "en": "React — W3Schools Tutorial, MDN Reference & react.dev APIs | MEGA JS"
+  },
+  "seoDescription": {
+    "fa": "React را در سه مسیر یاد بگیرید: آموزش W3Schools، مرجع MDN و API رسمی react.dev؛ همراه JSX، Hooks و مثال live همراه تمرین کاربردی برای پروژه واقعی وب.",
+    "en": "Learn React across three tracks: W3Schools-style lessons, MDN reference, and official react.dev API summaries with JSX and Hooks demos with practical drills."
+  },
+  "description": {
+    "fa": "سه مسیر کامل برای React: آموزش قدم‌به‌قدم، مرجع author-focused به سبک MDN و خلاصه‌های رسمی react.dev برای Hooks، Components و React DOM.",
+    "en": "Three complete React tracks: step-by-step learning, author-focused MDN-style reference, and official react.dev summaries for Hooks, Components, and React DOM."
+  },
+  "sources": [
+    {
+      "name": "W3Schools React Tutorial",
+      "url": "https://www.w3schools.com/react/default.asp"
+    },
+    {
+      "name": "MDN React Framework Docs",
+      "url": "https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/React_getting_started"
+    },
+    {
+      "name": "React API Reference",
+      "url": "https://react.dev/reference/react"
+    },
+    {
+      "name": "React Docs",
+      "url": "https://react.dev/"
+    }
+  ],
+  "tracks": [
+    {
+      "id": "learn",
+      "title": {
+        "fa": "آموزشی (W3Schools)",
+        "en": "Learn (W3Schools)"
+      },
+      "description": {
+        "fa": "مسیر آموزشی قدم‌به‌قدم با ادیتور زنده — ساختار سایدبار W3Schools React Tutorial.",
+        "en": "Step-by-step tutorial with live editor — W3Schools React Tutorial sidebar structure."
+      },
+      "seoTitle": {
+        "fa": "آموزش React از صفر | مسیر W3Schools + ادیتور زنده | MEGA JS",
+        "en": "Learn React from Scratch | W3Schools Path + Live Editor | MEGA JS"
+      },
+      "seoDescription": {
+        "fa": "آموزش React از صفر با مسیر W3Schools، مثال‌های HTML دارای React CDN، JSX، Hooks، component و ادیتور زنده برای تمرین همراه تمرین کاربردی برای پروژه واقعی وب.",
+        "en": "Learn React from scratch with a W3Schools-style path, live HTML examples using React CDN, JSX, Hooks, components, and practice editor with practical drills."
+      },
+      "source": {
+        "name": "W3Schools React Tutorial",
+        "url": "https://www.w3schools.com/react/default.asp"
+      },
+      "liveEditor": true,
+      "nav": [
+        {
+          "slug": "introduction",
+          "title": {
+            "fa": "مقدمه React",
+            "en": "React Intro"
+          }
+        },
+        {
+          "slug": "getting-started",
+          "title": {
+            "fa": "شروع کار با React",
+            "en": "React Getting Started"
+          },
+          "children": [
+            {
+              "slug": "get-started",
+              "title": {
+                "fa": "شروع سریع React",
+                "en": "React Get Started"
+              }
+            },
+            {
+              "slug": "first-app",
+              "title": {
+                "fa": "اولین app با React",
+                "en": "Your First React App"
+              }
+            },
+            {
+              "slug": "render-html",
+              "title": {
+                "fa": "Render کردن HTML با React",
+                "en": "Render HTML with React"
+              }
+            },
+            {
+              "slug": "upgrade",
+              "title": {
+                "fa": "Upgrade پروژه‌های React",
+                "en": "Upgrade React Projects"
+              }
+            }
+          ]
+        },
+        {
+          "slug": "es6-for-react",
+          "title": {
+            "fa": "ES6 برای React",
+            "en": "ES6 for React"
+          },
+          "children": [
+            {
+              "slug": "es6-classes",
+              "title": {
+                "fa": "Classهای ES6 برای React",
+                "en": "ES6 Classes for React"
+              }
+            },
+            {
+              "slug": "es6-arrow",
+              "title": {
+                "fa": "Arrow Functionهای ES6",
+                "en": "ES6 Arrow Functions"
+              }
+            },
+            {
+              "slug": "es6-variables",
+              "title": {
+                "fa": "Variableهای ES6",
+                "en": "ES6 Variables"
+              }
+            },
+            {
+              "slug": "es6-map",
+              "title": {
+                "fa": "متد map در ES6",
+                "en": "ES6 Array map"
+              }
+            },
+            {
+              "slug": "es6-destructuring",
+              "title": {
+                "fa": "Destructuring در ES6",
+                "en": "ES6 Destructuring"
+              }
+            },
+            {
+              "slug": "es6-spread",
+              "title": {
+                "fa": "Spread Operator در ES6",
+                "en": "ES6 Spread Operator"
+              }
+            },
+            {
+              "slug": "es6-modules",
+              "title": {
+                "fa": "Moduleهای ES6",
+                "en": "ES6 Modules"
+              }
+            },
+            {
+              "slug": "es6-ternary",
+              "title": {
+                "fa": "Ternary Operator در ES6",
+                "en": "ES6 Ternary Operator"
+              }
+            },
+            {
+              "slug": "es6-templates",
+              "title": {
+                "fa": "Template Literalهای ES6",
+                "en": "ES6 Template Literals"
+              }
+            }
+          ]
+        },
+        {
+          "slug": "jsx",
+          "title": {
+            "fa": "JSX در React",
+            "en": "React JSX"
+          },
+          "children": [
+            {
+              "slug": "jsx-intro",
+              "title": {
+                "fa": "مقدمه JSX",
+                "en": "JSX Intro"
+              }
+            },
+            {
+              "slug": "jsx-expressions",
+              "title": {
+                "fa": "Expressionها در JSX",
+                "en": "JSX Expressions"
+              }
+            },
+            {
+              "slug": "jsx-attributes",
+              "title": {
+                "fa": "Attributeها در JSX",
+                "en": "JSX Attributes"
+              }
+            },
+            {
+              "slug": "jsx-conditionals",
+              "title": {
+                "fa": "Conditionها در JSX",
+                "en": "JSX Conditionals"
+              }
+            }
+          ]
+        },
+        {
+          "slug": "components-props",
+          "title": {
+            "fa": "Component و Props",
+            "en": "Components and Props"
+          },
+          "children": [
+            {
+              "slug": "components",
+              "title": {
+                "fa": "Componentهای React",
+                "en": "React Components"
+              }
+            },
+            {
+              "slug": "class-components",
+              "title": {
+                "fa": "Class Componentهای React",
+                "en": "React Class Components"
+              }
+            },
+            {
+              "slug": "props",
+              "title": {
+                "fa": "Props در React",
+                "en": "React Props"
+              }
+            },
+            {
+              "slug": "props-destructuring",
+              "title": {
+                "fa": "Destructuring برای Props",
+                "en": "Props Destructuring"
+              }
+            },
+            {
+              "slug": "props-children",
+              "title": {
+                "fa": "Prop با نام children",
+                "en": "React children Prop"
+              }
+            },
+            {
+              "slug": "events",
+              "title": {
+                "fa": "Eventها در React",
+                "en": "React Events"
+              }
+            },
+            {
+              "slug": "conditionals",
+              "title": {
+                "fa": "Conditional Rendering در React",
+                "en": "React Conditional Rendering"
+              }
+            },
+            {
+              "slug": "lists",
+              "title": {
+                "fa": "Listها در React",
+                "en": "React Lists"
+              }
+            }
+          ]
+        },
+        {
+          "slug": "forms-overview",
+          "title": {
+            "fa": "Formها در React",
+            "en": "React Forms"
+          },
+          "children": [
+            {
+              "slug": "forms",
+              "title": {
+                "fa": "Formهای React",
+                "en": "React Forms"
+              }
+            },
+            {
+              "slug": "forms-submit",
+              "title": {
+                "fa": "Submit فرم در React",
+                "en": "React Form Submit"
+              }
+            },
+            {
+              "slug": "textarea",
+              "title": {
+                "fa": "Textarea در React",
+                "en": "React Textarea"
+              }
+            },
+            {
+              "slug": "select",
+              "title": {
+                "fa": "Select در React",
+                "en": "React Select"
+              }
+            },
+            {
+              "slug": "multiple-inputs",
+              "title": {
+                "fa": "چند input در React",
+                "en": "Multiple Inputs in React"
+              }
+            },
+            {
+              "slug": "checkbox",
+              "title": {
+                "fa": "Checkbox در React",
+                "en": "React Checkbox"
+              }
+            },
+            {
+              "slug": "radio",
+              "title": {
+                "fa": "Radio Button در React",
+                "en": "React Radio Buttons"
+              }
+            }
+          ]
+        },
+        {
+          "slug": "advanced-ui",
+          "title": {
+            "fa": "UI پیشرفته در React",
+            "en": "Advanced React UI"
+          },
+          "children": [
+            {
+              "slug": "portals",
+              "title": {
+                "fa": "Portalها در React",
+                "en": "React Portals"
+              }
+            },
+            {
+              "slug": "suspense",
+              "title": {
+                "fa": "Suspense در React",
+                "en": "React Suspense"
+              }
+            },
+            {
+              "slug": "css-styling",
+              "title": {
+                "fa": "CSS Styling در React",
+                "en": "React CSS Styling"
+              }
+            },
+            {
+              "slug": "css-modules",
+              "title": {
+                "fa": "CSS Moduleها در React",
+                "en": "React CSS Modules"
+              }
+            },
+            {
+              "slug": "css-in-js",
+              "title": {
+                "fa": "CSS-in-JS با React",
+                "en": "CSS-in-JS with React"
+              }
+            },
+            {
+              "slug": "router",
+              "title": {
+                "fa": "Router در React",
+                "en": "React Router"
+              }
+            },
+            {
+              "slug": "transitions",
+              "title": {
+                "fa": "Transitionها در React",
+                "en": "React Transitions"
+              }
+            },
+            {
+              "slug": "forward-ref",
+              "title": {
+                "fa": "forwardRef در React",
+                "en": "React forwardRef"
+              }
+            },
+            {
+              "slug": "hoc",
+              "title": {
+                "fa": "Higher-Order Componentها",
+                "en": "Higher-Order Components"
+              }
+            },
+            {
+              "slug": "sass",
+              "title": {
+                "fa": "Sass با React",
+                "en": "Sass with React"
+              }
+            }
+          ]
+        },
+        {
+          "slug": "hooks",
+          "title": {
+            "fa": "Hooks در React",
+            "en": "React Hooks"
+          },
+          "children": [
+            {
+              "slug": "usestate",
+              "title": {
+                "fa": "Hook با نام useState",
+                "en": "React useState Hook"
+              }
+            },
+            {
+              "slug": "useeffect",
+              "title": {
+                "fa": "Hook با نام useEffect",
+                "en": "React useEffect Hook"
+              }
+            },
+            {
+              "slug": "usecontext",
+              "title": {
+                "fa": "Hook با نام useContext",
+                "en": "React useContext Hook"
+              }
+            },
+            {
+              "slug": "useref",
+              "title": {
+                "fa": "Hook با نام useRef",
+                "en": "React useRef Hook"
+              }
+            },
+            {
+              "slug": "usereducer",
+              "title": {
+                "fa": "Hook با نام useReducer",
+                "en": "React useReducer Hook"
+              }
+            },
+            {
+              "slug": "usecallback",
+              "title": {
+                "fa": "Hook با نام useCallback",
+                "en": "React useCallback Hook"
+              }
+            },
+            {
+              "slug": "usememo",
+              "title": {
+                "fa": "Hook با نام useMemo",
+                "en": "React useMemo Hook"
+              }
+            },
+            {
+              "slug": "custom-hooks",
+              "title": {
+                "fa": "Hookهای سفارشی React",
+                "en": "Custom React Hooks"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reference",
+      "title": {
+        "fa": "مرجع (MDN)",
+        "en": "Reference (MDN)"
+      },
+      "description": {
+        "fa": "مرجع author-focused به سبک MDN برای component model، JSX، props، state، forms، accessibility، testing و performance در React.",
+        "en": "An author-focused MDN-style reference for React component models, JSX, props, state, forms, accessibility, testing, and performance."
+      },
+      "seoTitle": {
+        "fa": "مرجع React به سبک MDN | Component، JSX و Hooks | MEGA JS",
+        "en": "React Reference — MDN-style Components, JSX & Hooks | MEGA JS"
+      },
+      "seoDescription": {
+        "fa": "مرجع React به سبک MDN برای component، JSX، props، state، Hooks، form، accessibility، testing و performance در پروژه واقعی همراه تمرین کاربردی برای پروژه واقعی.",
+        "en": "Use the MDN-style React reference for components, JSX, props, state, Hooks, forms, accessibility, testing, and performance in real projects with practical."
+      },
+      "source": {
+        "name": "MDN React Framework Docs",
+        "url": "https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/React_getting_started"
+      },
+      "liveEditor": false,
+      "nav": [
+        {
+          "slug": "overview",
+          "title": {
+            "fa": "نمای کلی مرجع React",
+            "en": "React Reference Overview"
+          }
+        },
+        {
+          "slug": "component-model",
+          "title": {
+            "fa": "مدل Component در React",
+            "en": "React Component Model"
+          }
+        },
+        {
+          "slug": "jsx-in-depth",
+          "title": {
+            "fa": "JSX به شکل عمیق",
+            "en": "JSX in Depth"
+          }
+        },
+        {
+          "slug": "props-vs-state",
+          "title": {
+            "fa": "Props در برابر State",
+            "en": "Props vs State"
+          }
+        },
+        {
+          "slug": "rendering-reconciliation",
+          "title": {
+            "fa": "Rendering و Reconciliation",
+            "en": "Rendering and Reconciliation"
+          }
+        },
+        {
+          "slug": "lists-keys-ref",
+          "title": {
+            "fa": "مرجع List و Key",
+            "en": "Lists and Keys Reference"
+          }
+        },
+        {
+          "slug": "forms-controlled",
+          "title": {
+            "fa": "مرجع Form کنترل‌شده",
+            "en": "Controlled Forms Reference"
+          }
+        },
+        {
+          "slug": "events-synthetic",
+          "title": {
+            "fa": "مرجع SyntheticEvent",
+            "en": "Synthetic Events Reference"
+          }
+        },
+        {
+          "slug": "hooks-overview-ref",
+          "title": {
+            "fa": "نمای کلی Hooks در مرجع",
+            "en": "Hooks Overview Reference"
+          }
+        },
+        {
+          "slug": "effect-lifecycle",
+          "title": {
+            "fa": "مرجع چرخه Effect",
+            "en": "Effect Lifecycle Reference"
+          }
+        },
+        {
+          "slug": "context-ref",
+          "title": {
+            "fa": "مرجع Context",
+            "en": "Context Reference"
+          }
+        },
+        {
+          "slug": "refs-dom",
+          "title": {
+            "fa": "مرجع Ref و DOM",
+            "en": "Refs and DOM Reference"
+          }
+        },
+        {
+          "slug": "composition-patterns",
+          "title": {
+            "fa": "Patternهای Composition",
+            "en": "Composition Patterns"
+          }
+        },
+        {
+          "slug": "code-splitting",
+          "title": {
+            "fa": "Code Splitting در React",
+            "en": "Code Splitting in React"
+          }
+        },
+        {
+          "slug": "accessibility-react",
+          "title": {
+            "fa": "Accessibility در React",
+            "en": "React Accessibility"
+          }
+        },
+        {
+          "slug": "testing-react",
+          "title": {
+            "fa": "Test کردن React",
+            "en": "Testing React"
+          }
+        },
+        {
+          "slug": "performance-react",
+          "title": {
+            "fa": "Performance در React",
+            "en": "React Performance"
+          }
+        },
+        {
+          "slug": "typescript-react",
+          "title": {
+            "fa": "TypeScript با React",
+            "en": "TypeScript with React"
+          }
+        },
+        {
+          "slug": "cheatsheet",
+          "title": {
+            "fa": "Cheatsheet React",
+            "en": "React Cheatsheet"
+          }
+        }
+      ]
+    },
+    {
+      "id": "official",
+      "title": {
+        "fa": "مستندات رسمی (react.dev)",
+        "en": "Official (react.dev)"
+      },
+      "description": {
+        "fa": "خلاصه‌های رسمی react.dev برای API Reference شامل Hooks، Components، APIهای React، React DOM، Compiler، Rules و Legacy APIs.",
+        "en": "Official react.dev summaries for the API Reference, covering Hooks, Components, React APIs, React DOM, Compiler, Rules, and Legacy APIs."
+      },
+      "seoTitle": {
+        "fa": "مرجع رسمی React در react.dev | Hooks، API و React DOM | MEGA JS",
+        "en": "Official React Reference on react.dev | Hooks, APIs & React DOM | MEGA JS"
+      },
+      "seoDescription": {
+        "fa": "خلاصه رسمی react.dev برای React API Reference؛ Hooks، Components، React DOM، Compiler، Rules of React و Legacy APIs را مرور کنید همراه تمرین کاربردی.",
+        "en": "Read official react.dev summaries for the React API Reference, covering Hooks, Components, React DOM, Compiler, Rules of React, and Legacy APIs with practical."
+      },
+      "source": {
+        "name": "React API Reference",
+        "url": "https://react.dev/reference/react"
+      },
+      "liveEditor": false,
+      "nav": [
+        {
+          "slug": "overview",
+          "title": {
+            "fa": "نمای کلی مرجع react.dev",
+            "en": "react.dev Reference Overview"
+          }
+        },
+        {
+          "slug": "hooks-ref",
+          "title": {
+            "fa": "Catalog مرجع Hooks",
+            "en": "Hooks Reference Catalog"
+          }
+        },
+        {
+          "slug": "usestate-ref",
+          "title": {
+            "fa": "مرجع useState",
+            "en": "useState Reference"
+          }
+        },
+        {
+          "slug": "usereducer-ref",
+          "title": {
+            "fa": "مرجع useReducer",
+            "en": "useReducer Reference"
+          }
+        },
+        {
+          "slug": "usecontext-ref",
+          "title": {
+            "fa": "مرجع useContext",
+            "en": "useContext Reference"
+          }
+        },
+        {
+          "slug": "useref-ref",
+          "title": {
+            "fa": "مرجع useRef",
+            "en": "useRef Reference"
+          }
+        },
+        {
+          "slug": "useeffect-ref",
+          "title": {
+            "fa": "مرجع useEffect",
+            "en": "useEffect Reference"
+          }
+        },
+        {
+          "slug": "usememo-ref",
+          "title": {
+            "fa": "مرجع useMemo",
+            "en": "useMemo Reference"
+          }
+        },
+        {
+          "slug": "usecallback-ref",
+          "title": {
+            "fa": "مرجع useCallback",
+            "en": "useCallback Reference"
+          }
+        },
+        {
+          "slug": "usetransition-ref",
+          "title": {
+            "fa": "مرجع useTransition",
+            "en": "useTransition Reference"
+          }
+        },
+        {
+          "slug": "usedeferredvalue-ref",
+          "title": {
+            "fa": "مرجع useDeferredValue",
+            "en": "useDeferredValue Reference"
+          }
+        },
+        {
+          "slug": "useid-ref",
+          "title": {
+            "fa": "مرجع useId",
+            "en": "useId Reference"
+          }
+        },
+        {
+          "slug": "custom-hooks-official",
+          "title": {
+            "fa": "Hookهای سفارشی در React رسمی",
+            "en": "Custom Hooks in Official React"
+          }
+        },
+        {
+          "slug": "components-ref",
+          "title": {
+            "fa": "مرجع Componentهای داخلی",
+            "en": "Built-in Components Reference"
+          }
+        },
+        {
+          "slug": "apis-ref",
+          "title": {
+            "fa": "مرجع APIهای React",
+            "en": "React APIs Reference"
+          }
+        },
+        {
+          "slug": "react-dom-ref",
+          "title": {
+            "fa": "مرجع React DOM",
+            "en": "React DOM Reference"
+          }
+        },
+        {
+          "slug": "compiler-ref",
+          "title": {
+            "fa": "مرجع React Compiler",
+            "en": "React Compiler Reference"
+          }
+        },
+        {
+          "slug": "rules-of-react",
+          "title": {
+            "fa": "Rules of React",
+            "en": "Rules of React"
+          }
+        },
+        {
+          "slug": "legacy-apis",
+          "title": {
+            "fa": "APIهای Legacy در React",
+            "en": "Legacy React APIs"
+          }
+        }
+      ]
+    }
+  ]
+}

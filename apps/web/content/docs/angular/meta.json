@@ -1,0 +1,70 @@
+{
+  "id": "angular",
+  "order": 90,
+  "title": {
+    "fa": "Angular",
+    "en": "Angular"
+  },
+  "description": {
+    "fa": "Platform framework — angular.dev — ساختار مشابه docs مرجع؛ ترجمه فارسی روان.",
+    "en": "Platform framework — angular.dev — structure aligned with official docs."
+  },
+  "sources": [
+    {
+      "name": "Angular Docs",
+      "url": "https://angular.dev/overview"
+    },
+    {
+      "name": "MDN",
+      "url": "https://developer.mozilla.org/"
+    },
+    {
+      "name": "W3Schools",
+      "url": "https://www.w3schools.com/"
+    }
+  ],
+  "nav": [
+    {
+      "slug": "introduction",
+      "title": {
+        "fa": "مقدمه",
+        "en": "Introduction"
+      }
+    },
+    {
+      "slug": "components",
+      "title": {
+        "fa": "کامپوننت‌ها",
+        "en": "Components"
+      }
+    },
+    {
+      "slug": "templates",
+      "title": {
+        "fa": "Templateها",
+        "en": "Templates"
+      }
+    },
+    {
+      "slug": "dependency-injection",
+      "title": {
+        "fa": "Dependency Injection",
+        "en": "Dependency injection"
+      }
+    },
+    {
+      "slug": "signals",
+      "title": {
+        "fa": "Signals",
+        "en": "Signals"
+      }
+    },
+    {
+      "slug": "routing",
+      "title": {
+        "fa": "مسیریابی",
+        "en": "Routing"
+      }
+    }
+  ]
+}

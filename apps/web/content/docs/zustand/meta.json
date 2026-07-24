@@ -1,0 +1,56 @@
+{
+  "id": "zustand",
+  "order": 250,
+  "title": {
+    "fa": "Zustand",
+    "en": "Zustand"
+  },
+  "description": {
+    "fa": "Small state store — docs — ساختار مشابه docs مرجع؛ ترجمه فارسی روان.",
+    "en": "Small state store — docs — structure aligned with official docs."
+  },
+  "sources": [
+    {
+      "name": "Zustand Docs",
+      "url": "https://docs.pmnd.rs/zustand/getting-started/introduction"
+    },
+    {
+      "name": "MDN",
+      "url": "https://developer.mozilla.org/"
+    },
+    {
+      "name": "W3Schools",
+      "url": "https://www.w3schools.com/"
+    }
+  ],
+  "nav": [
+    {
+      "slug": "introduction",
+      "title": {
+        "fa": "مقدمه",
+        "en": "Introduction"
+      }
+    },
+    {
+      "slug": "store",
+      "title": {
+        "fa": "Store",
+        "en": "Store"
+      }
+    },
+    {
+      "slug": "typescript",
+      "title": {
+        "fa": "TypeScript",
+        "en": "TypeScript"
+      }
+    },
+    {
+      "slug": "patterns",
+      "title": {
+        "fa": "الگوها",
+        "en": "Patterns"
+      }
+    }
+  ]
+}

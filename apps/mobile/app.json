@@ -1,0 +1,18 @@
+{
+  "expo": {
+    "name": "MEGA JS",
+    "slug": "megajs",
+    "scheme": "megajs",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "plugins": ["expo-router"],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "apiBaseUrl": "http://localhost:4000/api"
+    }
+  }
+}

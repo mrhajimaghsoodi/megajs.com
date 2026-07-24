@@ -1,0 +1,203 @@
+---
+title: "Formها در React"
+description: "این صفحه جمع‌آوری input کاربر با field کنترل‌شده، submit، select، checkbox و radio را با مثال React، جدول syntax و نکته‌های کاربردی برای component authoring توضیح می‌دهد."
+seoTitle: "آموزش Formها در React در مسیر W3Schools | MEGA JS"
+seoDescription: "آموزش Formها در React (forms overview): مثال HTML با React CDN، JSX، تمرین live مسیر W3Schools، component، props، state و نکته Hooks همراه تمرین کاربردی."
+keywords: "React, Formها در React, آموزش React, مرجع React, React forms-overview, React Forms tutorial"
+order: 31
+track: learn
+sources:
+  - name: W3Schools React Tutorial
+    url: https://www.w3schools.com/react/default.asp
+---
+# Formها در React
+
+Formها در React درباره جمع‌آوری input کاربر با field کنترل‌شده، submit، select، checkbox و radio است. این درس بازنویسی آموزشی و مستقل از مسیر W3Schools React Tutorial است و مثال‌ها به شکل HTML کامل با React CDN و Babel نوشته شده‌اند تا در live editor اجرا شوند.
+
+در تمرین Formها در React فقط ظاهر UI را نبینید؛ render شدن component، تغییر state، props، warningهای Console و رفتار JSX در DOM را هم بررسی کنید.
+
+## ایده اصلی
+
+- `value`: value کنترل‌شده input از state.
+- `onChange`: state را از input کاربر update می‌کند.
+- `onSubmit`: submit فرم را در React مدیریت می‌کند.
+- برای این موضوع، value کنترل‌شده، validation قابل دسترس و submit بدون reload نشانه اصلی کیفیت React code است.
+
+## مثال‌های HTML قابل اجرا با React
+
+هر مثال یک سند کامل HTML است که react@18، react-dom@18 و @babel/standalone را از CDN load می‌کند. آن را در live editor اجرا کنید و سپس یک state، prop یا JSX branch را تغییر دهید.
+
+### مثال 1: الگوی React متمرکز
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Forms</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 1.5rem; line-height: 1.5; color: #1f2937; }
+      button, input, select, textarea { font: inherit; margin: 0.25rem; }
+      .card { border: 1px solid #d1d5db; border-radius: 0.75rem; padding: 1rem; max-width: 34rem; }
+      .row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+      .badge { display: inline-block; border-radius: 999px; background: #e0f2fe; color: #075985; padding: 0.15rem 0.5rem; }
+      .muted { color: #64748b; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <div id="modal-root"></div>
+    <script type="text/babel">
+      const { useState, useEffect, useContext, useMemo, useCallback, useRef, useReducer, useTransition, useDeferredValue, useId, Suspense, StrictMode, Fragment, memo, createContext } = React;
+      function App() {
+        const [form, setForm] = useState({ name: 'Ada', level: 'beginner', notes: 'Practice React', agreed: true });
+        const update = (event) => {
+          const { name, type, checked, value } = event.target;
+          setForm((current) => ({ ...current, [name]: type === 'checkbox' ? checked : value }));
+        };
+        return (
+          <form className="card" onSubmit={(event) => event.preventDefault()}>
+            <h1>React Forms</h1>
+            <label>Name <input name="name" value={form.name} onChange={update} /></label>
+            <label>Level
+              <select name="level" value={form.level} onChange={update}>
+                <option value="beginner">beginner</option>
+                <option value="advanced">advanced</option>
+              </select>
+            </label>
+            <label><input name="agreed" type="checkbox" checked={form.agreed} onChange={update} /> Ready</label>
+            <textarea name="notes" value={form.notes} onChange={update} rows="3" />
+            <p className="badge">{form.name} is {form.level}; ready: {String(form.agreed)}</p>
+          </form>
+        );
+      }
+      ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+  </body>
+</html>
+```
+
+### مثال 2: گزینه‌های syntax در context
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Forms table</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 1.5rem; line-height: 1.5; color: #1f2937; }
+      button, input, select, textarea { font: inherit; margin: 0.25rem; }
+      .card { border: 1px solid #d1d5db; border-radius: 0.75rem; padding: 1rem; max-width: 34rem; }
+      .row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+      .badge { display: inline-block; border-radius: 999px; background: #e0f2fe; color: #075985; padding: 0.15rem 0.5rem; }
+      .muted { color: #64748b; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <div id="modal-root"></div>
+    <script type="text/babel">
+      const { useState, useEffect, useContext, useMemo, useCallback, useRef, useReducer, useTransition, useDeferredValue, useId, Suspense, StrictMode, Fragment, memo, createContext } = React;
+      const rows = [
+          { syntax: 'value', purpose: 'controlled input value from state' },
+          { syntax: 'onChange', purpose: 'updates state from user input' },
+          { syntax: 'onSubmit', purpose: 'handles form submission in React' }
+      ];
+      function App() {
+        return (
+          <section className="card">
+            <h1>React Forms quick reference</h1>
+            <table>
+              <thead><tr><th>Syntax</th><th>Purpose</th></tr></thead>
+              <tbody>{rows.map((row) => <tr key={row.syntax}><td><code>{row.syntax}</code></td><td>{row.purpose}</td></tr>)}</tbody>
+            </table>
+          </section>
+        );
+      }
+      ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+  </body>
+</html>
+```
+
+### مثال 3: صفحه تمرینی کامل
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Forms practice</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 1.5rem; line-height: 1.5; color: #1f2937; }
+      button, input, select, textarea { font: inherit; margin: 0.25rem; }
+      .card { border: 1px solid #d1d5db; border-radius: 0.75rem; padding: 1rem; max-width: 34rem; }
+      .row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+      .badge { display: inline-block; border-radius: 999px; background: #e0f2fe; color: #075985; padding: 0.15rem 0.5rem; }
+      .muted { color: #64748b; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <div id="modal-root"></div>
+    <script type="text/babel">
+      const { useState, useEffect, useContext, useMemo, useCallback, useRef, useReducer, useTransition, useDeferredValue, useId, Suspense, StrictMode, Fragment, memo, createContext } = React;
+      function LessonCard({ title, terms, children }) {
+        return (
+          <article className="card">
+            <h1>{title}</h1>
+            <ul>{terms.map((term) => <li key={term}>{term}</li>)}</ul>
+            {children}
+          </article>
+        );
+      }
+      function App() {
+        const [done, setDone] = useState(false);
+        const terms = ['value', 'onChange', 'onSubmit'];
+        return (
+          <LessonCard title="React Forms practice" terms={terms}>
+            <label><input type="checkbox" checked={done} onChange={(event) => setDone(event.target.checked)} /> I changed the demo</label>
+            <p className="badge">{done ? 'Practice complete' : 'Keep experimenting'}</p>
+          </LessonCard>
+        );
+      }
+      ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+  </body>
+</html>
+```
+
+## جدول syntax و کاربرد
+
+| Syntax | کاربرد | نکته authoring |
+| --- | --- | --- |
+| `value` | value کنترل‌شده input از state | در Formها در React آن را با render واقعی، state خالی، interaction و Console تست کنید. |
+| `onChange` | state را از input کاربر update می‌کند | در Formها در React آن را با render واقعی، state خالی، interaction و Console تست کنید. |
+| `onSubmit` | submit فرم را در React مدیریت می‌کند | در Formها در React آن را با render واقعی، state خالی، interaction و Console تست کنید. |
+
+## اشتباه‌های رایج
+
+- کپی کردن Formها در React بدون بررسی Console warning، key، dependency array یا update شدن state.
+- mutate کردن object یا array در state به جای ساخت copy تازه با spread، map یا filter.
+- فراموش کردن تست `value` با keyboard، state خالی، StrictMode و browser هدف.
+
+## تمرین کوتاه
+
+یک فایل `forms-overview.html` بسازید، مثال اول را اجرا کنید و سپس یک بخش مرتبط با `value` را تغییر دهید. اگر UI تغییر نکرد، Console و محل call شدن `root.render` یا update شدن state را بررسی کنید.
+
+## گام بعدی
+
+بعد از این صفحه، **Formهای React** را بخوانید تا مسیر React مرحله‌به‌مرحله کامل‌تر شود.

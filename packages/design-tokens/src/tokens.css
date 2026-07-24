@@ -1,0 +1,103 @@
+/**
+ * MEGA JS design tokens — brand system
+ * Yellow: #ffd400 · Black: #1a1a1a
+ * Default experience: dark mode. Light mode inverts black → white.
+ */
+
+@import "./motion.css";
+
+:root {
+  /* Typography — Vazirmatn is the project UI font */
+  --mj-font-sans: 'Vazirmatn', system-ui, sans-serif;
+  --mj-font-display: 'Vazirmatn', system-ui, sans-serif;
+  --mj-font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Syntax highlighting */
+  --mj-syn-keyword: #b45309;
+  --mj-syn-string: #15803d;
+  --mj-syn-function: #2563eb;
+  --mj-syn-number: #d97706;
+  --mj-syn-comment: #6b7280;
+  --mj-syn-operator: #0891b2;
+  --mj-syn-property: #dc2626;
+  --mj-syn-punctuation: #4b5563;
+
+  /* Light mode — black (#1a1a1a) surfaces become white */
+  --mj-black: #1a1a1a;
+  --mj-yellow: #ffd400;
+  --mj-brand: #ffd400;
+  --mj-accent: #ffd400;
+  --mj-accent-soft: #fff6c2;
+  --mj-accent-fg: #1a1a1a;
+  --mj-bg: #ffffff;
+  --mj-fg: #1a1a1a;
+  --mj-muted: #f3f3f3;
+  --mj-muted-fg: #5c5c5c;
+  --mj-border: #e6e6e6;
+  --mj-success: #16a34a;
+  --mj-danger: #ef4444;
+  --mj-ring: #ffd400;
+  --mj-card: #ffffff;
+  --mj-canvas: #1a1a1a;
+  --mj-canvas-fg: #ffffff;
+  --mj-ink: #1a1a1a;
+  --mj-hero-wash: linear-gradient(135deg, #ffffff 0%, #fff8d6 48%, #f3f3f3 100%);
+  --mj-shadow-sm: 0 4px 16px rgba(26, 26, 26, 0.06);
+  --mj-shadow-md: 0 12px 32px rgba(26, 26, 26, 0.1);
+  --mj-shadow-lg: 0 24px 48px rgba(26, 26, 26, 0.14);
+
+  --mj-radius-sm: 8px;
+  --mj-radius-md: 12px;
+  --mj-radius-lg: 16px;
+  --mj-motion-fast: 150ms;
+  --mj-motion-base: 220ms;
+  --mj-motion-slow: 380ms;
+  --mj-motion-reveal: 520ms;
+  --mj-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --mj-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --mj-ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+  --mj-ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+  --mj-touch: 48px;
+  --mj-grid:
+    linear-gradient(color-mix(in oklab, var(--mj-black) 6%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklab, var(--mj-black) 6%, transparent) 1px, transparent 1px);
+  --mj-grid-size: 28px 28px;
+}
+
+.dark {
+  --mj-syn-keyword: #ffd400;
+  --mj-syn-string: #86efac;
+  --mj-syn-function: #93c5fd;
+  --mj-syn-number: #fcd34d;
+  --mj-syn-comment: #737373;
+  --mj-syn-operator: #67e8f9;
+  --mj-syn-property: #fca5a5;
+  --mj-syn-punctuation: #a3a3a3;
+
+  /* Dark mode — brand black surfaces + yellow accent */
+  --mj-black: #1a1a1a;
+  --mj-yellow: #ffd400;
+  --mj-brand: #ffd400;
+  --mj-accent: #ffd400;
+  --mj-accent-soft: #2a2610;
+  --mj-accent-fg: #1a1a1a;
+  --mj-bg: #1a1a1a;
+  --mj-fg: #f5f5f5;
+  --mj-muted: #242424;
+  --mj-muted-fg: #a3a3a3;
+  --mj-border: #333333;
+  --mj-success: #22c55e;
+  --mj-danger: #ef4444;
+  --mj-ring: #ffd400;
+  --mj-card: #222222;
+  --mj-canvas: #111111;
+  --mj-canvas-fg: #f5f5f5;
+  --mj-ink: #1a1a1a;
+  --mj-hero-wash: linear-gradient(135deg, #1a1a1a 0%, #242018 42%, #1a1a1a 100%);
+  --mj-shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --mj-shadow-md: 0 12px 32px rgba(0, 0, 0, 0.45);
+  --mj-shadow-lg: 0 24px 48px rgba(255, 212, 0, 0.12);
+  --mj-grid:
+    linear-gradient(color-mix(in oklab, var(--mj-accent) 12%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklab, var(--mj-accent) 12%, transparent) 1px, transparent 1px);
+}

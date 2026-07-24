@@ -1,0 +1,232 @@
+@import "tailwindcss";
+@import "@megajs/design-tokens/css";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  /* MEGA JS brand fonts — Vazirmatn is the project UI font */
+  --font-display: var(--font-persian);
+  --font-body: var(--font-persian);
+  --font-persian: var(--font-persian);
+  --font-mono: var(--font-mono);
+  --font-sans: var(--font-persian);
+  --font-heading: var(--font-persian);
+
+  /* Map Tailwind semantic colors → shadcn CSS vars (fed by design-tokens) */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+}
+
+/* shadcn semantic tokens ← @megajs/design-tokens */
+:root {
+  --background: var(--mj-bg);
+  --foreground: var(--mj-fg);
+  --card: var(--mj-card);
+  --card-foreground: var(--mj-fg);
+  --popover: var(--mj-card);
+  --popover-foreground: var(--mj-fg);
+  --primary: var(--mj-accent);
+  --primary-foreground: var(--mj-accent-fg);
+  --secondary: var(--mj-muted);
+  --secondary-foreground: var(--mj-fg);
+  --muted: var(--mj-muted);
+  --muted-foreground: var(--mj-muted-fg);
+  --accent: var(--mj-accent);
+  --accent-foreground: var(--mj-accent-fg);
+  --destructive: var(--mj-danger);
+  --border: var(--mj-border);
+  --input: var(--mj-border);
+  --ring: var(--mj-ring);
+  --chart-1: var(--mj-accent);
+  --chart-2: var(--mj-brand);
+  --chart-3: var(--mj-muted-fg);
+  --chart-4: var(--mj-success);
+  --chart-5: var(--mj-danger);
+  --radius: 1rem;
+  --sidebar: var(--mj-card);
+  --sidebar-foreground: var(--mj-fg);
+  --sidebar-primary: var(--mj-accent);
+  --sidebar-primary-foreground: var(--mj-accent-fg);
+  --sidebar-accent: var(--mj-muted);
+  --sidebar-accent-foreground: var(--mj-fg);
+  --sidebar-border: var(--mj-border);
+  --sidebar-ring: var(--mj-ring);
+}
+
+.dark {
+  --background: var(--mj-bg);
+  --foreground: var(--mj-fg);
+  --card: var(--mj-card);
+  --card-foreground: var(--mj-fg);
+  --popover: var(--mj-card);
+  --popover-foreground: var(--mj-fg);
+  --primary: var(--mj-accent);
+  --primary-foreground: var(--mj-accent-fg);
+  --secondary: var(--mj-muted);
+  --secondary-foreground: var(--mj-fg);
+  --muted: var(--mj-muted);
+  --muted-foreground: var(--mj-muted-fg);
+  --accent: var(--mj-accent);
+  --accent-foreground: var(--mj-accent-fg);
+  --destructive: var(--mj-danger);
+  --border: var(--mj-border);
+  --input: var(--mj-border);
+  --ring: var(--mj-ring);
+  --sidebar: #1a1a1a;
+  --sidebar-foreground: var(--mj-fg);
+  --sidebar-primary: var(--mj-accent);
+  --sidebar-primary-foreground: var(--mj-accent-fg);
+  --sidebar-accent: var(--mj-muted);
+  --sidebar-accent-foreground: var(--mj-fg);
+  --sidebar-border: var(--mj-border);
+  --sidebar-ring: var(--mj-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Vazirmatn — project-wide UI font (FA + EN) */
+body,
+button,
+input,
+select,
+textarea {
+  font-family: var(--font-persian), system-ui, sans-serif;
+  font-feature-settings: 'kern' on;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.font-display,
+.font-sans {
+  font-family: var(--font-persian), system-ui, sans-serif;
+  letter-spacing: 0;
+}
+
+code,
+pre,
+kbd,
+samp,
+.font-mono,
+[data-code],
+.code-ltr,
+textarea.font-mono,
+input.font-mono {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: left;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--mj-accent) 70%, white);
+  color: var(--mj-ink);
+}
+
+/* Modarres-inspired storefront motion */
+@keyframes mj-hero-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes mj-soft-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.05);
+  }
+}
+
+.mj-hero-float {
+  animation: mj-hero-float 6s ease-in-out infinite;
+}
+
+.mj-soft-pulse {
+  animation: mj-soft-pulse 7s ease-in-out infinite;
+}
+
+.mj-lift {
+  transition:
+    transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mj-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--mj-shadow-md);
+}
+
+.mj-account-ajax {
+  animation: mj-fade-up var(--mj-motion-base) var(--mj-ease-out) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

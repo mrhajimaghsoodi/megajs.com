@@ -1,0 +1,743 @@
+{
+  "id": "typescript",
+  "order": 40,
+  "title": {
+    "fa": "TypeScript",
+    "en": "TypeScript"
+  },
+  "seoTitle": {
+    "fa": "TypeScript - آموزش W3Schools، مرجع MDN و مستندات رسمی | MEGA JS",
+    "en": "TypeScript - W3Schools Tutorial, MDN Reference & Official Docs | MEGA JS"
+  },
+  "seoDescription": {
+    "fa": "TypeScript را در سه مسیر یاد بگیرید: آموزش W3Schools، مرجع MDN-style و مستندات رسمی؛ همراه type، generics و مثال live همراه تمرین کاربردی برای پروژه واقعی وب.",
+    "en": "Learn TypeScript across three tracks: W3Schools-style lessons, MDN-style reference, and official docs with types, generics, tsconfig, and live demos."
+  },
+  "description": {
+    "fa": "سه مسیر کامل برای TypeScript: آموزش قدم‌به‌قدم، مرجع author-focused به سبک MDN و خلاصه‌های رسمی typescriptlang.org برای Handbook، Reference، Modules و tsconfig.",
+    "en": "Three complete TypeScript tracks: step-by-step learning, author-focused MDN-style reference, and official typescriptlang.org summaries for the Handbook, Reference, Modules, and tsconfig."
+  },
+  "sources": [
+    {
+      "name": "W3Schools TypeScript Tutorial",
+      "url": "https://www.w3schools.com/typescript/index.php"
+    },
+    {
+      "name": "MDN Web Docs - JavaScript",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+    },
+    {
+      "name": "MDN JavaScript Guide - Data types",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Data_structures"
+    },
+    {
+      "name": "TypeScript Docs",
+      "url": "https://www.typescriptlang.org/docs/"
+    },
+    {
+      "name": "TypeScript Handbook",
+      "url": "https://www.typescriptlang.org/docs/handbook/intro.html"
+    }
+  ],
+  "tracks": [
+    {
+      "id": "learn",
+      "title": {
+        "fa": "آموزشی (W3Schools)",
+        "en": "Learn (W3Schools)"
+      },
+      "description": {
+        "fa": "مسیر آموزشی قدم‌به‌قدم با ادیتور زنده - ساختار سایدبار W3Schools TypeScript Tutorial.",
+        "en": "Step-by-step tutorial with live editor - W3Schools TypeScript Tutorial sidebar structure."
+      },
+      "seoTitle": {
+        "fa": "آموزش TypeScript از صفر | مسیر W3Schools + ادیتور زنده | MEGA JS",
+        "en": "Learn TypeScript from Scratch | W3Schools Path + Live Editor | MEGA JS"
+      },
+      "seoDescription": {
+        "fa": "آموزش TypeScript از صفر با مسیر W3Schools، مثال‌های HTML دارای typescript.js CDN، type، interface، generics و تمرین live همراه تمرین کاربردی برای پروژه واقعی.",
+        "en": "Learn TypeScript from scratch with a W3Schools-style path, live HTML examples using typescript.js CDN, types, interfaces, and generics with practical drills."
+      },
+      "source": {
+        "name": "W3Schools TypeScript Tutorial",
+        "url": "https://www.w3schools.com/typescript/index.php"
+      },
+      "liveEditor": true,
+      "nav": [
+        {
+          "slug": "introduction",
+          "title": {
+            "fa": "مقدمه TypeScript",
+            "en": "TypeScript Intro"
+          }
+        },
+        {
+          "slug": "getting-started",
+          "title": {
+            "fa": "شروع کار با TypeScript",
+            "en": "TypeScript Getting Started"
+          },
+          "children": [
+            {
+              "slug": "get-started",
+              "title": {
+                "fa": "شروع سریع TypeScript",
+                "en": "TypeScript Get Started"
+              }
+            },
+            {
+              "slug": "simple-types",
+              "title": {
+                "fa": "Typeهای ساده در TypeScript",
+                "en": "TypeScript Simple Types"
+              }
+            },
+            {
+              "slug": "explicit-inference",
+              "title": {
+                "fa": "Type صریح و Inference",
+                "en": "Explicit Types and Inference"
+              }
+            },
+            {
+              "slug": "special-types",
+              "title": {
+                "fa": "Typeهای ویژه در TypeScript",
+                "en": "TypeScript Special Types"
+              }
+            }
+          ]
+        },
+        {
+          "slug": "collections-objects",
+          "title": {
+            "fa": "Collection و Objectها",
+            "en": "Collections and Objects"
+          },
+          "children": [
+            {
+              "slug": "arrays",
+              "title": {
+                "fa": "Arrayها در TypeScript",
+                "en": "TypeScript Arrays"
+              }
+            },
+            {
+              "slug": "tuples",
+              "title": {
+                "fa": "Tupleها در TypeScript",
+                "en": "TypeScript Tuples"
+              }
+            },
+            {
+              "slug": "object-types",
+              "title": {
+                "fa": "Object Typeها در TypeScript",
+                "en": "TypeScript Object Types"
+              }
+            },
+            {
+              "slug": "enums",
+              "title": {
+                "fa": "Enumها در TypeScript",
+                "en": "TypeScript Enums"
+              }
+            }
+          ]
+        },
+        {
+          "slug": "aliases-unions-functions",
+          "title": {
+            "fa": "Alias، Union و Functionها",
+            "en": "Aliases, Unions, and Functions"
+          },
+          "children": [
+            {
+              "slug": "aliases-interfaces",
+              "title": {
+                "fa": "Type Alias و Interface",
+                "en": "Type Aliases and Interfaces"
+              }
+            },
+            {
+              "slug": "union-types",
+              "title": {
+                "fa": "Union Typeها در TypeScript",
+                "en": "TypeScript Union Types"
+              }
+            },
+            {
+              "slug": "functions",
+              "title": {
+                "fa": "Functionها در TypeScript",
+                "en": "TypeScript Functions"
+              }
+            },
+            {
+              "slug": "casting",
+              "title": {
+                "fa": "Casting در TypeScript",
+                "en": "TypeScript Casting"
+              }
+            }
+          ]
+        },
+        {
+          "slug": "oop-generics",
+          "title": {
+            "fa": "OOP و Generics",
+            "en": "OOP and Generics"
+          },
+          "children": [
+            {
+              "slug": "classes",
+              "title": {
+                "fa": "Classها در TypeScript",
+                "en": "TypeScript Classes"
+              }
+            },
+            {
+              "slug": "basic-generics",
+              "title": {
+                "fa": "Generics پایه در TypeScript",
+                "en": "TypeScript Basic Generics"
+              }
+            },
+            {
+              "slug": "utility-types",
+              "title": {
+                "fa": "Utility Typeها در TypeScript",
+                "en": "TypeScript Utility Types"
+              }
+            },
+            {
+              "slug": "keyof-op",
+              "title": {
+                "fa": "عملگر keyof در TypeScript",
+                "en": "TypeScript keyof"
+              }
+            },
+            {
+              "slug": "nullables",
+              "title": {
+                "fa": "Null در TypeScript",
+                "en": "TypeScript Null"
+              }
+            }
+          ]
+        },
+        {
+          "slug": "tooling-ecosystem",
+          "title": {
+            "fa": "Tooling و Ecosystem",
+            "en": "Tooling and Ecosystem"
+          },
+          "children": [
+            {
+              "slug": "definitely-typed",
+              "title": {
+                "fa": "Definitely Typed",
+                "en": "Definitely Typed"
+              }
+            },
+            {
+              "slug": "ts5-updates",
+              "title": {
+                "fa": "Updateهای TypeScript 5",
+                "en": "TypeScript 5 Updates"
+              }
+            },
+            {
+              "slug": "configuration",
+              "title": {
+                "fa": "Configuration در TypeScript",
+                "en": "TypeScript Configuration"
+              }
+            },
+            {
+              "slug": "with-nodejs",
+              "title": {
+                "fa": "TypeScript با Node.js",
+                "en": "TypeScript with Node.js"
+              }
+            },
+            {
+              "slug": "with-react",
+              "title": {
+                "fa": "TypeScript با React",
+                "en": "TypeScript with React"
+              }
+            },
+            {
+              "slug": "tooling",
+              "title": {
+                "fa": "Tooling در TypeScript",
+                "en": "TypeScript Tooling"
+              }
+            }
+          ]
+        },
+        {
+          "slug": "advanced",
+          "title": {
+            "fa": "TypeScript پیشرفته",
+            "en": "Advanced TypeScript"
+          },
+          "children": [
+            {
+              "slug": "advanced-types",
+              "title": {
+                "fa": "Typeهای پیشرفته در TypeScript",
+                "en": "TypeScript Advanced Types"
+              }
+            },
+            {
+              "slug": "type-guards",
+              "title": {
+                "fa": "Type Guardها در TypeScript",
+                "en": "TypeScript Type Guards"
+              }
+            },
+            {
+              "slug": "conditional-types",
+              "title": {
+                "fa": "Conditional Typeها در TypeScript",
+                "en": "TypeScript Conditional Types"
+              }
+            },
+            {
+              "slug": "mapped-types",
+              "title": {
+                "fa": "Mapped Typeها در TypeScript",
+                "en": "TypeScript Mapped Types"
+              }
+            },
+            {
+              "slug": "type-inference",
+              "title": {
+                "fa": "Type Inference در TypeScript",
+                "en": "TypeScript Type Inference"
+              }
+            },
+            {
+              "slug": "literal-types",
+              "title": {
+                "fa": "Literal Typeها در TypeScript",
+                "en": "TypeScript Literal Types"
+              }
+            },
+            {
+              "slug": "namespaces",
+              "title": {
+                "fa": "Namespaceها در TypeScript",
+                "en": "TypeScript Namespaces"
+              }
+            },
+            {
+              "slug": "index-signatures",
+              "title": {
+                "fa": "Index Signatureها در TypeScript",
+                "en": "TypeScript Index Signatures"
+              }
+            },
+            {
+              "slug": "declaration-merging",
+              "title": {
+                "fa": "Declaration Merging",
+                "en": "Declaration Merging"
+              }
+            },
+            {
+              "slug": "async-programming",
+              "title": {
+                "fa": "Async در TypeScript",
+                "en": "TypeScript Async"
+              }
+            },
+            {
+              "slug": "decorators",
+              "title": {
+                "fa": "Decoratorها در TypeScript",
+                "en": "TypeScript Decorators"
+              }
+            },
+            {
+              "slug": "in-js-projects",
+              "title": {
+                "fa": "TypeScript در پروژه‌های JavaScript",
+                "en": "TypeScript in JavaScript Projects"
+              }
+            },
+            {
+              "slug": "migration",
+              "title": {
+                "fa": "Migration به TypeScript",
+                "en": "TypeScript Migration"
+              }
+            },
+            {
+              "slug": "error-handling",
+              "title": {
+                "fa": "Error Handling در TypeScript",
+                "en": "TypeScript Error Handling"
+              }
+            },
+            {
+              "slug": "best-practices",
+              "title": {
+                "fa": "Best Practiceهای TypeScript",
+                "en": "TypeScript Best Practices"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reference",
+      "title": {
+        "fa": "مرجع (MDN-style)",
+        "en": "Reference (MDN-style)"
+      },
+      "description": {
+        "fa": "مرجع author-focused به سبک MDN برای typeهای JavaScript، narrowing، DOM typing، Promise، JSON و module در code TypeScript.",
+        "en": "An author-focused MDN-style reference for JavaScript types, narrowing, DOM typing, promises, JSON, and modules in TypeScript code."
+      },
+      "seoTitle": {
+        "fa": "مرجع TypeScript به سبک MDN | Type، DOM و Async | MEGA JS",
+        "en": "TypeScript Reference - MDN-style Types, DOM & Async | MEGA JS"
+      },
+      "seoDescription": {
+        "fa": "مرجع TypeScript به سبک MDN برای typeهای JavaScript، narrowing، DOM typing، JSON، Promise، module و authoring امن در پروژه واقعی همراه تمرین کاربردی.",
+        "en": "Use the MDN-style TypeScript reference for JavaScript types, narrowing, DOM typing, JSON, promises, modules, and safe authoring with practical drills."
+      },
+      "source": {
+        "name": "MDN Web Docs - JavaScript",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+      },
+      "liveEditor": false,
+      "nav": [
+        {
+          "slug": "overview",
+          "title": {
+            "fa": "نمای کلی مرجع TypeScript",
+            "en": "TypeScript Reference Overview"
+          }
+        },
+        {
+          "slug": "js-type-system",
+          "title": {
+            "fa": "Type System جاوااسکریپت برای TypeScript",
+            "en": "JavaScript Type System for TypeScript"
+          }
+        },
+        {
+          "slug": "primitive-wrappers",
+          "title": {
+            "fa": "Primitive Wrapperها و TypeScript",
+            "en": "Primitive Wrappers and TypeScript"
+          }
+        },
+        {
+          "slug": "typeof-instanceof",
+          "title": {
+            "fa": "مرجع typeof و instanceof",
+            "en": "typeof and instanceof Reference"
+          }
+        },
+        {
+          "slug": "equality-coercion",
+          "title": {
+            "fa": "Equality، Coercion و Typeها",
+            "en": "Equality, Coercion, and Types"
+          }
+        },
+        {
+          "slug": "objects-prototypes-types",
+          "title": {
+            "fa": "Object، Prototype و Static Typeها",
+            "en": "Objects, Prototypes, and Static Types"
+          }
+        },
+        {
+          "slug": "functions-signatures",
+          "title": {
+            "fa": "مرجع Signatureهای Function",
+            "en": "Function Signatures Reference"
+          }
+        },
+        {
+          "slug": "classes-js-vs-ts",
+          "title": {
+            "fa": "Class در JavaScript در برابر TypeScript",
+            "en": "Classes in JavaScript vs TypeScript"
+          }
+        },
+        {
+          "slug": "modules-esm",
+          "title": {
+            "fa": "ES Module و TypeScript",
+            "en": "ES Modules and TypeScript"
+          }
+        },
+        {
+          "slug": "iterators-typed",
+          "title": {
+            "fa": "Iterator، Iterable و Collectionهای Typed",
+            "en": "Iterators, Iterables, and Typed Collections"
+          }
+        },
+        {
+          "slug": "errors-exceptions",
+          "title": {
+            "fa": "Type کردن Error و Exception",
+            "en": "Errors and Exceptions Typing"
+          }
+        },
+        {
+          "slug": "memory-gc-notes",
+          "title": {
+            "fa": "نکته‌های Memory و GC برای Type Authorها",
+            "en": "Memory and GC Notes for Type Authors"
+          }
+        },
+        {
+          "slug": "web-apis-typing",
+          "title": {
+            "fa": "مرجع Typeهای Web API",
+            "en": "Web APIs Typing Reference"
+          }
+        },
+        {
+          "slug": "dom-typing",
+          "title": {
+            "fa": "مرجع Type کردن DOM",
+            "en": "DOM Typing Reference"
+          }
+        },
+        {
+          "slug": "json-data",
+          "title": {
+            "fa": "JSON Data و TypeScript",
+            "en": "JSON Data and TypeScript"
+          }
+        },
+        {
+          "slug": "async-promises-types",
+          "title": {
+            "fa": "Async، Promise و Typeها",
+            "en": "Async, Promises, and Types"
+          }
+        },
+        {
+          "slug": "symbols-bigint-types",
+          "title": {
+            "fa": "Symbol، BigInt و Typeهای Unique",
+            "en": "Symbols, BigInt, and Unique Types"
+          }
+        },
+        {
+          "slug": "cheatsheet",
+          "title": {
+            "fa": "Cheatsheet مرجع TypeScript",
+            "en": "TypeScript MDN-style Cheatsheet"
+          }
+        }
+      ]
+    },
+    {
+      "id": "official",
+      "title": {
+        "fa": "مستندات رسمی (typescriptlang.org)",
+        "en": "Official (typescriptlang.org)"
+      },
+      "description": {
+        "fa": "خلاصه‌های رسمی TypeScript Docs برای Get Started، Handbook، Reference، Modules، Declaration Files، JS Projects و Project Configuration.",
+        "en": "Official TypeScript Docs summaries for Get Started, Handbook, Reference, Modules, Declaration Files, JS Projects, and Project Configuration."
+      },
+      "seoTitle": {
+        "fa": "مستندات رسمی TypeScript | Handbook، Modules و tsconfig | MEGA JS",
+        "en": "Official TypeScript Docs | Handbook, Modules & tsconfig | MEGA JS"
+      },
+      "seoDescription": {
+        "fa": "خلاصه مستندات رسمی TypeScript برای Get Started، Handbook، Reference، Modules، Declaration Files، JS Projects و tsconfig.json همراه تمرین کاربردی.",
+        "en": "Read official TypeScript docs summaries for Get Started, the Handbook, Reference, Modules, Declaration Files, JS projects, and tsconfig.json with practical."
+      },
+      "source": {
+        "name": "TypeScript Docs",
+        "url": "https://www.typescriptlang.org/docs/"
+      },
+      "liveEditor": false,
+      "nav": [
+        {
+          "slug": "overview",
+          "title": {
+            "fa": "نمای کلی مستندات رسمی TypeScript",
+            "en": "Official TypeScript Docs Overview"
+          }
+        },
+        {
+          "slug": "get-started-js",
+          "title": {
+            "fa": "شروع با پروژه‌های JavaScript",
+            "en": "Get Started with JavaScript Projects"
+          }
+        },
+        {
+          "slug": "get-started-new",
+          "title": {
+            "fa": "شروع یک پروژه TypeScript جدید",
+            "en": "Get Started with a New TypeScript Project"
+          }
+        },
+        {
+          "slug": "get-started-tooling",
+          "title": {
+            "fa": "شروع با Tooling",
+            "en": "Get Started with Tooling"
+          }
+        },
+        {
+          "slug": "handbook-basics",
+          "title": {
+            "fa": "Basics در Handbook",
+            "en": "Handbook Basics"
+          }
+        },
+        {
+          "slug": "everyday-types",
+          "title": {
+            "fa": "Everyday Types",
+            "en": "Everyday Types"
+          }
+        },
+        {
+          "slug": "narrowing-official",
+          "title": {
+            "fa": "Narrowing در Handbook",
+            "en": "Narrowing in the Handbook"
+          }
+        },
+        {
+          "slug": "functions-official",
+          "title": {
+            "fa": "Functionها در Handbook",
+            "en": "Functions in the Handbook"
+          }
+        },
+        {
+          "slug": "object-types-official",
+          "title": {
+            "fa": "Object Typeها در Handbook",
+            "en": "Object Types in the Handbook"
+          }
+        },
+        {
+          "slug": "type-from-types",
+          "title": {
+            "fa": "ساخت Type از Typeها",
+            "en": "Creating Types from Types"
+          }
+        },
+        {
+          "slug": "generics-official",
+          "title": {
+            "fa": "Generics در Handbook",
+            "en": "Generics in the Handbook"
+          }
+        },
+        {
+          "slug": "keyof-official",
+          "title": {
+            "fa": "Type Operator با نام keyof",
+            "en": "keyof Type Operator"
+          }
+        },
+        {
+          "slug": "typeof-official",
+          "title": {
+            "fa": "Type Operator با نام typeof",
+            "en": "typeof Type Operator"
+          }
+        },
+        {
+          "slug": "indexed-access",
+          "title": {
+            "fa": "Indexed Access Typeها",
+            "en": "Indexed Access Types"
+          }
+        },
+        {
+          "slug": "conditional-official",
+          "title": {
+            "fa": "Conditional Typeها",
+            "en": "Conditional Types"
+          }
+        },
+        {
+          "slug": "mapped-official",
+          "title": {
+            "fa": "Mapped Typeها",
+            "en": "Mapped Types"
+          }
+        },
+        {
+          "slug": "template-literal-types",
+          "title": {
+            "fa": "Template Literal Typeها",
+            "en": "Template Literal Types"
+          }
+        },
+        {
+          "slug": "modules-reference",
+          "title": {
+            "fa": "مرجع Moduleها",
+            "en": "Modules Reference"
+          }
+        },
+        {
+          "slug": "declaration-files",
+          "title": {
+            "fa": "Declaration Fileها",
+            "en": "Declaration Files"
+          }
+        },
+        {
+          "slug": "jsdoc-checking",
+          "title": {
+            "fa": "Check کردن با JSDoc",
+            "en": "JSDoc Checking"
+          }
+        },
+        {
+          "slug": "tsconfig-json",
+          "title": {
+            "fa": "tsconfig.json",
+            "en": "tsconfig.json"
+          }
+        },
+        {
+          "slug": "compiler-options",
+          "title": {
+            "fa": "Compiler Optionها",
+            "en": "Compiler Options"
+          }
+        },
+        {
+          "slug": "project-references",
+          "title": {
+            "fa": "Project Referenceها",
+            "en": "Project References"
+          }
+        },
+        {
+          "slug": "tsc-cli",
+          "title": {
+            "fa": "CLI با نام tsc",
+            "en": "tsc CLI"
+          }
+        }
+      ]
+    }
+  ]
+}

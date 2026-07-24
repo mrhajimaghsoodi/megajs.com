@@ -1,0 +1,70 @@
+{
+  "id": "tailwind",
+  "order": 50,
+  "title": {
+    "fa": "Tailwind CSS",
+    "en": "Tailwind CSS"
+  },
+  "description": {
+    "fa": "Utility-first CSS — Official Tailwind docs — ساختار مشابه docs مرجع؛ ترجمه فارسی روان.",
+    "en": "Utility-first CSS — Official Tailwind docs — structure aligned with official docs."
+  },
+  "sources": [
+    {
+      "name": "Tailwind CSS Docs",
+      "url": "https://tailwindcss.com/docs"
+    },
+    {
+      "name": "MDN",
+      "url": "https://developer.mozilla.org/"
+    },
+    {
+      "name": "W3Schools",
+      "url": "https://www.w3schools.com/"
+    }
+  ],
+  "nav": [
+    {
+      "slug": "introduction",
+      "title": {
+        "fa": "مقدمه",
+        "en": "Introduction"
+      }
+    },
+    {
+      "slug": "utility-first",
+      "title": {
+        "fa": "Utility-first",
+        "en": "Utility-first"
+      }
+    },
+    {
+      "slug": "layout",
+      "title": {
+        "fa": "Layout",
+        "en": "Layout"
+      }
+    },
+    {
+      "slug": "responsive",
+      "title": {
+        "fa": "واکنش‌گرا",
+        "en": "Responsive"
+      }
+    },
+    {
+      "slug": "customization",
+      "title": {
+        "fa": "سفارشی‌سازی",
+        "en": "Customization"
+      }
+    },
+    {
+      "slug": "dark-mode",
+      "title": {
+        "fa": "حالت تاریک",
+        "en": "Dark mode"
+      }
+    }
+  ]
+}

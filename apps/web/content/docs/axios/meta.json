@@ -1,0 +1,63 @@
+{
+  "id": "axios",
+  "order": 200,
+  "title": {
+    "fa": "Axios",
+    "en": "Axios"
+  },
+  "description": {
+    "fa": "HTTP client — axios docs — ساختار مشابه docs مرجع؛ ترجمه فارسی روان.",
+    "en": "HTTP client — axios docs — structure aligned with official docs."
+  },
+  "sources": [
+    {
+      "name": "Axios Docs",
+      "url": "https://axios-http.com/docs/intro"
+    },
+    {
+      "name": "MDN",
+      "url": "https://developer.mozilla.org/"
+    },
+    {
+      "name": "W3Schools",
+      "url": "https://www.w3schools.com/"
+    }
+  ],
+  "nav": [
+    {
+      "slug": "introduction",
+      "title": {
+        "fa": "مقدمه",
+        "en": "Introduction"
+      }
+    },
+    {
+      "slug": "requests",
+      "title": {
+        "fa": "Requestها",
+        "en": "Requests"
+      }
+    },
+    {
+      "slug": "instances",
+      "title": {
+        "fa": "Instanceها",
+        "en": "Instances"
+      }
+    },
+    {
+      "slug": "interceptors",
+      "title": {
+        "fa": "Interceptorها",
+        "en": "Interceptors"
+      }
+    },
+    {
+      "slug": "errors",
+      "title": {
+        "fa": "خطاها",
+        "en": "Errors"
+      }
+    }
+  ]
+}

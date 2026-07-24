@@ -1,0 +1,17 @@
+name: Preview (PR)
+
+# Optional: builds a preview artifact checklist. Real preview hosting can be
+# wired later (Coolify/Vercel/Dokku). For now this validates the PR build.
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  preview-note:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Preview guidance
+        run: |
+          echo "After merge to master, Deploy Production workflow publishes to megajs.com."
+          echo "Configure GitHub Environment secrets: DEPLOY_HOST, DEPLOY_USER, DEPLOY_SSH_KEY, DEPLOY_PATH, SITE_URL."

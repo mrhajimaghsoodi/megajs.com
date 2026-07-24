@@ -1,0 +1,70 @@
+{
+  "id": "nodejs",
+  "order": 100,
+  "title": {
+    "fa": "Node.js",
+    "en": "Node.js"
+  },
+  "description": {
+    "fa": "JS runtime — nodejs.org/docs — ساختار مشابه docs مرجع؛ ترجمه فارسی روان.",
+    "en": "JS runtime — nodejs.org/docs — structure aligned with official docs."
+  },
+  "sources": [
+    {
+      "name": "Node.js Docs",
+      "url": "https://nodejs.org/docs/latest/api/"
+    },
+    {
+      "name": "MDN",
+      "url": "https://developer.mozilla.org/"
+    },
+    {
+      "name": "W3Schools",
+      "url": "https://www.w3schools.com/"
+    }
+  ],
+  "nav": [
+    {
+      "slug": "introduction",
+      "title": {
+        "fa": "مقدمه",
+        "en": "Introduction"
+      }
+    },
+    {
+      "slug": "modules",
+      "title": {
+        "fa": "ماژول‌ها",
+        "en": "Modules"
+      }
+    },
+    {
+      "slug": "fs-path",
+      "title": {
+        "fa": "fs و path",
+        "en": "fs & path"
+      }
+    },
+    {
+      "slug": "http",
+      "title": {
+        "fa": "HTTP",
+        "en": "HTTP"
+      }
+    },
+    {
+      "slug": "events",
+      "title": {
+        "fa": "Events",
+        "en": "Events"
+      }
+    },
+    {
+      "slug": "npm",
+      "title": {
+        "fa": "npm",
+        "en": "npm"
+      }
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [master]
+  push:
+    branches: [master, 'cursor/**']
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build monorepo
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        # version comes from package.json "packageManager" (do not also set `version:` here)
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Build packages
+        run: |
+          pnpm --filter @megajs/design-tokens build
+          pnpm --filter @megajs/domain build
+          pnpm --filter @megajs/sdk build
+
+      - name: Generate Prisma client
+        working-directory: apps/api
+        env:
+          DATABASE_URL: file:./ci.db
+        run: |
+          pnpm exec prisma generate
+          pnpm exec prisma db push
+          pnpm prisma:seed
+
+      - name: Build API
+        run: pnpm --filter @megajs/api build
+
+      - name: Build Web
+        env:
+          NEXT_PUBLIC_API_BASE_URL: http://localhost:4000/api
+          NEXT_PUBLIC_SITE_URL: https://megajs.com
+        run: pnpm --filter @megajs/web build
+
+      - name: Build Admin
+        run: pnpm --filter @megajs/admin build

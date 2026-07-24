@@ -1,0 +1,27 @@
+{
+  "name": "megajs",
+  "private": true,
+  "packageManager": "pnpm@10.33.3",
+  "scripts": {
+    "build:packages": "pnpm --filter @megajs/design-tokens build && pnpm --filter @megajs/domain build && pnpm --filter @megajs/sdk build",
+    "dev": "pnpm run build:packages && turbo run dev --filter=@megajs/api --filter=@megajs/web --filter=@megajs/admin",
+    "dev:all": "pnpm run build:packages && turbo run dev --filter=@megajs/api --filter=@megajs/web --filter=@megajs/admin --filter=@megajs/mobile --filter=@megajs/desktop",
+    "dev:mobile": "pnpm --filter @megajs/mobile dev",
+    "dev:desktop": "pnpm --filter @megajs/desktop dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "db:generate": "pnpm --filter @megajs/api prisma:generate",
+    "db:migrate": "pnpm --filter @megajs/api prisma:migrate",
+    "db:seed": "pnpm --filter @megajs/api prisma:seed",
+    "docs:dev": "echo 'See /docs'"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.4",
+    "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

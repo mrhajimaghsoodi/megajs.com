@@ -1,0 +1,114 @@
+---
+title: "tsc CLI"
+description: "This page explains running the TypeScript compiler from scripts, watch mode, build mode, and CI checks with TypeScript examples, syntax tables, and practical authoring notes."
+seoTitle: "tsc CLI - Official TypeScript Docs | MEGA JS Docs"
+seoDescription: "tsc CLI (tsc cli): official TypeScript Docs summary with Handbook, Reference, Modules, declaration files, tsconfig, and compiler notes with practical drills."
+keywords: "TypeScript, tsc CLI, TypeScript tsc CLI, tsc CLI tutorial, tsc cli"
+order: 24
+track: official
+sources:
+  - name: TypeScript Docs
+    url: https://www.typescriptlang.org/docs/
+  - name: TypeScript Handbook
+    url: https://www.typescriptlang.org/docs/handbook/intro.html
+---
+# tsc CLI
+
+tsc CLI summarizes the official typescriptlang.org/docs structure. It focuses on running the TypeScript compiler from scripts, watch mode, build mode, and CI checks and helps authors read the Handbook and Reference without turning this page into a full documentation dump.
+
+## How to read the official text
+
+In the TypeScript Docs, Get Started builds the entry path, the Handbook explains everyday and type-level concepts, the Reference details modules and compiler behavior, and Project Configuration covers production settings.
+
+## Key terms
+
+| Term | Author-facing summary |
+| --- | --- |
+| `tsconfig` | project configuration file |
+| `compilerOptions` | settings for checking and emit |
+| `noEmit` | type-check without writing output files |
+
+## Runnable examples
+
+### Example 1
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script src="https://cdn.jsdelivr.net/npm/typescript@5.7.3/lib/typescript.js"></script>
+</head>
+<body>
+<pre id="out"></pre>
+<script>
+const out = document.querySelector('#out');
+const log = (...a) => { out.textContent += a.map(String).join(' ') + '\n'; };
+const tsCode = `
+type OfficialStep = 'open docs' | 'read handbook' | 'compile sample' | 'check tsconfig';
+const steps: OfficialStep[] = ['open docs', 'read handbook', 'compile sample', 'check tsconfig'];
+log('tsc CLI official reading trace');
+for (const [index, step] of steps.entries()) {
+  log(index + 1, step);
+}
+`;
+try {
+  const result = ts.transpileModule(tsCode, {
+    compilerOptions: { target: ts.ScriptTarget.ES2020, module: ts.ModuleKind.ESNext, strict: true }
+  });
+  // Run emitted JS in a Function with log in scope
+  new Function('log', result.outputText)(log);
+} catch (e) {
+  log('Error:', e.message || e);
+}
+</script>
+</body>
+</html>
+```
+
+### Example 2
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script src="https://cdn.jsdelivr.net/npm/typescript@5.7.3/lib/typescript.js"></script>
+</head>
+<body>
+<pre id="out"></pre>
+<script>
+const out = document.querySelector('#out');
+const log = (...a) => { out.textContent += a.map(String).join(' ') + '\n'; };
+const tsCode = `
+type CompilerMode = 'check' | 'emit' | 'build';
+const options: { strict: boolean; mode: CompilerMode; target: string } = {
+  strict: true,
+  mode: 'check',
+  target: 'ES2020',
+};
+log('strict:', options.strict, 'mode:', options.mode, 'target:', options.target);
+`;
+try {
+  const result = ts.transpileModule(tsCode, {
+    compilerOptions: { target: ts.ScriptTarget.ES2020, module: ts.ModuleKind.ESNext, strict: true }
+  });
+  // Run emitted JS in a Function with log in scope
+  new Function('log', result.outputText)(log);
+} catch (e) {
+  log('Error:', e.message || e);
+}
+</script>
+</body>
+</html>
+```
+
+## Official and compiler notes
+
+- In tsc CLI, compare official caveats with your TypeScript version, tsconfig options, and actual JavaScript runtime behavior.
+- If the topic involves modules, declaration files, or JavaScript projects, also check your package manager and bundler behavior.
+- For production code, pair the official text with CI typechecks, tests, and validation for external data.
+
+## Next step
+
+After this track, open a reference page and test its behavior under strict mode.

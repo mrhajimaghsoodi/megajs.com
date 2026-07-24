@@ -1,0 +1,108 @@
+# Production Deploy (WHM-aware)
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to VPS
+    runs-on: ubuntu-latest
+    environment: production
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Start SSH agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY }}
+
+      - name: Add host to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H "${{ secrets.DEPLOY_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Sync release to server
+        env:
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          set -euo pipefail
+          rsync -az --delete \
+            --exclude '.git' \
+            --exclude 'node_modules' \
+            --exclude '.next' \
+            --exclude 'dist' \
+            --exclude 'apps/api/prisma/*.db' \
+            --exclude '.env' \
+            --exclude '.env.local' \
+            --exclude '.env.production' \
+            --filter 'P .env.production' \
+            --filter 'P .env' \
+            ./ "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/"
+
+      - name: Remote build & restart (Docker on localhost ports)
+        env:
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          ssh "${DEPLOY_USER}@${DEPLOY_HOST}" <<EOF
+            set -euo pipefail
+            cd "${DEPLOY_PATH}"
+            if [ ! -f .env.production ]; then
+              echo "Missing .env.production on server — copy from .env.production.example" >&2
+              exit 1
+            fi
+            docker compose -f docker-compose.prod.yml --env-file .env.production up -d --build
+            docker compose -f docker-compose.prod.yml --env-file .env.production ps
+          EOF
+
+      - name: Localhost health check on VPS
+        env:
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+        run: |
+          set -euo pipefail
+          ssh "${DEPLOY_USER}@${DEPLOY_HOST}" <<'EOF'
+            set -euo pipefail
+            for i in 1 2 3 4 5 6 7 8 9 10 11 12; do
+              if curl -fsS "http://127.0.0.1:14000/api/health" >/dev/null \
+                && curl -fsS -o /dev/null -w "%{http_code}" "http://127.0.0.1:13000/fa" | grep -Eq '200|301|302|307|308'; then
+                echo "Local health OK (api:14000 web:13000)"
+                exit 0
+              fi
+              sleep 5
+            done
+            echo "Local health check failed" >&2
+            docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}' || true
+            exit 1
+          EOF
+
+      - name: Public URL health check (optional until WHM proxy + DNS ready)
+        env:
+          SITE_URL: ${{ secrets.SITE_URL }}
+        run: |
+          set -euo pipefail
+          URL="${SITE_URL:-}"
+          if [ -z "$URL" ]; then
+            echo "SITE_URL secret empty — skipping public check"
+            exit 0
+          fi
+          for i in 1 2 3 4 5 6; do
+            if curl -fsS "$URL/api/health" >/dev/null; then
+              echo "Public healthy: $URL/api/health"
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "::warning::Public health check failed for $URL — Docker may be up but WHM proxy/DNS not ready yet"
+          exit 0

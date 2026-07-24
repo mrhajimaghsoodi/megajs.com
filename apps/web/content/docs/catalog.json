@@ -1,0 +1,24 @@
+{
+  "groups": [
+    {
+      "id": "web-fundamentals",
+      "title": { "fa": "مبانی وب", "en": "Web fundamentals" },
+      "techs": ["html", "css", "javascript", "typescript", "tailwind"]
+    },
+    {
+      "id": "frontend",
+      "title": { "fa": "فرانت‌اند", "en": "Frontend" },
+      "techs": ["react", "nextjs", "vue", "angular"]
+    },
+    {
+      "id": "backend",
+      "title": { "fa": "بک‌اند و پلتفرم", "en": "Backend & platform" },
+      "techs": ["nodejs", "nestjs", "electron", "react-native"]
+    },
+    {
+      "id": "libraries",
+      "title": { "fa": "کتابخانه‌های معروف", "en": "Popular libraries" },
+      "techs": ["axios", "lodash", "express", "jest", "redux", "zustand", "tanstack-query"]
+    }
+  ]
+}

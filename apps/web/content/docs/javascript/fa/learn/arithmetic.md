@@ -1,0 +1,112 @@
+---
+title: "Arithmetic در JavaScript"
+description: "این صفحه محاسبه نتیجه عددی همراه توجه به coercion، precedence و NaN را با مثال HTML، جدول syntax و نکته‌های کاربردی برای JavaScript توضیح می‌دهد."
+seoTitle: "آموزش Arithmetic در JavaScript در مسیر W3Schools | MEGA JS"
+seoDescription: "آموزش Arithmetic در JavaScript (arithmetic): مثال HTML با <script>، تمرین live مسیر W3Schools، نکته DevTools Console و کاربرد JavaScript در DOM و runtime."
+keywords: "JavaScript, Arithmetic در JavaScript, آموزش JavaScript, مرجع JavaScript, JavaScript Arithmetic, Arithmetic tutorial, arithmetic"
+order: 13
+track: learn
+sources:
+  - name: W3Schools JavaScript Tutorial
+    url: https://www.w3schools.com/js/default.asp
+  - name: MDN JavaScript
+    url: https://developer.mozilla.org/en-US/docs/Web/JavaScript
+---
+# Arithmetic در JavaScript
+
+Arithmetic در JavaScript درباره محاسبه نتیجه عددی همراه توجه به coercion، precedence و NaN است. این درس بازنویسی آموزشی و مستقل از مسیر W3Schools JavaScript Tutorial است و مثال‌ها با `<script>` نوشته شده‌اند تا در live editor اجرا شوند.
+
+وقتی Arithmetic در JavaScript را تمرین می‌کنید، فقط خروجی ظاهری را نبینید؛ valueها را در DevTools Console، تغییرهای DOM، errorهای runtime و اثر event loop را هم بررسی کنید.
+
+## ایده اصلی
+
+- `+ - * / %`: محاسبه عددی انجام می‌دهد و + می‌تواند string concat کند.
+- `NaN`: نتیجه عددی نامعتبر را نشان می‌دهد.
+- `precedence`: تعیین می‌کند کدام operation زودتر اجرا شود.
+- برای این موضوع، هماهنگی syntax، value، runtime و رفتار قابل مشاهده در Console نشانه اصلی کیفیت JavaScript است.
+
+## مثال‌های HTML و JavaScript
+
+سه مثال زیر از الگوی کوچک به صفحه کامل حرکت می‌کنند. هر مثال را در live editor اجرا کنید، یک value یا handler را تغییر دهید و Console را بررسی کنید.
+
+### مثال 1: الگوی JavaScript متمرکز
+
+```html
+<section>
+  <h2>JavaScript Arithmetic</h2>
+  <p id="arithmetic-text">calculating numeric results while noticing coercion, precedence, and NaN.</p>
+  <output id="arithmetic-out"></output>
+</section>
+<script>
+  const text = document.querySelector('#arithmetic-text').textContent;
+  document.querySelector('#arithmetic-out').value =
+    `JavaScript handled ${text.length} characters for JavaScript Arithmetic`;
+</script>
+```
+
+### مثال 2: گزینه‌های syntax در context
+
+```html
+<table>
+  <caption>JavaScript Arithmetic quick reference</caption>
+  <thead>
+    <tr><th scope="col">Syntax</th><th scope="col">Purpose</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>+ - * / %</code></td><td>perform numeric arithmetic or string concatenation for +</td></tr>
+    <tr><td><code>NaN</code></td><td>represents an invalid numeric result</td></tr>
+    <tr><td><code>precedence</code></td><td>decides which operation runs first</td></tr>
+  </tbody>
+</table>
+<script>
+  const rows = document.querySelectorAll('tbody tr');
+  console.log('arithmetic terms:', rows.length);
+</script>
+```
+
+### مثال 3: صفحه تمرینی کامل
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Arithmetic practice</title>
+  </head>
+  <body>
+    <section>
+      <h2>JavaScript Arithmetic</h2>
+      <p id="arithmetic-text">calculating numeric results while noticing coercion, precedence, and NaN.</p>
+      <output id="arithmetic-out"></output>
+    </section>
+    <script>
+      const text = document.querySelector('#arithmetic-text').textContent;
+      document.querySelector('#arithmetic-out').value =
+        `JavaScript handled ${text.length} characters for JavaScript Arithmetic`;
+    </script>
+  </body>
+</html>
+```
+
+## جدول syntax و کاربرد
+
+| Syntax | کاربرد | نکته authoring |
+| --- | --- | --- |
+| `+ - * / %` | محاسبه عددی انجام می‌دهد و + می‌تواند string concat کند | در Arithmetic در JavaScript آن را با runtime واقعی، DOM و error handling تست کنید. |
+| `NaN` | نتیجه عددی نامعتبر را نشان می‌دهد | در Arithmetic در JavaScript آن را با runtime واقعی، DOM و error handling تست کنید. |
+| `precedence` | تعیین می‌کند کدام operation زودتر اجرا شود | در Arithmetic در JavaScript آن را با runtime واقعی، DOM و error handling تست کنید. |
+
+## اشتباه‌های رایج
+
+- کپی کردن Arithmetic در JavaScript بدون بررسی valueها در DevTools Console و بدون دیدن errorهای runtime.
+- استفاده از globalهای ناخواسته، selectorهای شکننده یا mutation پنهان که بعداً debug را سخت می‌کند.
+- فراموش کردن تست `+ - * / %` با keyboard، state خالی، error و browserهای هدف.
+
+## تمرین کوتاه
+
+یک فایل `arithmetic.html` بسازید، مثال اول را اجرا کنید و سپس یک بخش مرتبط با `+ - * / %` را تغییر دهید. بعد در DevTools Console مقدارها، خطاها و تغییر DOM را بررسی کنید.
+
+## گام بعدی
+
+بعد از این صفحه، **Assignment در JavaScript** را بخوانید تا مسیر JavaScript مرحله‌به‌مرحله کامل‌تر شود.

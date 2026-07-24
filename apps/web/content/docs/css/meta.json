@@ -1,0 +1,955 @@
+{
+  "id": "css",
+  "order": 20,
+  "title": {
+    "fa": "CSS",
+    "en": "CSS"
+  },
+  "seoTitle": {
+    "fa": "CSS — آموزش W3Schools، مرجع MDN و استاندارد W3C | MEGA JS",
+    "en": "CSS — W3Schools Tutorial, MDN Reference & W3C Specs | MEGA JS"
+  },
+  "seoDescription": {
+    "fa": "CSS را در سه مسیر یاد بگیرید: آموزش W3Schools، مرجع MDN و خلاصه specificationهای W3C؛ همراه مثال live، SEO و نکته‌های cascade همراه تمرین کاربردی.",
+    "en": "Learn CSS across three tracks: W3Schools-style lessons, MDN reference, and W3C specification summaries with live examples and cascade guidance with practical."
+  },
+  "description": {
+    "fa": "سه مسیر کامل برای CSS: آموزش قدم‌به‌قدم، مرجع دقیق و خلاصه‌های رسمی برای styling، layout و animation.",
+    "en": "Three complete CSS tracks: step-by-step learning, precise reference, and official summaries for styling, layout, and animation."
+  },
+  "sources": [
+    {
+      "name": "W3Schools CSS",
+      "url": "https://www.w3schools.com/css/default.asp"
+    },
+    {
+      "name": "MDN CSS",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS"
+    },
+    {
+      "name": "W3C CSS",
+      "url": "https://www.w3.org/Style/CSS/"
+    },
+    {
+      "name": "CSS Snapshot 2024",
+      "url": "https://www.w3.org/TR/css-2024/"
+    }
+  ],
+  "tracks": [
+    {
+      "id": "learn",
+      "title": {
+        "fa": "آموزشی (W3Schools)",
+        "en": "Learn (W3Schools)"
+      },
+      "description": {
+        "fa": "مسیر آموزشی قدم‌به‌قدم با ادیتور زنده — ساختار سایدبار W3Schools CSS Tutorial",
+        "en": "Step-by-step tutorial with live editor — W3Schools CSS Tutorial sidebar structure"
+      },
+      "seoTitle": {
+        "fa": "آموزش CSS از صفر | مسیر W3Schools + ادیتور زنده | MEGA JS",
+        "en": "Learn CSS from Scratch | W3Schools Path + Live Editor | MEGA JS"
+      },
+      "seoDescription": {
+        "fa": "آموزش CSS از صفر با مسیر W3Schools، مثال‌های HTML دارای <style>، ادیتور زنده، جدول syntax و تمرین‌های کوتاه برای cascade، layout و responsive design.",
+        "en": "Learn CSS from scratch with a W3Schools-style path, live HTML examples with style tags, syntax tables, mistakes, and layout practice with practical drills."
+      },
+      "source": {
+        "name": "W3Schools CSS Tutorial",
+        "url": "https://www.w3schools.com/css/default.asp"
+      },
+      "liveEditor": true,
+      "nav": [
+        {
+          "slug": "introduction",
+          "title": {
+            "fa": "مقدمه CSS",
+            "en": "Introduction to CSS"
+          }
+        },
+        {
+          "slug": "syntax-basics",
+          "title": {
+            "fa": "مبانی syntax در CSS",
+            "en": "CSS Syntax Basics"
+          },
+          "children": [
+            {
+              "slug": "syntax",
+              "title": {
+                "fa": "Syntax در CSS",
+                "en": "CSS Syntax"
+              }
+            },
+            {
+              "slug": "selectors",
+              "title": {
+                "fa": "Selectorها در CSS",
+                "en": "CSS Selectors"
+              }
+            },
+            {
+              "slug": "how-to",
+              "title": {
+                "fa": "روش افزودن CSS",
+                "en": "How To Add CSS"
+              }
+            },
+            {
+              "slug": "comments",
+              "title": {
+                "fa": "کامنت‌ها در CSS",
+                "en": "CSS Comments"
+              }
+            },
+            {
+              "slug": "colors",
+              "title": {
+                "fa": "رنگ‌ها در CSS",
+                "en": "CSS Colors"
+              }
+            }
+          ]
+        },
+        {
+          "slug": "backgrounds-borders",
+          "title": {
+            "fa": "پس‌زمینه و border در CSS",
+            "en": "CSS Backgrounds and Borders"
+          },
+          "children": [
+            {
+              "slug": "backgrounds",
+              "title": {
+                "fa": "Backgroundها در CSS",
+                "en": "CSS Backgrounds"
+              }
+            },
+            {
+              "slug": "borders",
+              "title": {
+                "fa": "Borderها در CSS",
+                "en": "CSS Borders"
+              }
+            },
+            {
+              "slug": "margins",
+              "title": {
+                "fa": "Marginها در CSS",
+                "en": "CSS Margins"
+              }
+            },
+            {
+              "slug": "padding",
+              "title": {
+                "fa": "Padding در CSS",
+                "en": "CSS Padding"
+              }
+            },
+            {
+              "slug": "height-width",
+              "title": {
+                "fa": "Height و Width در CSS",
+                "en": "CSS Height and Width"
+              }
+            },
+            {
+              "slug": "box-model",
+              "title": {
+                "fa": "Box Model در CSS",
+                "en": "CSS Box Model"
+              }
+            },
+            {
+              "slug": "outline",
+              "title": {
+                "fa": "Outline در CSS",
+                "en": "CSS Outline"
+              }
+            }
+          ]
+        },
+        {
+          "slug": "text-fonts",
+          "title": {
+            "fa": "متن و فونت در CSS",
+            "en": "CSS Text and Fonts"
+          },
+          "children": [
+            {
+              "slug": "text",
+              "title": {
+                "fa": "متن در CSS",
+                "en": "CSS Text"
+              }
+            },
+            {
+              "slug": "fonts",
+              "title": {
+                "fa": "Fontها در CSS",
+                "en": "CSS Fonts"
+              }
+            },
+            {
+              "slug": "icons",
+              "title": {
+                "fa": "Iconها در CSS",
+                "en": "CSS Icons"
+              }
+            },
+            {
+              "slug": "links",
+              "title": {
+                "fa": "Linkها در CSS",
+                "en": "CSS Links"
+              }
+            },
+            {
+              "slug": "lists",
+              "title": {
+                "fa": "Listها در CSS",
+                "en": "CSS Lists"
+              }
+            },
+            {
+              "slug": "tables",
+              "title": {
+                "fa": "Tableها در CSS",
+                "en": "CSS Tables"
+              }
+            }
+          ]
+        },
+        {
+          "slug": "layout-basics",
+          "title": {
+            "fa": "چیدمان پایه در CSS",
+            "en": "CSS Layout Basics"
+          },
+          "children": [
+            {
+              "slug": "display",
+              "title": {
+                "fa": "Display در CSS",
+                "en": "CSS Display"
+              }
+            },
+            {
+              "slug": "max-width",
+              "title": {
+                "fa": "Max-width در CSS",
+                "en": "CSS Max-width"
+              }
+            },
+            {
+              "slug": "position",
+              "title": {
+                "fa": "Position در CSS",
+                "en": "CSS Position"
+              }
+            },
+            {
+              "slug": "z-index",
+              "title": {
+                "fa": "Z-index در CSS",
+                "en": "CSS Z-index"
+              }
+            },
+            {
+              "slug": "overflow",
+              "title": {
+                "fa": "Overflow در CSS",
+                "en": "CSS Overflow"
+              }
+            },
+            {
+              "slug": "float",
+              "title": {
+                "fa": "Float در CSS",
+                "en": "CSS Float"
+              }
+            },
+            {
+              "slug": "inline-block",
+              "title": {
+                "fa": "Inline-block در CSS",
+                "en": "CSS Inline-block"
+              }
+            },
+            {
+              "slug": "align",
+              "title": {
+                "fa": "Align در CSS",
+                "en": "CSS Align"
+              }
+            },
+            {
+              "slug": "combinators",
+              "title": {
+                "fa": "Combinatorها در CSS",
+                "en": "CSS Combinators"
+              }
+            },
+            {
+              "slug": "pseudo-class",
+              "title": {
+                "fa": "Pseudo-classها در CSS",
+                "en": "CSS Pseudo-classes"
+              }
+            },
+            {
+              "slug": "pseudo-element",
+              "title": {
+                "fa": "Pseudo-elementها در CSS",
+                "en": "CSS Pseudo-elements"
+              }
+            },
+            {
+              "slug": "opacity",
+              "title": {
+                "fa": "Opacity در CSS",
+                "en": "CSS Opacity"
+              }
+            }
+          ]
+        },
+        {
+          "slug": "ui-patterns",
+          "title": {
+            "fa": "الگوهای UI در CSS",
+            "en": "CSS UI Patterns"
+          },
+          "children": [
+            {
+              "slug": "navigation-bars",
+              "title": {
+                "fa": "Navigation bar در CSS",
+                "en": "CSS Navigation Bars"
+              }
+            },
+            {
+              "slug": "dropdowns",
+              "title": {
+                "fa": "Dropdownها در CSS",
+                "en": "CSS Dropdowns"
+              }
+            },
+            {
+              "slug": "image-gallery",
+              "title": {
+                "fa": "گالری تصویر در CSS",
+                "en": "CSS Image Gallery"
+              }
+            },
+            {
+              "slug": "image-sprites",
+              "title": {
+                "fa": "Image sprite در CSS",
+                "en": "CSS Image Sprites"
+              }
+            },
+            {
+              "slug": "attr-selectors",
+              "title": {
+                "fa": "Selectorهای attribute در CSS",
+                "en": "CSS Attribute Selectors"
+              }
+            },
+            {
+              "slug": "forms",
+              "title": {
+                "fa": "Formها در CSS",
+                "en": "CSS Forms"
+              }
+            },
+            {
+              "slug": "counters",
+              "title": {
+                "fa": "Counterها در CSS",
+                "en": "CSS Counters"
+              }
+            },
+            {
+              "slug": "website-layout",
+              "title": {
+                "fa": "Layout سایت در CSS",
+                "en": "CSS Website Layout"
+              }
+            },
+            {
+              "slug": "units",
+              "title": {
+                "fa": "Unitها در CSS",
+                "en": "CSS Units"
+              }
+            },
+            {
+              "slug": "specificity",
+              "title": {
+                "fa": "Specificity در CSS",
+                "en": "CSS Specificity"
+              }
+            },
+            {
+              "slug": "important",
+              "title": {
+                "fa": "!important در CSS",
+                "en": "CSS !important"
+              }
+            },
+            {
+              "slug": "math-functions",
+              "title": {
+                "fa": "Functionهای ریاضی CSS",
+                "en": "CSS Math Functions"
+              }
+            }
+          ]
+        },
+        {
+          "slug": "advanced",
+          "title": {
+            "fa": "CSS پیشرفته",
+            "en": "Advanced CSS"
+          },
+          "children": [
+            {
+              "slug": "rounded-corners",
+              "title": {
+                "fa": "گوشه‌های گرد در CSS",
+                "en": "CSS Rounded Corners"
+              }
+            },
+            {
+              "slug": "border-images",
+              "title": {
+                "fa": "Border image در CSS",
+                "en": "CSS Border Images"
+              }
+            },
+            {
+              "slug": "gradients",
+              "title": {
+                "fa": "Gradientها در CSS",
+                "en": "CSS Gradients"
+              }
+            },
+            {
+              "slug": "shadows",
+              "title": {
+                "fa": "Shadowها در CSS",
+                "en": "CSS Shadows"
+              }
+            },
+            {
+              "slug": "text-effects",
+              "title": {
+                "fa": "Effectهای متن در CSS",
+                "en": "CSS Text Effects"
+              }
+            },
+            {
+              "slug": "web-fonts",
+              "title": {
+                "fa": "Web fontها در CSS",
+                "en": "CSS Web Fonts"
+              }
+            },
+            {
+              "slug": "transforms-2d",
+              "title": {
+                "fa": "Transformهای دوبعدی CSS",
+                "en": "CSS 2D Transforms"
+              }
+            },
+            {
+              "slug": "transforms-3d",
+              "title": {
+                "fa": "Transformهای سه‌بعدی CSS",
+                "en": "CSS 3D Transforms"
+              }
+            },
+            {
+              "slug": "transitions",
+              "title": {
+                "fa": "Transitionها در CSS",
+                "en": "CSS Transitions"
+              }
+            },
+            {
+              "slug": "animations",
+              "title": {
+                "fa": "Animationها در CSS",
+                "en": "CSS Animations"
+              }
+            },
+            {
+              "slug": "tooltips",
+              "title": {
+                "fa": "Tooltipها در CSS",
+                "en": "CSS Tooltips"
+              }
+            },
+            {
+              "slug": "object-fit",
+              "title": {
+                "fa": "Object-fit در CSS",
+                "en": "CSS Object-fit"
+              }
+            },
+            {
+              "slug": "masking",
+              "title": {
+                "fa": "Masking در CSS",
+                "en": "CSS Masking"
+              }
+            },
+            {
+              "slug": "buttons",
+              "title": {
+                "fa": "Buttonها در CSS",
+                "en": "CSS Buttons"
+              }
+            },
+            {
+              "slug": "pagination",
+              "title": {
+                "fa": "Pagination در CSS",
+                "en": "CSS Pagination"
+              }
+            },
+            {
+              "slug": "multiple-columns",
+              "title": {
+                "fa": "ستون‌های چندگانه در CSS",
+                "en": "CSS Multiple Columns"
+              }
+            },
+            {
+              "slug": "user-interface",
+              "title": {
+                "fa": "User Interface در CSS",
+                "en": "CSS User Interface"
+              }
+            },
+            {
+              "slug": "variables",
+              "title": {
+                "fa": "Variableها در CSS",
+                "en": "CSS Variables"
+              }
+            },
+            {
+              "slug": "box-sizing",
+              "title": {
+                "fa": "Box-sizing در CSS",
+                "en": "CSS Box Sizing"
+              }
+            },
+            {
+              "slug": "media-queries",
+              "title": {
+                "fa": "Media queryها در CSS",
+                "en": "CSS Media Queries"
+              }
+            }
+          ]
+        },
+        {
+          "slug": "flexbox",
+          "title": {
+            "fa": "Flexbox",
+            "en": "CSS Flexbox"
+          },
+          "children": [
+            {
+              "slug": "flex-container",
+              "title": {
+                "fa": "Flex container در CSS",
+                "en": "CSS Flex Container"
+              }
+            },
+            {
+              "slug": "flex-items",
+              "title": {
+                "fa": "Flex itemها در CSS",
+                "en": "CSS Flex Items"
+              }
+            },
+            {
+              "slug": "flex-responsive",
+              "title": {
+                "fa": "Flexbox واکنش‌گرا در CSS",
+                "en": "CSS Responsive Flexbox"
+              }
+            }
+          ]
+        },
+        {
+          "slug": "grid",
+          "title": {
+            "fa": "Grid",
+            "en": "CSS Grid"
+          },
+          "children": [
+            {
+              "slug": "grid-container",
+              "title": {
+                "fa": "Grid container در CSS",
+                "en": "CSS Grid Container"
+              }
+            },
+            {
+              "slug": "grid-items",
+              "title": {
+                "fa": "Grid itemها در CSS",
+                "en": "CSS Grid Items"
+              }
+            },
+            {
+              "slug": "grid-layout",
+              "title": {
+                "fa": "Grid layout در CSS",
+                "en": "CSS Grid Layout"
+              }
+            }
+          ]
+        },
+        {
+          "slug": "responsive",
+          "title": {
+            "fa": "CSS واکنش‌گرا / RWD",
+            "en": "Responsive CSS"
+          },
+          "children": [
+            {
+              "slug": "rwd-viewport",
+              "title": {
+                "fa": "Viewport در RWD",
+                "en": "RWD Viewport"
+              }
+            },
+            {
+              "slug": "rwd-grid",
+              "title": {
+                "fa": "Grid View در RWD",
+                "en": "RWD Grid View"
+              }
+            },
+            {
+              "slug": "rwd-media-queries",
+              "title": {
+                "fa": "Media query در RWD",
+                "en": "RWD Media Queries"
+              }
+            },
+            {
+              "slug": "rwd-images",
+              "title": {
+                "fa": "Imageهای واکنش‌گرا در CSS",
+                "en": "RWD Images"
+              }
+            },
+            {
+              "slug": "rwd-videos",
+              "title": {
+                "fa": "Videoهای واکنش‌گرا در CSS",
+                "en": "RWD Videos"
+              }
+            },
+            {
+              "slug": "rwd-frameworks",
+              "title": {
+                "fa": "Frameworkهای RWD",
+                "en": "RWD Frameworks"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reference",
+      "title": {
+        "fa": "مرجع (MDN)",
+        "en": "Reference (MDN)"
+      },
+      "description": {
+        "fa": "مرجع عمیق و author-focused به سبک MDN برای propertyها، selectorها، layout، valueها و browser behavior در CSS.",
+        "en": "A deeper MDN-style author reference for properties, selectors, layout, values, and CSS browser behavior."
+      },
+      "seoTitle": {
+        "fa": "مرجع CSS به سبک MDN | Selector، Layout و Valueها | MEGA JS",
+        "en": "CSS Reference — MDN-style Selectors, Layout & Values | MEGA JS"
+      },
+      "seoDescription": {
+        "fa": "مرجع CSS به سبک MDN برای selector، cascade، box model، Flexbox، Grid، responsive design و animation؛ مناسب تصمیم دقیق در پروژه همراه تمرین کاربردی.",
+        "en": "Use the MDN-style CSS reference for selectors, cascade, box model, Flexbox, Grid, responsive design, and animation in real project decisions with practical."
+      },
+      "source": {
+        "name": "MDN Web Docs — CSS",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/CSS"
+      },
+      "liveEditor": false,
+      "nav": [
+        {
+          "slug": "overview",
+          "title": {
+            "fa": "نمای کلی مرجع CSS",
+            "en": "CSS Reference Overview"
+          }
+        },
+        {
+          "slug": "cascade-inheritance",
+          "title": {
+            "fa": "Cascade و Inheritance",
+            "en": "Cascade and Inheritance"
+          }
+        },
+        {
+          "slug": "selectors-ref",
+          "title": {
+            "fa": "مرجع Selectorهای CSS",
+            "en": "CSS Selectors Reference"
+          }
+        },
+        {
+          "slug": "specificity-cascade",
+          "title": {
+            "fa": "Specificity و Cascade",
+            "en": "Specificity and Cascade"
+          }
+        },
+        {
+          "slug": "box-model-ref",
+          "title": {
+            "fa": "مرجع Box Model در CSS",
+            "en": "CSS Box Model Reference"
+          }
+        },
+        {
+          "slug": "values-units",
+          "title": {
+            "fa": "Valueها و Unitهای CSS",
+            "en": "CSS Values and Units"
+          }
+        },
+        {
+          "slug": "colors-ref",
+          "title": {
+            "fa": "مرجع رنگ در CSS",
+            "en": "CSS Colors Reference"
+          }
+        },
+        {
+          "slug": "typography-ref",
+          "title": {
+            "fa": "مرجع Typography در CSS",
+            "en": "CSS Typography Reference"
+          }
+        },
+        {
+          "slug": "backgrounds-borders-ref",
+          "title": {
+            "fa": "مرجع Background و Border در CSS",
+            "en": "Backgrounds and Borders Reference"
+          }
+        },
+        {
+          "slug": "display-flow",
+          "title": {
+            "fa": "Display و Flow Layout در CSS",
+            "en": "Display and Flow Layout"
+          }
+        },
+        {
+          "slug": "positioning-ref",
+          "title": {
+            "fa": "مرجع Positioning در CSS",
+            "en": "CSS Positioning Reference"
+          }
+        },
+        {
+          "slug": "flexbox-ref",
+          "title": {
+            "fa": "مرجع Flexbox",
+            "en": "Flexbox Reference"
+          }
+        },
+        {
+          "slug": "grid-ref",
+          "title": {
+            "fa": "مرجع Grid در CSS",
+            "en": "Grid Reference"
+          }
+        },
+        {
+          "slug": "responsive-design",
+          "title": {
+            "fa": "مرجع طراحی واکنش‌گرا در CSS",
+            "en": "Responsive Design Reference"
+          }
+        },
+        {
+          "slug": "transforms-ref",
+          "title": {
+            "fa": "مرجع Transform در CSS",
+            "en": "Transforms Reference"
+          }
+        },
+        {
+          "slug": "transitions-animations",
+          "title": {
+            "fa": "Transition و Animation در CSS",
+            "en": "Transitions and Animations"
+          }
+        },
+        {
+          "slug": "custom-properties",
+          "title": {
+            "fa": "Custom propertyها در CSS",
+            "en": "Custom Properties"
+          }
+        },
+        {
+          "slug": "cascade-layers",
+          "title": {
+            "fa": "Cascade layerها در CSS",
+            "en": "Cascade Layers"
+          }
+        },
+        {
+          "slug": "container-queries",
+          "title": {
+            "fa": "Container queryها در CSS",
+            "en": "Container Queries"
+          }
+        },
+        {
+          "slug": "nesting-ref",
+          "title": {
+            "fa": "مرجع Nesting در CSS",
+            "en": "CSS Nesting Reference"
+          }
+        },
+        {
+          "slug": "at-rules",
+          "title": {
+            "fa": "مرجع At-ruleهای CSS",
+            "en": "CSS At-rules Reference"
+          }
+        },
+        {
+          "slug": "functions-ref",
+          "title": {
+            "fa": "مرجع Functionهای CSS",
+            "en": "CSS Functions Reference"
+          }
+        },
+        {
+          "slug": "accessibility-css",
+          "title": {
+            "fa": "مرجع Accessibility در CSS",
+            "en": "CSS Accessibility Reference"
+          }
+        },
+        {
+          "slug": "cheatsheet",
+          "title": {
+            "fa": "چیت‌شیت CSS",
+            "en": "CSS Cheatsheet"
+          }
+        }
+      ]
+    },
+    {
+      "id": "official",
+      "title": {
+        "fa": "مستندات رسمی (W3C)",
+        "en": "Official (W3C)"
+      },
+      "description": {
+        "fa": "خلاصه‌های specification-oriented از CSS و CSS Snapshot برای authorها، بدون dump کامل specification.",
+        "en": "Specification-oriented CSS and CSS Snapshot summaries for authors, without a full specification dump."
+      },
+      "seoTitle": {
+        "fa": "Specificationهای رسمی CSS برای نویسندگان | W3C Summary | MEGA JS",
+        "en": "Official CSS Specifications for Authors | W3C Summary | MEGA JS"
+      },
+      "seoDescription": {
+        "fa": "خلاصه رسمی W3C CSS و CSS Snapshot برای authorها؛ cascade، selector، box model، color، layout و media query را دقیق مرور کنید همراه تمرین کاربردی.",
+        "en": "Read author-focused W3C CSS summaries covering CSS Snapshot, cascade, selectors, box model, color, typography, layout, and media queries with practical drills."
+      },
+      "source": {
+        "name": "W3C CSS",
+        "url": "https://www.w3.org/Style/CSS/"
+      },
+      "liveEditor": false,
+      "nav": [
+        {
+          "slug": "overview",
+          "title": {
+            "fa": "نمای کلی W3C CSS",
+            "en": "W3C CSS Overview"
+          }
+        },
+        {
+          "slug": "css-snapshot",
+          "title": {
+            "fa": "CSS Snapshot 2024",
+            "en": "CSS Snapshot 2024"
+          }
+        },
+        {
+          "slug": "cascade-spec",
+          "title": {
+            "fa": "Specification مربوط به CSS Cascade",
+            "en": "CSS Cascade Specification"
+          }
+        },
+        {
+          "slug": "selectors-spec",
+          "title": {
+            "fa": "Specification مربوط به CSS Selectors",
+            "en": "CSS Selectors Specification"
+          }
+        },
+        {
+          "slug": "box-model-spec",
+          "title": {
+            "fa": "Specification مربوط به CSS Box Model",
+            "en": "CSS Box Model Specification"
+          }
+        },
+        {
+          "slug": "color-spec",
+          "title": {
+            "fa": "Specification مربوط به CSS Color",
+            "en": "CSS Color Specification"
+          }
+        },
+        {
+          "slug": "fonts-text-spec",
+          "title": {
+            "fa": "Specificationهای CSS Fonts و Text",
+            "en": "CSS Fonts and Text Specifications"
+          }
+        },
+        {
+          "slug": "layout-modules",
+          "title": {
+            "fa": "Moduleهای Layout در CSS",
+            "en": "CSS Layout Modules"
+          }
+        },
+        {
+          "slug": "media-queries-spec",
+          "title": {
+            "fa": "Specification مربوط به Media Queries",
+            "en": "Media Queries Specification"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "id": "react-native",
+  "order": 130,
+  "title": {
+    "fa": "React Native",
+    "en": "React Native"
+  },
+  "description": {
+    "fa": "Mobile — reactnative.dev — ساختار مشابه docs مرجع؛ ترجمه فارسی روان.",
+    "en": "Mobile — reactnative.dev — structure aligned with official docs."
+  },
+  "sources": [
+    {
+      "name": "React Native Docs",
+      "url": "https://reactnative.dev/docs/getting-started"
+    },
+    {
+      "name": "MDN",
+      "url": "https://developer.mozilla.org/"
+    },
+    {
+      "name": "W3Schools",
+      "url": "https://www.w3schools.com/"
+    }
+  ],
+  "nav": [
+    {
+      "slug": "introduction",
+      "title": {
+        "fa": "مقدمه",
+        "en": "Introduction"
+      }
+    },
+    {
+      "slug": "components",
+      "title": {
+        "fa": "کامپوننت‌ها",
+        "en": "Components"
+      }
+    },
+    {
+      "slug": "styling",
+      "title": {
+        "fa": "استایل",
+        "en": "Styling"
+      }
+    },
+    {
+      "slug": "navigation",
+      "title": {
+        "fa": "Navigation",
+        "en": "Navigation"
+      }
+    },
+    {
+      "slug": "native-modules",
+      "title": {
+        "fa": "Native Modules",
+        "en": "Native modules"
+      }
+    },
+    {
+      "slug": "publishing",
+      "title": {
+        "fa": "انتشار",
+        "en": "Publishing"
+      }
+    }
+  ]
+}
