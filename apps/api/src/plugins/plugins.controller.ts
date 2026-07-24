@@ -10,7 +10,6 @@ import {
   Post,
   Put,
   Query,
-  Req,
   UnauthorizedException,
 } from '@nestjs/common';
 import { AuthService } from '../auth/auth.service';
