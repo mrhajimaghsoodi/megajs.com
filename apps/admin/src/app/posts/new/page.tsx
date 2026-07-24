@@ -131,6 +131,7 @@ export default function NewPostPage() {
             >
               <option value="draft">draft</option>
               <option value="published">published</option>
+              <option value="archived">archived</option>
             </select>
             <label className="flex cursor-pointer items-center gap-2 text-sm">
               <input type="checkbox" checked={sticky} onChange={(e) => setSticky(e.target.checked)} />

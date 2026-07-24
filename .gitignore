@@ -26,3 +26,4 @@ docker/certbot/conf/archive/
 # Local media uploads
 apps/api/uploads/**
 !apps/api/uploads/.gitignore
+!apps/api/uploads/.gitkeep

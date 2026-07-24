@@ -33,6 +33,7 @@ export function MediaPickerModal({ open, onClose, onSelect, title }: Props) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selected, setSelected] = useState<MediaItem | null>(null);
+  const [dragOver, setDragOver] = useState(false);
 
   const load = useCallback(async () => {
     try {
@@ -89,7 +90,23 @@ export function MediaPickerModal({ open, onClose, onSelect, title }: Props) {
           </Button>
         </div>
 
-        <div className="flex flex-wrap items-end gap-3 border-b border-[var(--mj-border)] p-4">
+        <div
+          className={`flex flex-wrap items-end gap-3 border-b p-4 transition ${
+            dragOver
+              ? 'border-[var(--mj-accent)] bg-[var(--mj-accent)]/10'
+              : 'border-[var(--mj-border)]'
+          }`}
+          onDragOver={(e) => {
+            e.preventDefault();
+            setDragOver(true);
+          }}
+          onDragLeave={() => setDragOver(false)}
+          onDrop={(e) => {
+            e.preventDefault();
+            setDragOver(false);
+            void upload(e.dataTransfer.files?.[0] ?? null);
+          }}
+        >
           <div className="min-w-[12rem] flex-1 space-y-1">
             <Label>{dict.search}</Label>
             <Input
@@ -112,6 +129,7 @@ export function MediaPickerModal({ open, onClose, onSelect, title }: Props) {
               disabled={busy}
               onChange={(e) => void upload(e.target.files?.[0] ?? null)}
             />
+            <p className="text-[11px] text-[var(--mj-muted-fg)]">{d.dropUploadHint}</p>
           </div>
         </div>
 
