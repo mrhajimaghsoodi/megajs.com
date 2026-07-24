@@ -3,6 +3,12 @@ export function extractFirstHtmlFence(markdown: string): string | null {
   const html = markdown.match(/```html\s*\n([\s\S]*?)```/i);
   if (html) return html[1].trim();
 
+  // React pages may use bare ```jsx / ```tsx fences — wrap them for the live editor.
+  const react = markdown.match(/```(?:jsx|tsx)\s*\n([\s\S]*?)```/i);
+  if (react) {
+    return wrapReactSnippet(react[1].trim());
+  }
+
   // Learn-track CSS pages may use a bare ```css fence — wrap it for the live editor.
   const css = markdown.match(/```css\s*\n([\s\S]*?)```/i);
   if (css) {
@@ -56,4 +62,43 @@ ${js[1].trim()}
   }
 
   return null;
+}
+
+function wrapReactSnippet(code: string): string {
+  const safeCode = code.replace(/<\/script/gi, '<\\/script');
+  const hasRender = /(?:ReactDOM\.)?createRoot\s*\(|root\.render\s*\(|ReactDOM\.render\s*\(/.test(safeCode);
+  const hasApp = /\b(?:function|class)\s+App\b|\b(?:const|let|var)\s+App\s*=/.test(safeCode);
+  const appCode = hasRender
+    ? safeCode
+    : hasApp
+      ? `${safeCode}\nReactDOM.createRoot(document.getElementById('root')).render(<App />);`
+      : `function App() {\n  return (${safeCode});\n}\nReactDOM.createRoot(document.getElementById('root')).render(<App />);`;
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+  body { font-family: system-ui, sans-serif; margin: 1rem; line-height: 1.5; color: #1a1a1a; }
+  button, input, select, textarea { font: inherit; margin: 0.25rem; }
+</style>
+</head>
+<body>
+  <div id="root"></div>
+  <div id="modal-root"></div>
+  <script type="text/babel">
+  const { useState, useEffect, useContext, useRef, useMemo, useCallback, useReducer, useTransition, useDeferredValue, useId, Suspense, StrictMode, Fragment, memo, createContext } = React;
+${indent(appCode, 2)}
+  </script>
+</body>
+</html>`;
+}
+
+function indent(value: string, spaces: number): string {
+  const prefix = ' '.repeat(spaces);
+  return value.split('\n').map((line) => `${prefix}${line}`).join('\n');
 }

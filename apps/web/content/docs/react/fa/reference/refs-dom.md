@@ -1,0 +1,133 @@
+---
+title: "مرجع Ref و DOM"
+description: "این صفحه useRef، دسترسی به DOM node، imperative handle و storage مستقل از render را با مثال React، جدول syntax و نکته‌های کاربردی برای component authoring توضیح می‌دهد."
+seoTitle: "مرجع Ref و DOM — سبک MDN برای React | MEGA JS"
+seoDescription: "مرجع Ref و DOM (refs dom): مرجع MDN-style برای React با تعریف author-focused، JSX، Hooks، مثال HTML و نکته پروژه واقعی همراه تمرین کاربردی برای پروژه واقعی وب."
+keywords: "React, مرجع Ref و DOM, آموزش React, مرجع React, React Refs and DOM Reference, Refs and DOM Reference tutorial, refs dom"
+order: 12
+track: reference
+sources:
+  - name: MDN React Framework Docs
+    url: https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/React_getting_started
+---
+# مرجع Ref و DOM
+
+مرجع Ref و DOM یک صفحه مرجع author-focused به سبک MDN است. تمرکز آن روی useRef، دسترسی به DOM node، imperative handle و storage مستقل از render است و به جای آموزش قدم‌به‌قدم، تعریف دقیق، جدول کاربرد، behavior در runtime و boundaryهای component را کنار هم می‌گذارد.
+
+## جایگاه در MDN
+
+در MDN، React در بخش Client-side JavaScript frameworks کنار مفهوم component، props، state، event، form، accessibility و testing توضیح داده می‌شود. هنگام استفاده از مرجع Ref و DOM، رفتار React را از behavior خام DOM و ابزار build جدا ببینید.
+
+## جدول مرجع
+
+| مورد | معنی | نکته سازگاری |
+| --- | --- | --- |
+| `ref` | reference به DOM node یا value mutable | در مرورگر هدف، test، accessibility check و Console واقعی بررسی شود. |
+| `React DOM` | package مربوط به React برای render در DOM مرورگر | در مرورگر هدف، test، accessibility check و Console واقعی بررسی شود. |
+| `createRoot` | root مرورگر برای React می‌سازد | در مرورگر هدف، test، accessibility check و Console واقعی بررسی شود. |
+
+## مثال‌ها
+
+### مثال 1
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refs and DOM Reference reference</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 1.5rem; line-height: 1.5; color: #1f2937; }
+      button, input, select, textarea { font: inherit; margin: 0.25rem; }
+      .card { border: 1px solid #d1d5db; border-radius: 0.75rem; padding: 1rem; max-width: 34rem; }
+      .row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+      .badge { display: inline-block; border-radius: 999px; background: #e0f2fe; color: #075985; padding: 0.15rem 0.5rem; }
+      .muted { color: #64748b; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <div id="modal-root"></div>
+    <script type="text/babel">
+      const { useState, useEffect, useContext, useMemo, useCallback, useRef, useReducer, useTransition, useDeferredValue, useId, Suspense, StrictMode, Fragment, memo, createContext } = React;
+      const terms = [
+          { syntax: 'ref', meaning: 'reference to a DOM node or mutable value' },
+          { syntax: 'React DOM', meaning: 'React package for browser DOM rendering' },
+          { syntax: 'createRoot', meaning: 'creates a browser root for React' }
+      ];
+      function App() {
+        return (
+          <article className="card">
+            <h1>Refs and DOM Reference</h1>
+            <dl>{terms.map((term) => <Fragment key={term.syntax}><dt><code>{term.syntax}</code></dt><dd>{term.meaning}</dd></Fragment>)}</dl>
+            <p className="muted">{terms.length} React reference terms loaded.</p>
+          </article>
+        );
+      }
+      ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+  </body>
+</html>
+```
+
+### مثال 2
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refs and DOM Reference</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 1.5rem; line-height: 1.5; color: #1f2937; }
+      button, input, select, textarea { font: inherit; margin: 0.25rem; }
+      .card { border: 1px solid #d1d5db; border-radius: 0.75rem; padding: 1rem; max-width: 34rem; }
+      .row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+      .badge { display: inline-block; border-radius: 999px; background: #e0f2fe; color: #075985; padding: 0.15rem 0.5rem; }
+      .muted { color: #64748b; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <div id="modal-root"></div>
+    <script type="text/babel">
+      const { useState, useEffect, useContext, useMemo, useCallback, useRef, useReducer, useTransition, useDeferredValue, useId, Suspense, StrictMode, Fragment, memo, createContext } = React;
+      function App() {
+        const inputRef = useRef(null);
+        const [message, setMessage] = useState('Ref is ready');
+        return (
+          <section className="card">
+            <h1>Refs and DOM Reference</h1>
+            <input ref={inputRef} defaultValue="Focus me with useRef" />
+            <button onClick={() => { inputRef.current.focus(); setMessage('Focused through ref.current'); }}>Focus input</button>
+            <p>{message}</p>
+          </section>
+        );
+      }
+      ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+  </body>
+</html>
+```
+
+## نکته‌های دقیق authoring
+
+- برای مرجع Ref و DOM، data flow بین props، state و context را explicit نگه دارید.
+- اگر behavior به browser، focus، keyboard یا async loading وابسته است، آن را در UI و test پوشش دهید.
+- برای تصمیم‌های حساس، صفحه MDN مربوط، مستندات react.dev و اجرای واقعی در browser را کنار هم بررسی کنید.
+
+## ارتباط مفهومی با MDN
+
+این صفحه به موضوعات MDN درباره Refs and DOM Reference, React framework guides, accessibility و testing نزدیک است و برای مرور سریع قبل از پیاده‌سازی طراحی شده است.
+
+## گام بعدی
+
+صفحه مرجع بعدی: **Patternهای Composition**.
