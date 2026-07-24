@@ -124,9 +124,14 @@ export const CURRICULUM_YEAR_PLAN = [
   },
 ] as const;
 
-export {
-  TEHRAN_TZ,
-  formatTehranDate,
-  formatTehranDateTime,
-  formatTehranYear,
+import {
+  TEHRAN_TZ as tehranTz,
+  formatTehranDate as tehranDate,
+  formatTehranDateTime as tehranDateTime,
+  formatTehranYear as tehranYear,
 } from './datetime.js';
+
+export const TEHRAN_TZ = tehranTz;
+export const formatTehranDate = tehranDate;
+export const formatTehranDateTime = tehranDateTime;
+export const formatTehranYear = tehranYear;
