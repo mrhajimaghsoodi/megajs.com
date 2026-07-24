@@ -3,8 +3,10 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { adminFetch } from '@/components/admin-shell';
+import { CategoryChecklist, type TermRow } from '@/components/category-checklist';
 import { ContentEditor } from '@/components/content-editor';
 import { MediaImageField } from '@/components/media-image-field';
+import { TagChecklist } from '@/components/tag-checklist';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -21,8 +23,11 @@ export default function NewPostPage() {
   const [status, setStatus] = useState('draft');
   const [coverUrl, setCoverUrl] = useState('');
   const [bannerUrl, setBannerUrl] = useState('');
+  const [sticky, setSticky] = useState(false);
+  const [commentStatus, setCommentStatus] = useState('open');
   const [termIds, setTermIds] = useState<string[]>([]);
-  const [terms, setTerms] = useState<any[]>([]);
+  const [cats, setCats] = useState<TermRow[]>([]);
+  const [tags, setTags] = useState<TermRow[]>([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -31,21 +36,24 @@ export default function NewPostPage() {
       adminFetch('/admin/cms/terms?taxonomy=post_category'),
       adminFetch('/admin/cms/terms?taxonomy=post_tag'),
     ])
-      .then(([cats, tags]) => setTerms([...cats, ...tags]))
+      .then(([c, t]) => {
+        setCats(c);
+        setTags(t);
+        const def = (c as TermRow[]).find((x) => x.isDefault);
+        if (def) setTermIds([def.id]);
+      })
       .catch((e) => setError(e.message));
   }, []);
 
-  const categories = useMemo(
-    () => terms.filter((t) => t.taxonomy === 'post_category'),
-    [terms],
-  );
-  const tags = useMemo(() => terms.filter((t) => t.taxonomy === 'post_tag'), [terms]);
-
-  const termName = (t: any) =>
-    t.i18n?.find((x: any) => x.locale === locale)?.name ?? t.i18n?.[0]?.name ?? t.slug;
-
-  const toggleTerm = (tid: string) =>
-    setTermIds((prev) => (prev.includes(tid) ? prev.filter((x) => x !== tid) : [...prev, tid]));
+  const autoSlug = useMemo(() => {
+    if (slug) return slug;
+    return title
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^\w\u0600-\u06FF-]+/g, '')
+      .slice(0, 80);
+  }, [title, slug]);
 
   const save = async () => {
     setBusy(true);
@@ -55,12 +63,14 @@ export default function NewPostPage() {
         method: 'POST',
         body: JSON.stringify({
           title,
-          slug,
+          slug: slug || autoSlug,
           summary,
           bodyMdx,
           status,
           coverUrl: coverUrl || undefined,
           bannerUrl: bannerUrl || undefined,
+          sticky,
+          commentStatus,
           termIds,
           locale,
         }),
@@ -82,15 +92,21 @@ export default function NewPostPage() {
         <div className="space-y-4">
           <div className="space-y-2">
             <Label>{d.titleCol}</Label>
-            <Input value={title} onChange={(e) => setTitle(e.target.value)} />
+            <Input value={title} onChange={(e) => setTitle(e.target.value)} className="text-lg" />
           </div>
           <div className="space-y-2">
-            <Label>slug</Label>
-            <Input dir="ltr" value={slug} onChange={(e) => setSlug(e.target.value)} />
+            <Label>slug / permalink</Label>
+            <Input
+              dir="ltr"
+              value={slug}
+              placeholder={autoSlug}
+              onChange={(e) => setSlug(e.target.value)}
+            />
           </div>
           <div className="space-y-2">
-            <Label>{d.summary}</Label>
+            <Label>{d.excerpt}</Label>
             <Input value={summary} onChange={(e) => setSummary(e.target.value)} />
+            <p className="text-xs text-[var(--mj-muted-fg)]">{d.excerptHelp}</p>
           </div>
           <div className="space-y-2">
             <Label>{d.body}</Label>
@@ -106,17 +122,33 @@ export default function NewPostPage() {
         </div>
 
         <aside className="space-y-4">
-          <div className="space-y-2 rounded-md border border-[var(--mj-border)] p-3">
-            <Label>{d.status}</Label>
+          <div className="space-y-3 rounded-md border border-[var(--mj-border)] p-3">
+            <Label>{d.publishBox}</Label>
             <select
-              className="h-10 w-full rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-card)] px-3 text-sm"
+              className="h-10 w-full rounded-md border border-[var(--mj-border)] bg-[var(--mj-card)] px-3 text-sm"
               value={status}
               onChange={(e) => setStatus(e.target.value)}
             >
               <option value="draft">draft</option>
               <option value="published">published</option>
             </select>
+            <label className="flex cursor-pointer items-center gap-2 text-sm">
+              <input type="checkbox" checked={sticky} onChange={(e) => setSticky(e.target.checked)} />
+              {d.stickyPost}
+            </label>
+            <div className="space-y-1">
+              <Label>{d.discussion}</Label>
+              <select
+                className="h-9 w-full rounded-md border border-[var(--mj-border)] bg-[var(--mj-card)] px-2 text-sm"
+                value={commentStatus}
+                onChange={(e) => setCommentStatus(e.target.value)}
+              >
+                <option value="open">{d.commentsOpen}</option>
+                <option value="closed">{d.commentsClosed}</option>
+              </select>
+            </div>
           </div>
+
           <MediaImageField
             label={d.featuredImage}
             help={d.featuredImageHelp}
@@ -129,43 +161,26 @@ export default function NewPostPage() {
             value={bannerUrl}
             onChange={setBannerUrl}
           />
-          <div className="space-y-2 rounded-md border border-[var(--mj-border)] p-3">
-            <Label>{d.postCategories}</Label>
-            <div className="flex max-h-48 flex-col gap-1 overflow-y-auto">
-              {categories.map((t) => (
-                <label key={t.id} className="flex cursor-pointer items-center gap-2 text-sm">
-                  <input
-                    type="checkbox"
-                    checked={termIds.includes(t.id)}
-                    onChange={() => toggleTerm(t.id)}
-                  />
-                  <span>{termName(t)}</span>
-                </label>
-              ))}
-            </div>
-          </div>
-          <div className="space-y-2 rounded-md border border-[var(--mj-border)] p-3">
-            <Label>{d.postTags}</Label>
-            <div className="flex flex-wrap gap-2">
-              {tags.map((t) => {
-                const on = termIds.includes(t.id);
-                return (
-                  <button
-                    key={t.id}
-                    type="button"
-                    className={`cursor-pointer rounded-md border px-2 py-1 text-xs ${
-                      on
-                        ? 'border-[var(--mj-accent)] bg-[var(--mj-accent)] text-[var(--mj-accent-fg)]'
-                        : 'border-[var(--mj-border)]'
-                    }`}
-                    onClick={() => toggleTerm(t.id)}
-                  >
-                    {termName(t)}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
+          <CategoryChecklist
+            taxonomy="post_category"
+            terms={cats}
+            selectedIds={termIds.filter((id) => cats.some((c) => c.id === id))}
+            onChange={(ids) => {
+              const tagIds = termIds.filter((id) => tags.some((t) => t.id === id));
+              setTermIds([...ids, ...tagIds]);
+            }}
+            onTermsChange={setCats}
+          />
+          <TagChecklist
+            taxonomy="post_tag"
+            terms={tags}
+            selectedIds={termIds.filter((id) => tags.some((t) => t.id === id))}
+            onChange={(ids) => {
+              const catIds = termIds.filter((id) => cats.some((c) => c.id === id));
+              setTermIds([...catIds, ...ids]);
+            }}
+            onTermsChange={setTags}
+          />
         </aside>
       </div>
     </div>

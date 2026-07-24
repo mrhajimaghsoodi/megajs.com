@@ -4,7 +4,10 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { adminFetch } from '@/components/admin-shell';
+import { CategoryChecklist, type TermRow } from '@/components/category-checklist';
 import { ContentEditor } from '@/components/content-editor';
+import { MediaImageField } from '@/components/media-image-field';
+import { TagChecklist } from '@/components/tag-checklist';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -17,7 +20,8 @@ export default function ProductDetailPage() {
   const d = dict.commerce;
   const cms = dict.cms;
   const [course, setCourse] = useState<any>(null);
-  const [terms, setTerms] = useState<any[]>([]);
+  const [cats, setCats] = useState<TermRow[]>([]);
+  const [tags, setTags] = useState<TermRow[]>([]);
   const [title, setTitle] = useState('');
   const [summary, setSummary] = useState('');
   const [description, setDescription] = useState('');
@@ -36,13 +40,15 @@ export default function ProductDetailPage() {
   const [error, setError] = useState<string | null>(null);
 
   const load = useCallback(async () => {
-    const [row, cats] = await Promise.all([
+    const [row, c, t] = await Promise.all([
       adminFetch(`/admin/commerce/courses/${id}`),
       adminFetch('/admin/cms/terms?taxonomy=product_category'),
+      adminFetch('/admin/cms/terms?taxonomy=product_tag'),
     ]);
     const i18n = row.i18n?.find((x: any) => x.locale === locale) ?? row.i18n?.[0];
     setCourse(row);
-    setTerms(cats);
+    setCats(c);
+    setTags(t);
     setTitle(i18n?.title ?? '');
     setSummary(i18n?.summary ?? '');
     setDescription(i18n?.description ?? '');
@@ -52,7 +58,7 @@ export default function ProductDetailPage() {
     setSku(row.sku ?? '');
     setCoverUrl(row.coverUrl ?? '');
     setFeatured(Boolean(row.featured));
-    setTermIds(row.taxonomies?.map((t: any) => t.termId) ?? []);
+    setTermIds(row.taxonomies?.map((x: any) => x.termId) ?? []);
     if (row.modules?.[0]) setLessonModuleId(row.modules[0].id);
   }, [id, locale]);
 
@@ -110,15 +116,12 @@ export default function ProductDetailPage() {
     await load();
   };
 
-  const termName = (t: any) =>
-    t.i18n?.find((x: any) => x.locale === locale)?.name ?? t.i18n?.[0]?.name ?? t.slug;
-
   if (!course) {
     return <p className="text-sm text-[var(--mj-muted-fg)]">{error || dict.loading}</p>;
   }
 
   return (
-    <div className="mx-auto max-w-4xl space-y-6">
+    <div className="mx-auto max-w-6xl space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <Link href="/catalog" className="text-sm underline-offset-4 hover:underline">
@@ -133,26 +136,26 @@ export default function ProductDetailPage() {
       {error ? <p className="text-sm text-[var(--mj-danger)]">{error}</p> : null}
       {msg ? <p className="text-sm text-emerald-700">{msg}</p> : null}
 
-      <div className="grid gap-4">
-        <div className="space-y-2">
-          <Label>{cms.titleCol}</Label>
-          <Input value={title} onChange={(e) => setTitle(e.target.value)} />
-        </div>
-        <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem]">
+        <div className="grid gap-4">
           <div className="space-y-2">
-            <Label>slug</Label>
-            <Input dir="ltr" value={slug} onChange={(e) => setSlug(e.target.value)} />
+            <Label>{cms.titleCol}</Label>
+            <Input value={title} onChange={(e) => setTitle(e.target.value)} />
           </div>
-          <div className="space-y-2">
-            <Label>SKU</Label>
-            <Input dir="ltr" value={sku} onChange={(e) => setSku(e.target.value)} />
+          <div className="grid gap-4 sm:grid-cols-3">
+            <div className="space-y-2">
+              <Label>slug</Label>
+              <Input dir="ltr" value={slug} onChange={(e) => setSlug(e.target.value)} />
+            </div>
+            <div className="space-y-2">
+              <Label>SKU</Label>
+              <Input dir="ltr" value={sku} onChange={(e) => setSku(e.target.value)} />
+            </div>
+            <div className="space-y-2">
+              <Label>{d.priceCents}</Label>
+              <Input dir="ltr" value={priceCents} onChange={(e) => setPriceCents(e.target.value)} />
+            </div>
           </div>
-          <div className="space-y-2">
-            <Label>{d.priceCents}</Label>
-            <Input dir="ltr" value={priceCents} onChange={(e) => setPriceCents(e.target.value)} />
-          </div>
-        </div>
-        <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <Label>{cms.status}</Label>
             <select
@@ -165,58 +168,59 @@ export default function ProductDetailPage() {
               <option value="archived">archived</option>
             </select>
           </div>
+          <label className="flex items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              checked={featured}
+              onChange={(e) => setFeatured(e.target.checked)}
+            />
+            {d.featured}
+          </label>
           <div className="space-y-2">
-            <Label>{cms.coverUrl}</Label>
-            <Input dir="ltr" value={coverUrl} onChange={(e) => setCoverUrl(e.target.value)} />
+            <Label>{cms.summary}</Label>
+            <Input value={summary} onChange={(e) => setSummary(e.target.value)} />
+          </div>
+          <div className="space-y-2">
+            <Label>{cms.description}</Label>
+            <ContentEditor
+              value={description}
+              onChange={setDescription}
+              rows={8}
+              dir={locale === 'fa' ? 'rtl' : 'ltr'}
+            />
           </div>
         </div>
-        <label className="flex items-center gap-2 text-sm">
-          <input
-            type="checkbox"
-            checked={featured}
-            onChange={(e) => setFeatured(e.target.checked)}
+
+        <aside className="space-y-4">
+          <MediaImageField
+            label={cms.featuredImage}
+            help={cms.featuredImageHelp}
+            value={coverUrl}
+            onChange={setCoverUrl}
           />
-          {d.featured}
-        </label>
-        <div className="space-y-2">
-          <Label>{cms.summary}</Label>
-          <Input value={summary} onChange={(e) => setSummary(e.target.value)} />
-        </div>
-        <div className="space-y-2">
-          <Label>{cms.description}</Label>
-          <ContentEditor
-            value={description}
-            onChange={setDescription}
-            rows={8}
-            dir={locale === 'fa' ? 'rtl' : 'ltr'}
+          <CategoryChecklist
+            taxonomy="product_category"
+            terms={cats}
+            selectedIds={termIds.filter((tid) => cats.some((c) => c.id === tid))}
+            onChange={(ids) => {
+              const tagIds = termIds.filter((tid) => tags.some((t) => t.id === tid));
+              setTermIds([...ids, ...tagIds]);
+            }}
+            onTermsChange={setCats}
+            title={d.productCategories}
           />
-        </div>
-        <div className="space-y-2">
-          <Label>{d.productCategories}</Label>
-          <div className="flex flex-wrap gap-2">
-            {terms.map((t) => {
-              const on = termIds.includes(t.id);
-              return (
-                <button
-                  key={t.id}
-                  type="button"
-                  className={`cursor-pointer rounded-md border px-2 py-1 text-xs ${
-                    on
-                      ? 'border-[var(--mj-accent)] bg-[var(--mj-accent)] text-[var(--mj-accent-fg)]'
-                      : 'border-[var(--mj-border)]'
-                  }`}
-                  onClick={() =>
-                    setTermIds((prev) =>
-                      on ? prev.filter((x) => x !== t.id) : [...prev, t.id],
-                    )
-                  }
-                >
-                  {termName(t)}
-                </button>
-              );
-            })}
-          </div>
-        </div>
+          <TagChecklist
+            taxonomy="product_tag"
+            terms={tags}
+            selectedIds={termIds.filter((tid) => tags.some((t) => t.id === tid))}
+            onChange={(ids) => {
+              const catIds = termIds.filter((tid) => cats.some((c) => c.id === tid));
+              setTermIds([...catIds, ...ids]);
+            }}
+            onTermsChange={setTags}
+            title={cms.productTags}
+          />
+        </aside>
       </div>
 
       <section className="space-y-4 rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] p-4">

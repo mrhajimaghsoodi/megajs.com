@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { ArticleCard } from '@/components/article-card';
 import { getDictionary } from '@/i18n/dictionaries';
-import { resolveMediaUrl } from '@/lib/media-url';
 import { isLocale, type Locale } from '@/lib/utils';
 
 const API = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000/api';
@@ -65,30 +65,7 @@ export default async function TagArchivePage({
 
       <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {articles.map((a: any) => (
-          <Link
-            key={a.id}
-            href={`/${locale}/articles/${a.slug}`}
-            className="group flex flex-col overflow-hidden border border-border bg-card transition hover:border-primary/40"
-          >
-            <div className="aspect-[16/10] bg-muted">
-              {a.coverUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={resolveMediaUrl(a.coverUrl)}
-                  alt=""
-                  className="h-full w-full object-cover"
-                />
-              ) : (
-                <div className="h-full w-full bg-gradient-to-br from-[#1a1a1a] to-primary/30" />
-              )}
-            </div>
-            <div className="space-y-2 p-5">
-              <h2 className="font-display text-lg font-semibold group-hover:text-primary">
-                {a.title}
-              </h2>
-              <p className="line-clamp-2 text-sm text-muted-foreground">{a.summary}</p>
-            </div>
-          </Link>
+          <ArticleCard key={a.id} article={a} locale={locale} />
         ))}
       </div>
       {!articles.length ? (

@@ -309,27 +309,39 @@ export class PublicContentController {
     @Query('category') category?: string,
     @Query('tag') tag?: string,
   ) {
-    const termSlug = category || tag;
-    const taxonomy = category ? 'post_category' : tag ? 'post_tag' : undefined;
+    let termFilter: { taxonomies: { some: { termId?: { in: string[] }; term?: { taxonomy: string; slug: string } } } } | undefined;
+
+    if (category) {
+      const root = await this.prisma.term.findFirst({
+        where: { taxonomy: 'post_category', slug: category },
+      });
+      if (root) {
+        const ids = await this.collectDescendantIds(root.id);
+        termFilter = { taxonomies: { some: { termId: { in: ids } } } };
+      } else {
+        termFilter = {
+          taxonomies: {
+            some: { term: { taxonomy: 'post_category', slug: category } },
+          },
+        };
+      }
+    } else if (tag) {
+      termFilter = {
+        taxonomies: { some: { term: { taxonomy: 'post_tag', slug: tag } } },
+      };
+    }
+
     const rows = await this.prisma.article.findMany({
       where: {
         status: 'published',
-        ...(termSlug && taxonomy
-          ? {
-              taxonomies: {
-                some: {
-                  term: { taxonomy, slug: termSlug },
-                },
-              },
-            }
-          : {}),
+        ...termFilter,
       },
       include: {
         i18n: true,
         seo: true,
         taxonomies: { include: { term: { include: { i18n: true } } } },
       },
-      orderBy: { publishedAt: 'desc' },
+      orderBy: [{ sticky: 'desc' }, { publishedAt: 'desc' }],
       take: 50,
     });
     return rows.map((row) => ({
@@ -344,7 +356,78 @@ export class PublicContentController {
         '',
       coverUrl: row.coverUrl,
       bannerUrl: row.bannerUrl,
+      sticky: row.sticky,
     }));
+  }
+
+  @Get('courses')
+  async courses(
+    @Query('locale') locale = 'fa',
+    @Query('category') category?: string,
+    @Query('tag') tag?: string,
+  ) {
+    let termFilter:
+      | { taxonomies: { some: { termId?: { in: string[] }; term?: { taxonomy: string; slug: string } } } }
+      | undefined;
+
+    if (category) {
+      const root = await this.prisma.term.findFirst({
+        where: { taxonomy: 'product_category', slug: category },
+      });
+      if (root) {
+        const ids = await this.collectDescendantIds(root.id);
+        termFilter = { taxonomies: { some: { termId: { in: ids } } } };
+      }
+    } else if (tag) {
+      termFilter = {
+        taxonomies: { some: { term: { taxonomy: 'product_tag', slug: tag } } },
+      };
+    }
+
+    const rows = await this.prisma.course.findMany({
+      where: {
+        status: { in: ['published', 'coming_soon'] },
+        ...termFilter,
+      },
+      include: {
+        i18n: true,
+        taxonomies: { include: { term: { include: { i18n: true } } } },
+      },
+      orderBy: [{ featured: 'desc' }, { sortOrder: 'asc' }],
+      take: 100,
+    });
+    return rows.map((row) => ({
+      ...row,
+      title:
+        row.i18n.find((x) => x.locale === locale)?.title ??
+        row.i18n[0]?.title ??
+        row.slug,
+      summary:
+        row.i18n.find((x) => x.locale === locale)?.summary ??
+        row.i18n[0]?.summary ??
+        '',
+    }));
+  }
+
+  /** Layered category: term + all descendants */
+  private async collectDescendantIds(rootId: string): Promise<string[]> {
+    const all = await this.prisma.term.findMany({
+      select: { id: true, parentId: true },
+    });
+    const kids = new Map<string | null, string[]>();
+    for (const t of all) {
+      const k = t.parentId ?? null;
+      const list = kids.get(k) ?? [];
+      list.push(t.id);
+      kids.set(k, list);
+    }
+    const out: string[] = [];
+    const walk = (id: string) => {
+      out.push(id);
+      for (const c of kids.get(id) ?? []) walk(c);
+    };
+    walk(rootId);
+    return out;
   }
 
   @Get('terms')
@@ -356,7 +439,15 @@ export class PublicContentController {
     if (slug) {
       const term = await this.prisma.term.findFirst({
         where: { taxonomy, slug },
-        include: { i18n: true, parent: { include: { i18n: true } } },
+        include: {
+          i18n: true,
+          parent: { include: { i18n: true } },
+          children: {
+            include: { i18n: true, _count: { select: { articles: true, courses: true } } },
+            orderBy: { sortOrder: 'asc' },
+          },
+          _count: { select: { articles: true, courses: true } },
+        },
       });
       if (!term) throw new BadRequestException('Term not found');
       const name =
@@ -371,7 +462,12 @@ export class PublicContentController {
     }
     const rows = await this.prisma.term.findMany({
       where: { taxonomy },
-      include: { i18n: true, parent: true },
+      include: {
+        i18n: true,
+        parent: true,
+        children: true,
+        _count: { select: { articles: true, courses: true } },
+      },
       orderBy: [{ sortOrder: 'asc' }, { slug: 'asc' }],
     });
     return rows.map((t) => ({
@@ -380,6 +476,11 @@ export class PublicContentController {
         t.i18n.find((x) => x.locale === locale)?.name ??
         t.i18n[0]?.name ??
         t.slug,
+      description:
+        t.i18n.find((x) => x.locale === locale)?.description ??
+        t.i18n[0]?.description ??
+        '',
+      count: (t._count?.articles ?? 0) + (t._count?.courses ?? 0),
     }));
   }
 

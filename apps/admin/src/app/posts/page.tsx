@@ -77,6 +77,7 @@ export default function PostsAdminPage() {
           <thead className="bg-[var(--mj-muted)]">
             <tr>
               <th className="p-3 text-start">{d.titleCol}</th>
+              <th className="p-3 text-start">{d.categories}</th>
               <th className="p-3 text-start">slug</th>
               <th className="p-3 text-start">{d.status}</th>
               <th className="p-3 text-start">{d.comments}</th>
@@ -85,9 +86,30 @@ export default function PostsAdminPage() {
             </tr>
           </thead>
           <tbody>
-            {rows.map((row) => (
+            {rows.map((row) => {
+              const cats = (row.taxonomies ?? [])
+                .map((t: any) => t.term)
+                .filter((t: any) => t?.taxonomy === 'post_category');
+              return (
               <tr key={row.id} className="border-t border-[var(--mj-border)]">
-                <td className="p-3 font-medium">{titleOf(row, locale)}</td>
+                <td className="p-3 font-medium">
+                  {row.sticky ? (
+                    <span className="me-2 rounded bg-primary/30 px-1.5 py-0.5 text-[10px] font-bold uppercase">
+                      sticky
+                    </span>
+                  ) : null}
+                  {titleOf(row, locale)}
+                </td>
+                <td className="p-3 text-xs text-[var(--mj-muted-fg)]">
+                  {cats
+                    .map(
+                      (t: any) =>
+                        t.i18n?.find((x: any) => x.locale === locale)?.name ??
+                        t.i18n?.[0]?.name ??
+                        t.slug,
+                    )
+                    .join(', ') || '—'}
+                </td>
                 <td className="p-3 font-mono text-xs" dir="ltr">
                   {row.slug}
                 </td>
@@ -104,10 +126,11 @@ export default function PostsAdminPage() {
                   </Link>
                 </td>
               </tr>
-            ))}
+            );
+            })}
             {!rows.length ? (
               <tr>
-                <td className="p-6 text-[var(--mj-muted-fg)]" colSpan={6}>
+                <td className="p-6 text-[var(--mj-muted-fg)]" colSpan={7}>
                   {dict.none}
                 </td>
               </tr>

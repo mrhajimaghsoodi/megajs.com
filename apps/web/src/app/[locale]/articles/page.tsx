@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { ArticleCard } from '@/components/article-card';
+import { TermCardsGrid } from '@/components/term-card';
 import { getDictionary } from '@/i18n/dictionaries';
-import { resolveMediaUrl } from '@/lib/media-url';
 import { isLocale, type Locale } from '@/lib/utils';
 
 const API = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000/api';
@@ -12,6 +13,19 @@ async function fetchArticles(locale: string) {
     const res = await fetch(`${API}/public/articles?locale=${locale}`, {
       next: { revalidate: 60 },
     });
+    if (!res.ok) return [];
+    return res.json();
+  } catch {
+    return [];
+  }
+}
+
+async function fetchCategories(locale: string) {
+  try {
+    const res = await fetch(
+      `${API}/public/terms?taxonomy=post_category&locale=${locale}`,
+      { next: { revalidate: 60 } },
+    );
     if (!res.ok) return [];
     return res.json();
   } catch {
@@ -33,100 +47,105 @@ export async function generateMetadata({
   };
 }
 
-function termLabel(term: any, locale: string) {
-  return (
-    term?.i18n?.find((x: any) => x.locale === locale)?.name ??
-    term?.i18n?.[0]?.name ??
-    term?.slug ??
-    ''
-  );
-}
-
 export default async function ArticlesPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{ view?: string }>;
 }) {
   const { locale: raw } = await params;
+  const { view } = await searchParams;
   if (!isLocale(raw)) notFound();
   const locale = raw as Locale;
   const dict = getDictionary(locale);
-  const articles = await fetchArticles(locale);
+  const [articles, categories] = await Promise.all([
+    fetchArticles(locale),
+    fetchCategories(locale),
+  ]);
+  const variant = view === 'list' ? 'list' : 'grid';
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
-      <h1 className="font-display text-4xl font-bold tracking-tight">
-        {dict.articles?.title ?? 'Articles'}
-      </h1>
-      <p className="mt-3 max-w-2xl text-muted-foreground">{dict.articles?.subtitle}</p>
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h1 className="font-display text-4xl font-bold tracking-tight">
+            {dict.articles?.title ?? 'Articles'}
+          </h1>
+          <p className="mt-3 max-w-2xl text-muted-foreground">{dict.articles?.subtitle}</p>
+        </div>
+        <div className="flex flex-wrap gap-2 text-sm">
+          <Link
+            href={`/${locale}/articles`}
+            className={
+              variant === 'grid'
+                ? 'bg-primary px-3 py-1.5 font-semibold text-[var(--mj-ink)]'
+                : 'border border-border px-3 py-1.5'
+            }
+          >
+            {dict.articles.viewGrid}
+          </Link>
+          <Link
+            href={`/${locale}/articles?view=list`}
+            className={
+              variant === 'list'
+                ? 'bg-primary px-3 py-1.5 font-semibold text-[var(--mj-ink)]'
+                : 'border border-border px-3 py-1.5'
+            }
+          >
+            {dict.articles.viewList}
+          </Link>
+          <Link
+            href={`/${locale}/articles/categories`}
+            className="border border-border px-3 py-1.5 hover:border-primary"
+          >
+            {dict.articles.allCategories}
+          </Link>
+        </div>
+      </div>
 
-      <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {articles.map((a: any) => {
-          const cats = (a.taxonomies ?? [])
-            .map((t: any) => t.term)
-            .filter((t: any) => t?.taxonomy === 'post_category');
-          return (
-            <Link
-              key={a.id}
-              href={`/${locale}/articles/${a.slug}`}
-              className="group flex flex-col overflow-hidden border border-border bg-card transition hover:border-primary/40"
-            >
-              <div className="aspect-[16/10] bg-muted">
-                {a.coverUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={resolveMediaUrl(a.coverUrl)}
-                    alt=""
-                    className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
-                  />
-                ) : (
-                  <div
-                    className="h-full w-full bg-gradient-to-br from-[#1a1a1a] via-[#2a2410] to-primary/40"
-                    aria-hidden
-                  />
-                )}
-              </div>
-              <div className="flex flex-1 flex-col gap-2 p-5">
-                {cats.length ? (
-                  <div className="flex flex-wrap gap-2">
-                    {cats.slice(0, 2).map((c: any) => (
-                      <span
-                        key={c.id}
-                        className="font-mono text-[10px] uppercase tracking-wider text-primary"
-                      >
-                        {termLabel(c, locale)}
-                      </span>
-                    ))}
-                  </div>
-                ) : null}
-                <h2 className="font-display text-xl font-semibold leading-snug group-hover:text-primary">
-                  {a.title}
-                </h2>
-                <p className="line-clamp-3 flex-1 text-sm text-muted-foreground">{a.summary}</p>
-                {a.publishedAt ? (
-                  <time className="pt-1 font-mono text-[11px] text-muted-foreground" dateTime={a.publishedAt}>
-                    {new Date(a.publishedAt).toLocaleDateString(
-                      locale === 'fa' ? 'fa-IR' : 'en-US',
-                    )}
-                  </time>
-                ) : null}
-              </div>
-            </Link>
-          );
-        })}
+      {categories.length ? (
+        <div className="mt-8 flex flex-wrap gap-2">
+          {categories
+            .filter((c: any) => !c.parentId)
+            .slice(0, 12)
+            .map((c: any) => (
+              <Link
+                key={c.id}
+                href={`/${locale}/articles/category/${c.slug}`}
+                className="border border-border px-3 py-1.5 text-xs font-semibold uppercase tracking-wide transition hover:border-primary hover:text-primary"
+              >
+                {c.name}
+              </Link>
+            ))}
+        </div>
+      ) : null}
+
+      <div
+        className={
+          variant === 'list'
+            ? 'mt-10 space-y-4'
+            : 'mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3'
+        }
+      >
+        {articles.map((a: any) => (
+          <ArticleCard key={a.id} article={a} locale={locale} variant={variant} />
+        ))}
       </div>
 
       {!articles.length ? (
-        <div className="mt-10 space-y-3">
+        <div className="mt-10 space-y-4">
           <p className="text-sm text-muted-foreground">
             {dict.articles?.empty ?? 'No published articles yet.'}
           </p>
-          <Link
-            href={`/${locale}/learn`}
-            className="text-sm font-semibold underline-offset-4 hover:underline"
-          >
-            {dict.articles?.ctaLearn}
-          </Link>
+          {categories.length ? (
+            <TermCardsGrid
+              terms={categories}
+              locale={locale}
+              hrefBase={`/${locale}/articles/category`}
+              showChildren
+            />
+          ) : null}
         </div>
       ) : null}
     </div>

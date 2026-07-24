@@ -71,7 +71,7 @@ export class CmsService {
         taxonomies: { include: { term: { include: { i18n: true } } } },
         _count: { select: { comments: true } },
       },
-      orderBy: { updatedAt: 'desc' },
+      orderBy: [{ sticky: 'desc' }, { updatedAt: 'desc' }],
       take: 200,
     });
   }
@@ -97,6 +97,7 @@ export class CmsService {
       status?: string;
       coverUrl?: string;
       bannerUrl?: string;
+      sticky?: boolean;
       commentStatus?: string;
       focusKeyword?: string;
       locale?: string;
@@ -113,12 +114,21 @@ export class CmsService {
       ? body.status!
       : 'draft';
 
+    let termIds = body.termIds ?? [];
+    if (!termIds.length) {
+      const def = await this.prisma.term.findFirst({
+        where: { taxonomy: 'post_category', isDefault: true },
+      });
+      if (def) termIds = [def.id];
+    }
+
     const article = await this.prisma.article.create({
       data: {
         slug,
         status,
         coverUrl: body.coverUrl,
         bannerUrl: body.bannerUrl,
+        sticky: body.sticky ?? false,
         commentStatus: body.commentStatus ?? 'open',
         focusKeyword: body.focusKeyword ?? '',
         authorId: actorId,
@@ -131,10 +141,10 @@ export class CmsService {
             bodyMdx: body.bodyMdx ?? '',
           },
         },
-        ...(body.termIds?.length
+        ...(termIds.length
           ? {
               taxonomies: {
-                create: body.termIds.map((termId) => ({ termId })),
+                create: termIds.map((termId) => ({ termId })),
               },
             }
           : {}),
@@ -153,6 +163,7 @@ export class CmsService {
       status?: string;
       coverUrl?: string | null;
       bannerUrl?: string | null;
+      sticky?: boolean;
       commentStatus?: string;
       focusKeyword?: string;
       locale?: string;
@@ -188,6 +199,7 @@ export class CmsService {
           status,
           coverUrl: body.coverUrl === undefined ? undefined : body.coverUrl,
           bannerUrl: body.bannerUrl === undefined ? undefined : body.bannerUrl,
+          sticky: body.sticky === undefined ? undefined : body.sticky,
           commentStatus: body.commentStatus,
           focusKeyword:
             body.focusKeyword === undefined ? undefined : body.focusKeyword,
@@ -474,6 +486,7 @@ export class CmsService {
       include: {
         i18n: true,
         parent: { include: { i18n: true } },
+        children: { include: { i18n: true }, orderBy: { sortOrder: 'asc' } },
         _count: { select: { articles: true, courses: true } },
       },
       orderBy: [{ sortOrder: 'asc' }, { slug: 'asc' }],
@@ -487,6 +500,8 @@ export class CmsService {
       slug?: string;
       parentId?: string | null;
       sortOrder?: number;
+      imageUrl?: string | null;
+      isDefault?: boolean;
       locale?: string;
       name?: string;
       description?: string;
@@ -500,12 +515,21 @@ export class CmsService {
     const name = body.name?.trim() || 'Untitled';
     const slug = body.slug?.trim() || this.slugify(name) || `term-${Date.now()}`;
 
+    if (body.isDefault) {
+      await this.prisma.term.updateMany({
+        where: { taxonomy, isDefault: true },
+        data: { isDefault: false },
+      });
+    }
+
     const term = await this.prisma.term.create({
       data: {
         taxonomy,
         slug,
         parentId: body.parentId ?? null,
         sortOrder: body.sortOrder ?? 0,
+        imageUrl: body.imageUrl ?? null,
+        isDefault: body.isDefault ?? false,
         i18n: {
           create: {
             locale,
@@ -514,7 +538,7 @@ export class CmsService {
           },
         },
       },
-      include: { i18n: true },
+      include: { i18n: true, children: true, _count: { select: { articles: true, courses: true } } },
     });
     await this.audit(actorId, 'term.create', 'Term', term.id, { taxonomy, slug });
     return term;
@@ -527,6 +551,8 @@ export class CmsService {
       slug?: string;
       parentId?: string | null;
       sortOrder?: number;
+      imageUrl?: string | null;
+      isDefault?: boolean;
       locale?: string;
       name?: string;
       description?: string;
@@ -536,6 +562,17 @@ export class CmsService {
     if (!existing) throw new NotFoundException('Term not found');
     const locale = body.locale ?? 'fa';
 
+    if (body.parentId === id) {
+      throw new BadRequestException('Category cannot be its own parent');
+    }
+
+    if (body.isDefault) {
+      await this.prisma.term.updateMany({
+        where: { taxonomy: existing.taxonomy, isDefault: true, NOT: { id } },
+        data: { isDefault: false },
+      });
+    }
+
     await this.prisma.$transaction(async (tx) => {
       await tx.term.update({
         where: { id },
@@ -543,6 +580,8 @@ export class CmsService {
           slug: body.slug?.trim(),
           parentId: body.parentId === undefined ? undefined : body.parentId,
           sortOrder: body.sortOrder,
+          imageUrl: body.imageUrl === undefined ? undefined : body.imageUrl,
+          isDefault: body.isDefault === undefined ? undefined : body.isDefault,
         },
       });
       if (body.name !== undefined || body.description !== undefined) {
@@ -572,14 +611,51 @@ export class CmsService {
     await this.audit(actorId, 'term.update', 'Term', id, body);
     return this.prisma.term.findUnique({
       where: { id },
-      include: { i18n: true, _count: { select: { articles: true, courses: true } } },
+      include: {
+        i18n: true,
+        children: true,
+        _count: { select: { articles: true, courses: true } },
+      },
     });
   }
 
   async deleteTerm(id: string, actorId: string) {
+    const existing = await this.prisma.term.findUnique({
+      where: { id },
+      include: { children: true },
+    });
+    if (!existing) throw new NotFoundException('Term not found');
+    // Re-parent children to this term's parent (WP-like soft hierarchy cleanup)
+    if (existing.children.length) {
+      await this.prisma.term.updateMany({
+        where: { parentId: id },
+        data: { parentId: existing.parentId },
+      });
+    }
     await this.prisma.term.delete({ where: { id } });
     await this.audit(actorId, 'term.delete', 'Term', id);
     return { ok: true };
+  }
+
+  /** Collect term id + all descendant ids (layered category archives). */
+  async collectDescendantTermIds(rootId: string): Promise<string[]> {
+    const all = await this.prisma.term.findMany({
+      select: { id: true, parentId: true },
+    });
+    const kids = new Map<string | null, string[]>();
+    for (const t of all) {
+      const k = t.parentId ?? null;
+      const list = kids.get(k) ?? [];
+      list.push(t.id);
+      kids.set(k, list);
+    }
+    const out: string[] = [];
+    const walk = (id: string) => {
+      out.push(id);
+      for (const c of kids.get(id) ?? []) walk(c);
+    };
+    walk(rootId);
+    return out;
   }
 
   // ——— Media ———

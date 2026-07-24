@@ -223,6 +223,8 @@ model Article {
   coverUrl      String?
   /// Internal hero / banner above post content
   bannerUrl     String?
+  /// Sticky / pinned to front of lists (WP sticky)
+  sticky        Boolean       @default(false)
   commentStatus String        @default("open")
   /// RankMath-style focus keyword
   focusKeyword  String        @default("")
@@ -609,6 +611,10 @@ model Term {
   taxonomy  String
   parentId  String?
   sortOrder Int        @default(0)
+  /// Category / term thumbnail (WP-style)
+  imageUrl  String?
+  /// Default category for new posts/products (one per taxonomy)
+  isDefault Boolean    @default(false)
   createdAt DateTime   @default(now())
   parent    Term?      @relation("TermTree", fields: [parentId], references: [id], onDelete: SetNull)
   children  Term[]     @relation("TermTree")
@@ -618,6 +624,7 @@ model Term {
 
   @@unique([taxonomy, slug])
   @@index([taxonomy])
+  @@index([parentId])
 }
 
 model TermI18n {
