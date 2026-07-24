@@ -28,5 +28,32 @@ ${css[1].trim()}
 </html>`;
   }
 
+  // Learn-track JS pages may use a bare ```js / ```javascript fence.
+  const js = markdown.match(/```(?:js|javascript)\s*\n([\s\S]*?)```/i);
+  if (js) {
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body>
+  <h1>JavaScript preview</h1>
+  <pre id="out"></pre>
+  <script>
+  const out = document.querySelector('#out');
+  const log = (...args) => {
+    out.textContent += args.map(String).join(' ') + '\\n';
+  };
+  try {
+${js[1].trim()}
+  } catch (error) {
+    log('Error:', error && error.message ? error.message : error);
+  }
+  </script>
+</body>
+</html>`;
+  }
+
   return null;
 }
