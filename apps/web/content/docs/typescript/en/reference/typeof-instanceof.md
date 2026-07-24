@@ -1,0 +1,123 @@
+---
+title: "typeof and instanceof Reference"
+description: "This page explains using JavaScript runtime operators as TypeScript narrowing evidence with TypeScript examples, syntax tables, and practical authoring notes."
+seoTitle: "typeof and instanceof Reference - MDN-style TypeScript | MEGA JS Docs"
+seoDescription: "typeof and instanceof Reference (typeof instanceof): MDN-style TypeScript reference with JavaScript runtime facts, narrowing, DOM typing, and compiler examples."
+keywords: "TypeScript, typeof and instanceof Reference, TypeScript typeof and instanceof Reference, typeof and instanceof Reference tutorial, typeof instanceof"
+order: 4
+track: reference
+sources:
+  - name: MDN Web Docs - JavaScript
+    url: https://developer.mozilla.org/en-US/docs/Web/JavaScript
+  - name: MDN JavaScript Guide - Data types
+    url: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Data_structures
+---
+# typeof and instanceof Reference
+
+typeof and instanceof Reference is an author-focused MDN-style TypeScript reference page. It concentrates on using JavaScript runtime operators as TypeScript narrowing evidence and pairs precise definitions, JavaScript runtime behavior, and TypeScript contracts instead of beginner sequencing.
+
+## Place in the MDN reference
+
+On MDN, JavaScript is documented through primitives, objects, functions, modules, the DOM, and Web APIs. When using typeof and instanceof Reference, remember that TypeScript checks types before runtime and then erases them.
+
+## Reference table
+
+| Item | Meaning | Compatibility note |
+| --- | --- | --- |
+| `narrowing` | refining a type through runtime evidence | Check runtime behavior in the target browser or Node.js and type behavior under strict mode. |
+| `type operator` | operator used in type positions | Check runtime behavior in the target browser or Node.js and type behavior under strict mode. |
+| `literal type` | type for one exact value | Check runtime behavior in the target browser or Node.js and type behavior under strict mode. |
+
+## Examples
+
+### Example 1
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script src="https://cdn.jsdelivr.net/npm/typescript@5.7.3/lib/typescript.js"></script>
+</head>
+<body>
+<pre id="out"></pre>
+<script>
+const out = document.querySelector('#out');
+const log = (...a) => { out.textContent += a.map(String).join(' ') + '\n'; };
+const tsCode = `
+type ReferenceTerm = {
+  syntax: string;
+  meaning: string;
+  source: 'MDN-style' | 'TypeScript';
+};
+const terms: ReferenceTerm[] = [
+  { syntax: 'narrowing', meaning: 'refining a type through runtime evidence', source: 'MDN-style' },
+  { syntax: 'type operator', meaning: 'operator used in type positions', source: 'MDN-style' },
+  { syntax: 'literal type', meaning: 'type for one exact value', source: 'MDN-style' }
+];
+terms.forEach((term) => log(term.source, term.syntax, '-', term.meaning));
+`;
+try {
+  const result = ts.transpileModule(tsCode, {
+    compilerOptions: { target: ts.ScriptTarget.ES2020, module: ts.ModuleKind.ESNext, strict: true }
+  });
+  // Run emitted JS in a Function with log in scope
+  new Function('log', result.outputText)(log);
+} catch (e) {
+  log('Error:', e.message || e);
+}
+</script>
+</body>
+</html>
+```
+
+### Example 2
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script src="https://cdn.jsdelivr.net/npm/typescript@5.7.3/lib/typescript.js"></script>
+</head>
+<body>
+<pre id="out"></pre>
+<script>
+const out = document.querySelector('#out');
+const log = (...a) => { out.textContent += a.map(String).join(' ') + '\n'; };
+const tsCode = `
+type Result = { ok: true; value: number } | { ok: false; error: string };
+function format(result: Result): string {
+  if (result.ok) return 'value ' + result.value.toFixed(1);
+  return 'error ' + result.error;
+}
+log(format({ ok: true, value: 42 }));
+log(format({ ok: false, error: 'missing input' }));
+`;
+try {
+  const result = ts.transpileModule(tsCode, {
+    compilerOptions: { target: ts.ScriptTarget.ES2020, module: ts.ModuleKind.ESNext, strict: true }
+  });
+  // Run emitted JS in a Function with log in scope
+  new Function('log', result.outputText)(log);
+} catch (e) {
+  log('Error:', e.message || e);
+}
+</script>
+</body>
+</html>
+```
+
+## Precise authoring notes
+
+- For typeof and instanceof Reference, keep the boundary between real JavaScript values and erased TypeScript types explicit.
+- Validate external data such as JSON, DOM, and network input before relying on assertions.
+- For critical decisions, compare the relevant MDN page, the TypeScript Handbook, and a real target runtime.
+
+## Conceptual link to MDN
+
+This page aligns with MDN topics around typeof and instanceof Reference, JavaScript runtime types, DOM/Web APIs, and browser compatibility before implementation.
+
+## Next step
+
+Continue with **Equality, Coercion, and Types**.

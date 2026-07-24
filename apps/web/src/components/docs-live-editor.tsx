@@ -30,13 +30,13 @@ function DocsLiveEditorInstance({
   const labels =
     locale === 'fa'
       ? {
-          title: 'ادیتور لحظه‌ای HTML / CSS / JS / React',
+          title: 'ادیتور لحظه‌ای HTML / CSS / JS / TypeScript / React',
           run: 'اجرا',
           reset: 'بازنشانی',
           hint: 'کد را ویرایش کنید و اجرا بزنید',
         }
       : {
-          title: 'Live HTML / CSS / JS / React editor',
+          title: 'Live HTML / CSS / JS / TypeScript / React editor',
           run: 'Run',
           reset: 'Reset',
           hint: 'Edit the code and press Run',
@@ -91,6 +91,9 @@ function wrapHtml(code: string) {
   if (/<!DOCTYPE/i.test(trimmed) || /<html[\s>]/i.test(trimmed)) {
     return trimmed;
   }
+  if (looksLikeTypeScriptSnippet(trimmed)) {
+    return wrapTypeScript(trimmed);
+  }
   if (looksLikeReactSnippet(trimmed)) {
     return wrapReact(trimmed);
   }
@@ -116,6 +119,19 @@ function looksLikeReactSnippet(code: string) {
     /\b(?:function|class)\s+[A-Z][\w]*\s*(?:\(|extends)/.test(code) ||
     /\b(?:const|let|var)\s+[A-Z][\w]*\s*=/.test(code) ||
     /<[A-Z][\w.]*[\s>/]/.test(code)
+  );
+}
+
+function looksLikeTypeScriptSnippet(code: string) {
+  return (
+    /\binterface\s+\w+\b/.test(code) ||
+    /\btype\s+\w+\s*=/.test(code) ||
+    /\benum\s+\w+\b/.test(code) ||
+    /\b(?:const|let|var)\s+\w+\s*:\s*[^=;\n]+[=;]/.test(code) ||
+    /\bfunction\s+\w+\s*<[^>]+>\s*\(/.test(code) ||
+    /\)\s*:\s*[\w<>{}\[\]|&'",.\s]+\s*\{/.test(code) ||
+    /\bas\s+(?:const|unknown|any|string|number|boolean|[A-Z]\w*)\b/.test(code) ||
+    /\bimplements\s+\w+\b/.test(code)
   );
 }
 
@@ -153,7 +169,46 @@ ${indent(appCode, 2)}
 </html>`;
 }
 
+function wrapTypeScript(code: string) {
+  const safeCode = escapeTemplateLiteral(code);
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script src="https://cdn.jsdelivr.net/npm/typescript@5.7.3/lib/typescript.js"></script>
+</head>
+<body>
+<pre id="out"></pre>
+<script>
+const out = document.querySelector('#out');
+const log = (...a) => { out.textContent += a.map(String).join(' ') + '\\n'; };
+const tsCode = \`
+${safeCode}
+\`;
+try {
+  const result = ts.transpileModule(tsCode, {
+    compilerOptions: { target: ts.ScriptTarget.ES2020, module: ts.ModuleKind.ESNext, strict: true }
+  });
+  // Run emitted JS in a Function with log in scope
+  new Function('log', result.outputText)(log);
+} catch (e) {
+  log('Error:', e.message || e);
+}
+</script>
+</body>
+</html>`;
+}
+
 function indent(value: string, spaces: number) {
   const prefix = ' '.repeat(spaces);
   return value.split('\n').map((line) => `${prefix}${line}`).join('\n');
+}
+
+function escapeTemplateLiteral(value: string) {
+  return value
+    .replace(/\\/g, '\\\\')
+    .replace(/`/g, '\\`')
+    .replace(/\$\{/g, '\\${')
+    .replace(/<\/script/gi, '<\\/script');
 }

@@ -9,6 +9,12 @@ export function extractFirstHtmlFence(markdown: string): string | null {
     return wrapReactSnippet(react[1].trim());
   }
 
+  // TypeScript pages may use bare ```ts / ```typescript fences — transpile in-browser.
+  const ts = markdown.match(/```(?:ts|typescript)\s*\n([\s\S]*?)```/i);
+  if (ts) {
+    return wrapTypeScriptSnippet(ts[1].trim());
+  }
+
   // Learn-track CSS pages may use a bare ```css fence — wrap it for the live editor.
   const css = markdown.match(/```css\s*\n([\s\S]*?)```/i);
   if (css) {
@@ -98,7 +104,46 @@ ${indent(appCode, 2)}
 </html>`;
 }
 
+function wrapTypeScriptSnippet(code: string): string {
+  const safeCode = escapeTemplateLiteral(code);
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<script src="https://cdn.jsdelivr.net/npm/typescript@5.7.3/lib/typescript.js"></script>
+</head>
+<body>
+<pre id="out"></pre>
+<script>
+const out = document.querySelector('#out');
+const log = (...a) => { out.textContent += a.map(String).join(' ') + '\\n'; };
+const tsCode = \`
+${safeCode}
+\`;
+try {
+  const result = ts.transpileModule(tsCode, {
+    compilerOptions: { target: ts.ScriptTarget.ES2020, module: ts.ModuleKind.ESNext, strict: true }
+  });
+  // Run emitted JS in a Function with log in scope
+  new Function('log', result.outputText)(log);
+} catch (e) {
+  log('Error:', e.message || e);
+}
+</script>
+</body>
+</html>`;
+}
+
 function indent(value: string, spaces: number): string {
   const prefix = ' '.repeat(spaces);
   return value.split('\n').map((line) => `${prefix}${line}`).join('\n');
+}
+
+function escapeTemplateLiteral(value: string): string {
+  return value
+    .replace(/\\/g, '\\\\')
+    .replace(/`/g, '\\`')
+    .replace(/\$\{/g, '\\${')
+    .replace(/<\/script/gi, '<\\/script');
 }
