@@ -1,19 +1,14 @@
 import Link from 'next/link';
-import { BookOpen, Check, Minus } from 'lucide-react';
 import { notFound } from 'next/navigation';
-import type { ReactNode } from 'react';
-import { Badge } from '@/components/ui/badge';
+import { BlogTeaser } from '@/components/woodmart/blog-teaser';
+import { BenefitsStrip } from '@/components/woodmart/benefits';
+import { CategoryGrid } from '@/components/woodmart/category-grid';
+import { ProductCard } from '@/components/woodmart/product-card';
+import { PromoBanners } from '@/components/woodmart/promo-banners';
+import { WoodContainer, WoodSectionTitle } from '@/components/woodmart/section-title';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import { CtaLink } from '@/components/marketing';
 import { getDictionary } from '@/i18n/dictionaries';
+import { fetchArticles, fetchTracks, flattenCourses } from '@/lib/catalog';
 import { isLocale, type Locale } from '@/lib/utils';
 
 export async function generateMetadata({
@@ -34,32 +29,6 @@ export async function generateMetadata({
   };
 }
 
-function CodeSnippet({
-  title,
-  children,
-}: {
-  title: string;
-  children: ReactNode;
-}) {
-  return (
-    <Card className="overflow-hidden border-border bg-card py-0">
-      <div className="flex items-center justify-between border-b border-border bg-muted/60 px-4 py-2">
-        <span className="font-mono text-[11px] text-muted-foreground">{title}</span>
-        <span className="flex gap-1.5" aria-hidden>
-          <span className="size-2 rounded-full bg-[var(--mj-syn-property)]/80" />
-          <span className="size-2 rounded-full bg-[var(--mj-syn-number)]/80" />
-          <span className="size-2 rounded-full bg-[var(--mj-syn-string)]/80" />
-        </span>
-      </div>
-      <CardContent className="p-0">
-        <pre className="overflow-x-auto p-4 font-mono text-[12px] leading-6 sm:text-[13px]">
-          {children}
-        </pre>
-      </CardContent>
-    </Card>
-  );
-}
-
 export default async function HomePage({
   params,
 }: {
@@ -69,262 +38,188 @@ export default async function HomePage({
   if (!isLocale(raw)) notFound();
   const locale = raw as Locale;
   const dict = getDictionary(locale);
-  const L = dict.landing;
-  const docsHref = `/${locale}/curriculum`;
+  const w = dict.woodmart;
+  const [tracks, articles] = await Promise.all([
+    fetchTracks(locale),
+    fetchArticles(locale, 3),
+  ]);
+  const courses = flattenCourses(tracks).slice(0, 8);
+  const featured = courses.slice(0, 4);
+  const bestsellers = courses.slice(4, 8).length
+    ? courses.slice(4, 8)
+    : courses.slice(0, 4);
 
-  const compareRows = [
-    { feature: L.compare.rows.daily, free: true, pro: true, team: true },
-    { feature: L.compare.rows.practice, free: true, pro: true, team: true },
-    { feature: L.compare.rows.tokens, free: false, pro: true, team: true },
-    { feature: L.compare.rows.live, free: false, pro: true, team: true },
-    { feature: L.compare.rows.admin, free: false, pro: false, team: true },
-  ];
-
-  const integrations = L.integrations.items;
+  const productLabels = {
+    view: w.product.view,
+    wishlist: w.product.wishlist,
+    enroll: w.product.enroll,
+    free: w.product.free,
+    sale: w.product.hot,
+    comingSoon: dict.sections.comingSoon,
+  };
 
   return (
     <>
-      {/* 1. Minimal hero + docs link */}
-      <section className="relative isolate overflow-hidden border-b border-border">
+      {/* Full-bleed WoodMart hero — brand first, one CTA group, one visual plane */}
+      <section className="relative isolate min-h-[min(88vh,52rem)] overflow-hidden bg-[#0c0c0c] text-white">
         <div
-          className="pointer-events-none absolute inset-0 mj-code-plane opacity-[0.55]"
-          aria-hidden
-        />
-        <div
-          className="pointer-events-none absolute inset-0"
+          className="absolute inset-0"
           style={{
             background:
-              'radial-gradient(800px 420px at 80% 10%, color-mix(in oklab, var(--mj-accent) 18%, transparent), transparent 55%)',
+              'linear-gradient(115deg, #0c0c0c 0%, #16140a 42%, #1a1608 68%, #0c0c0c 100%)',
           }}
           aria-hidden
         />
-        <div className="relative z-10 mx-auto grid max-w-6xl gap-10 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:items-center lg:py-28">
-          <div className="mj-fade-up flex flex-col gap-6">
-            <Badge variant="secondary" className="w-fit font-mono text-[10px] uppercase tracking-[0.18em]">
-              {L.badge}
-            </Badge>
-            <p className="font-display text-[clamp(2.75rem,8vw,4.75rem)] font-bold leading-[0.95] tracking-tight text-foreground">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.35]"
+          style={{
+            backgroundImage:
+              'linear-gradient(rgba(255,212,0,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(255,212,0,0.07) 1px, transparent 1px)',
+            backgroundSize: '48px 48px',
+          }}
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute -end-24 top-1/4 size-[36rem] rounded-full bg-primary/20 blur-3xl mj-hero-glow"
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute -start-20 bottom-0 size-[28rem] rounded-full bg-[#ffd400]/10 blur-3xl"
+          aria-hidden
+        />
+
+        <WoodContainer className="relative z-10 flex min-h-[min(88vh,52rem)] flex-col justify-center py-20">
+          <div className="mj-fade-up max-w-3xl">
+            <p className="font-display text-[clamp(3.25rem,11vw,6.5rem)] font-bold leading-[0.9] tracking-tight text-primary">
               {dict.brand}
-              <span className="mj-caret" aria-hidden />
             </p>
-            <h1 className="max-w-xl text-xl font-medium leading-snug text-muted-foreground sm:text-2xl">
-              {dict.tagline}
+            <h1 className="mt-6 max-w-2xl text-2xl font-medium leading-snug text-white sm:text-3xl lg:text-4xl">
+              {w.hero.headline}
             </h1>
-            <p className="max-w-lg text-sm leading-7 text-muted-foreground sm:text-base">
-              {dict.heroSupport}
+            <p className="mt-4 max-w-xl text-base leading-7 text-white/65 sm:text-lg">
+              {w.hero.support}
             </p>
-            <div className="flex flex-wrap gap-3">
-              <CtaLink href={`/${locale}/login`} primary>
-                {dict.ctaStart}
-              </CtaLink>
-              <Button asChild variant="outline" size="lg" className="h-12 gap-2 px-5">
-                <Link href={docsHref}>
-                  <BookOpen data-icon="inline-start" />
-                  {L.docsCta}
-                </Link>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Button asChild size="lg" className="h-12 rounded-none px-7 text-sm font-bold">
+                <Link href={`/${locale}/learn`}>{w.hero.ctaShop}</Link>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="h-12 rounded-none border-white/20 bg-transparent px-7 text-sm font-semibold text-white hover:bg-white/5 hover:text-white"
+              >
+                <Link href={`/${locale}/login`}>{dict.ctaStart}</Link>
               </Button>
             </div>
           </div>
-
-          <div className="mj-fade-up">
-            <CodeSnippet title="today.ts">
-              <code>
-                <span className="syn-cmt">{'// daily learning loop'}</span>
-                {'\n'}
-                <span className="syn-kw">const</span> <span className="syn-prop">session</span>{' '}
-                <span className="syn-op">=</span> <span className="syn-pun">{'{'}</span>
-                {'\n'}
-                {'  '}
-                <span className="syn-prop">track</span>
-                <span className="syn-pun">:</span> <span className="syn-str">&quot;javascript&quot;</span>
-                <span className="syn-pun">,</span>
-                {'\n'}
-                {'  '}
-                <span className="syn-prop">streak</span>
-                <span className="syn-pun">:</span> <span className="syn-num">7</span>
-                <span className="syn-pun">,</span>
-                {'\n'}
-                {'  '}
-                <span className="syn-prop">challenge</span>
-                <span className="syn-pun">:</span> <span className="syn-str">&quot;sum(a, b)&quot;</span>
-                <span className="syn-pun">,</span>
-                {'\n'}
-                <span className="syn-pun">{'}'}</span>
-                <span className="syn-pun">;</span>
-                {'\n\n'}
-                <span className="syn-kw">await</span> <span className="syn-fn">learn</span>
-                <span className="syn-pun">(</span>
-                <span className="syn-prop">session</span>
-                <span className="syn-pun">);</span>
-              </code>
-            </CodeSnippet>
-          </div>
-        </div>
+        </WoodContainer>
       </section>
 
-      {/* 2. Code snippet previews */}
-      <section className="border-b border-border bg-background">
-        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-          <div className="mb-10 max-w-2xl">
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary">{L.snippets.kicker}</p>
-            <h2 className="mt-3 font-display text-3xl font-bold tracking-tight sm:text-4xl">
-              {L.snippets.title}
-            </h2>
-            <p className="mt-3 text-muted-foreground">{L.snippets.body}</p>
-          </div>
-          <div className="mj-stagger grid gap-4 lg:grid-cols-2">
-            <CodeSnippet title="practice.submit.ts">
-              <code>
-                <span className="syn-kw">export</span> <span className="syn-kw">async</span>{' '}
-                <span className="syn-kw">function</span> <span className="syn-fn">submit</span>
-                <span className="syn-pun">(</span>
-                <span className="syn-prop">code</span>
-                <span className="syn-pun">:</span> <span className="syn-fn">string</span>
-                <span className="syn-pun">)</span> <span className="syn-pun">{'{'}</span>
-                {'\n'}
-                {'  '}
-                <span className="syn-kw">const</span> <span className="syn-prop">result</span>{' '}
-                <span className="syn-op">=</span> <span className="syn-kw">await</span>{' '}
-                <span className="syn-fn">judge</span>
-                <span className="syn-pun">(</span>
-                <span className="syn-prop">code</span>
-                <span className="syn-pun">);</span>
-                {'\n'}
-                {'  '}
-                <span className="syn-kw">return</span> <span className="syn-pun">{'{'}</span>{' '}
-                <span className="syn-prop">passed</span>
-                <span className="syn-pun">:</span> <span className="syn-prop">result</span>
-                <span className="syn-pun">.</span>
-                <span className="syn-prop">ok</span>
-                <span className="syn-pun">,</span> <span className="syn-prop">tokens</span>
-                <span className="syn-pun">:</span> <span className="syn-num">12</span>{' '}
-                <span className="syn-pun">{'}'}</span>
-                <span className="syn-pun">;</span>
-                {'\n'}
-                <span className="syn-pun">{'}'}</span>
-              </code>
-            </CodeSnippet>
-            <CodeSnippet title="api.health.json">
-              <code>
-                <span className="syn-pun">{'{'}</span>
-                {'\n'}
-                {'  '}
-                <span className="syn-str">&quot;ok&quot;</span>
-                <span className="syn-pun">:</span> <span className="syn-kw">true</span>
-                <span className="syn-pun">,</span>
-                {'\n'}
-                {'  '}
-                <span className="syn-str">&quot;service&quot;</span>
-                <span className="syn-pun">:</span> <span className="syn-str">&quot;megajs-api&quot;</span>
-                <span className="syn-pun">,</span>
-                {'\n'}
-                {'  '}
-                <span className="syn-str">&quot;version&quot;</span>
-                <span className="syn-pun">:</span> <span className="syn-str">&quot;0.1.0&quot;</span>
-                {'\n'}
-                <span className="syn-pun">{'}'}</span>
-              </code>
-            </CodeSnippet>
-          </div>
-        </div>
+      {/* Benefits strip */}
+      <BenefitsStrip items={w.benefits} />
+
+      {/* Categories */}
+      <section className="border-b border-border bg-background py-16 sm:py-20">
+        <WoodContainer>
+          <WoodSectionTitle
+            kicker={w.categories.kicker}
+            title={w.categories.title}
+            body={w.categories.body}
+            actionHref={`/${locale}/learn`}
+            actionLabel={w.viewAll}
+          />
+          <CategoryGrid
+            tracks={tracks}
+            locale={locale}
+            courseLabel={w.categories.courseCount}
+          />
+          {!tracks.length ? (
+            <p className="text-sm text-muted-foreground">{dict.empty}</p>
+          ) : null}
+        </WoodContainer>
       </section>
 
-      {/* 3. Feature comparison table */}
-      <section className="border-b border-border bg-muted/30">
-        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-          <div className="mb-10 max-w-2xl">
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary">{L.compare.kicker}</p>
-            <h2 className="mt-3 font-display text-3xl font-bold tracking-tight sm:text-4xl">
-              {L.compare.title}
-            </h2>
-            <p className="mt-3 text-muted-foreground">{L.compare.body}</p>
-          </div>
-          <div className="overflow-x-auto rounded-lg border border-border bg-card">
-            <table className="w-full min-w-[36rem] border-collapse text-sm">
-              <thead>
-                <tr className="border-b border-border bg-muted/50 text-start">
-                  <th className="px-4 py-3 font-mono text-xs font-medium text-muted-foreground">
-                    {L.compare.feature}
-                  </th>
-                  <th className="px-4 py-3 font-mono text-xs font-medium">{L.compare.free}</th>
-                  <th className="px-4 py-3 font-mono text-xs font-medium text-primary">
-                    {L.compare.pro}
-                  </th>
-                  <th className="px-4 py-3 font-mono text-xs font-medium">{L.compare.team}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {compareRows.map((row) => (
-                  <tr key={row.feature} className="border-b border-border last:border-0">
-                    <td className="px-4 py-3 text-foreground">{row.feature}</td>
-                    {[row.free, row.pro, row.team].map((ok, i) => (
-                      <td key={i} className="px-4 py-3">
-                        {ok ? (
-                          <Check className="size-4 text-primary" aria-label="yes" />
-                        ) : (
-                          <Minus className="size-4 text-muted-foreground" aria-label="no" />
-                        )}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="mt-6">
-            <CtaLink href={`/${locale}/pricing`} primary>
-              {dict.nav.pricing}
-            </CtaLink>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. Integration logos */}
-      <section className="border-b border-border bg-background">
-        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-          <div className="mb-10 max-w-2xl">
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary">
-              {L.integrations.kicker}
-            </p>
-            <h2 className="mt-3 font-display text-3xl font-bold tracking-tight sm:text-4xl">
-              {L.integrations.title}
-            </h2>
-            <p className="mt-3 text-muted-foreground">{L.integrations.body}</p>
-          </div>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-6">
-            {integrations.map((name) => (
-              <div
-                key={name}
-                className="flex h-16 items-center justify-center rounded-lg border border-border bg-card font-mono text-xs font-medium tracking-wide text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground"
-              >
-                {name}
-              </div>
+      {/* Featured products */}
+      <section className="border-b border-border bg-muted/20 py-16 sm:py-20">
+        <WoodContainer>
+          <WoodSectionTitle
+            kicker={w.featured.kicker}
+            title={w.featured.title}
+            body={w.featured.body}
+            actionHref={`/${locale}/learn`}
+            actionLabel={w.viewAll}
+          />
+          <div className="mj-stagger grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {featured.map((course) => (
+              <ProductCard
+                key={course.slug}
+                course={course}
+                locale={locale}
+                labels={productLabels}
+              />
             ))}
           </div>
-        </div>
+          {!featured.length ? (
+            <p className="text-sm text-muted-foreground">{w.featured.empty}</p>
+          ) : null}
+        </WoodContainer>
       </section>
 
-      {/* 5. Documentation CTA */}
-      <section className="bg-background">
-        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-          <Card className="border-border bg-card">
-            <CardHeader className="gap-2">
-              <CardTitle className="font-display text-2xl sm:text-3xl">{L.docs.title}</CardTitle>
-              <CardDescription className="max-w-xl text-base">{L.docs.body}</CardDescription>
-            </CardHeader>
-            <CardContent className="flex flex-wrap gap-3">
-              <Button asChild size="lg" className="h-12 gap-2 px-5">
-                <Link href={docsHref}>
-                  <BookOpen data-icon="inline-start" />
-                  {L.docsCta}
-                </Link>
-              </Button>
-              <CtaLink href={`/${locale}/about`}>{dict.nav.about}</CtaLink>
-            </CardContent>
-          </Card>
-          <Separator className="my-12" />
-          <p className="font-mono text-xs text-muted-foreground">{L.footnote}</p>
-        </div>
+      {/* Promo banners */}
+      <section className="border-b border-border bg-background py-16 sm:py-20">
+        <WoodContainer>
+          <PromoBanners
+            locale={locale}
+            items={w.promos.map((p) => ({
+              ...p,
+              href: p.href.replace('{locale}', locale),
+            }))}
+          />
+        </WoodContainer>
+      </section>
+
+      {/* Bestsellers */}
+      <section className="border-b border-border bg-background py-16 sm:py-20">
+        <WoodContainer>
+          <WoodSectionTitle
+            kicker={w.bestsellers.kicker}
+            title={w.bestsellers.title}
+            body={w.bestsellers.body}
+            actionHref={`/${locale}/pricing`}
+            actionLabel={dict.nav.pricing}
+          />
+          <div className="mj-stagger grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {bestsellers.map((course) => (
+              <ProductCard
+                key={`best-${course.slug}`}
+                course={course}
+                locale={locale}
+                labels={productLabels}
+              />
+            ))}
+          </div>
+        </WoodContainer>
+      </section>
+
+      {/* Blog */}
+      <section className="border-b border-border bg-muted/20 py-16 sm:py-20">
+        <WoodContainer>
+          <WoodSectionTitle
+            kicker={w.blog.kicker}
+            title={w.blog.title}
+            body={w.blog.body}
+            actionHref={`/${locale}/articles`}
+            actionLabel={w.viewAll}
+          />
+          <BlogTeaser
+            articles={articles}
+            locale={locale}
+            emptyTopics={dict.articles.topics}
+            emptyLabel={dict.articles.empty}
+            readMore={w.blog.readMore}
+          />
+        </WoodContainer>
       </section>
     </>
   );

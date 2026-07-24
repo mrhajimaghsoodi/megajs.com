@@ -181,6 +181,32 @@ input.font-mono {
   color: var(--mj-ink);
 }
 
+/* WoodMart-inspired storefront motion */
+@keyframes mj-hero-glow {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.06);
+  }
+}
+
+.mj-hero-glow {
+  animation: mj-hero-glow 8s ease-in-out infinite;
+}
+
+.wood-hover-lift {
+  transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.wood-hover-lift:hover {
+  transform: translateY(-4px);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
