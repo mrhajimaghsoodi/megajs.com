@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="MEGA JS mark">
   <title>MEGA JS Mark</title>
-  <rect width="100" height="100" rx="28" ry="28" fill="#ffd400"/>
+  <rect width="100" height="100" rx="28" ry="28" fill="#22c55e"/>
   <g fill="none" stroke="#1a1a1a" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
     <path d="M50 18 L78 36 L50 54 L22 36 Z"/>
     <path d="M34 60 C34 60 34 76 50 76 C66 76 66 60 66 60"/>

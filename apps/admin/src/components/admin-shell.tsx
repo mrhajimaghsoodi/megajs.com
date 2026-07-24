@@ -104,7 +104,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
           <Image src="/logo-mark.svg" alt="" width={32} height={32} />
           <div>
             <div className="font-display text-sm font-bold tracking-tight">{dict.brand}</div>
-            <div className="font-mono text-[10px] text-[var(--mj-yellow)]">{me.role}</div>
+            <div className="font-mono text-[10px] text-primary">{me.role}</div>
           </div>
         </div>
         <nav className="flex gap-1 overflow-x-auto p-3 lg:flex-col">
@@ -133,7 +133,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
           </div>
           <button
             type="button"
-            className="mt-3 cursor-pointer text-[var(--mj-yellow)] underline-offset-4 hover:underline"
+            className="mt-3 cursor-pointer text-primary underline-offset-4 hover:underline"
             onClick={() => {
               localStorage.removeItem('mj_admin_token');
               setToken(null);

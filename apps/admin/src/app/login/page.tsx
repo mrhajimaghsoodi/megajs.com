@@ -97,7 +97,7 @@ export default function AdminLoginPage() {
         className="relative flex min-h-dvh items-center justify-center overflow-hidden bg-[#0c0c0c] px-4 text-[var(--mj-canvas-fg)]"
       >
         <div className="pointer-events-none absolute inset-0 mj-code-plane opacity-60" aria-hidden />
-        <div className="relative z-10 flex w-full max-w-md flex-col gap-5 rounded-xl border border-white/10 bg-card/95 p-6 shadow-[0_0_0_1px_color-mix(in_oklab,var(--mj-yellow)_20%,transparent)] backdrop-blur-sm sm:p-8">
+        <div className="relative z-10 flex w-full max-w-md flex-col gap-5 rounded-xl border border-white/10 bg-card/95 p-6 shadow-[0_0_0_1px_color-mix(in_oklab,var(--mj-accent)_25%,transparent)] backdrop-blur-sm sm:p-8">
           <div className="flex items-center justify-between gap-3">
             <Image src="/logo.svg" alt="MEGA JS" width={160} height={36} className="h-9 w-auto" />
             <Button

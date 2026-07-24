@@ -52,7 +52,7 @@ export default function LiveDetailPage() {
         {new Date(event.startsAt).toLocaleString(locale === 'fa' ? 'fa-IR' : 'en-US')}
       </p>
 
-      <div className="mt-8 aspect-video overflow-hidden rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-ink)] text-[var(--mj-yellow)]">
+      <div className="mt-8 aspect-video overflow-hidden rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-ink)] text-[var(--mj-accent)]">
         <div className="grid h-full place-items-center p-6 text-center">
           {event.status === 'live' ? (
             <div>

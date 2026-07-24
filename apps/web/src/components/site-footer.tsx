@@ -66,7 +66,7 @@ export function SiteFooter({
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
             {columns.map((col) => (
               <div key={col.title}>
-                <div className="mb-3 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--mj-yellow)]">
+                <div className="mb-3 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-primary">
                   {col.title}
                 </div>
                 <ul className="space-y-2">
@@ -74,7 +74,7 @@ export function SiteFooter({
                     <li key={link.href}>
                       <Link
                         href={link.href}
-                        className="text-sm text-white/55 underline-offset-4 transition-colors hover:text-[var(--mj-yellow)] hover:underline"
+                        className="text-sm text-white/55 underline-offset-4 transition-colors hover:text-primary hover:underline"
                       >
                         {link.label}
                       </Link>

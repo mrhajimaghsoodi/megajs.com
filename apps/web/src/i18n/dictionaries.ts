@@ -49,6 +49,42 @@ const fa = {
     whyTitle: 'چرا MEGA JS؟',
     whyBody: 'نه یک وبلاگ پراکنده — یک مسیر منسجم برای زندگی با جاوااسکریپت.',
   },
+  landing: {
+    badge: 'developer learning OS',
+    docsCta: 'مستندات مسیر',
+    snippets: {
+      kicker: 'snippets',
+      title: 'پیش‌نمایش کد واقعی',
+      body: 'حلقه روزانه، judge تمرین و API — با رنگ‌های syntax highlighting.',
+    },
+    compare: {
+      kicker: 'compare',
+      title: 'جدول مقایسه قابلیت‌ها',
+      body: 'حداقل ابزار لازم برای شروع، اشتراک برای عمق، تیم برای عملیات.',
+      feature: 'قابلیت',
+      free: 'Free',
+      pro: 'Pro',
+      team: 'Team',
+      rows: {
+        daily: 'درس و استریک روزانه',
+        practice: 'چالش و judge',
+        tokens: 'اقتصاد توکن',
+        live: 'وبینار لایو',
+        admin: 'کنسول ادمین',
+      },
+    },
+    integrations: {
+      kicker: 'integrations',
+      title: 'اکوسیستم یکپارچه',
+      body: 'همان ذهنیت JS روی وب، موبایل، دسکتاپ و ابزارهای تیم.',
+      items: ['Next.js', 'NestJS', 'Expo', 'Electron', 'Prisma', 'Postgres'],
+    },
+    docs: {
+      title: 'مستندات مسیر چهارساله',
+      body: 'از HTML تا NestJS — نقشه رسمی، بدون شلوغی بازاری.',
+    },
+    footnote: 'MEGA JS · minimal developer tools aesthetic · light/dark',
+  },
   footer: {
     blurb: 'آکادمی اکوسیستم جاوااسکریپت — SEO اول، یادگیری روزانه همیشه.',
     learn: 'یادگیری',
@@ -131,7 +167,7 @@ const fa = {
     howBody:
       'درس متن و ویدیو، پادکست، مقاله SEO، چالش با توکن، و وبینار هم‌زمان روی سایت و شبکه‌های اجتماعی.',
     brandTitle: 'هویت برند',
-    brandBody: 'زرد انرژی `#ffd400` روی پایه تیره `#1a1a1a` — واضح، فنی، بدون شلوغی.',
+    brandBody: 'سبز endpoint `#22c55e` روی سطح slate — تم ابزار توسعه‌دهنده با رنگ‌های syntax، بدون زرد قدیمی.',
   },
   articles: {
     title: 'مقالات',
@@ -337,6 +373,42 @@ const en: typeof fa = {
     whyTitle: 'Why MEGA JS?',
     whyBody: 'Not a scattered blog — a coherent path for living in JavaScript.',
   },
+  landing: {
+    badge: 'developer learning OS',
+    docsCta: 'Read the docs',
+    snippets: {
+      kicker: 'snippets',
+      title: 'Real code previews',
+      body: 'Daily loop, practice judge, and API — with syntax highlighting colors.',
+    },
+    compare: {
+      kicker: 'compare',
+      title: 'Feature comparison',
+      body: 'Minimum to start, Pro for depth, Team for operations.',
+      feature: 'Feature',
+      free: 'Free',
+      pro: 'Pro',
+      team: 'Team',
+      rows: {
+        daily: 'Daily lessons & streak',
+        practice: 'Challenges & judge',
+        tokens: 'Token economy',
+        live: 'Live webinars',
+        admin: 'Admin console',
+      },
+    },
+    integrations: {
+      kicker: 'integrations',
+      title: 'Built for the JS stack',
+      body: 'One mindset across web, mobile, desktop, and team tooling.',
+      items: ['Next.js', 'NestJS', 'Expo', 'Electron', 'Prisma', 'Postgres'],
+    },
+    docs: {
+      title: 'Curriculum documentation',
+      body: 'HTML to NestJS — the official path, without marketing clutter.',
+    },
+    footnote: 'MEGA JS · minimal developer tools aesthetic · light/dark',
+  },
   footer: {
     blurb: 'JavaScript ecosystem academy — SEO first, daily learning always.',
     learn: 'Learn',
@@ -419,7 +491,7 @@ const en: typeof fa = {
     howBody:
       'Text and video lessons, podcasts, SEO articles, token challenges, and webinars simulcast to the site and social channels.',
     brandTitle: 'Brand',
-    brandBody: 'Energy yellow `#ffd400` on ink `#1a1a1a` — clear, technical, uncluttered.',
+    brandBody: 'Endpoint green `#22c55e` on slate surfaces — developer-tools theme with syntax colors; legacy yellow removed.',
   },
   articles: {
     title: 'Articles',

@@ -1,30 +1,45 @@
 /**
  * MEGA JS design tokens
- * Brand lock: yellow #ffd400 · ink #1a1a1a
- * Direction: coding-academy terminal (not SaaS purple / cream editorial)
+ * UI/UX Pro Max — minimal developer tools
+ * Accent: endpoint green #22C55E (yellow brand removed)
+ * Light + dark · syntax-highlight token set for code previews
  */
 
 @import "./motion.css";
 
 :root {
-  --mj-yellow: #ffd400;
-  --mj-ink: #1a1a1a;
-  --mj-bg: #f3f3f1;
-  --mj-fg: #1a1a1a;
-  --mj-muted: #e8e8e4;
-  --mj-muted-fg: #4a4a4f;
-  --mj-border: #d4d4d0;
-  --mj-accent: #ffd400;
-  --mj-accent-fg: #1a1a1a;
-  --mj-success: #16803c;
-  --mj-danger: #dc2626;
-  --mj-ring: #ffd400;
+  /* Syntax highlighting (shared both themes) */
+  --mj-syn-keyword: #7c3aed;
+  --mj-syn-string: #16a34a;
+  --mj-syn-function: #2563eb;
+  --mj-syn-number: #d97706;
+  --mj-syn-comment: #64748b;
+  --mj-syn-operator: #0891b2;
+  --mj-syn-property: #dc2626;
+  --mj-syn-punctuation: #475569;
+
+  /* Light surfaces */
+  --mj-bg: #f8fafc;
+  --mj-fg: #0f172a;
+  --mj-muted: #f1f5f9;
+  --mj-muted-fg: #64748b;
+  --mj-border: #e2e8f0;
+  --mj-accent: #16a34a;
+  --mj-accent-fg: #ffffff;
+  --mj-success: #16a34a;
+  --mj-danger: #ef4444;
+  --mj-ring: #16a34a;
   --mj-card: #ffffff;
-  --mj-canvas: #1a1a1a;
-  --mj-canvas-fg: #f5f5f4;
+  --mj-canvas: #0f172a;
+  --mj-canvas-fg: #f8fafc;
+  --mj-ink: #0f172a;
+
+  /* Back-compat alias (no yellow) */
+  --mj-yellow: var(--mj-accent);
+
   --mj-radius-sm: 4px;
   --mj-radius-md: 8px;
-  --mj-radius-lg: 14px;
+  --mj-radius-lg: 12px;
   --mj-motion-fast: 150ms;
   --mj-motion-base: 220ms;
   --mj-motion-slow: 380ms;
@@ -35,26 +50,37 @@
   --mj-ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
   --mj-touch: 48px;
   --mj-grid:
-    linear-gradient(color-mix(in oklab, var(--mj-fg) 6%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in oklab, var(--mj-fg) 6%, transparent) 1px, transparent 1px);
-  --mj-grid-size: 28px 28px;
+    linear-gradient(color-mix(in oklab, var(--mj-fg) 5%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklab, var(--mj-fg) 5%, transparent) 1px, transparent 1px);
+  --mj-grid-size: 24px 24px;
 }
 
 .dark {
-  --mj-bg: #121212;
-  --mj-fg: #f5f5f4;
-  --mj-muted: #1e1e1e;
-  --mj-muted-fg: #a3a3a3;
-  --mj-border: #2e2e2e;
-  --mj-accent: #ffd400;
-  --mj-accent-fg: #1a1a1a;
+  --mj-syn-keyword: #c4b5fd;
+  --mj-syn-string: #86efac;
+  --mj-syn-function: #93c5fd;
+  --mj-syn-number: #fcd34d;
+  --mj-syn-comment: #64748b;
+  --mj-syn-operator: #67e8f9;
+  --mj-syn-property: #fca5a5;
+  --mj-syn-punctuation: #94a3b8;
+
+  --mj-bg: #020617;
+  --mj-fg: #f8fafc;
+  --mj-muted: #1a1e2f;
+  --mj-muted-fg: #94a3b8;
+  --mj-border: #334155;
+  --mj-accent: #22c55e;
+  --mj-accent-fg: #0f172a;
   --mj-success: #22c55e;
   --mj-danger: #ef4444;
-  --mj-ring: #ffd400;
-  --mj-card: #1a1a1a;
-  --mj-canvas: #0c0c0c;
-  --mj-canvas-fg: #f5f5f4;
+  --mj-ring: #22c55e;
+  --mj-card: #0e1223;
+  --mj-canvas: #020617;
+  --mj-canvas-fg: #f8fafc;
+  --mj-ink: #020617;
+  --mj-yellow: var(--mj-accent);
   --mj-grid:
-    linear-gradient(color-mix(in oklab, var(--mj-yellow) 8%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in oklab, var(--mj-yellow) 8%, transparent) 1px, transparent 1px);
+    linear-gradient(color-mix(in oklab, var(--mj-accent) 10%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklab, var(--mj-accent) 10%, transparent) 1px, transparent 1px);
 }

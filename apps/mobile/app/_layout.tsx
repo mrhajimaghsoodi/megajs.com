@@ -7,7 +7,7 @@ export default function RootLayout() {
       <StatusBar style="dark" />
       <Stack
         screenOptions={{
-          headerStyle: { backgroundColor: '#ffd400' },
+          headerStyle: { backgroundColor: '#22c55e' },
           headerTintColor: '#1a1a1a',
           headerTitleStyle: { fontWeight: '800' },
           contentStyle: { backgroundColor: '#ffffff' },

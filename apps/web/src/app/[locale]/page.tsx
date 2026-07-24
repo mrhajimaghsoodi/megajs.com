@@ -1,29 +1,20 @@
 import Link from 'next/link';
+import { BookOpen, Check, Minus } from 'lucide-react';
 import { notFound } from 'next/navigation';
+import type { ReactNode } from 'react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 import { CtaLink } from '@/components/marketing';
 import { getDictionary } from '@/i18n/dictionaries';
-import { API_BASE, isLocale, type Locale } from '@/lib/utils';
-
-type TrackCard = {
-  slug: string;
-  yearPlan: number;
-  status: string;
-  title: string;
-  summary: string;
-  courses: Array<{ slug: string; title: string; status: string; accessTier: string }>;
-};
-
-async function getTracks(locale: Locale): Promise<TrackCard[]> {
-  try {
-    const res = await fetch(`${API_BASE}/catalog/tracks?locale=${locale}`, {
-      next: { revalidate: 60 },
-    });
-    if (!res.ok) return [];
-    return res.json();
-  } catch {
-    return [];
-  }
-}
+import { isLocale, type Locale } from '@/lib/utils';
 
 export async function generateMetadata({
   params,
@@ -43,14 +34,31 @@ export async function generateMetadata({
   };
 }
 
-const HERO_CODE = `const mega = {
-  track: "javascript",
-  day: 1,
-  streak: true,
-};
-
-await learn(mega);
-// → next challenge unlocked`;
+function CodeSnippet({
+  title,
+  children,
+}: {
+  title: string;
+  children: ReactNode;
+}) {
+  return (
+    <Card className="overflow-hidden border-border bg-card py-0">
+      <div className="flex items-center justify-between border-b border-border bg-muted/60 px-4 py-2">
+        <span className="font-mono text-[11px] text-muted-foreground">{title}</span>
+        <span className="flex gap-1.5" aria-hidden>
+          <span className="size-2 rounded-full bg-[var(--mj-syn-property)]/80" />
+          <span className="size-2 rounded-full bg-[var(--mj-syn-number)]/80" />
+          <span className="size-2 rounded-full bg-[var(--mj-syn-string)]/80" />
+        </span>
+      </div>
+      <CardContent className="p-0">
+        <pre className="overflow-x-auto p-4 font-mono text-[12px] leading-6 sm:text-[13px]">
+          {children}
+        </pre>
+      </CardContent>
+    </Card>
+  );
+}
 
 export default async function HomePage({
   params,
@@ -61,141 +69,261 @@ export default async function HomePage({
   if (!isLocale(raw)) notFound();
   const locale = raw as Locale;
   const dict = getDictionary(locale);
-  const tracks = await getTracks(locale);
-  const fallbackTracks: TrackCard[] = [
-    {
-      slug: 'language-core',
-      yearPlan: 1,
-      status: 'published',
-      title: locale === 'fa' ? 'هسته زبان' : 'Language Core',
-      summary: 'HTML · CSS · JS · TS · React · Next',
-      courses: [],
-    },
+  const L = dict.landing;
+  const docsHref = `/${locale}/curriculum`;
+
+  const compareRows = [
+    { feature: L.compare.rows.daily, free: true, pro: true, team: true },
+    { feature: L.compare.rows.practice, free: true, pro: true, team: true },
+    { feature: L.compare.rows.tokens, free: false, pro: true, team: true },
+    { feature: L.compare.rows.live, free: false, pro: true, team: true },
+    { feature: L.compare.rows.admin, free: false, pro: false, team: true },
   ];
+
+  const integrations = L.integrations.items;
 
   return (
     <>
-      {/* Hero: one composition — brand + line + support + CTA on full-bleed code plane */}
-      <section className="relative isolate min-h-[calc(100svh-4rem)] overflow-hidden mj-code-plane mj-scanline">
+      {/* 1. Minimal hero + docs link */}
+      <section className="relative isolate overflow-hidden border-b border-border">
         <div
-          className="pointer-events-none absolute inset-0 opacity-[0.35]"
+          className="pointer-events-none absolute inset-0 mj-code-plane opacity-[0.55]"
           aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute inset-0"
           style={{
             background:
-              'radial-gradient(900px 520px at 70% 20%, color-mix(in oklab, var(--mj-yellow) 28%, transparent), transparent 62%)',
+              'radial-gradient(800px 420px at 80% 10%, color-mix(in oklab, var(--mj-accent) 18%, transparent), transparent 55%)',
           }}
-        />
-        <pre
-          className="pointer-events-none absolute inset-0 overflow-hidden p-6 font-mono text-[11px] leading-6 text-[color-mix(in_oklab,var(--mj-yellow)_22%,transparent)] sm:p-10 sm:text-xs md:text-sm md:leading-7"
           aria-hidden
-        >
-          {Array.from({ length: 18 })
-            .map((_, i) => `${String(i + 1).padStart(2, '0')}  ${HERO_CODE.split('\n')[i % 6] ?? ''}`)
-            .join('\n')}
-        </pre>
-
-        <div className="relative z-10 mx-auto flex min-h-[calc(100svh-4rem)] max-w-6xl flex-col justify-end px-4 pb-16 pt-24 sm:px-6 sm:pb-20 lg:justify-center lg:pb-24">
-          <div className="mj-fade-up max-w-3xl space-y-6">
-            <p className="font-display text-[clamp(3.25rem,12vw,7.5rem)] font-bold leading-[0.9] tracking-[-0.06em] text-[var(--mj-yellow)]">
+        />
+        <div className="relative z-10 mx-auto grid max-w-6xl gap-10 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:items-center lg:py-28">
+          <div className="mj-fade-up flex flex-col gap-6">
+            <Badge variant="secondary" className="w-fit font-mono text-[10px] uppercase tracking-[0.18em]">
+              {L.badge}
+            </Badge>
+            <p className="font-display text-[clamp(2.75rem,8vw,4.75rem)] font-bold leading-[0.95] tracking-tight text-foreground">
               {dict.brand}
               <span className="mj-caret" aria-hidden />
             </p>
-            <h1 className="max-w-2xl font-display text-2xl font-semibold leading-snug text-[var(--mj-canvas-fg)] sm:text-3xl lg:text-4xl">
+            <h1 className="max-w-xl text-xl font-medium leading-snug text-muted-foreground sm:text-2xl">
               {dict.tagline}
             </h1>
-            <p className="max-w-xl text-base leading-7 text-white/65 sm:text-lg">{dict.heroSupport}</p>
-            <div className="flex flex-wrap gap-3 pt-1">
+            <p className="max-w-lg text-sm leading-7 text-muted-foreground sm:text-base">
+              {dict.heroSupport}
+            </p>
+            <div className="flex flex-wrap gap-3">
               <CtaLink href={`/${locale}/login`} primary>
                 {dict.ctaStart}
               </CtaLink>
-              <CtaLink href={`/${locale}/curriculum`}>{dict.ctaPath}</CtaLink>
+              <Button asChild variant="outline" size="lg" className="h-12 gap-2 px-5">
+                <Link href={docsHref}>
+                  <BookOpen data-icon="inline-start" />
+                  {L.docsCta}
+                </Link>
+              </Button>
             </div>
           </div>
+
+          <div className="mj-fade-up">
+            <CodeSnippet title="today.ts">
+              <code>
+                <span className="syn-cmt">{'// daily learning loop'}</span>
+                {'\n'}
+                <span className="syn-kw">const</span> <span className="syn-prop">session</span>{' '}
+                <span className="syn-op">=</span> <span className="syn-pun">{'{'}</span>
+                {'\n'}
+                {'  '}
+                <span className="syn-prop">track</span>
+                <span className="syn-pun">:</span> <span className="syn-str">&quot;javascript&quot;</span>
+                <span className="syn-pun">,</span>
+                {'\n'}
+                {'  '}
+                <span className="syn-prop">streak</span>
+                <span className="syn-pun">:</span> <span className="syn-num">7</span>
+                <span className="syn-pun">,</span>
+                {'\n'}
+                {'  '}
+                <span className="syn-prop">challenge</span>
+                <span className="syn-pun">:</span> <span className="syn-str">&quot;sum(a, b)&quot;</span>
+                <span className="syn-pun">,</span>
+                {'\n'}
+                <span className="syn-pun">{'}'}</span>
+                <span className="syn-pun">;</span>
+                {'\n\n'}
+                <span className="syn-kw">await</span> <span className="syn-fn">learn</span>
+                <span className="syn-pun">(</span>
+                <span className="syn-prop">session</span>
+                <span className="syn-pun">);</span>
+              </code>
+            </CodeSnippet>
+          </div>
         </div>
       </section>
 
-      <section className="border-b border-[var(--mj-border)] bg-[var(--mj-bg)]">
+      {/* 2. Code snippet previews */}
+      <section className="border-b border-border bg-background">
         <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
           <div className="mb-10 max-w-2xl">
-            <p className="font-mono text-xs uppercase tracking-[0.22em] text-[var(--mj-muted-fg)]">
-              curriculum
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary">{L.snippets.kicker}</p>
+            <h2 className="mt-3 font-display text-3xl font-bold tracking-tight sm:text-4xl">
+              {L.snippets.title}
+            </h2>
+            <p className="mt-3 text-muted-foreground">{L.snippets.body}</p>
+          </div>
+          <div className="mj-stagger grid gap-4 lg:grid-cols-2">
+            <CodeSnippet title="practice.submit.ts">
+              <code>
+                <span className="syn-kw">export</span> <span className="syn-kw">async</span>{' '}
+                <span className="syn-kw">function</span> <span className="syn-fn">submit</span>
+                <span className="syn-pun">(</span>
+                <span className="syn-prop">code</span>
+                <span className="syn-pun">:</span> <span className="syn-fn">string</span>
+                <span className="syn-pun">)</span> <span className="syn-pun">{'{'}</span>
+                {'\n'}
+                {'  '}
+                <span className="syn-kw">const</span> <span className="syn-prop">result</span>{' '}
+                <span className="syn-op">=</span> <span className="syn-kw">await</span>{' '}
+                <span className="syn-fn">judge</span>
+                <span className="syn-pun">(</span>
+                <span className="syn-prop">code</span>
+                <span className="syn-pun">);</span>
+                {'\n'}
+                {'  '}
+                <span className="syn-kw">return</span> <span className="syn-pun">{'{'}</span>{' '}
+                <span className="syn-prop">passed</span>
+                <span className="syn-pun">:</span> <span className="syn-prop">result</span>
+                <span className="syn-pun">.</span>
+                <span className="syn-prop">ok</span>
+                <span className="syn-pun">,</span> <span className="syn-prop">tokens</span>
+                <span className="syn-pun">:</span> <span className="syn-num">12</span>{' '}
+                <span className="syn-pun">{'}'}</span>
+                <span className="syn-pun">;</span>
+                {'\n'}
+                <span className="syn-pun">{'}'}</span>
+              </code>
+            </CodeSnippet>
+            <CodeSnippet title="api.health.json">
+              <code>
+                <span className="syn-pun">{'{'}</span>
+                {'\n'}
+                {'  '}
+                <span className="syn-str">&quot;ok&quot;</span>
+                <span className="syn-pun">:</span> <span className="syn-kw">true</span>
+                <span className="syn-pun">,</span>
+                {'\n'}
+                {'  '}
+                <span className="syn-str">&quot;service&quot;</span>
+                <span className="syn-pun">:</span> <span className="syn-str">&quot;megajs-api&quot;</span>
+                <span className="syn-pun">,</span>
+                {'\n'}
+                {'  '}
+                <span className="syn-str">&quot;version&quot;</span>
+                <span className="syn-pun">:</span> <span className="syn-str">&quot;0.1.0&quot;</span>
+                {'\n'}
+                <span className="syn-pun">{'}'}</span>
+              </code>
+            </CodeSnippet>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. Feature comparison table */}
+      <section className="border-b border-border bg-muted/30">
+        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+          <div className="mb-10 max-w-2xl">
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary">{L.compare.kicker}</p>
+            <h2 className="mt-3 font-display text-3xl font-bold tracking-tight sm:text-4xl">
+              {L.compare.title}
+            </h2>
+            <p className="mt-3 text-muted-foreground">{L.compare.body}</p>
+          </div>
+          <div className="overflow-x-auto rounded-lg border border-border bg-card">
+            <table className="w-full min-w-[36rem] border-collapse text-sm">
+              <thead>
+                <tr className="border-b border-border bg-muted/50 text-start">
+                  <th className="px-4 py-3 font-mono text-xs font-medium text-muted-foreground">
+                    {L.compare.feature}
+                  </th>
+                  <th className="px-4 py-3 font-mono text-xs font-medium">{L.compare.free}</th>
+                  <th className="px-4 py-3 font-mono text-xs font-medium text-primary">
+                    {L.compare.pro}
+                  </th>
+                  <th className="px-4 py-3 font-mono text-xs font-medium">{L.compare.team}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {compareRows.map((row) => (
+                  <tr key={row.feature} className="border-b border-border last:border-0">
+                    <td className="px-4 py-3 text-foreground">{row.feature}</td>
+                    {[row.free, row.pro, row.team].map((ok, i) => (
+                      <td key={i} className="px-4 py-3">
+                        {ok ? (
+                          <Check className="size-4 text-primary" aria-label="yes" />
+                        ) : (
+                          <Minus className="size-4 text-muted-foreground" aria-label="no" />
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="mt-6">
+            <CtaLink href={`/${locale}/pricing`} primary>
+              {dict.nav.pricing}
+            </CtaLink>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. Integration logos */}
+      <section className="border-b border-border bg-background">
+        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+          <div className="mb-10 max-w-2xl">
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary">
+              {L.integrations.kicker}
             </p>
             <h2 className="mt-3 font-display text-3xl font-bold tracking-tight sm:text-4xl">
-              {dict.sections.roadmapTitle}
+              {L.integrations.title}
             </h2>
-            <p className="mt-4 text-[var(--mj-muted-fg)]">{dict.sections.roadmapBody}</p>
+            <p className="mt-3 text-muted-foreground">{L.integrations.body}</p>
           </div>
-          <div className="mj-stagger divide-y divide-[var(--mj-border)] border-y border-[var(--mj-border)]">
-            {(tracks.length ? tracks : fallbackTracks).map((track) => (
-              <Link
-                key={track.slug}
-                href={`/${locale}/learn`}
-                className="group grid cursor-pointer gap-2 py-6 transition-colors hover:bg-[var(--mj-muted)]/40 sm:grid-cols-[5rem_1fr_auto] sm:items-baseline sm:gap-6 sm:px-2"
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-6">
+            {integrations.map((name) => (
+              <div
+                key={name}
+                className="flex h-16 items-center justify-center rounded-lg border border-border bg-card font-mono text-xs font-medium tracking-wide text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground"
               >
-                <span className="font-mono text-sm text-[var(--mj-muted-fg)]">Y{track.yearPlan}</span>
-                <div>
-                  <h3 className="font-display text-xl font-semibold tracking-tight group-hover:text-[color-mix(in_oklab,var(--mj-fg)_88%,var(--mj-yellow))] sm:text-2xl">
-                    {track.title}
-                  </h3>
-                  <p className="mt-1 text-sm text-[var(--mj-muted-fg)]">{track.summary}</p>
-                </div>
-                <span className="font-mono text-xs text-[var(--mj-muted-fg)] opacity-0 transition-opacity group-hover:opacity-100 sm:justify-self-end">
-                  {track.status === 'coming_soon' ? dict.sections.comingSoon : '→'}
-                </span>
-              </Link>
+                {name}
+              </div>
             ))}
           </div>
-          <div className="mt-8">
-            <CtaLink href={`/${locale}/curriculum`}>{dict.nav.curriculum}</CtaLink>
-          </div>
         </div>
       </section>
 
-      <section className="bg-[var(--mj-ink)] text-[var(--mj-canvas-fg)]">
-        <div className="mx-auto grid max-w-6xl gap-12 px-4 py-20 sm:px-6 lg:grid-cols-3">
-          {[
-            {
-              kicker: '01',
-              title: dict.sections.dailyTitle,
-              body: dict.sections.dailyBody,
-              href: `/${locale}/practice`,
-            },
-            {
-              kicker: '02',
-              title: dict.sections.contentTitle,
-              body: dict.sections.contentBody,
-              href: `/${locale}/articles`,
-            },
-            {
-              kicker: '03',
-              title: dict.sections.pricingTitle,
-              body: `${dict.sections.free} · ${dict.sections.sub} · ${dict.sections.paid}`,
-              href: `/${locale}/pricing`,
-            },
-          ].map((item) => (
-            <Link key={item.kicker} href={item.href} className="mj-fade-up group block space-y-3">
-              <span className="font-mono text-xs text-[var(--mj-yellow)]">{item.kicker}</span>
-              <h2 className="font-display text-2xl font-bold tracking-tight group-hover:text-[var(--mj-yellow)]">
-                {item.title}
-              </h2>
-              <p className="text-sm leading-7 text-white/60">{item.body}</p>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-        <div className="grid gap-8 border border-[var(--mj-border)] bg-[var(--mj-card)] p-8 sm:p-10 lg:grid-cols-[1.4fr_1fr] lg:items-end">
-          <div>
-            <h2 className="font-display text-3xl font-bold tracking-tight">{dict.sections.whyTitle}</h2>
-            <p className="mt-4 max-w-xl text-[var(--mj-muted-fg)]">{dict.sections.whyBody}</p>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <CtaLink href={`/${locale}/about`} primary>
-              {dict.nav.about}
-            </CtaLink>
-            <CtaLink href={`/${locale}/apps`}>{dict.nav.apps}</CtaLink>
-          </div>
+      {/* 5. Documentation CTA */}
+      <section className="bg-background">
+        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+          <Card className="border-border bg-card">
+            <CardHeader className="gap-2">
+              <CardTitle className="font-display text-2xl sm:text-3xl">{L.docs.title}</CardTitle>
+              <CardDescription className="max-w-xl text-base">{L.docs.body}</CardDescription>
+            </CardHeader>
+            <CardContent className="flex flex-wrap gap-3">
+              <Button asChild size="lg" className="h-12 gap-2 px-5">
+                <Link href={docsHref}>
+                  <BookOpen data-icon="inline-start" />
+                  {L.docsCta}
+                </Link>
+              </Button>
+              <CtaLink href={`/${locale}/about`}>{dict.nav.about}</CtaLink>
+            </CardContent>
+          </Card>
+          <Separator className="my-12" />
+          <p className="font-mono text-xs text-muted-foreground">{L.footnote}</p>
         </div>
       </section>
     </>

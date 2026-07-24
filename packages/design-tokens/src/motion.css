@@ -138,7 +138,7 @@
   height: 1.05em;
   margin-inline-start: 2px;
   vertical-align: text-bottom;
-  background: var(--mj-yellow);
+  background: var(--mj-accent);
   animation: mj-caret 1.05s step-end infinite;
 }
 
@@ -161,11 +161,38 @@
   height: 28%;
   background: linear-gradient(
     transparent,
-    color-mix(in oklab, var(--mj-yellow) 8%, transparent),
+    color-mix(in oklab, var(--mj-accent) 8%, transparent),
     transparent
   );
   animation: mj-scan 7s linear infinite;
   opacity: 0.45;
+}
+
+/* Syntax highlight spans for code previews */
+.syn-kw {
+  color: var(--mj-syn-keyword);
+}
+.syn-str {
+  color: var(--mj-syn-string);
+}
+.syn-fn {
+  color: var(--mj-syn-function);
+}
+.syn-num {
+  color: var(--mj-syn-number);
+}
+.syn-cmt {
+  color: var(--mj-syn-comment);
+  font-style: italic;
+}
+.syn-op {
+  color: var(--mj-syn-operator);
+}
+.syn-prop {
+  color: var(--mj-syn-property);
+}
+.syn-pun {
+  color: var(--mj-syn-punctuation);
 }
 
 /* ---------- Utility classes ---------- */
