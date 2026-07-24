@@ -57,6 +57,14 @@ export default async function LearnPage({
           <p className="mt-3 max-w-2xl text-sm leading-7 text-white/60 sm:text-base">
             {dict.learn.subtitle}
           </p>
+          <p className="mt-4">
+            <a
+              href={`/${locale}/learn/categories`}
+              className="text-xs font-bold uppercase tracking-wide text-primary underline-offset-4 hover:underline"
+            >
+              {dict.articles.productCategories}
+            </a>
+          </p>
           {query ? (
             <p className="mt-4 font-mono text-xs text-primary">
               {w.shop.resultsFor}: “{q}”
