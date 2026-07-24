@@ -4,6 +4,12 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import {
+  ALLOWED_IMAGE_MIME,
+  MAX_UPLOAD_BYTES,
+  deleteStoredFile,
+  writeUploadedFile,
+} from './upload.util';
 
 const CONTENT_STATUSES = ['draft', 'published', 'archived'] as const;
 const COMMENT_STATUSES = ['pending', 'approved', 'spam', 'trash'] as const;
@@ -90,6 +96,7 @@ export class CmsService {
       slug?: string;
       status?: string;
       coverUrl?: string;
+      bannerUrl?: string;
       commentStatus?: string;
       focusKeyword?: string;
       locale?: string;
@@ -111,6 +118,7 @@ export class CmsService {
         slug,
         status,
         coverUrl: body.coverUrl,
+        bannerUrl: body.bannerUrl,
         commentStatus: body.commentStatus ?? 'open',
         focusKeyword: body.focusKeyword ?? '',
         authorId: actorId,
@@ -144,6 +152,7 @@ export class CmsService {
       slug?: string;
       status?: string;
       coverUrl?: string | null;
+      bannerUrl?: string | null;
       commentStatus?: string;
       focusKeyword?: string;
       locale?: string;
@@ -178,6 +187,7 @@ export class CmsService {
           ...(body.slug ? { slug: body.slug.trim() } : {}),
           status,
           coverUrl: body.coverUrl === undefined ? undefined : body.coverUrl,
+          bannerUrl: body.bannerUrl === undefined ? undefined : body.bannerUrl,
           commentStatus: body.commentStatus,
           focusKeyword:
             body.focusKeyword === undefined ? undefined : body.focusKeyword,
@@ -296,6 +306,8 @@ export class CmsService {
       slug?: string;
       status?: string;
       template?: string;
+      coverUrl?: string;
+      bannerUrl?: string;
       parentId?: string | null;
       sortOrder?: number;
       locale?: string;
@@ -316,6 +328,8 @@ export class CmsService {
         slug,
         status,
         template: body.template ?? 'default',
+        coverUrl: body.coverUrl,
+        bannerUrl: body.bannerUrl,
         parentId: body.parentId ?? null,
         sortOrder: body.sortOrder ?? 0,
         publishedAt: status === 'published' ? new Date() : null,
@@ -341,6 +355,8 @@ export class CmsService {
       slug?: string;
       status?: string;
       template?: string;
+      coverUrl?: string | null;
+      bannerUrl?: string | null;
       builderJson?: string | Record<string, unknown>;
       parentId?: string | null;
       sortOrder?: number;
@@ -375,6 +391,8 @@ export class CmsService {
           slug: body.slug?.trim(),
           status,
           template: body.template,
+          coverUrl: body.coverUrl === undefined ? undefined : body.coverUrl,
+          bannerUrl: body.bannerUrl === undefined ? undefined : body.bannerUrl,
           builderJson,
           parentId: body.parentId === undefined ? undefined : body.parentId,
           sortOrder: body.sortOrder,
@@ -594,15 +612,18 @@ export class CmsService {
       height?: number;
       alt?: string;
       title?: string;
+      storageKey?: string;
     },
   ) {
     if (!body.url?.trim()) throw new BadRequestException('url required');
     const item = await this.prisma.mediaItem.create({
       data: {
         url: body.url.trim(),
+        storageKey: body.storageKey,
         filename: body.filename?.trim() || body.url.split('/').pop() || 'file',
         mimeType: body.mimeType ?? 'application/octet-stream',
         sizeBytes: body.sizeBytes ?? 0,
+        originalBytes: body.sizeBytes ?? 0,
         width: body.width,
         height: body.height,
         alt: body.alt ?? '',
@@ -612,6 +633,35 @@ export class CmsService {
     });
     await this.audit(actorId, 'media.create', 'MediaItem', item.id);
     return item;
+  }
+
+  async uploadMediaFile(
+    actorId: string,
+    file: Express.Multer.File | undefined,
+    meta: { alt?: string; title?: string } = {},
+  ) {
+    if (!file) throw new BadRequestException('file required');
+    if (!ALLOWED_IMAGE_MIME.has(file.mimetype)) {
+      throw new BadRequestException('Only jpeg, png, webp, gif images allowed');
+    }
+    if (file.size > MAX_UPLOAD_BYTES) {
+      throw new BadRequestException('File too large (max 5MB)');
+    }
+    const saved = writeUploadedFile({
+      originalname: file.originalname,
+      mimetype: file.mimetype,
+      buffer: file.buffer,
+      size: file.size,
+    });
+    return this.createMedia(actorId, {
+      url: saved.url,
+      storageKey: saved.storageKey,
+      filename: saved.filename,
+      mimeType: saved.mimeType,
+      sizeBytes: saved.sizeBytes,
+      alt: meta.alt,
+      title: meta.title || saved.filename,
+    });
   }
 
   async updateMedia(
@@ -628,6 +678,9 @@ export class CmsService {
   }
 
   async deleteMedia(id: string, actorId: string) {
+    const existing = await this.prisma.mediaItem.findUnique({ where: { id } });
+    if (!existing) throw new NotFoundException('Media not found');
+    deleteStoredFile(existing.storageKey);
     await this.prisma.mediaItem.delete({ where: { id } });
     await this.audit(actorId, 'media.delete', 'MediaItem', id);
     return { ok: true };

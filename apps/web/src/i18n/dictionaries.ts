@@ -280,6 +280,8 @@ const fa = {
     subtitle: 'محتوای SEO-first برای جذب و عمق‌بخشی مسیر JS — fa و en.',
     empty: 'به‌زودی مقالات منتشر می‌شوند. فعلاً از مسیر یادگیری و تمرین شروع کنید.',
     ctaLearn: 'رفتن به یادگیری',
+    categoryArchive: 'آرشیو دسته',
+    tagArchive: 'آرشیو برچسب',
     topicsTitle: 'موضوعات پیشنهادی',
     topics: [
       'مبانی JavaScript و مدل ذهنی زبان',
@@ -710,6 +712,8 @@ const en: typeof fa = {
     subtitle: 'SEO-first writing to acquire and deepen the JS path — fa and en.',
     empty: 'Articles publish soon. Start with Learn and Practice meanwhile.',
     ctaLearn: 'Go to Learn',
+    categoryArchive: 'Category archive',
+    tagArchive: 'Tag archive',
     topicsTitle: 'Planned topics',
     topics: [
       'JavaScript fundamentals and mental models',

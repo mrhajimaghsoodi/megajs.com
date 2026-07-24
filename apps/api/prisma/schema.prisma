@@ -219,7 +219,10 @@ model Article {
   status        String @default("draft")
   publishedAt   DateTime?
   authorId      String?
+  /// Featured image (WordPress-style)
   coverUrl      String?
+  /// Internal hero / banner above post content
+  bannerUrl     String?
   commentStatus String        @default("open")
   /// RankMath-style focus keyword
   focusKeyword  String        @default("")
@@ -571,6 +574,10 @@ model Page {
   template    String     @default("default")
   /// Elementor-like page builder JSON
   builderJson String     @default("{\"version\":1,\"sections\":[]}")
+  /// Featured image
+  coverUrl    String?
+  /// Internal hero / banner
+  bannerUrl   String?
   parentId    String?
   sortOrder   Int        @default(0)
   publishedAt DateTime?
@@ -646,6 +653,8 @@ model CourseTerm {
 model MediaItem {
   id             String   @id @default(cuid())
   url            String
+  /// Relative disk key under uploads/ (e.g. 2026/07/abc.jpg)
+  storageKey     String?
   /// Smush-optimized / WebP-friendly URL when available
   optimizedUrl   String?
   filename       String

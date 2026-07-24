@@ -308,7 +308,10 @@ export function useAdminToken() {
 export async function adminFetch(path: string, init?: RequestInit) {
   const token = localStorage.getItem('mj_admin_token');
   const headers = new Headers(init?.headers);
-  headers.set('Content-Type', 'application/json');
+  const isFormData = typeof FormData !== 'undefined' && init?.body instanceof FormData;
+  if (!isFormData && !headers.has('Content-Type')) {
+    headers.set('Content-Type', 'application/json');
+  }
   if (token) headers.set('Authorization', `Bearer ${token}`);
   const res = await fetch(`${API}${path}`, { ...init, headers });
   if (!res.ok) {
@@ -316,4 +319,20 @@ export async function adminFetch(path: string, init?: RequestInit) {
     throw new Error(text || `HTTP ${res.status}`);
   }
   return res.json();
+}
+
+/** Multipart upload helper (does not force JSON Content-Type). */
+export async function adminUpload(
+  path: string,
+  file: File,
+  fields?: Record<string, string>,
+) {
+  const fd = new FormData();
+  fd.append('file', file);
+  if (fields) {
+    for (const [k, v] of Object.entries(fields)) {
+      if (v != null) fd.append(k, v);
+    }
+  }
+  return adminFetch(path, { method: 'POST', body: fd });
 }

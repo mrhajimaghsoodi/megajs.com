@@ -304,9 +304,26 @@ export class PublicContentController {
   }
 
   @Get('articles')
-  async articles(@Query('locale') locale = 'fa') {
+  async articles(
+    @Query('locale') locale = 'fa',
+    @Query('category') category?: string,
+    @Query('tag') tag?: string,
+  ) {
+    const termSlug = category || tag;
+    const taxonomy = category ? 'post_category' : tag ? 'post_tag' : undefined;
     const rows = await this.prisma.article.findMany({
-      where: { status: 'published' },
+      where: {
+        status: 'published',
+        ...(termSlug && taxonomy
+          ? {
+              taxonomies: {
+                some: {
+                  term: { taxonomy, slug: termSlug },
+                },
+              },
+            }
+          : {}),
+      },
       include: {
         i18n: true,
         seo: true,
@@ -325,6 +342,44 @@ export class PublicContentController {
         row.i18n.find((x) => x.locale === locale)?.summary ??
         row.i18n[0]?.summary ??
         '',
+      coverUrl: row.coverUrl,
+      bannerUrl: row.bannerUrl,
+    }));
+  }
+
+  @Get('terms')
+  async terms(
+    @Query('taxonomy') taxonomy = 'post_category',
+    @Query('slug') slug?: string,
+    @Query('locale') locale = 'fa',
+  ) {
+    if (slug) {
+      const term = await this.prisma.term.findFirst({
+        where: { taxonomy, slug },
+        include: { i18n: true, parent: { include: { i18n: true } } },
+      });
+      if (!term) throw new BadRequestException('Term not found');
+      const name =
+        term.i18n.find((x) => x.locale === locale)?.name ??
+        term.i18n[0]?.name ??
+        term.slug;
+      const description =
+        term.i18n.find((x) => x.locale === locale)?.description ??
+        term.i18n[0]?.description ??
+        '';
+      return { ...term, name, description };
+    }
+    const rows = await this.prisma.term.findMany({
+      where: { taxonomy },
+      include: { i18n: true, parent: true },
+      orderBy: [{ sortOrder: 'asc' }, { slug: 'asc' }],
+    });
+    return rows.map((t) => ({
+      ...t,
+      name:
+        t.i18n.find((x) => x.locale === locale)?.name ??
+        t.i18n[0]?.name ??
+        t.slug,
     }));
   }
 
@@ -352,7 +407,7 @@ export class PublicContentController {
       body: i18n?.bodyMdx,
       focusKeyword: row.focusKeyword,
       canonicalPath: row.seo?.canonicalPath ?? undefined,
-      ogImageUrl: row.seo?.ogImageUrl ?? undefined,
+      ogImageUrl: row.seo?.ogImageUrl ?? row.coverUrl ?? undefined,
     });
     return {
       ...row,

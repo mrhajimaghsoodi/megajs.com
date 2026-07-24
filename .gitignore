@@ -22,3 +22,7 @@ apps/api/prisma/dev.db-journal
 docker/certbot/conf/live/
 docker/certbot/conf/archive/
 .env.production
+
+# Local media uploads
+apps/api/uploads/**
+!apps/api/uploads/.gitignore

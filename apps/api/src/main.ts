@@ -1,8 +1,11 @@
 import { NestFactory } from '@nestjs/core';
+import type { NestExpressApplication } from '@nestjs/platform-express';
+import { existsSync, mkdirSync } from 'fs';
 import { AppModule } from './app.module';
+import { uploadsRoot } from './cms/upload.util';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.enableCors({
     origin: [
       'http://localhost:3000',
@@ -13,9 +16,15 @@ async function bootstrap() {
       process.env.ADMIN_ORIGIN,
       // Soft-launch subdomain while WordPress still owns apex
       process.env.WEB_ORIGIN_ALT,
-    ].filter(Boolean),
+    ].filter((x): x is string => Boolean(x)),
     credentials: true,
   });
+
+  const uploadDir = uploadsRoot();
+  if (!existsSync(uploadDir)) mkdirSync(uploadDir, { recursive: true });
+  // Served outside global prefix handling via express static at /api/uploads
+  app.useStaticAssets(uploadDir, { prefix: '/api/uploads' });
+
   app.setGlobalPrefix('api');
   const port = Number(process.env.PORT ?? 4000);
   await app.listen(port);

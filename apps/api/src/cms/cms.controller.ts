@@ -11,10 +11,15 @@ import {
   Post,
   Put,
   Query,
+  UploadedFile,
   UnauthorizedException,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { memoryStorage } from 'multer';
 import { AuthService } from '../auth/auth.service';
 import { CmsService } from './cms.service';
+import { MAX_UPLOAD_BYTES } from './upload.util';
 
 @Controller('admin/cms')
 export class CmsController {
@@ -200,6 +205,26 @@ export class CmsController {
     const me = await this.requireStaff(authorization);
     this.requireEditor(me);
     return this.cms.createMedia(me.id, body ?? {});
+  }
+
+  @Post('media/upload')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: memoryStorage(),
+      limits: { fileSize: MAX_UPLOAD_BYTES },
+    }),
+  )
+  async uploadMedia(
+    @Headers('authorization') authorization: string | undefined,
+    @UploadedFile() file: Express.Multer.File,
+    @Body() body?: { alt?: string; title?: string },
+  ) {
+    const me = await this.requireStaff(authorization);
+    this.requireEditor(me);
+    return this.cms.uploadMediaFile(me.id, file, {
+      alt: body?.alt,
+      title: body?.title,
+    });
   }
 
   @Patch('media/:id')
