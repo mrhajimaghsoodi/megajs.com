@@ -19,25 +19,42 @@ Persisted project system:
 
 ## Code source of truth
 
+Stack wiring (required reading): [`UI_STACK.md`](./UI_STACK.md)
+
+```
+@megajs/design-tokens (--mj-*)
+  → globals.css maps to shadcn tokens (--primary, --background, …)
+  → Tailwind v4 @theme utilities
+  → shadcn/ui components
+```
+
 `packages/design-tokens` exports:
 
 - Brand yellow `#ffd400` / ink `#1a1a1a`
 - Light + dark CSS variables (`src/tokens.css`)
-- Fonts: Space Grotesk · DM Sans · Vazirmatn · JetBrains Mono
-- Motion + radii + breakpoints
+- Fonts: Space Grotesk · IBM Plex Sans · Vazirmatn · JetBrains Mono
+- Motion + radii
 
 Apps import CSS via:
 
 ```css
 @import "@megajs/design-tokens/css";
+@import "shadcn/tailwind.css";
+```
+
+Add components:
+
+```bash
+cd apps/web   # or apps/admin
+pnpm dlx shadcn@latest add <component> -y
 ```
 
 ## Rules for new UI
 
-1. Use tokens — do not hardcode random colors
-2. Lucide icons only (no emoji icons)
-3. Clickable elements need `cursor-pointer` + hover 150–300ms
+1. Use design tokens / shadcn semantic classes (`bg-primary`, `text-muted-foreground`) — no random hex
+2. Prefer shadcn primitives (`Button`, `Input`, `Card`, `Sheet`) before custom markup
+3. Lucide icons only (no emoji icons)
 4. Support FA RTL and EN LTR
-5. Support light + dark
+5. Support light + dark via `.dark` (next-themes)
 6. Follow page overrides under `design/.../pages/` when present
 7. Keep first viewport brand-first on marketing pages
