@@ -6,16 +6,16 @@
     "en": "HTML"
   },
   "seoTitle": {
-    "fa": "آموزش HTML کامل از صفر تا پیشرفته | مستندات MEGA JS",
-    "en": "Complete HTML Tutorial from Beginner to Advanced | MEGA JS Docs"
+    "fa": "HTML — آموزش W3Schools، مرجع MDN و استاندارد رسمی | MEGA JS",
+    "en": "HTML — W3Schools Tutorial, MDN Reference & Official Spec | MEGA JS"
   },
   "seoDescription": {
-    "fa": "آموزش HTML کامل با مسیر قدم‌به‌قدم شبیه W3Schools؛ از مبانی و متن تا فرم، رسانه، API و مرجع‌ها برای ساخت صفحات واقعی و استاندارد. با تمرین کوتاه و نتیجه روشن.",
-    "en": "Learn HTML with a W3Schools-style step-by-step path from basics to forms, media, APIs, and references for building real standard web pages. Practice it today."
+    "fa": "HTML را در سه مسیر یاد بگیرید: آموزش W3Schools، مرجع MDN و خلاصه استاندارد WHATWG؛ همراه مثال، SEO و نکته‌های authoring برای وب مدرن. برای پروژه‌های واقعی وب.",
+    "en": "Learn HTML across three tracks: W3Schools-style lessons, MDN-style reference, and WHATWG official summaries with examples, SEO notes, and authoring guidance."
   },
   "description": {
-    "fa": "مسیر کامل یادگیری HTML با درس‌های مرحله‌به‌مرحله، مثال‌های واقعی و نکته‌های کاربردی.",
-    "en": "A complete HTML learning path with step-by-step lessons, real examples, and practical notes."
+    "fa": "سه مسیر کامل برای HTML: آموزش قدم‌به‌قدم، مرجع معتبر و خلاصه‌های رسمی برای authorهای وب.",
+    "en": "Three complete HTML tracks: step-by-step learning, authoritative reference, and official author-focused summaries."
   },
   "sources": [
     {
@@ -27,460 +27,510 @@
       "url": "https://developer.mozilla.org/en-US/docs/Web/HTML"
     },
     {
-      "name": "WHATWG",
+      "name": "WHATWG HTML Living Standard",
       "url": "https://html.spec.whatwg.org/"
     }
   ],
-  "nav": [
+  "tracks": [
     {
-      "slug": "introduction",
+      "id": "learn",
       "title": {
-        "fa": "مقدمه HTML",
-        "en": "Introduction to HTML"
-      }
-    },
-    {
-      "slug": "basics",
-      "title": {
-        "fa": "مبانی HTML",
-        "en": "HTML Basics"
+        "fa": "آموزشی (W3Schools)",
+        "en": "Learn (W3Schools)"
       },
-      "children": [
+      "description": {
+        "fa": "مسیر آموزشی قدم‌به‌قدم با ادیتور زنده — ساختار سایدبار W3Schools HTML Tutorial",
+        "en": "Step-by-step tutorial with live editor — W3Schools HTML Tutorial sidebar structure"
+      },
+      "seoTitle": {
+        "fa": "آموزش HTML از صفر | مسیر W3Schools + ادیتور زنده | MEGA JS",
+        "en": "Learn HTML from Scratch | W3Schools Path + Live Editor | MEGA JS"
+      },
+      "seoDescription": {
+        "fa": "آموزش HTML از صفر با مسیر W3Schools، مثال‌های قابل اجرا، ادیتور زنده، جدول syntax و تمرین‌های کوتاه برای ساخت صفحه‌های استاندارد. برای پروژه‌های واقعی وب.",
+        "en": "Learn HTML from scratch with a W3Schools-style path, live editor examples, syntax tables, mistakes, and short practice for standard pages. Practice now."
+      },
+      "source": {
+        "name": "W3Schools HTML Tutorial",
+        "url": "https://www.w3schools.com/html/default.asp"
+      },
+      "liveEditor": true,
+      "nav": [
         {
-          "slug": "editors",
+          "slug": "introduction",
           "title": {
-            "fa": "ویرایشگرهای HTML",
-            "en": "HTML Editors"
+            "fa": "مقدمه HTML",
+            "en": "Introduction to HTML"
           }
         },
         {
-          "slug": "basic",
+          "slug": "basics",
           "title": {
-            "fa": "مثال‌های پایه HTML",
-            "en": "HTML Basic Examples"
-          }
+            "fa": "مبانی HTML",
+            "en": "HTML Basics"
+          },
+          "children": [
+            {
+              "slug": "editors",
+              "title": {
+                "fa": "ویرایشگرهای HTML",
+                "en": "HTML Editors"
+              }
+            },
+            {
+              "slug": "basic",
+              "title": {
+                "fa": "مثال‌های پایه HTML",
+                "en": "HTML Basic Examples"
+              }
+            },
+            {
+              "slug": "elements",
+              "title": {
+                "fa": "عنصرهای HTML",
+                "en": "HTML Elements"
+              }
+            },
+            {
+              "slug": "attributes",
+              "title": {
+                "fa": "ویژگی‌های HTML",
+                "en": "HTML Attributes"
+              }
+            },
+            {
+              "slug": "headings",
+              "title": {
+                "fa": "تیترهای HTML",
+                "en": "HTML Headings"
+              }
+            },
+            {
+              "slug": "paragraphs",
+              "title": {
+                "fa": "پاراگراف‌های HTML",
+                "en": "HTML Paragraphs"
+              }
+            },
+            {
+              "slug": "styles",
+              "title": {
+                "fa": "استایل‌های HTML",
+                "en": "HTML Styles"
+              }
+            },
+            {
+              "slug": "formatting",
+              "title": {
+                "fa": "قالب‌بندی متن در HTML",
+                "en": "HTML Text Formatting"
+              }
+            },
+            {
+              "slug": "quotations",
+              "title": {
+                "fa": "نقل‌قول‌ها در HTML",
+                "en": "HTML Quotations"
+              }
+            },
+            {
+              "slug": "comments",
+              "title": {
+                "fa": "کامنت‌های HTML",
+                "en": "HTML Comments"
+              }
+            },
+            {
+              "slug": "colors",
+              "title": {
+                "fa": "رنگ‌ها در HTML",
+                "en": "HTML Colors"
+              }
+            },
+            {
+              "slug": "css",
+              "title": {
+                "fa": "CSS در HTML",
+                "en": "HTML CSS"
+              }
+            },
+            {
+              "slug": "links",
+              "title": {
+                "fa": "لینک‌ها در HTML",
+                "en": "HTML Links"
+              }
+            },
+            {
+              "slug": "images",
+              "title": {
+                "fa": "تصویرها در HTML",
+                "en": "HTML Images"
+              }
+            },
+            {
+              "slug": "favicon",
+              "title": {
+                "fa": "فاوآیکن HTML",
+                "en": "HTML Favicon"
+              }
+            },
+            {
+              "slug": "page-title",
+              "title": {
+                "fa": "عنوان صفحه HTML",
+                "en": "HTML Page Title"
+              }
+            },
+            {
+              "slug": "tables",
+              "title": {
+                "fa": "جدول‌های HTML",
+                "en": "HTML Tables"
+              }
+            },
+            {
+              "slug": "lists",
+              "title": {
+                "fa": "لیست‌های HTML",
+                "en": "HTML Lists"
+              }
+            },
+            {
+              "slug": "block-inline",
+              "title": {
+                "fa": "عنصرهای Block و Inline در HTML",
+                "en": "HTML Block and Inline Elements"
+              }
+            },
+            {
+              "slug": "classes",
+              "title": {
+                "fa": "کلاس‌ها در HTML",
+                "en": "HTML Classes"
+              }
+            },
+            {
+              "slug": "id",
+              "title": {
+                "fa": "شناسه id در HTML",
+                "en": "HTML id Attribute"
+              }
+            },
+            {
+              "slug": "iframes",
+              "title": {
+                "fa": "آی‌فریم‌ها در HTML",
+                "en": "HTML Iframes"
+              }
+            },
+            {
+              "slug": "javascript",
+              "title": {
+                "fa": "JavaScript در HTML",
+                "en": "HTML JavaScript"
+              }
+            },
+            {
+              "slug": "file-paths",
+              "title": {
+                "fa": "مسیر فایل‌ها در HTML",
+                "en": "HTML File Paths"
+              }
+            },
+            {
+              "slug": "head",
+              "title": {
+                "fa": "بخش head در HTML",
+                "en": "HTML Head"
+              }
+            },
+            {
+              "slug": "layout",
+              "title": {
+                "fa": "چیدمان HTML",
+                "en": "HTML Layout"
+              }
+            },
+            {
+              "slug": "responsive",
+              "title": {
+                "fa": "طراحی واکنش‌گرا در HTML",
+                "en": "HTML Responsive Web Design"
+              }
+            },
+            {
+              "slug": "computercode",
+              "title": {
+                "fa": "عنصرهای کدنویسی در HTML",
+                "en": "HTML Computer Code Elements"
+              }
+            },
+            {
+              "slug": "semantics",
+              "title": {
+                "fa": "معناشناسی HTML",
+                "en": "HTML Semantics"
+              }
+            },
+            {
+              "slug": "style-guide",
+              "title": {
+                "fa": "راهنمای سبک HTML",
+                "en": "HTML Style Guide"
+              }
+            },
+            {
+              "slug": "entities",
+              "title": {
+                "fa": "Entityهای HTML",
+                "en": "HTML Entities"
+              }
+            },
+            {
+              "slug": "symbols",
+              "title": {
+                "fa": "نمادها در HTML",
+                "en": "HTML Symbols"
+              }
+            },
+            {
+              "slug": "emojis",
+              "title": {
+                "fa": "ایموجی‌ها در HTML",
+                "en": "HTML Emojis"
+              }
+            },
+            {
+              "slug": "charset",
+              "title": {
+                "fa": "کدگذاری کاراکتر HTML",
+                "en": "HTML Charset"
+              }
+            },
+            {
+              "slug": "url-encode",
+              "title": {
+                "fa": "کدگذاری URL در HTML",
+                "en": "HTML URL Encoding"
+              }
+            },
+            {
+              "slug": "xhtml",
+              "title": {
+                "fa": "HTML و XHTML",
+                "en": "HTML and XHTML"
+              }
+            },
+            {
+              "slug": "div",
+              "title": {
+                "fa": "عنصر div در HTML",
+                "en": "HTML div Element"
+              }
+            }
+          ]
         },
         {
-          "slug": "elements",
+          "slug": "forms",
           "title": {
-            "fa": "عنصرهای HTML",
-            "en": "HTML Elements"
-          }
+            "fa": "فرم‌های HTML",
+            "en": "HTML Forms"
+          },
+          "children": [
+            {
+              "slug": "form-attributes",
+              "title": {
+                "fa": "ویژگی‌های form در HTML",
+                "en": "HTML Form Attributes"
+              }
+            },
+            {
+              "slug": "form-elements",
+              "title": {
+                "fa": "عنصرهای فرم در HTML",
+                "en": "HTML Form Elements"
+              }
+            },
+            {
+              "slug": "input-types",
+              "title": {
+                "fa": "نوع‌های input در HTML",
+                "en": "HTML Input Types"
+              }
+            },
+            {
+              "slug": "input-attributes",
+              "title": {
+                "fa": "ویژگی‌های input در HTML",
+                "en": "HTML Input Attributes"
+              }
+            },
+            {
+              "slug": "input-form-attributes",
+              "title": {
+                "fa": "ویژگی‌های form برای input در HTML",
+                "en": "HTML Input Form Attributes"
+              }
+            }
+          ]
         },
         {
-          "slug": "attributes",
+          "slug": "graphics",
           "title": {
-            "fa": "ویژگی‌های HTML",
-            "en": "HTML Attributes"
-          }
+            "fa": "گرافیک در HTML",
+            "en": "HTML Graphics"
+          },
+          "children": [
+            {
+              "slug": "canvas",
+              "title": {
+                "fa": "Canvas در HTML",
+                "en": "HTML Canvas"
+              }
+            },
+            {
+              "slug": "svg",
+              "title": {
+                "fa": "SVG در HTML",
+                "en": "HTML SVG"
+              }
+            }
+          ]
         },
         {
-          "slug": "headings",
+          "slug": "media",
           "title": {
-            "fa": "تیترهای HTML",
-            "en": "HTML Headings"
-          }
+            "fa": "رسانه در HTML",
+            "en": "HTML Media"
+          },
+          "children": [
+            {
+              "slug": "video",
+              "title": {
+                "fa": "ویدیو در HTML",
+                "en": "HTML Video"
+              }
+            },
+            {
+              "slug": "audio",
+              "title": {
+                "fa": "صدا در HTML",
+                "en": "HTML Audio"
+              }
+            },
+            {
+              "slug": "plugins",
+              "title": {
+                "fa": "افزونه‌ها در HTML",
+                "en": "HTML Plug-ins"
+              }
+            },
+            {
+              "slug": "youtube",
+              "title": {
+                "fa": "ویدیوهای YouTube در HTML",
+                "en": "HTML YouTube Videos"
+              }
+            }
+          ]
         },
         {
-          "slug": "paragraphs",
+          "slug": "apis",
           "title": {
-            "fa": "پاراگراف‌های HTML",
-            "en": "HTML Paragraphs"
-          }
-        },
-        {
-          "slug": "styles",
-          "title": {
-            "fa": "استایل‌های HTML",
-            "en": "HTML Styles"
-          }
-        },
-        {
-          "slug": "formatting",
-          "title": {
-            "fa": "قالب‌بندی متن در HTML",
-            "en": "HTML Text Formatting"
-          }
-        },
-        {
-          "slug": "quotations",
-          "title": {
-            "fa": "نقل‌قول‌ها در HTML",
-            "en": "HTML Quotations"
-          }
-        },
-        {
-          "slug": "comments",
-          "title": {
-            "fa": "کامنت‌های HTML",
-            "en": "HTML Comments"
-          }
-        },
-        {
-          "slug": "colors",
-          "title": {
-            "fa": "رنگ‌ها در HTML",
-            "en": "HTML Colors"
-          }
-        },
-        {
-          "slug": "css",
-          "title": {
-            "fa": "CSS در HTML",
-            "en": "HTML CSS"
-          }
-        },
-        {
-          "slug": "links",
-          "title": {
-            "fa": "لینک‌ها در HTML",
-            "en": "HTML Links"
-          }
-        },
-        {
-          "slug": "images",
-          "title": {
-            "fa": "تصویرها در HTML",
-            "en": "HTML Images"
-          }
-        },
-        {
-          "slug": "favicon",
-          "title": {
-            "fa": "فاوآیکن HTML",
-            "en": "HTML Favicon"
-          }
-        },
-        {
-          "slug": "page-title",
-          "title": {
-            "fa": "عنوان صفحه HTML",
-            "en": "HTML Page Title"
-          }
-        },
-        {
-          "slug": "tables",
-          "title": {
-            "fa": "جدول‌های HTML",
-            "en": "HTML Tables"
-          }
-        },
-        {
-          "slug": "lists",
-          "title": {
-            "fa": "لیست‌های HTML",
-            "en": "HTML Lists"
-          }
-        },
-        {
-          "slug": "block-inline",
-          "title": {
-            "fa": "عنصرهای Block و Inline در HTML",
-            "en": "HTML Block and Inline Elements"
-          }
-        },
-        {
-          "slug": "classes",
-          "title": {
-            "fa": "کلاس‌ها در HTML",
-            "en": "HTML Classes"
-          }
-        },
-        {
-          "slug": "id",
-          "title": {
-            "fa": "شناسه id در HTML",
-            "en": "HTML id Attribute"
-          }
-        },
-        {
-          "slug": "iframes",
-          "title": {
-            "fa": "آی‌فریم‌ها در HTML",
-            "en": "HTML Iframes"
-          }
-        },
-        {
-          "slug": "javascript",
-          "title": {
-            "fa": "JavaScript در HTML",
-            "en": "HTML JavaScript"
-          }
-        },
-        {
-          "slug": "file-paths",
-          "title": {
-            "fa": "مسیر فایل‌ها در HTML",
-            "en": "HTML File Paths"
-          }
-        },
-        {
-          "slug": "head",
-          "title": {
-            "fa": "بخش head در HTML",
-            "en": "HTML Head"
-          }
-        },
-        {
-          "slug": "layout",
-          "title": {
-            "fa": "چیدمان HTML",
-            "en": "HTML Layout"
-          }
-        },
-        {
-          "slug": "responsive",
-          "title": {
-            "fa": "طراحی واکنش‌گرا در HTML",
-            "en": "HTML Responsive Web Design"
-          }
-        },
-        {
-          "slug": "computercode",
-          "title": {
-            "fa": "عنصرهای کدنویسی در HTML",
-            "en": "HTML Computer Code Elements"
-          }
-        },
-        {
-          "slug": "semantics",
-          "title": {
-            "fa": "معناشناسی HTML",
-            "en": "HTML Semantics"
-          }
-        },
-        {
-          "slug": "style-guide",
-          "title": {
-            "fa": "راهنمای سبک HTML",
-            "en": "HTML Style Guide"
-          }
-        },
-        {
-          "slug": "entities",
-          "title": {
-            "fa": "Entityهای HTML",
-            "en": "HTML Entities"
-          }
-        },
-        {
-          "slug": "symbols",
-          "title": {
-            "fa": "نمادها در HTML",
-            "en": "HTML Symbols"
-          }
-        },
-        {
-          "slug": "emojis",
-          "title": {
-            "fa": "ایموجی‌ها در HTML",
-            "en": "HTML Emojis"
-          }
-        },
-        {
-          "slug": "charset",
-          "title": {
-            "fa": "کدگذاری کاراکتر HTML",
-            "en": "HTML Charset"
-          }
-        },
-        {
-          "slug": "url-encode",
-          "title": {
-            "fa": "کدگذاری URL در HTML",
-            "en": "HTML URL Encoding"
-          }
-        },
-        {
-          "slug": "xhtml",
-          "title": {
-            "fa": "HTML و XHTML",
-            "en": "HTML and XHTML"
-          }
-        },
-        {
-          "slug": "div",
-          "title": {
-            "fa": "عنصر div در HTML",
-            "en": "HTML div Element"
-          }
+            "fa": "APIهای HTML",
+            "en": "HTML APIs"
+          },
+          "children": [
+            {
+              "slug": "web-apis",
+              "title": {
+                "fa": "Web APIها در HTML",
+                "en": "HTML Web APIs"
+              }
+            },
+            {
+              "slug": "geolocation",
+              "title": {
+                "fa": "API موقعیت جغرافیایی در HTML",
+                "en": "HTML Geolocation API"
+              }
+            },
+            {
+              "slug": "drag-drop",
+              "title": {
+                "fa": "Drag and Drop در HTML",
+                "en": "HTML Drag and Drop API"
+              }
+            },
+            {
+              "slug": "web-storage",
+              "title": {
+                "fa": "Web Storage در HTML",
+                "en": "HTML Web Storage API"
+              }
+            },
+            {
+              "slug": "web-workers",
+              "title": {
+                "fa": "Web Workerها در HTML",
+                "en": "HTML Web Workers API"
+              }
+            },
+            {
+              "slug": "sse",
+              "title": {
+                "fa": "رویدادهای Server-Sent در HTML",
+                "en": "HTML Server-Sent Events"
+              }
+            }
+          ]
         }
       ]
     },
     {
-      "slug": "forms",
+      "id": "reference",
       "title": {
-        "fa": "فرم‌های HTML",
-        "en": "HTML Forms"
+        "fa": "مرجع (MDN)",
+        "en": "Reference (MDN)"
       },
-      "children": [
-        {
-          "slug": "form-attributes",
-          "title": {
-            "fa": "ویژگی‌های form در HTML",
-            "en": "HTML Form Attributes"
-          }
-        },
-        {
-          "slug": "form-elements",
-          "title": {
-            "fa": "عنصرهای فرم در HTML",
-            "en": "HTML Form Elements"
-          }
-        },
-        {
-          "slug": "input-types",
-          "title": {
-            "fa": "نوع‌های input در HTML",
-            "en": "HTML Input Types"
-          }
-        },
-        {
-          "slug": "input-attributes",
-          "title": {
-            "fa": "ویژگی‌های input در HTML",
-            "en": "HTML Input Attributes"
-          }
-        },
-        {
-          "slug": "input-form-attributes",
-          "title": {
-            "fa": "ویژگی‌های form برای input در HTML",
-            "en": "HTML Input Form Attributes"
-          }
-        }
-      ]
-    },
-    {
-      "slug": "graphics",
-      "title": {
-        "fa": "گرافیک در HTML",
-        "en": "HTML Graphics"
+      "description": {
+        "fa": "مرجع عمیق و author-focused به سبک MDN برای elementها، attributeها، فرم‌ها، media و behavior مرورگر.",
+        "en": "A deeper MDN-style author reference for elements, attributes, forms, media, and browser behavior."
       },
-      "children": [
-        {
-          "slug": "canvas",
-          "title": {
-            "fa": "Canvas در HTML",
-            "en": "HTML Canvas"
-          }
-        },
-        {
-          "slug": "svg",
-          "title": {
-            "fa": "SVG در HTML",
-            "en": "HTML SVG"
-          }
-        }
-      ]
-    },
-    {
-      "slug": "media",
-      "title": {
-        "fa": "رسانه در HTML",
-        "en": "HTML Media"
+      "seoTitle": {
+        "fa": "مرجع HTML به سبک MDN | Elements، Attributes و APIها | MEGA JS",
+        "en": "HTML Reference — MDN-style Elements, Attributes & APIs | MEGA JS"
       },
-      "children": [
-        {
-          "slug": "video",
-          "title": {
-            "fa": "ویدیو در HTML",
-            "en": "HTML Video"
-          }
-        },
-        {
-          "slug": "audio",
-          "title": {
-            "fa": "صدا در HTML",
-            "en": "HTML Audio"
-          }
-        },
-        {
-          "slug": "plugins",
-          "title": {
-            "fa": "افزونه‌ها در HTML",
-            "en": "HTML Plug-ins"
-          }
-        },
-        {
-          "slug": "youtube",
-          "title": {
-            "fa": "ویدیوهای YouTube در HTML",
-            "en": "HTML YouTube Videos"
-          }
-        }
-      ]
-    },
-    {
-      "slug": "apis",
-      "title": {
-        "fa": "APIهای HTML",
-        "en": "HTML APIs"
+      "seoDescription": {
+        "fa": "مرجع HTML به سبک MDN برای elementها، attributeها، validation، media، image و performance؛ مناسب بررسی سریع و تصمیم دقیق در پروژه. برای پروژه‌های واقعی وب.",
+        "en": "Use the MDN-style HTML reference for elements, attributes, validation, media, images, and performance when you need precise project decisions. Practice now."
       },
-      "children": [
-        {
-          "slug": "web-apis",
-          "title": {
-            "fa": "Web APIها در HTML",
-            "en": "HTML Web APIs"
-          }
-        },
-        {
-          "slug": "geolocation",
-          "title": {
-            "fa": "API موقعیت جغرافیایی در HTML",
-            "en": "HTML Geolocation API"
-          }
-        },
-        {
-          "slug": "drag-drop",
-          "title": {
-            "fa": "Drag and Drop در HTML",
-            "en": "HTML Drag and Drop API"
-          }
-        },
-        {
-          "slug": "web-storage",
-          "title": {
-            "fa": "Web Storage در HTML",
-            "en": "HTML Web Storage API"
-          }
-        },
-        {
-          "slug": "web-workers",
-          "title": {
-            "fa": "Web Workerها در HTML",
-            "en": "HTML Web Workers API"
-          }
-        },
-        {
-          "slug": "sse",
-          "title": {
-            "fa": "رویدادهای Server-Sent در HTML",
-            "en": "HTML Server-Sent Events"
-          }
-        }
-      ]
-    },
-    {
-      "slug": "references",
-      "title": {
-        "fa": "مرجع‌های HTML",
-        "en": "HTML References"
+      "source": {
+        "name": "MDN Web Docs — HTML",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTML"
       },
-      "children": [
+      "liveEditor": false,
+      "nav": [
         {
-          "slug": "tag-list",
+          "slug": "overview",
           "title": {
-            "fa": "فهرست tagهای HTML",
-            "en": "HTML Tag List"
+            "fa": "نمای کلی مرجع HTML",
+            "en": "HTML Reference Overview"
+          }
+        },
+        {
+          "slug": "elements-ref",
+          "title": {
+            "fa": "مرجع عنصرهای HTML",
+            "en": "HTML Elements Reference"
           }
         },
         {
           "slug": "attributes-ref",
           "title": {
             "fa": "مرجع attributeهای HTML",
-            "en": "HTML Attribute Reference"
+            "en": "HTML Attributes Reference"
           }
         },
         {
@@ -491,10 +541,183 @@
           }
         },
         {
-          "slug": "events-ref",
+          "slug": "content-categories",
           "title": {
-            "fa": "مرجع eventهای HTML",
-            "en": "HTML Event Reference"
+            "fa": "دسته‌بندی محتوای HTML",
+            "en": "HTML Content Categories"
+          }
+        },
+        {
+          "slug": "comments-ref",
+          "title": {
+            "fa": "مرجع کامنت‌های HTML",
+            "en": "HTML Comments Reference"
+          }
+        },
+        {
+          "slug": "datetime-formats",
+          "title": {
+            "fa": "فرمت‌های تاریخ و زمان HTML",
+            "en": "HTML Date and Time Formats"
+          }
+        },
+        {
+          "slug": "responsive-images",
+          "title": {
+            "fa": "تصویرهای واکنش‌گرای HTML",
+            "en": "HTML Responsive Images"
+          }
+        },
+        {
+          "slug": "forms-constraint-validation",
+          "title": {
+            "fa": "اعتبارسنجی Constraint در HTML",
+            "en": "HTML Constraint Validation"
+          }
+        },
+        {
+          "slug": "media-guide",
+          "title": {
+            "fa": "راهنمای رسانه HTML",
+            "en": "HTML Media Guide"
+          }
+        },
+        {
+          "slug": "microdata",
+          "title": {
+            "fa": "Microdata در HTML",
+            "en": "HTML Microdata"
+          }
+        },
+        {
+          "slug": "microformats",
+          "title": {
+            "fa": "Microformats در HTML",
+            "en": "HTML Microformats"
+          }
+        },
+        {
+          "slug": "data-attributes",
+          "title": {
+            "fa": "attributeهای data در HTML",
+            "en": "HTML Data Attributes"
+          }
+        },
+        {
+          "slug": "cors-images-canvas",
+          "title": {
+            "fa": "CORS تصویر و Canvas",
+            "en": "CORS Images and Canvas"
+          }
+        },
+        {
+          "slug": "image-maps",
+          "title": {
+            "fa": "Image Map در HTML",
+            "en": "HTML Image Maps"
+          }
+        },
+        {
+          "slug": "performance-tips",
+          "title": {
+            "fa": "نکته‌های Performance در HTML",
+            "en": "HTML Performance Tips"
+          }
+        },
+        {
+          "slug": "scripting-guide",
+          "title": {
+            "fa": "راهنمای Scripting در HTML",
+            "en": "HTML Scripting Guide"
+          }
+        },
+        {
+          "slug": "quirks-mode",
+          "title": {
+            "fa": "Quirks Mode در HTML",
+            "en": "HTML Quirks Mode"
+          }
+        },
+        {
+          "slug": "cheatsheet",
+          "title": {
+            "fa": "چیت‌شیت HTML",
+            "en": "HTML Cheatsheet"
+          }
+        }
+      ]
+    },
+    {
+      "id": "official",
+      "title": {
+        "fa": "مستندات رسمی (WHATWG)",
+        "en": "Official (WHATWG)"
+      },
+      "description": {
+        "fa": "خلاصه‌های specification-oriented از HTML Living Standard برای authorها، بدون dump کامل specification.",
+        "en": "Specification-oriented HTML Living Standard summaries for authors, without a full specification dump."
+      },
+      "seoTitle": {
+        "fa": "HTML Living Standard برای نویسندگان | خلاصه رسمی WHATWG | MEGA JS",
+        "en": "HTML Living Standard for Authors | WHATWG Official Summary | MEGA JS"
+      },
+      "seoDescription": {
+        "fa": "خلاصه رسمی WHATWG HTML برای authorها؛ ساختار سند، content model، parsing، form submission، embedding و نکته‌های security را دقیق مرور کنید. همراه تمرین کاربردی.",
+        "en": "Read author-focused WHATWG HTML summaries covering document structure, content models, parsing, form submission, embedding, and security notes. Practice now."
+      },
+      "source": {
+        "name": "HTML Living Standard",
+        "url": "https://html.spec.whatwg.org/"
+      },
+      "liveEditor": false,
+      "nav": [
+        {
+          "slug": "overview",
+          "title": {
+            "fa": "نمای کلی HTML Living Standard",
+            "en": "HTML Living Standard Overview"
+          }
+        },
+        {
+          "slug": "document-structure",
+          "title": {
+            "fa": "ساختار سند HTML",
+            "en": "Document Structure"
+          }
+        },
+        {
+          "slug": "elements-content-model",
+          "title": {
+            "fa": "Elementها و Content Model",
+            "en": "Elements and Content Model"
+          }
+        },
+        {
+          "slug": "parsing-tokenization",
+          "title": {
+            "fa": "Parsing و Tokenization در HTML",
+            "en": "Parsing and Tokenization"
+          }
+        },
+        {
+          "slug": "forms-submission",
+          "title": {
+            "fa": "مدل Form و Submission",
+            "en": "Forms and Submission Model"
+          }
+        },
+        {
+          "slug": "embedding-media",
+          "title": {
+            "fa": "Embedding و Media در HTML",
+            "en": "Embedding and Media"
+          }
+        },
+        {
+          "slug": "security-authoring",
+          "title": {
+            "fa": "نکته‌های Security و Authoring",
+            "en": "Security and Authoring Notes"
           }
         }
       ]
