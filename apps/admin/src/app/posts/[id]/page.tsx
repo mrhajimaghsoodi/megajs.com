@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAdminLocale } from '@/i18n/locale-context';
+import { publicSiteUrl } from '@/lib/site';
 
 export default function EditPostPage() {
   const { id } = useParams<{ id: string }>();
@@ -139,7 +140,20 @@ export default function EditPostPage() {
           </Link>
           <h1 className="mt-2 font-display text-3xl font-bold">{d.editPost}</h1>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
+          {status === 'published' && slug ? (
+            <Button asChild variant="outline">
+              <a href={publicSiteUrl(locale, `/articles/${slug}`)} target="_blank" rel="noreferrer">
+                {d.view}
+              </a>
+            </Button>
+          ) : null}
+          <Button asChild variant="outline">
+            <Link href="/categories">{d.postCategories}</Link>
+          </Button>
+          <Button asChild variant="outline">
+            <Link href="/tags">{d.postTags}</Link>
+          </Button>
           <Button variant="destructive" onClick={() => void remove()}>
             {d.delete}
           </Button>
