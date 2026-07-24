@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useAdminLocale } from '@/i18n/locale-context';
 import { publicSiteUrl } from '@/lib/site';
+import { formatTehranDateTime } from '@/lib/datetime';
 
 function titleOf(row: any, locale: string) {
   return row.i18n?.find((x: any) => x.locale === locale)?.title ?? row.i18n?.[0]?.title ?? row.slug;
@@ -343,7 +344,7 @@ export default function PostsAdminPage() {
                         <Badge variant="secondary">{row.status}</Badge>
                       </td>
                       <td className="p-3 text-xs" dir="ltr">
-                        {new Date(row.updatedAt).toLocaleString(locale === 'fa' ? 'fa-IR' : 'en-US')}
+                        {formatTehranDateTime(row.updatedAt)}
                       </td>
                       <td className="p-3">
                         <Button asChild size="sm" variant="outline">

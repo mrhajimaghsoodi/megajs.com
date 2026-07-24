@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAdminLocale } from '@/i18n/locale-context';
+import { formatTehranDateTime } from '@/lib/datetime';
 
 export default function WordfencePluginPage() {
   const { locale, dict } = useAdminLocale();
@@ -135,7 +136,7 @@ export default function WordfencePluginPage() {
               <div className="flex flex-wrap gap-2">
                 <Badge variant="secondary">{ev.type}</Badge>
                 <span className="font-mono text-xs" dir="ltr">{ev.ip || '—'}</span>
-                <span className="text-xs text-[var(--mj-muted-fg)]" dir="ltr">{new Date(ev.createdAt).toLocaleString(locale === 'fa' ? 'fa-IR' : 'en-US')}</span>
+                <span className="text-xs text-[var(--mj-muted-fg)]" dir="ltr">{formatTehranDateTime(ev.createdAt)}</span>
               </div>
             </div>
           ))}

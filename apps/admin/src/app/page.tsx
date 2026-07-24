@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { PageEnter, SkeletonPanel, Stagger } from '@/components/ui/motion';
 import { useAdminLocale } from '@/i18n/locale-context';
+import { formatTehranDate, formatTehranDateTime } from '@/lib/datetime';
 
 type Dash = any;
 
@@ -218,7 +219,7 @@ export default function AdminDashboard() {
           <h1 className="font-display text-3xl font-bold">{d.title}</h1>
           <p className="mt-2 text-sm text-[var(--mj-muted-fg)]">{d.subtitleFull}</p>
           <p className="mt-1 font-mono text-[10px] text-[var(--mj-muted-fg)]" dir="ltr">
-            {d.updatedAt}: {new Date(data.generatedAt).toLocaleString(locale === 'fa' ? 'fa-IR' : 'en-US')}
+            {d.updatedAt}: {formatTehranDateTime(data.generatedAt)}
             {refreshing ? ' · …' : ''}
           </p>
         </div>
@@ -585,9 +586,7 @@ export default function AdminDashboard() {
                       <Badge variant="secondary">{u.status}</Badge>
                     </td>
                     <td className="py-2 text-xs" dir="ltr">
-                      {new Date(u.createdAt).toLocaleDateString(
-                        locale === 'fa' ? 'fa-IR' : 'en-US',
-                      )}
+                      {formatTehranDate(u.createdAt)}
                     </td>
                   </tr>
                 ))}
@@ -643,7 +642,7 @@ export default function AdminDashboard() {
                   </div>
                 </div>
                 <span className="font-mono text-[10px] text-[var(--mj-muted-fg)]" dir="ltr">
-                  {new Date(a.createdAt).toLocaleString(locale === 'fa' ? 'fa-IR' : 'en-US')}
+                  {formatTehranDateTime(a.createdAt)}
                 </span>
               </div>
             ))}

@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { PageEnter, SkeletonPanel, Stagger } from '@/components/ui/motion';
 import { getDictionary } from '@/i18n/dictionaries';
 import { API_BASE, isLocale, type Locale } from '@/lib/utils';
+import { formatTehranDate } from '@/lib/datetime';
 
 export default function ProfileOverviewPage() {
   const params = useParams<{ locale: string }>();
@@ -94,7 +95,7 @@ export default function ProfileOverviewPage() {
               <span className="font-mono" dir="ltr">
                 {s.plan?.code}
               </span>{' '}
-              · {new Date(s.endsAt).toLocaleDateString(locale === 'fa' ? 'fa-IR' : 'en-US')}
+              · {formatTehranDate(s.endsAt)}
             </p>
           ))
         )}

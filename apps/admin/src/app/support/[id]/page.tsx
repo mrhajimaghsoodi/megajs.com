@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { adminFetch } from '@/components/admin-shell';
 import { useAdminLocale } from '@/i18n/locale-context';
+import { formatTehranDateTime } from '@/lib/datetime';
 
 const STATUS_KEYS = ['open', 'pending', 'answered', 'resolved', 'closed'] as const;
 
@@ -138,7 +139,7 @@ export default function AdminSupportTicketPage() {
                 )}
               </span>
               <time dir="ltr">
-                {new Date(m.createdAt).toLocaleString(locale === 'fa' ? 'fa-IR' : 'en-US')}
+                {formatTehranDateTime(m.createdAt)}
               </time>
             </div>
             <p className="mt-2 whitespace-pre-wrap text-sm leading-7">{m.body}</p>

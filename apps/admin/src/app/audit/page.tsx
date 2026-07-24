@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { adminFetch } from '@/components/admin-shell';
 import { useAdminLocale } from '@/i18n/locale-context';
+import { formatTehranDateTime } from '@/lib/datetime';
 
 export default function AuditAdminPage() {
   const { locale, dict } = useAdminLocale();
@@ -37,7 +38,7 @@ export default function AuditAdminPage() {
             {rows.map((r) => (
               <tr key={r.id} className="border-t border-[var(--mj-border)]">
                 <td className="p-3 text-xs" dir="ltr">
-                  {new Date(r.createdAt).toLocaleString(locale === 'fa' ? 'fa-IR' : 'en-US')}
+                  {formatTehranDateTime(r.createdAt)}
                 </td>
                 <td className="p-3 font-mono text-xs" dir="ltr">
                   {r.action}

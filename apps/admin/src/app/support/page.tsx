@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { adminFetch } from '@/components/admin-shell';
 import { useAdminLocale } from '@/i18n/locale-context';
+import { formatTehranDateTime } from '@/lib/datetime';
 
 const STATUS_KEYS = ['open', 'pending', 'answered', 'resolved', 'closed'] as const;
 
@@ -164,7 +165,7 @@ export default function AdminSupportPage() {
                 </td>
                 <td className="p-3 font-mono">{t._count?.messages ?? 0}</td>
                 <td className="p-3 text-xs" dir="ltr">
-                  {new Date(t.updatedAt).toLocaleString(locale === 'fa' ? 'fa-IR' : 'en-US')}
+                  {formatTehranDateTime(t.updatedAt)}
                 </td>
               </tr>
             ))}

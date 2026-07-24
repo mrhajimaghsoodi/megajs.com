@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { getDictionary } from '@/i18n/dictionaries';
 import { API_BASE, isLocale, type Locale } from '@/lib/utils';
+import { formatTehranDateTime } from '@/lib/datetime';
 
 export default function LiveDetailPage() {
   const params = useParams<{ locale: string; slug: string }>();
@@ -49,7 +50,7 @@ export default function LiveDetailPage() {
       </div>
       <p className="mt-3 text-[var(--mj-muted-fg)]">{event.summary}</p>
       <p className="mt-2 font-mono text-xs text-[var(--mj-muted-fg)]">
-        {new Date(event.startsAt).toLocaleString(locale === 'fa' ? 'fa-IR' : 'en-US')}
+        {formatTehranDateTime(event.startsAt)}
       </p>
 
       <div className="mt-8 aspect-video overflow-hidden rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] bg-[var(--mj-ink)] text-[var(--mj-accent)]">

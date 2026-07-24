@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { Dictionary } from '@/i18n/dictionaries';
+import { formatTehranYear } from '@/lib/datetime';
 import type { Locale } from '@/lib/utils';
 import { Logo } from './logo';
 import { NewsletterBand } from './woodmart/newsletter';
@@ -106,7 +107,7 @@ export function SiteFooter({
             </div>
           </div>
           <div className="mt-12 flex flex-col gap-2 border-t border-white/10 pt-6 font-mono text-[11px] text-white/40 sm:flex-row sm:items-center sm:justify-between">
-            <span>© {new Date().getFullYear()} MEGA JS</span>
+            <span>© {formatTehranYear()} MEGA JS</span>
             <span>{f.rights}</span>
           </div>
         </div>

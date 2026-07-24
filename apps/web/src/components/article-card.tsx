@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { formatTehranDateTime } from '@/lib/datetime';
 import { resolveMediaUrl } from '@/lib/media-url';
 import type { Locale } from '@/lib/utils';
 import { cn } from '@/lib/utils';
@@ -135,9 +136,7 @@ export function ArticleCard({
             className="pt-1 font-mono text-[11px] text-muted-foreground"
             dateTime={article.publishedAt}
           >
-            {new Date(article.publishedAt).toLocaleDateString(
-              locale === 'fa' ? 'fa-IR' : 'en-US',
-            )}
+            {formatTehranDateTime(article.publishedAt)}
           </time>
         ) : null}
       </div>

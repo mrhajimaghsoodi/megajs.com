@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { getDictionary } from '@/i18n/dictionaries';
 import { API_BASE, isLocale, type Locale } from '@/lib/utils';
+import { formatTehranDateTime } from '@/lib/datetime';
 
 export default function LiveIndexPage() {
   const params = useParams<{ locale: string }>();
@@ -38,7 +39,7 @@ export default function LiveIndexPage() {
             </div>
             <p className="mt-2 text-[var(--mj-muted-fg)]">{event.summary}</p>
             <p className="mt-3 font-mono text-xs text-[var(--mj-muted-fg)]">
-              {new Date(event.startsAt).toLocaleString(locale === 'fa' ? 'fa-IR' : 'en-US')}
+              {formatTehranDateTime(event.startsAt)}
             </p>
             <div className="mt-4 flex flex-wrap gap-2">
               {(event.destinations ?? []).map((d: string) => (

@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { resolveMediaUrl } from '@/lib/media-url';
 import { useAdminLocale } from '@/i18n/locale-context';
+import { formatTehranDateTime } from '@/lib/datetime';
 
 export default function MediaAdminPage() {
   const { locale, dict } = useAdminLocale();
@@ -165,7 +166,7 @@ export default function MediaAdminPage() {
                 {row.url}
               </div>
               <div className="text-xs text-[var(--mj-muted-fg)]" dir="ltr">
-                {new Date(row.createdAt).toLocaleString(locale === 'fa' ? 'fa-IR' : 'en-US')}
+                {formatTehranDateTime(row.createdAt)}
               </div>
               <Button
                 variant="destructive"

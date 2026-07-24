@@ -11,6 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { useAdminLocale } from '@/i18n/locale-context';
+import { formatTehranDate, formatTehranDateTime } from '@/lib/datetime';
 
 type Tab =
   | 'profile'
@@ -170,7 +171,7 @@ export default function UserDetailAdminPage() {
         <div>
           <div className="text-xs text-muted-foreground">{d.profile.createdAt}</div>
           <div className="font-mono text-xs" dir="ltr">
-            {new Date(u.createdAt).toLocaleString()}
+            {formatTehranDateTime(u.createdAt)}
           </div>
         </div>
       </div>
@@ -373,7 +374,7 @@ export default function UserDetailAdminPage() {
                         {s.client}
                       </td>
                       <td className="p-2 font-mono text-xs" dir="ltr">
-                        {new Date(s.expiresAt).toLocaleString()}
+                        {formatTehranDateTime(s.expiresAt)}
                       </td>
                       <td className="p-2 text-end">
                         <Button
@@ -465,7 +466,7 @@ export default function UserDetailAdminPage() {
                       <td className="p-2 font-mono">{e.amount}</td>
                       <td className="p-2 text-xs">{e.reason}</td>
                       <td className="p-2 font-mono text-xs" dir="ltr">
-                        {new Date(e.createdAt).toLocaleString()}
+                        {formatTehranDateTime(e.createdAt)}
                       </td>
                     </tr>
                   ))}
@@ -593,8 +594,8 @@ export default function UserDetailAdminPage() {
                       {s.plan?.code} · {s.status}
                     </div>
                     <div className="font-mono text-xs text-muted-foreground" dir="ltr">
-                      {new Date(s.startsAt).toLocaleDateString()} →{' '}
-                      {new Date(s.endsAt).toLocaleDateString()}
+                      {formatTehranDate(s.startsAt)} →{' '}
+                      {formatTehranDate(s.endsAt)}
                     </div>
                   </div>
                   {s.status === 'active' ? (
@@ -660,7 +661,7 @@ export default function UserDetailAdminPage() {
                     <td className="p-2 font-mono">{o.tokenSpent}</td>
                     <td className="p-2">{o.status}</td>
                     <td className="p-2 font-mono text-xs" dir="ltr">
-                      {new Date(o.createdAt).toLocaleString()}
+                      {formatTehranDateTime(o.createdAt)}
                     </td>
                   </tr>
                 ))}
@@ -723,7 +724,7 @@ export default function UserDetailAdminPage() {
                 <li key={n.id} className="p-3 text-sm">
                   <p>{n.body}</p>
                   <div className="mt-1 font-mono text-[11px] text-muted-foreground" dir="ltr">
-                    {new Date(n.createdAt).toLocaleString()}
+                    {formatTehranDateTime(n.createdAt)}
                   </div>
                 </li>
               ))}
@@ -756,7 +757,7 @@ export default function UserDetailAdminPage() {
             <ul className="max-h-80 overflow-auto text-xs">
               {(u.liveRegs ?? []).map((r: any) => (
                 <li key={r.id} className="border-b border-border py-2 font-mono" dir="ltr">
-                  {titleOf(r.live?.i18n, locale)} · {new Date(r.createdAt).toLocaleString()}
+                  {titleOf(r.live?.i18n, locale)} · {formatTehranDateTime(r.createdAt)}
                 </li>
               ))}
               {(u.liveRegs ?? []).length === 0 ? (
@@ -769,7 +770,7 @@ export default function UserDetailAdminPage() {
             <ul className="max-h-80 overflow-auto text-xs">
               {(data.audit ?? []).map((a: any) => (
                 <li key={a.id} className="border-b border-border py-2 font-mono" dir="ltr">
-                  {a.action} · {new Date(a.createdAt).toLocaleString()}
+                  {a.action} · {formatTehranDateTime(a.createdAt)}
                 </li>
               ))}
               {(data.audit ?? []).length === 0 ? (

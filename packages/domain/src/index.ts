@@ -123,3 +123,10 @@ export const CURRICULUM_YEAR_PLAN = [
     courses: ['Node.js', 'NestJS'],
   },
 ] as const;
+
+export {
+  TEHRAN_TZ,
+  formatTehranDate,
+  formatTehranDateTime,
+  formatTehranYear,
+} from './datetime';

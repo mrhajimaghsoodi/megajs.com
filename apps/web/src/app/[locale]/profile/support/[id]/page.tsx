@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { getDictionary } from '@/i18n/dictionaries';
 import { API_BASE, isLocale, type Locale } from '@/lib/utils';
+import { formatTehranDateTime } from '@/lib/datetime';
 
 export default function SupportTicketDetailPage() {
   const params = useParams<{ locale: string; id: string }>();
@@ -109,7 +110,7 @@ export default function SupportTicketDetailPage() {
                 {m.author?.displayName ? ` · ${m.author.displayName}` : ''}
               </span>
               <time dir="ltr">
-                {new Date(m.createdAt).toLocaleString(locale === 'fa' ? 'fa-IR' : 'en-US')}
+                {formatTehranDateTime(m.createdAt)}
               </time>
             </div>
             <p className="mt-2 whitespace-pre-wrap text-sm leading-7">{m.body}</p>

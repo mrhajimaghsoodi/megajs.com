@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { getDictionary } from '@/i18n/dictionaries';
 import { API_BASE, isLocale, type Locale } from '@/lib/utils';
+import { formatTehranDateTime } from '@/lib/datetime';
 
 export default function MyLivePage() {
   const params = useParams<{ locale: string }>();
@@ -44,7 +45,7 @@ export default function MyLivePage() {
             >
               <div className="font-semibold">{r.event.title}</div>
               <div className="text-xs text-[var(--mj-muted-fg)]">
-                {r.event.status} · {new Date(r.event.startsAt).toLocaleString(locale === 'fa' ? 'fa-IR' : 'en-US')}
+                {r.event.status} · {formatTehranDateTime(r.event.startsAt)}
               </div>
             </Link>
           ))

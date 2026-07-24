@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useAdminLocale } from '@/i18n/locale-context';
+import { formatTehranDateTime } from '@/lib/datetime';
 
 export default function OrdersAdminPage() {
   const { locale, dict } = useAdminLocale();
@@ -60,7 +61,7 @@ export default function OrdersAdminPage() {
                 <td className="p-3 font-mono text-xs">{o.kind}</td>
                 <td className="p-3 font-mono" dir="ltr">{(o.amountCents / 10).toLocaleString()} {o.currency}</td>
                 <td className="p-3"><Badge variant="secondary">{o.status}</Badge></td>
-                <td className="p-3 text-xs" dir="ltr">{new Date(o.createdAt).toLocaleString(locale === 'fa' ? 'fa-IR' : 'en-US')}</td>
+                <td className="p-3 text-xs" dir="ltr">{formatTehranDateTime(o.createdAt)}</td>
                 <td className="p-3"><Link className="underline-offset-4 hover:underline" href={`/orders/${o.id}`}>{d.view}</Link></td>
               </tr>
             ))}

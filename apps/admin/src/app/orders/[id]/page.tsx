@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useAdminLocale } from '@/i18n/locale-context';
+import { formatTehranDateTime } from '@/lib/datetime';
 
 export default function OrderDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -73,7 +74,7 @@ export default function OrderDetailPage() {
         <div><div className="text-xs text-[var(--mj-muted-fg)]">{d.amount}</div><div className="font-mono" dir="ltr">{(order.amountCents / 10).toLocaleString()} {order.currency}</div></div>
         <div><div className="text-xs text-[var(--mj-muted-fg)]">{d.discount}</div><div className="font-mono" dir="ltr">{order.discountCents}</div></div>
         <div><div className="text-xs text-[var(--mj-muted-fg)]">{d.refund}</div><div className="font-mono" dir="ltr">{order.refundCents}</div></div>
-        <div><div className="text-xs text-[var(--mj-muted-fg)]">{d.date}</div><div className="text-sm" dir="ltr">{new Date(order.createdAt).toLocaleString(locale === 'fa' ? 'fa-IR' : 'en-US')}</div></div>
+        <div><div className="text-xs text-[var(--mj-muted-fg)]">{d.date}</div><div className="text-sm" dir="ltr">{formatTehranDateTime(order.createdAt)}</div></div>
       </div>
 
       <div className="grid gap-3 rounded-[var(--mj-radius-md)] border border-[var(--mj-border)] p-4">
@@ -99,7 +100,7 @@ export default function OrderDetailPage() {
         <div className="space-y-2">
           {(order.notes ?? []).map((n: any) => (
             <div key={n.id} className="rounded-md bg-[var(--mj-muted)] p-3 text-sm">
-              <div className="text-xs text-[var(--mj-muted-fg)]" dir="ltr">{new Date(n.createdAt).toLocaleString()}</div>
+              <div className="text-xs text-[var(--mj-muted-fg)]" dir="ltr">{formatTehranDateTime(n.createdAt)}</div>
               <div className="mt-1 whitespace-pre-wrap">{n.body}</div>
             </div>
           ))}

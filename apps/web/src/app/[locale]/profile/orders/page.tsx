@@ -4,6 +4,7 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { getDictionary } from '@/i18n/dictionaries';
 import { API_BASE, isLocale, type Locale } from '@/lib/utils';
+import { formatTehranDateTime } from '@/lib/datetime';
 
 export default function OrdersPage() {
   const params = useParams<{ locale: string }>();
@@ -36,7 +37,7 @@ export default function OrdersPage() {
                 <span className="font-mono">{o.status}</span>
               </div>
               <div className="mt-1 text-xs text-[var(--mj-muted-fg)]">
-                {new Date(o.createdAt).toLocaleString(locale === 'fa' ? 'fa-IR' : 'en-US')} ·{' '}
+                {formatTehranDateTime(o.createdAt)} ·{' '}
                 {o.amountCents?.toLocaleString?.()} + {o.tokenSpent} {dict.profile.tokens}
               </div>
             </div>
