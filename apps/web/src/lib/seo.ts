@@ -121,12 +121,17 @@ export function buildPublicMetadata(opts: {
   modifiedTime?: string | null;
   tags?: string[];
 }): Metadata {
+  const rawCanonical = opts.seo?.canonicalPath?.trim() || opts.defaultPath;
+  // Avoid /fa/en/... when CMS stores a locale-prefixed canonical
+  const path = rawCanonical
+    .replace(/^\/(fa|en)(?=\/|$)/, '')
+    .replace(/^\/?/, '/');
   return pageMetadata({
     locale: opts.locale,
     title: opts.seo?.metaTitle?.trim() || opts.fallbackTitle,
     description:
       opts.seo?.metaDescription?.trim() || opts.fallbackDescription || undefined,
-    path: opts.seo?.canonicalPath?.trim() || opts.defaultPath,
+    path: path === '/' ? opts.defaultPath : path,
     image: opts.seo?.ogImageUrl || opts.ogImageFallback || DEFAULT_OG_IMAGE,
     noIndex: Boolean(opts.seo?.noIndex),
     noFollow: Boolean(opts.seo?.noFollow),

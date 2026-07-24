@@ -102,5 +102,6 @@ export const SITEMAP_FILE_MAP: Record<string, string> = {
   'product_cat-sitemap.xml': 'product_cat',
   'live-sitemap.xml': 'live',
   'podcast-sitemap.xml': 'podcast',
+  'tunnel-sitemap.xml': 'tunnel',
   'misc-sitemap.xml': 'misc',
 };

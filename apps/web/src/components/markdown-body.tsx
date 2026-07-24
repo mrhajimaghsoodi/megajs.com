@@ -5,9 +5,12 @@ import remarkGfm from 'remark-gfm';
 export function MarkdownBody({
   content,
   className = '',
+  /** When page already renders an H1, demote markdown # headings to H2 */
+  demoteH1 = false,
 }: {
   content: string;
   className?: string;
+  demoteH1?: boolean;
 }) {
   return (
     <div className={`mj-prose text-base leading-8 text-foreground ${className}`}>
@@ -33,6 +36,16 @@ export function MarkdownBody({
               {children}
             </a>
           ),
+          h1: ({ children }) =>
+            demoteH1 ? (
+              <h2 className="mt-10 mb-3 font-display text-2xl font-bold tracking-tight">
+                {children}
+              </h2>
+            ) : (
+              <h1 className="mt-2 mb-4 font-display text-4xl font-bold tracking-tight">
+                {children}
+              </h1>
+            ),
           h2: ({ children }) => (
             <h2 className="mt-10 mb-3 font-display text-2xl font-bold tracking-tight">{children}</h2>
           ),

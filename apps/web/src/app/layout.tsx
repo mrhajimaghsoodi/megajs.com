@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
+import { headers } from 'next/headers';
 import type { CSSProperties, ReactNode } from 'react';
 import { JetBrains_Mono, Vazirmatn } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
 import { DEFAULT_OG_IMAGE, SITE_URL } from '@/lib/seo';
+import { dirFor, isLocale, type Locale } from '@/lib/utils';
 import './globals.css';
 
 /** Project-wide UI font */
@@ -81,12 +83,19 @@ export const metadata: Metadata = {
   category: 'education',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
+  const h = await headers();
+  const raw = h.get('x-locale') || 'fa';
+  const locale = (isLocale(raw) ? raw : 'fa') as Locale;
+  const dir = dirFor(locale);
+
   return (
     <html
-      lang="fa"
+      lang={locale}
+      dir={dir}
+      data-locale={locale}
       suppressHydrationWarning
       className={`dark ${vazirmatn.variable} ${jetbrains.variable}`}
       style={fontVars}

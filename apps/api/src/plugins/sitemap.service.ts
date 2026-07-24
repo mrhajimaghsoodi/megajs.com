@@ -24,6 +24,7 @@ export type SitemapType =
   | 'product_cat'
   | 'live'
   | 'podcast'
+  | 'tunnel'
   | 'misc';
 
 export const SITEMAP_TYPES: SitemapType[] = [
@@ -36,6 +37,7 @@ export const SITEMAP_TYPES: SitemapType[] = [
   'product_cat',
   'live',
   'podcast',
+  'tunnel',
 ];
 
 const RANK_SITEMAP_DEFAULTS = {
@@ -53,6 +55,7 @@ const RANK_SITEMAP_DEFAULTS = {
   sitemapProductCategories: true,
   sitemapLives: true,
   sitemapPodcasts: true,
+  sitemapTunnel: true,
   sitemapMisc: true,
   sitemapIncludeImages: true,
   sitemapHreflang: true,
@@ -132,6 +135,8 @@ export class SitemapService {
         return this.liveUrls();
       case 'podcast':
         return this.podcastUrls();
+      case 'tunnel':
+        return this.tunnelUrls(settings.sitemapIncludeImages);
       default:
         return [];
     }
@@ -159,6 +164,7 @@ export class SitemapService {
       ['product_cat', settings.sitemapProductCategories !== false],
       ['live', settings.sitemapLives !== false],
       ['podcast', settings.sitemapPodcasts !== false],
+      ['tunnel', settings.sitemapTunnel !== false],
     ];
     return map.filter(([, on]) => on).map(([t]) => t);
   }
@@ -170,6 +176,8 @@ export class SitemapService {
       { path: '/learn/categories', priority: 0.7, changefreq: 'weekly' },
       { path: '/articles', priority: 0.9, changefreq: 'daily' },
       { path: '/articles/categories', priority: 0.7, changefreq: 'weekly' },
+      { path: '/docs', priority: 0.9, changefreq: 'weekly' },
+      { path: '/tunnel', priority: 0.85, changefreq: 'weekly' },
       { path: '/pricing', priority: 0.8, changefreq: 'monthly' },
       { path: '/about', priority: 0.6, changefreq: 'monthly' },
       { path: '/contact', priority: 0.5, changefreq: 'monthly' },
@@ -347,5 +355,63 @@ export class SitemapService {
         priority: 0.55,
       },
     ];
+  }
+
+  private async tunnelUrls(includeImages: boolean) {
+    const blocked = await this.noIndexIds('termId');
+    const cats = await this.prisma.term.findMany({
+      where: { taxonomy: 'tunnel_category' },
+      select: {
+        id: true,
+        slug: true,
+        createdAt: true,
+        coverUrl: true,
+        imageUrl: true,
+      },
+    });
+    const urls: SitemapUrl[] = cats
+      .filter((c) => !blocked.has(c.id))
+      .map((c) => ({
+        path: `/tunnel/${c.slug}`,
+        lastmod: c.createdAt,
+        changefreq: 'weekly',
+        priority: 0.75,
+        image: includeImages ? c.coverUrl || c.imageUrl : null,
+      }));
+
+    const episodes = await this.prisma.tunnelEpisode.findMany({
+      where: { status: 'published' },
+      select: {
+        id: true,
+        slug: true,
+        updatedAt: true,
+        publishedAt: true,
+        coverUrl: true,
+        seriesTerm: { select: { slug: true } },
+      },
+    });
+    const blockedEpisodes = await this.prisma.seoMeta.findMany({
+      where: { noIndex: true, tunnelEpisodeId: { not: null } },
+      select: { tunnelEpisodeId: true },
+    });
+    const blockedEp = new Set(
+      blockedEpisodes
+        .map((r) => r.tunnelEpisodeId)
+        .filter((id): id is string => Boolean(id)),
+    );
+    for (const e of episodes) {
+      if (blockedEp.has(e.id)) continue;
+      const path = e.seriesTerm?.slug
+        ? `/tunnel/${e.seriesTerm.slug}/${e.slug}`
+        : `/tunnel/e/${e.slug}`;
+      urls.push({
+        path,
+        lastmod: e.updatedAt ?? e.publishedAt,
+        changefreq: 'weekly',
+        priority: 0.7,
+        image: includeImages ? e.coverUrl : null,
+      });
+    }
+    return urls;
   }
 }

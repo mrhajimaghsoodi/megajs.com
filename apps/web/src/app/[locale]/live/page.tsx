@@ -1,31 +1,76 @@
-'use client';
-
+import type { Metadata } from 'next';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { notFound } from 'next/navigation';
 import { getDictionary } from '@/i18n/dictionaries';
-import { API_BASE, isLocale, type Locale } from '@/lib/utils';
+import { pageMetadata, jsonLdScript, absoluteUrl, localePath } from '@/lib/seo';
 import { formatTehranDateTime } from '@/lib/tehran-time';
+import { API_BASE, isLocale, type Locale } from '@/lib/utils';
 
-export default function LiveIndexPage() {
-  const params = useParams<{ locale: string }>();
-  const locale = (isLocale(params.locale) ? params.locale : 'fa') as Locale;
+async function fetchEvents(locale: string) {
+  try {
+    const res = await fetch(`${API_BASE}/live?locale=${locale}`, {
+      next: { revalidate: 60, tags: ['live'] },
+    });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
+  } catch {
+    return [];
+  }
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale: raw } = await params;
+  if (!isLocale(raw)) return {};
+  const dict = getDictionary(raw as Locale);
+  return pageMetadata({
+    locale: raw,
+    title: dict.live.title,
+    description: dict.live.subtitle,
+    path: '/live',
+  });
+}
+
+export default async function LiveIndexPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale: raw } = await params;
+  if (!isLocale(raw)) notFound();
+  const locale = raw as Locale;
   const dict = getDictionary(locale);
   const lv = dict.live;
-  const [events, setEvents] = useState<any[]>([]);
+  const events = await fetchEvents(locale);
 
-  useEffect(() => {
-    void fetch(`${API_BASE}/live?locale=${locale}`)
-      .then((r) => r.json())
-      .then((d) => setEvents(Array.isArray(d) ? d : []));
-  }, [locale]);
+  const itemList = jsonLdScript({
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: lv.title,
+    itemListElement: events.map((event: any, i: number) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: absoluteUrl(localePath(locale, `/live/${event.slug}`)),
+      name: event.title,
+    })),
+  });
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+      {itemList ? (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: itemList }} />
+      ) : null}
       <h1 className="font-display text-4xl font-bold">{lv.title}</h1>
       <p className="mt-3 max-w-2xl text-[var(--mj-muted-fg)]">{lv.subtitle}</p>
       <div className="mt-10 space-y-4">
-        {events.map((event) => (
+        {!events.length ? (
+          <p className="text-sm text-muted-foreground">{dict.empty}</p>
+        ) : null}
+        {events.map((event: any) => (
           <Link
             key={event.id}
             href={`/${locale}/live/${event.slug}`}

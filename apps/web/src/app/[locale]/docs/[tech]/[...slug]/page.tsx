@@ -7,7 +7,13 @@ import { MarkdownBody } from '@/components/markdown-body';
 import { getDictionary } from '@/i18n/dictionaries';
 import { getDocsPage, getTechMeta, listDocSlugs, listTechIds } from '@/lib/docs/loader';
 import { localizeTitle } from '@/lib/docs/types';
-import { pageMetadata } from '@/lib/seo';
+import {
+  absoluteUrl,
+  breadcrumbJsonLd,
+  jsonLdScript,
+  localePath,
+  pageMetadata,
+} from '@/lib/seo';
 import { isLocale, type Locale } from '@/lib/utils';
 
 export async function generateStaticParams() {
@@ -37,7 +43,19 @@ export async function generateMetadata({
     title: page.frontmatter.title,
     description: page.frontmatter.description,
     path: `/docs/${techId}/${slug.join('/')}`,
+    type: 'article',
   });
+}
+
+/** Drop a leading markdown H1 that duplicates the page title (single H1 for Google). */
+function stripDuplicateTitle(body: string, title: string) {
+  const lines = body.split(/\r?\n/);
+  if (!lines.length) return body;
+  const first = lines[0].trim();
+  if (first.startsWith('# ') && first.slice(2).trim() === title.trim()) {
+    return lines.slice(1).join('\n').replace(/^\s+/, '');
+  }
+  return body;
 }
 
 export default async function DocsArticlePage({
@@ -56,9 +74,40 @@ export default async function DocsArticlePage({
 
   const dir = locale === 'fa' ? 'rtl' : 'ltr';
   const currentSlug = slug.join('/');
+  const path = `/docs/${tech.id}/${currentSlug}`;
+  const body = stripDuplicateTitle(page.body, page.frontmatter.title);
+
+  const crumbs = jsonLdScript(
+    breadcrumbJsonLd(locale, [
+      { name: dict.docs.title, path: '/docs' },
+      { name: localizeTitle(tech.title, locale), path: `/docs/${tech.id}` },
+      { name: page.frontmatter.title, path },
+    ]),
+  );
+  const article = jsonLdScript({
+    '@context': 'https://schema.org',
+    '@type': 'TechArticle',
+    headline: page.frontmatter.title,
+    description: page.frontmatter.description,
+    inLanguage: locale === 'fa' ? 'fa-IR' : 'en-US',
+    mainEntityOfPage: absoluteUrl(localePath(locale, path)),
+    author: { '@type': 'Organization', name: 'MEGA JS' },
+    publisher: {
+      '@type': 'Organization',
+      name: 'MEGA JS',
+      logo: { '@type': 'ImageObject', url: absoluteUrl('/logo-mark.svg') },
+    },
+    about: localizeTitle(tech.title, locale),
+  });
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14" dir={dir}>
+      {crumbs ? (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: crumbs }} />
+      ) : null}
+      {article ? (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: article }} />
+      ) : null}
       <div className="grid gap-10 lg:grid-cols-[15rem_minmax(0,1fr)]">
         <div className="lg:sticky lg:top-24 lg:self-start">
           <p className="mb-4 text-sm">
@@ -107,7 +156,7 @@ export default async function DocsArticlePage({
           ) : null}
 
           <div className="mt-10">
-            <MarkdownBody content={page.body} />
+            <MarkdownBody content={body} demoteH1 />
           </div>
 
           <DocsPager locale={locale} tech={tech} currentSlug={currentSlug} />

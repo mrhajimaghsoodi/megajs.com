@@ -13,6 +13,7 @@ const FILE_BY_TYPE: Record<string, string> = {
   product_cat: 'product_cat-sitemap.xml',
   live: 'live-sitemap.xml',
   podcast: 'podcast-sitemap.xml',
+  tunnel: 'tunnel-sitemap.xml',
 };
 
 export const dynamic = 'force-dynamic';
@@ -25,7 +26,10 @@ export async function GET() {
     });
     if (!res.ok) {
       return xmlResponse(
-        sitemapIndexXml([{ loc: `${SITE_URL}/misc-sitemap.xml` }]),
+        sitemapIndexXml([
+          { loc: `${SITE_URL}/misc-sitemap.xml` },
+          { loc: `${SITE_URL}/docs-sitemap.xml` },
+        ]),
         300,
       );
     }
@@ -39,12 +43,23 @@ export async function GET() {
         lastmod: s.lastmod ?? null,
       }),
     );
+    // Always include filesystem docs sitemap (not API-backed)
+    items.push({
+      loc: `${SITE_URL}/docs-sitemap.xml`,
+      lastmod: new Date().toISOString(),
+    });
     return xmlResponse(
       sitemapIndexXml(
         items.length ? items : [{ loc: `${SITE_URL}/misc-sitemap.xml` }],
       ),
     );
   } catch {
-    return xmlResponse(sitemapIndexXml([{ loc: `${SITE_URL}/misc-sitemap.xml` }]), 60);
+    return xmlResponse(
+      sitemapIndexXml([
+        { loc: `${SITE_URL}/misc-sitemap.xml` },
+        { loc: `${SITE_URL}/docs-sitemap.xml` },
+      ]),
+      60,
+    );
   }
 }

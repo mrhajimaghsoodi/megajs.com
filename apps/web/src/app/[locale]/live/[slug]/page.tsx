@@ -1,44 +1,90 @@
-'use client';
-
+import type { Metadata } from 'next';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { notFound } from 'next/navigation';
+import { LiveRegisterButton } from '@/components/live-register-button';
 import { getDictionary } from '@/i18n/dictionaries';
-import { API_BASE, isLocale, type Locale } from '@/lib/utils';
+import {
+  absoluteUrl,
+  buildPublicMetadata,
+  jsonLdScript,
+  localePath,
+} from '@/lib/seo';
 import { formatTehranDateTime } from '@/lib/tehran-time';
+import { API_BASE, isLocale, type Locale } from '@/lib/utils';
 
-export default function LiveDetailPage() {
-  const params = useParams<{ locale: string; slug: string }>();
-  const locale = (isLocale(params.locale) ? params.locale : 'fa') as Locale;
+async function fetchEvent(slug: string, locale: string) {
+  try {
+    const res = await fetch(`${API_BASE}/live/event/${slug}?locale=${locale}`, {
+      next: { revalidate: 60, tags: ['live'] },
+    });
+    if (!res.ok) return null;
+    return res.json();
+  } catch {
+    return null;
+  }
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>;
+}): Promise<Metadata> {
+  const { locale: raw, slug } = await params;
+  if (!isLocale(raw)) return {};
+  const event = await fetchEvent(slug, raw);
+  if (!event) return {};
+  return buildPublicMetadata({
+    locale: raw,
+    fallbackTitle: event.title || slug,
+    fallbackDescription: event.summary,
+    seo: event.seo,
+    defaultPath: `/live/${slug}`,
+    type: 'website',
+  });
+}
+
+export default async function LiveDetailPage({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>;
+}) {
+  const { locale: raw, slug } = await params;
+  if (!isLocale(raw)) notFound();
+  const locale = raw as Locale;
   const dict = getDictionary(locale);
   const lv = dict.live;
-  const slug = params.slug;
-  const [event, setEvent] = useState<any>(null);
-  const [msg, setMsg] = useState('');
+  const event = await fetchEvent(slug, locale);
+  if (!event) notFound();
 
-  useEffect(() => {
-    void fetch(`${API_BASE}/live/event/${slug}?locale=${locale}`)
-      .then((r) => r.json())
-      .then(setEvent);
-  }, [slug, locale]);
-
-  async function register() {
-    const token = localStorage.getItem('mj_token');
-    if (!token) {
-      setMsg(dict.profile.pleaseLogin);
-      return;
-    }
-    const res = await fetch(`${API_BASE}/live/event/${slug}/register`, {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    setMsg(res.ok ? lv.registered : dict.error);
-  }
-
-  if (!event) return <div className="p-8 text-sm text-[var(--mj-muted-fg)]">{dict.loading}</div>;
+  const eventSchema = jsonLdScript({
+    '@context': 'https://schema.org',
+    '@type': 'Event',
+    name: event.title,
+    description: event.summary,
+    startDate: event.startsAt,
+    eventStatus:
+      event.status === 'live'
+        ? 'https://schema.org/EventScheduled'
+        : event.status === 'ended'
+          ? 'https://schema.org/EventMovedOnline'
+          : 'https://schema.org/EventScheduled',
+    eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
+    location: {
+      '@type': 'VirtualLocation',
+      url: absoluteUrl(localePath(locale, `/live/${slug}`)),
+    },
+    organizer: {
+      '@type': 'Organization',
+      name: 'MEGA JS',
+      url: absoluteUrl(localePath(locale, '/')),
+    },
+  });
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
+      {eventSchema ? (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: eventSchema }} />
+      ) : null}
       <Link href={`/${locale}/live`} className="text-sm text-[var(--mj-muted-fg)] hover:underline">
         ← {dict.back}
       </Link>
@@ -90,14 +136,13 @@ export default function LiveDetailPage() {
         ))}
       </div>
 
-      <button
-        type="button"
-        onClick={() => void register()}
-        className="mt-8 h-11 cursor-pointer rounded-[var(--mj-radius-md)] bg-[var(--mj-accent)] px-5 font-semibold text-[var(--mj-accent-fg)]"
-      >
-        {lv.registerWebinar}
-      </button>
-      {msg ? <p className="mt-3 text-sm text-[var(--mj-muted-fg)]">{msg}</p> : null}
+      <LiveRegisterButton
+        slug={slug}
+        label={lv.registerWebinar}
+        loginHint={dict.profile.pleaseLogin}
+        errorLabel={dict.error}
+        registeredLabel={lv.registered}
+      />
     </div>
   );
 }

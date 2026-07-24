@@ -1,5 +1,6 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
+import { defaultLocale, isLocale, type Locale } from '@/lib/utils';
 
 const API = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000/api';
 
@@ -74,10 +75,35 @@ function isPrivatePath(pathname: string, excludePaths: string[]) {
   return excludePaths.some((p) => pathname === p || pathname.startsWith(`${p}/`));
 }
 
+function isSpecialPath(pathname: string) {
+  if (pathname.startsWith('/api')) return true;
+  if (pathname.startsWith('/_next')) return true;
+  // sitemaps, robots, static files
+  if (pathname.includes('.')) return true;
+  return false;
+}
+
+function negotiateLocale(request: NextRequest): Locale {
+  const header = request.headers.get('accept-language')?.toLowerCase() ?? '';
+  if (header.includes('en') && !header.startsWith('fa')) return 'en';
+  return defaultLocale;
+}
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Fast path for private areas — skip cache-config fetch when obviously private
+  // Locale prefix for public HTML routes (Google-friendly canonical structure)
+  if (!isSpecialPath(pathname)) {
+    const first = pathname.split('/').filter(Boolean)[0];
+    if (!first || !isLocale(first)) {
+      const locale = negotiateLocale(request);
+      const url = request.nextUrl.clone();
+      url.pathname =
+        pathname === '/' ? `/${locale}` : `/${locale}${pathname.startsWith('/') ? pathname : `/${pathname}`}`;
+      return NextResponse.redirect(url, 308);
+    }
+  }
+
   const likelyPrivate =
     pathname.includes('/login') || pathname.includes('/profile');
 
@@ -93,7 +119,14 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url, (hit.code === 302 ? 302 : 301) as 301 | 302);
   }
 
-  const response = NextResponse.next();
+  const firstSeg = pathname.split('/').filter(Boolean)[0];
+  const locale = isLocale(firstSeg ?? '') ? firstSeg : defaultLocale;
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set('x-locale', locale);
+
+  const response = NextResponse.next({
+    request: { headers: requestHeaders },
+  });
   response.headers.set('X-Content-Type-Options', 'nosniff');
   response.headers.set('X-Frame-Options', 'SAMEORIGIN');
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
@@ -101,6 +134,7 @@ export async function middleware(request: NextRequest) {
     'Permissions-Policy',
     'camera=(), microphone=(), geolocation=()',
   );
+  response.headers.set('Content-Language', locale);
 
   if (!pathname.startsWith('/_next') && !pathname.includes('.')) {
     const privatePath = isPrivatePath(pathname, cfg.excludePaths);
@@ -124,7 +158,7 @@ export async function middleware(request: NextRequest) {
         `public, s-maxage=${sMax}, stale-while-revalidate=${swr}`,
       );
       response.headers.set('X-MEGA-Rocket', 'HIT-POLICY');
-      response.headers.set('Vary', 'Accept-Encoding');
+      response.headers.set('Vary', 'Accept-Encoding, Accept-Language');
       if (cfg.exposeDebugHeaders && cfg.purgedAt) {
         response.headers.set('X-MEGA-Cache-Bust', cfg.purgedAt);
       }
