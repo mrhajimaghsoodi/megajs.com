@@ -1,63 +1,74 @@
 /**
- * MEGA JS Design Tokens — single source of truth for all clients.
- * Brand: yellow #ffd400 · ink #1a1a1a
- * Generated with UI/UX Pro Max guidance (Flat + Minimal + Bento).
+ * MEGA JS Design Tokens — UI/UX Pro Max developer-tools system.
+ * Brand accent: yellow #ffd400 · surfaces: slate OLED / light slate
  */
 
 export const brand = {
   name: 'MEGA JS',
   yellow: '#ffd400',
-  ink: '#1a1a1a',
+  accent: '#ffd400',
+  ink: '#0f172a',
   white: '#ffffff',
+  canvas: '#020617',
+} as const;
+
+export const syntax = {
+  keyword: '#c4b5fd',
+  string: '#86efac',
+  function: '#93c5fd',
+  number: '#fcd34d',
+  comment: '#64748b',
+  operator: '#67e8f9',
+  property: '#fca5a5',
 } as const;
 
 export const light = {
-  background: brand.white,
+  background: '#f8fafc',
   foreground: brand.ink,
-  muted: '#f4f4f5',
-  mutedForeground: '#52525b',
-  border: '#e4e4e7',
+  muted: '#f1f5f9',
+  mutedForeground: '#64748b',
+  border: '#e2e8f0',
   accent: brand.yellow,
   accentForeground: brand.ink,
   success: '#16a34a',
-  danger: '#dc2626',
+  danger: '#ef4444',
   ring: brand.yellow,
   card: brand.white,
 } as const;
 
 export const dark = {
-  background: brand.ink,
-  foreground: brand.white,
-  muted: '#27272a',
-  mutedForeground: '#a1a1aa',
-  border: '#3f3f46',
+  background: brand.canvas,
+  foreground: '#f8fafc',
+  muted: '#1a1e2f',
+  mutedForeground: '#94a3b8',
+  border: '#334155',
   accent: brand.yellow,
   accentForeground: brand.ink,
   success: '#22c55e',
   danger: '#ef4444',
   ring: brand.yellow,
-  card: '#242424',
+  card: '#0e1223',
 } as const;
 
 export const fonts = {
-  display: 'Space Grotesk',
-  body: 'DM Sans',
+  display: 'JetBrains Mono',
+  body: 'IBM Plex Sans',
   persian: 'Vazirmatn',
   mono: 'JetBrains Mono',
 } as const;
 
 export const radii = {
-  sm: '6px',
-  md: '12px',
-  lg: '20px',
+  sm: '4px',
+  md: '8px',
+  lg: '12px',
   pill: '999px',
 } as const;
 
 export const motion = {
   fast: '150ms',
   base: '220ms',
-  slow: '300ms',
-  easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
+  slow: '380ms',
+  easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
 } as const;
 
 export const breakpoints = {
@@ -73,4 +84,4 @@ export const defaultLocale: Locale = 'fa';
 
 export const themes = ['light', 'dark'] as const;
 export type Theme = (typeof themes)[number];
-export const defaultTheme: Theme = 'light';
+export const defaultTheme: Theme = 'dark';

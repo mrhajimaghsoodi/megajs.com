@@ -1,4 +1,4 @@
-import { IBM_Plex_Sans, JetBrains_Mono, Space_Grotesk, Vazirmatn } from 'next/font/google';
+import { IBM_Plex_Sans, JetBrains_Mono, Vazirmatn } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import type { ReactNode } from 'react';
 import { LocaleDocument } from '@/components/locale-document';
@@ -7,9 +7,10 @@ import { SiteHeader } from '@/components/site-header';
 import { getDictionary } from '@/i18n/dictionaries';
 import { dirFor, isLocale, type Locale } from '@/lib/utils';
 
-const spaceGrotesk = Space_Grotesk({
+/** UI/UX Pro Max Developer Mono: JetBrains display+code, IBM Plex body */
+const jetbrains = JetBrains_Mono({
   subsets: ['latin'],
-  variable: '--font-display',
+  variable: '--font-mono',
 });
 
 const ibmPlex = IBM_Plex_Sans({
@@ -21,11 +22,6 @@ const ibmPlex = IBM_Plex_Sans({
 const vazirmatn = Vazirmatn({
   subsets: ['arabic', 'latin'],
   variable: '--font-persian',
-});
-
-const jetbrains = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-mono',
 });
 
 export function generateStaticParams() {
@@ -50,7 +46,8 @@ export default async function LocaleLayout({
       lang={locale}
       dir={dir}
       data-locale={locale}
-      className={`${spaceGrotesk.variable} ${ibmPlex.variable} ${vazirmatn.variable} ${jetbrains.variable} flex min-h-dvh flex-col bg-[var(--mj-bg)] text-[var(--mj-fg)]`}
+      style={{ ['--font-display' as string]: 'var(--font-mono)' }}
+      className={`${jetbrains.variable} ${ibmPlex.variable} ${vazirmatn.variable} flex min-h-dvh flex-col bg-background text-foreground`}
     >
       <LocaleDocument locale={locale} />
       <SiteHeader locale={locale} dict={dict} />

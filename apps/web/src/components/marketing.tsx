@@ -18,7 +18,7 @@ export function MarketingHero({
         className="mj-hero-wash pointer-events-none absolute inset-0"
         style={{
           background:
-            'radial-gradient(700px 360px at 85% 0%, color-mix(in oklab, var(--mj-yellow) 22%, transparent), transparent 60%)',
+            'radial-gradient(700px 360px at 85% 0%, color-mix(in oklab, var(--mj-accent) 22%, transparent), transparent 60%)',
         }}
         aria-hidden
       />

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { Dictionary } from '@/i18n/dictionaries';
 import type { Locale } from '@/lib/utils';
 import { Logo } from './logo';
+import { NewsletterBand } from './woodmart/newsletter';
 
 export function SiteFooter({
   locale,
@@ -12,6 +13,7 @@ export function SiteFooter({
 }) {
   const base = `/${locale}`;
   const f = dict.footer;
+  const w = dict.woodmart;
   const columns = [
     {
       title: f.learn,
@@ -56,40 +58,59 @@ export function SiteFooter({
   ];
 
   return (
-    <footer className="mt-auto border-t border-white/10 bg-[#0c0c0c] text-[var(--mj-canvas-fg)]">
-      <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
-        <div className="grid gap-10 lg:grid-cols-[1.2fr_2fr]">
-          <div className="space-y-4">
-            <Logo href={base} />
-            <p className="max-w-sm text-sm leading-7 text-white/55">{f.blurb}</p>
-          </div>
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
-            {columns.map((col) => (
-              <div key={col.title}>
-                <div className="mb-3 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--mj-yellow)]">
-                  {col.title}
-                </div>
-                <ul className="space-y-2">
-                  {col.links.map((link) => (
-                    <li key={link.href}>
-                      <Link
-                        href={link.href}
-                        className="text-sm text-white/55 underline-offset-4 transition-colors hover:text-[var(--mj-yellow)] hover:underline"
-                      >
-                        {link.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+    <>
+      <NewsletterBand
+        title={w.newsletter.title}
+        body={w.newsletter.body}
+        placeholder={w.newsletter.placeholder}
+        cta={w.newsletter.cta}
+        success={w.newsletter.success}
+      />
+      <footer className="mt-auto border-t border-white/10 bg-[#121212] text-[var(--mj-canvas-fg)]">
+        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+          <div className="grid gap-10 lg:grid-cols-[1.15fr_2fr]">
+            <div className="space-y-4">
+              <Logo href={base} />
+              <p className="max-w-sm text-sm leading-7 text-white/55">{f.blurb}</p>
+              <div className="flex flex-wrap gap-2 pt-2">
+                {w.footerBadges.map((badge) => (
+                  <span
+                    key={badge}
+                    className="border border-white/15 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-white/55"
+                  >
+                    {badge}
+                  </span>
+                ))}
               </div>
-            ))}
+            </div>
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
+              {columns.map((col) => (
+                <div key={col.title}>
+                  <div className="mb-3 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-primary">
+                    {col.title}
+                  </div>
+                  <ul className="space-y-2">
+                    {col.links.map((link) => (
+                      <li key={link.href}>
+                        <Link
+                          href={link.href}
+                          className="text-sm text-white/55 underline-offset-4 transition-colors hover:text-primary hover:underline"
+                        >
+                          {link.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="mt-12 flex flex-col gap-2 border-t border-white/10 pt-6 font-mono text-[11px] text-white/40 sm:flex-row sm:items-center sm:justify-between">
+            <span>© {new Date().getFullYear()} MEGA JS</span>
+            <span>{f.rights}</span>
           </div>
         </div>
-        <div className="mt-12 flex flex-col gap-2 border-t border-white/10 pt-6 font-mono text-[11px] text-white/40 sm:flex-row sm:items-center sm:justify-between">
-          <span>© {new Date().getFullYear()} MEGA JS</span>
-          <span>{f.rights}</span>
-        </div>
-      </div>
-    </footer>
+      </footer>
+    </>
   );
 }

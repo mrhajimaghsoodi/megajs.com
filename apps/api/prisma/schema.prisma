@@ -24,7 +24,11 @@ model User {
   avatarUrl     String?
   locale        String         @default("fa")
   theme         String         @default("light")
-  role          String           @default("user")
+  role          String         @default("user")
+  /// active | suspended | banned
+  status        String         @default("active")
+  suspendedAt   DateTime?
+  suspendedReason String?
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
 
@@ -41,6 +45,7 @@ model User {
   tickets      Ticket[]        @relation("TicketAuthor")
   assignedTickets Ticket[]     @relation("TicketAssignee")
   ticketMessages TicketMessage[]
+  staffNotes    StaffNote[]
 }
 
 model AuthIdentity {
@@ -115,6 +120,9 @@ model Course {
   currency             String        @default("IRT")
   sortOrder            Int           @default(0)
   estimatedMinutes     Int           @default(0)
+  sku                  String?
+  coverUrl             String?
+  featured             Boolean       @default(false)
   createdAt            DateTime      @default(now())
   updatedAt            DateTime      @updatedAt
   track                Track         @relation(fields: [trackId], references: [id], onDelete: Cascade)
@@ -122,6 +130,7 @@ model Course {
   modules              Module[]
   enrollments          Enrollment[]
   seo                  SeoMeta?
+  taxonomies           CourseTerm[]
 }
 
 model CourseI18n {
@@ -205,14 +214,21 @@ model ContentAsset {
 }
 
 model Article {
-  id        String        @id @default(cuid())
-  slug      String        @unique
-  status    String @default("draft")
-  publishedAt DateTime?
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
-  i18n      ArticleI18n[]
-  seo       SeoMeta?
+  id            String        @id @default(cuid())
+  slug          String        @unique
+  status        String @default("draft")
+  publishedAt   DateTime?
+  authorId      String?
+  coverUrl      String?
+  commentStatus String        @default("open")
+  /// RankMath-style focus keyword
+  focusKeyword  String        @default("")
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  i18n          ArticleI18n[]
+  seo           SeoMeta?
+  taxonomies    ArticleTerm[]
+  comments      Comment[]
 }
 
 model ArticleI18n {
@@ -268,6 +284,7 @@ model SeoMeta {
   articleId String? @unique
   podcastId String? @unique
   liveId    String? @unique
+  pageId    String? @unique
 
   track   Track?          @relation(fields: [trackId], references: [id], onDelete: Cascade)
   course  Course?         @relation(fields: [courseId], references: [id], onDelete: Cascade)
@@ -275,6 +292,7 @@ model SeoMeta {
   article Article?        @relation(fields: [articleId], references: [id], onDelete: Cascade)
   podcast PodcastEpisode? @relation(fields: [podcastId], references: [id], onDelete: Cascade)
   live    LiveEvent?      @relation(fields: [liveId], references: [id], onDelete: Cascade)
+  page    Page?           @relation(fields: [pageId], references: [id], onDelete: Cascade)
 
   @@index([entityType, entityId, locale])
 }
@@ -331,18 +349,32 @@ model Subscription {
 }
 
 model Order {
-  id          String   @id @default(cuid())
-  userId      String
-  kind        String
-  amountCents Int
-  tokenSpent  Int      @default(0)
-  currency    String   @default("IRT")
-  status      String
-  metaJson    String   @default("{}")
-  createdAt   DateTime @default(now())
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id            String   @id @default(cuid())
+  userId        String
+  kind          String
+  amountCents   Int
+  tokenSpent    Int      @default(0)
+  currency      String   @default("IRT")
+  /// pending | processing | completed | on_hold | cancelled | refunded | failed
+  status        String
+  productId     String?
+  planId        String?
+  couponId      String?
+  discountCents Int      @default(0)
+  refundCents   Int      @default(0)
+  paidAt        DateTime?
+  refundedAt    DateTime?
+  customerNote  String   @default("")
+  billingJson   String   @default("{}")
+  metaJson      String   @default("{}")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  coupon        Coupon?  @relation(fields: [couponId], references: [id], onDelete: SetNull)
+  notes         OrderNote[]
 
   @@index([userId])
+  @@index([status, createdAt])
 }
 
 model Wallet {
@@ -514,4 +546,286 @@ model TicketMessage {
   author User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
   @@index([ticketId, createdAt])
+}
+
+/// Internal staff notes on a learner (not visible to the user)
+model StaffNote {
+  id        String   @id @default(cuid())
+  userId    String
+  authorId  String?
+  body      String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+}
+
+
+/// CMS static page (WordPress Pages)
+model Page {
+  id          String     @id @default(cuid())
+  slug        String     @unique
+  status      String     @default("draft")
+  /// default | elementor
+  template    String     @default("default")
+  /// Elementor-like page builder JSON
+  builderJson String     @default("{\"version\":1,\"sections\":[]}")
+  parentId    String?
+  sortOrder   Int        @default(0)
+  publishedAt DateTime?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  parent      Page?      @relation("PageTree", fields: [parentId], references: [id], onDelete: SetNull)
+  children    Page[]     @relation("PageTree")
+  i18n        PageI18n[]
+  seo         SeoMeta?
+}
+
+model PageI18n {
+  id      String @id @default(cuid())
+  pageId  String
+  locale  String
+  title   String
+  summary String @default("")
+  bodyMdx String @default("")
+  page    Page   @relation(fields: [pageId], references: [id], onDelete: Cascade)
+
+  @@unique([pageId, locale])
+}
+
+/// Category / tag taxonomy (post_category | product_category | post_tag | product_tag)
+model Term {
+  id        String     @id @default(cuid())
+  slug      String
+  /// post_category | product_category | post_tag | product_tag
+  taxonomy  String
+  parentId  String?
+  sortOrder Int        @default(0)
+  createdAt DateTime   @default(now())
+  parent    Term?      @relation("TermTree", fields: [parentId], references: [id], onDelete: SetNull)
+  children  Term[]     @relation("TermTree")
+  i18n      TermI18n[]
+  articles  ArticleTerm[]
+  courses   CourseTerm[]
+
+  @@unique([taxonomy, slug])
+  @@index([taxonomy])
+}
+
+model TermI18n {
+  id          String @id @default(cuid())
+  termId      String
+  locale      String
+  name        String
+  description String @default("")
+  term        Term   @relation(fields: [termId], references: [id], onDelete: Cascade)
+
+  @@unique([termId, locale])
+}
+
+model ArticleTerm {
+  articleId String
+  termId    String
+  article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  term      Term    @relation(fields: [termId], references: [id], onDelete: Cascade)
+
+  @@id([articleId, termId])
+}
+
+model CourseTerm {
+  courseId String
+  termId   String
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  term     Term   @relation(fields: [termId], references: [id], onDelete: Cascade)
+
+  @@id([courseId, termId])
+}
+
+/// Media library item
+model MediaItem {
+  id             String   @id @default(cuid())
+  url            String
+  /// Smush-optimized / WebP-friendly URL when available
+  optimizedUrl   String?
+  filename       String
+  mimeType       String   @default("application/octet-stream")
+  sizeBytes      Int      @default(0)
+  originalBytes  Int      @default(0)
+  width          Int?
+  height         Int?
+  alt            String   @default("")
+  title          String   @default("")
+  /// pending | optimized | skipped
+  smushStatus    String   @default("pending")
+  uploadedById   String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([createdAt])
+  @@index([smushStatus])
+}
+
+/// Comments on articles (moderated)
+model Comment {
+  id          String   @id @default(cuid())
+  articleId   String?
+  authorId    String?
+  authorName  String?
+  authorEmail String?
+  body        String
+  /// pending | approved | spam | trash
+  status      String   @default("pending")
+  parentId    String?
+  createdAt   DateTime @default(now())
+  article     Article? @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  parent      Comment? @relation("CommentTree", fields: [parentId], references: [id], onDelete: SetNull)
+  children    Comment[] @relation("CommentTree")
+
+  @@index([articleId, status])
+  @@index([status, createdAt])
+}
+
+model NavMenu {
+  id        String        @id @default(cuid())
+  /// header | footer | mobile
+  location  String        @unique
+  name      String
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  items     NavMenuItem[]
+}
+
+model NavMenuItem {
+  id        String  @id @default(cuid())
+  menuId    String
+  parentId  String?
+  /// custom | page | article | course
+  type      String  @default("custom")
+  refId     String?
+  url       String  @default("")
+  labelJson String  @default("{}")
+  sortOrder Int     @default(0)
+  menu      NavMenu @relation(fields: [menuId], references: [id], onDelete: Cascade)
+  parent    NavMenuItem? @relation("MenuTree", fields: [parentId], references: [id], onDelete: SetNull)
+  children  NavMenuItem[] @relation("MenuTree")
+
+  @@index([menuId, sortOrder])
+}
+
+model Coupon {
+  id              String    @id @default(cuid())
+  code            String    @unique
+  /// percent | fixed
+  discountType    String
+  amount          Int
+  currency        String    @default("IRT")
+  maxUses         Int?
+  usedCount       Int       @default(0)
+  minAmountCents  Int       @default(0)
+  expiresAt       DateTime?
+  active          Boolean   @default(true)
+  /// JSON: { courseIds?: string[], planIds?: string[] }
+  scopeJson       String    @default("{}")
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  orders          Order[]
+}
+
+model OrderNote {
+  id                 String   @id @default(cuid())
+  orderId            String
+  authorId           String?
+  body               String
+  isCustomerVisible  Boolean  @default(false)
+  createdAt          DateTime @default(now())
+  order              Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId, createdAt])
+}
+
+/// Key/value site settings (general, reading, discussion, payments, …)
+model SiteSetting {
+  key       String   @id
+  valueJson String   @default("{}")
+  updatedAt DateTime @updatedAt
+}
+
+
+/// Wordfence-style security events & IP blocks
+model SecurityEvent {
+  id        String   @id @default(cuid())
+  /// login_fail | otp_rate | blocked_request | scan | unlock | ban_ip | unban_ip
+  type      String
+  severity  String   @default("info")
+  ip        String?
+  phone     String?
+  path      String?
+  userAgent String?
+  metaJson  String   @default("{}")
+  createdAt DateTime @default(now())
+
+  @@index([type, createdAt])
+  @@index([ip, createdAt])
+}
+
+model BlockedIp {
+  id        String    @id @default(cuid())
+  ip        String    @unique
+  reason    String    @default("")
+  expiresAt DateTime?
+  createdAt DateTime  @default(now())
+  createdBy String?
+
+  @@index([expiresAt])
+}
+
+model LoginLockout {
+  id           String   @id @default(cuid())
+  phone        String
+  ip           String?
+  failCount    Int      @default(0)
+  lockedUntil  DateTime?
+  updatedAt    DateTime @updatedAt
+
+  @@unique([phone])
+  @@index([ip])
+}
+
+
+/// WooCommerce-style product attributes (e.g. Level, Language)
+model ProductAttribute {
+  id        String                 @id @default(cuid())
+  slug      String                 @unique
+  name      String
+  type      String                 @default("select")
+  orderBy   String                 @default("menu_order")
+  hasArchives Boolean              @default(false)
+  createdAt DateTime               @default(now())
+  updatedAt DateTime               @updatedAt
+  terms     ProductAttributeTerm[]
+}
+
+model ProductAttributeTerm {
+  id          String           @id @default(cuid())
+  attributeId String
+  slug        String
+  name        String
+  description String           @default("")
+  sortOrder   Int              @default(0)
+  attribute   ProductAttribute @relation(fields: [attributeId], references: [id], onDelete: Cascade)
+
+  @@unique([attributeId, slug])
+  @@index([attributeId])
+}
+
+/// Appearance → Widgets areas (header/footer/sidebar)
+model WidgetArea {
+  id        String   @id @default(cuid())
+  /// header | footer | sidebar | shop_sidebar
+  location  String   @unique
+  name      String
+  /// JSON array of widgets {id,type,title,settings}
+  widgetsJson String @default("[]")
+  updatedAt DateTime @updatedAt
 }

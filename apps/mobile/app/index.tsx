@@ -39,11 +39,11 @@ const styles = StyleSheet.create({
     minHeight: 160,
     justifyContent: 'flex-end',
   },
-  brand: { color: brand.yellow, fontSize: 32, fontWeight: '800' },
+  brand: { color: brand.accent, fontSize: 32, fontWeight: '800' },
   tagline: { color: '#fff', marginTop: 8, fontSize: 16 },
   nav: { gap: 10 },
   btn: {
-    backgroundColor: brand.yellow,
+    backgroundColor: brand.accent,
     borderRadius: 12,
     minHeight: 48,
     alignItems: 'center',

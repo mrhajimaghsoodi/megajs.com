@@ -57,6 +57,39 @@ export class WalletService {
     });
   }
 
+  /** Admin credit (+) or debit (−). Debit cannot go below zero. */
+  async adminAdjust(
+    userId: string,
+    amount: number,
+    reason: string,
+    actorId?: string,
+  ) {
+    if (!Number.isFinite(amount) || amount === 0) {
+      throw new BadRequestException('amount must be a non-zero number');
+    }
+    const wallet = await this.ensureWallet(userId);
+    if (amount < 0 && wallet.balance + amount < 0) {
+      throw new BadRequestException('Insufficient balance for debit');
+    }
+    return this.prisma.$transaction(async (tx) => {
+      const updated = await tx.wallet.update({
+        where: { id: wallet.id },
+        data: { balance: { increment: amount } },
+      });
+      await tx.ledgerEntry.create({
+        data: {
+          walletId: wallet.id,
+          type: amount > 0 ? 'admin_credit' : 'admin_debit',
+          amount,
+          reason: reason || 'admin_adjust',
+          refType: 'admin',
+          refId: actorId,
+        },
+      });
+      return updated;
+    });
+  }
+
   async redeem(
     userId: string,
     tokens: number,

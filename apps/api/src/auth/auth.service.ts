@@ -91,6 +91,12 @@ export class AuthService {
       });
     }
 
+    if (user.status === 'banned' || user.status === 'suspended') {
+      throw new UnauthorizedException(
+        user.status === 'banned' ? 'Account banned' : 'Account suspended',
+      );
+    }
+
     const sessionId = randomUUID();
     const accessToken = `mj_${user.id}_${sessionId}`;
     await this.prisma.session.create({
