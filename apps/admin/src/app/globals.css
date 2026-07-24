@@ -1,18 +1,138 @@
 @import "tailwindcss";
 @import "@megajs/design-tokens/css";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --color-background: var(--mj-bg);
-  --color-foreground: var(--mj-fg);
+  /* MEGA JS brand fonts */
   --font-display: var(--font-display);
   --font-body: var(--font-body);
   --font-persian: var(--font-persian);
   --font-mono: var(--font-mono);
+  --font-sans: var(--font-body);
+  --font-heading: var(--font-display);
+
+  /* Map Tailwind semantic colors → shadcn CSS vars (fed by design-tokens) */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+}
+
+/* shadcn semantic tokens ← @megajs/design-tokens */
+:root {
+  --background: var(--mj-bg);
+  --foreground: var(--mj-fg);
+  --card: var(--mj-card);
+  --card-foreground: var(--mj-fg);
+  --popover: var(--mj-card);
+  --popover-foreground: var(--mj-fg);
+  --primary: var(--mj-yellow);
+  --primary-foreground: var(--mj-ink);
+  --secondary: var(--mj-muted);
+  --secondary-foreground: var(--mj-fg);
+  --muted: var(--mj-muted);
+  --muted-foreground: var(--mj-muted-fg);
+  --accent: var(--mj-yellow);
+  --accent-foreground: var(--mj-ink);
+  --destructive: var(--mj-danger);
+  --border: var(--mj-border);
+  --input: var(--mj-border);
+  --ring: var(--mj-ring);
+  --chart-1: var(--mj-yellow);
+  --chart-2: var(--mj-ink);
+  --chart-3: var(--mj-muted-fg);
+  --chart-4: var(--mj-success);
+  --chart-5: var(--mj-danger);
+  --radius: 0.5rem;
+  --sidebar: var(--mj-card);
+  --sidebar-foreground: var(--mj-fg);
+  --sidebar-primary: var(--mj-yellow);
+  --sidebar-primary-foreground: var(--mj-ink);
+  --sidebar-accent: var(--mj-muted);
+  --sidebar-accent-foreground: var(--mj-fg);
+  --sidebar-border: var(--mj-border);
+  --sidebar-ring: var(--mj-ring);
+}
+
+.dark {
+  --background: var(--mj-bg);
+  --foreground: var(--mj-fg);
+  --card: var(--mj-card);
+  --card-foreground: var(--mj-fg);
+  --popover: var(--mj-card);
+  --popover-foreground: var(--mj-fg);
+  --primary: var(--mj-yellow);
+  --primary-foreground: var(--mj-ink);
+  --secondary: var(--mj-muted);
+  --secondary-foreground: var(--mj-fg);
+  --muted: var(--mj-muted);
+  --muted-foreground: var(--mj-muted-fg);
+  --accent: var(--mj-yellow);
+  --accent-foreground: var(--mj-ink);
+  --destructive: var(--mj-danger);
+  --border: var(--mj-border);
+  --input: var(--mj-border);
+  --ring: var(--mj-ring);
+  --sidebar: #121212;
+  --sidebar-foreground: var(--mj-fg);
+  --sidebar-primary: var(--mj-yellow);
+  --sidebar-primary-foreground: var(--mj-ink);
+  --sidebar-accent: var(--mj-muted);
+  --sidebar-accent-foreground: var(--mj-fg);
+  --sidebar-border: var(--mj-border);
+  --sidebar-ring: var(--mj-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--mj-bg);
-  color: var(--mj-fg);
   font-family: var(--font-body), var(--font-persian), system-ui, sans-serif;
 }
 
@@ -26,10 +146,17 @@ html[dir='ltr'] body {
   font-family: var(--font-body), system-ui, sans-serif;
 }
 
+h1,
+h2,
+h3,
 .font-display {
   font-family: var(--font-display), var(--font-persian), sans-serif;
+  letter-spacing: -0.02em;
 }
 
+html[lang='en'] h1,
+html[lang='en'] h2,
+html[lang='en'] h3,
 html[lang='en'] .font-display {
   font-family: var(--font-display), var(--font-body), sans-serif;
 }
@@ -47,4 +174,20 @@ input.font-mono {
   direction: ltr;
   unicode-bidi: isolate;
   text-align: left;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--mj-accent) 55%, white);
+  color: var(--mj-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

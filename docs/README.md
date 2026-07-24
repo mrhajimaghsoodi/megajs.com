@@ -10,6 +10,7 @@ This folder is the onboarding source for any engineer joining the project.
 | [product/ROADMAP.md](product/ROADMAP.md) | Curriculum years + delivery waves |
 | [guides/LOCAL_DEV.md](guides/LOCAL_DEV.md) | Run everything locally |
 | [guides/DESIGN_SYSTEM.md](guides/DESIGN_SYSTEM.md) | Brand + UI/UX Pro Max + tokens |
+| [guides/UI_STACK.md](guides/UI_STACK.md) | Tailwind v4 + shadcn + design-tokens wiring |
 | [guides/CONTRIBUTING.md](guides/CONTRIBUTING.md) | Conventions for PRs and modules |
 | [guides/SKILLS.md](guides/SKILLS.md) | Installed agent skills inventory |
 | [guides/DEPLOYMENT.md](guides/DEPLOYMENT.md) | Private repo + VPS/domain + CI/CD deploy |

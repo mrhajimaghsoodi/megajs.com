@@ -2,7 +2,11 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
-import { Button, Collapse, PageEnter } from '@/components/ui/motion';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Collapse, PageEnter, Spinner } from '@/components/ui/motion';
 import { useAdminLocale } from '@/i18n/locale-context';
 
 const API = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000/api';
@@ -93,58 +97,76 @@ export default function AdminLoginPage() {
         className="relative flex min-h-dvh items-center justify-center overflow-hidden bg-[#0c0c0c] px-4 text-[var(--mj-canvas-fg)]"
       >
         <div className="pointer-events-none absolute inset-0 mj-code-plane opacity-60" aria-hidden />
-        <div className="relative z-10 w-full max-w-md space-y-5 rounded-[var(--mj-radius-lg)] border border-white/10 bg-[#121212]/95 p-6 shadow-[0_0_0_1px_color-mix(in_oklab,var(--mj-yellow)_20%,transparent)] backdrop-blur-sm sm:p-8">
+        <div className="relative z-10 flex w-full max-w-md flex-col gap-5 rounded-xl border border-white/10 bg-card/95 p-6 shadow-[0_0_0_1px_color-mix(in_oklab,var(--mj-yellow)_20%,transparent)] backdrop-blur-sm sm:p-8">
           <div className="flex items-center justify-between gap-3">
             <Image src="/logo.svg" alt="MEGA JS" width={160} height={36} className="h-9 w-auto" />
-            <button
+            <Button
               type="button"
-              className="mj-btn h-9 cursor-pointer rounded-md border border-white/15 px-3 font-mono text-xs"
+              variant="outline"
+              size="sm"
+              className="border-white/15 bg-transparent font-mono text-xs"
               onClick={() => setLocale(locale === 'fa' ? 'en' : 'fa')}
             >
               {locale === 'fa' ? 'EN' : 'فا'}
-            </button>
+            </Button>
           </div>
-          <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--mj-yellow)]">
+          <div className="flex flex-col gap-2">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary">
               ops console
             </p>
-            <h1 className="mt-2 font-display text-3xl font-bold tracking-tight">{dict.login.title}</h1>
-            <p className="mt-2 text-sm text-white/55">{dict.login.subtitle}</p>
-            <p className="mt-1 font-mono text-xs text-white/40" dir="ltr">
+            <h1 className="font-display text-3xl font-bold tracking-tight">{dict.login.title}</h1>
+            <p className="text-sm text-muted-foreground">{dict.login.subtitle}</p>
+            <p className="font-mono text-xs text-muted-foreground" dir="ltr">
               {dict.login.hint}
             </p>
           </div>
-          <label className="grid gap-1 text-sm">
-            {dict.login.phone}
-            <input
-              className="h-12 rounded-md border border-white/15 bg-black/40 px-3 font-mono transition-[border-color,box-shadow] duration-[var(--mj-motion-fast)] focus:border-[var(--mj-accent)] focus:outline-none focus:ring-2 focus:ring-[var(--mj-accent)]/40"
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="admin-phone">{dict.login.phone}</Label>
+            <Input
+              id="admin-phone"
+              className="h-12 border-white/15 bg-black/40 font-mono"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               dir="ltr"
             />
-          </label>
-          <Button loading={busy} onClick={() => void requestOtp()} className="w-full">
+          </div>
+          <Button disabled={busy} onClick={() => void requestOtp()} className="h-12 w-full" size="lg">
+            {busy ? <Spinner /> : null}
             {dict.login.send}
           </Button>
           <Collapse open={Boolean(devCode)}>
-            <p className="rounded-md border border-[var(--mj-yellow)]/30 bg-[var(--mj-yellow)]/10 px-3 py-2 font-mono text-sm text-[var(--mj-yellow)]" dir="ltr">
-              DEV OTP: {devCode}
-            </p>
+            <Alert className="border-primary/30 bg-primary/10 text-primary">
+              <AlertDescription className="font-mono" dir="ltr">
+                DEV OTP: {devCode}
+              </AlertDescription>
+            </Alert>
           </Collapse>
-          <label className="grid gap-1 text-sm">
-            {dict.login.code}
-            <input
-              className="h-12 rounded-md border border-white/15 bg-black/40 px-3 font-mono transition-[border-color,box-shadow] duration-[var(--mj-motion-fast)] focus:border-[var(--mj-accent)] focus:outline-none focus:ring-2 focus:ring-[var(--mj-accent)]/40"
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="admin-code">{dict.login.code}</Label>
+            <Input
+              id="admin-code"
+              className="h-12 border-white/15 bg-black/40 font-mono"
               value={code}
               onChange={(e) => setCode(e.target.value)}
               dir="ltr"
               placeholder="OTP"
             />
-          </label>
-          <Button variant="secondary" loading={busy} onClick={() => void verify()} className="w-full">
+          </div>
+          <Button
+            variant="secondary"
+            disabled={busy}
+            onClick={() => void verify()}
+            className="h-12 w-full"
+            size="lg"
+          >
+            {busy ? <Spinner /> : null}
             {dict.login.submit}
           </Button>
-          {error ? <p className="mj-slide-down text-sm text-[var(--mj-danger)]">{error}</p> : null}
+          {error ? (
+            <Alert variant="destructive">
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          ) : null}
         </div>
       </div>
     </PageEnter>

@@ -4,7 +4,6 @@ import {
   useEffect,
   useRef,
   useState,
-  type ButtonHTMLAttributes,
   type CSSProperties,
   type ReactNode,
 } from 'react';
@@ -89,67 +88,7 @@ export function Spinner({ className }: { className?: string }) {
   return <span className={cn('mj-spinner', className)} aria-hidden />;
 }
 
-/* ---------- Button ---------- */
-
-type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: 'primary' | 'secondary' | 'ghost';
-  loading?: boolean;
-};
-
-export function Button({
-  className,
-  variant = 'primary',
-  loading,
-  disabled,
-  children,
-  onClick,
-  type = 'button',
-  ...rest
-}: ButtonProps) {
-  const [ripples, setRipples] = useState<Array<{ id: number; x: number; y: number }>>([]);
-
-  function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const id = Date.now();
-    setRipples((r) => [...r, { id, x: e.clientX - rect.left, y: e.clientY - rect.top }]);
-    window.setTimeout(() => {
-      setRipples((r) => r.filter((x) => x.id !== id));
-    }, 520);
-    onClick?.(e);
-  }
-
-  const variants = {
-    primary:
-      'mj-btn--primary bg-[var(--mj-accent)] text-[var(--mj-accent-fg)] font-semibold',
-    secondary:
-      'border border-[var(--mj-border)] bg-[var(--mj-card)] font-semibold hover:bg-[var(--mj-muted)]',
-    ghost: 'hover:bg-[var(--mj-muted)] font-medium',
-  };
-
-  return (
-    <button
-      type={type}
-      disabled={disabled || loading}
-      onClick={handleClick}
-      className={cn(
-        'mj-btn inline-flex h-11 cursor-pointer items-center justify-center gap-2 rounded-[var(--mj-radius-md)] px-4 text-sm',
-        variants[variant],
-        className,
-      )}
-      {...rest}
-    >
-      {ripples.map((r) => (
-        <span
-          key={r.id}
-          className="mj-btn__ripple"
-          style={{ left: r.x, top: r.y }}
-        />
-      ))}
-      {loading ? <Spinner /> : null}
-      <span className="relative z-[1] inline-flex items-center gap-2">{children}</span>
-    </button>
-  );
-}
+/* Prefer @/components/ui/button (shadcn). Motion Button removed to avoid dual systems. */
 
 /* ---------- Reveal on scroll / mount ---------- */
 
