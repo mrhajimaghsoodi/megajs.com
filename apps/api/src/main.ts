@@ -6,17 +6,37 @@ import { uploadsRoot } from './cms/upload.util';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const staticOrigins = [
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'http://127.0.0.1:3000',
+    'http://127.0.0.1:3001',
+    process.env.WEB_ORIGIN,
+    process.env.ADMIN_ORIGIN,
+    // Soft-launch subdomain while WordPress still owns apex
+    process.env.WEB_ORIGIN_ALT,
+    ...(process.env.CORS_ORIGINS?.split(',').map((s) => s.trim()) ?? []),
+  ].filter((x): x is string => Boolean(x));
+  const relaxCors =
+    process.env.CORS_RELAXED === '1' || process.env.CORS_RELAXED === 'true';
   app.enableCors({
-    origin: [
-      'http://localhost:3000',
-      'http://localhost:3001',
-      'http://127.0.0.1:3000',
-      'http://127.0.0.1:3001',
-      process.env.WEB_ORIGIN,
-      process.env.ADMIN_ORIGIN,
-      // Soft-launch subdomain while WordPress still owns apex
-      process.env.WEB_ORIGIN_ALT,
-    ].filter((x): x is string => Boolean(x)),
+    origin: relaxCors
+      ? true
+      : (origin, cb) => {
+          if (!origin || staticOrigins.includes(origin)) {
+            cb(null, true);
+            return;
+          }
+          // Preview tunnels / Vercel previews
+          if (
+            /\.trycloudflare\.com$/.test(origin) ||
+            /\.vercel\.app$/.test(origin)
+          ) {
+            cb(null, true);
+            return;
+          }
+          cb(null, false);
+        },
     credentials: true,
   });
 

@@ -1,0 +1,224 @@
+{
+  "summary": {
+    "health_score": 8,
+    "platform_health_score": 68,
+    "geo_score_live": 5,
+    "geo_score_platform": 62,
+    "business_type": "education / publisher + course catalog",
+    "audited_at": "2026-07-25",
+    "tool": "AgriciDaniel/claude-seo@2.2.4",
+    "top_findings": [
+      "Live homepage returns HTTP 200 with empty HTML body",
+      "WordPress flooded with casino spam posts (19/20 latest)",
+      "Declared XML sitemaps return empty bodies",
+      "Default OG image is SVG (social + some crawlers ignore)",
+      "Organization sameAs empty — weak GEO entity signals"
+    ],
+    "quick_wins": [
+      "Restore HTML or cut over to Next SSR",
+      "Purge casino posts and rotate credentials",
+      "Ship 1200x630 PNG OG default",
+      "Fill ORGANIZATION_SAME_AS social URLs",
+      "Add visible article dates/authors"
+    ]
+  },
+  "categories": [
+    {
+      "name": "Live Production Incident",
+      "score": 5,
+      "what_works": [
+        "robots.txt reachable",
+        "wp-json API still responds with brand name"
+      ],
+      "findings": [
+        {
+          "title": "Empty HTML body on all public HTML routes",
+          "severity": "Critical",
+          "description": "Homepage, locale paths, and sitemap XML return 200 with 0-byte bodies. Playwright render extracts no text.",
+          "recommendation": "Fix WP Rocket/theme output or cut over to Next.js immediately; use 503 during migration if needed."
+        },
+        {
+          "title": "Casino spam content takeover",
+          "severity": "Critical",
+          "description": "19 of 20 most recent WP posts are gambling/casino affiliate content under business-small-business (63 posts).",
+          "recommendation": "Delete spam, remove category, audit users/plugins, rotate secrets, request GSC removals for spam URLs."
+        },
+        {
+          "title": "Sitemaps empty / invalid",
+          "severity": "Critical",
+          "description": "sitemap_index.xml, sitemap.xml, and wp-sitemap.xml return empty responses despite robots declaration.",
+          "recommendation": "Regenerate sitemaps or point robots to Next sitemap_index.xml after cutover."
+        }
+      ]
+    },
+    {
+      "name": "Technical SEO",
+      "score": 72,
+      "what_works": [
+        "Next apps/web has robots.ts, multi-file sitemaps, SSR, locale middleware",
+        "Private routes disallowed and noindexed"
+      ],
+      "findings": [
+        {
+          "title": "AI crawler policy missing on live; added in Next",
+          "severity": "Medium",
+          "description": "Live robots is WooCommerce default. Next robots.ts now allows GPTBot/OAI-SearchBot/ClaudeBot/PerplexityBot/Google-Extended and blocks training scrapers.",
+          "recommendation": "Deploy Next robots with site cutover; document AI crawler policy in ops runbook."
+        },
+        {
+          "title": "Unconditional hreflang for fa/en",
+          "severity": "High",
+          "description": "pageMetadata and sitemaps always advertise both locales even when translation is missing.",
+          "recommendation": "Emit alternates only when a real translation exists; noindex incomplete locale URLs."
+        }
+      ]
+    },
+    {
+      "name": "Content / E-E-A-T",
+      "score": 55,
+      "what_works": [
+        "Docs content is structured and citable",
+        "Historical JS lessons still exist in WP API archive"
+      ],
+      "findings": [
+        {
+          "title": "Article detail missing visible date/author",
+          "severity": "High",
+          "description": "publishedAt only in metadata; no byline or time element in article UI.",
+          "recommendation": "Render localized publish/update dates and author credentials on article pages."
+        },
+        {
+          "title": "Thin podcasts placeholder was indexable",
+          "severity": "High",
+          "description": "Empty-state podcasts page was in misc sitemap without noindex.",
+          "recommendation": "noIndex until content ships (applied in this PR)."
+        }
+      ]
+    },
+    {
+      "name": "Schema",
+      "score": 64,
+      "what_works": [
+        "Organization, WebSite+SearchAction, Breadcrumb, Article CMS schema, docs TechArticle/LearningResource"
+      ],
+      "findings": [
+        {
+          "title": "Course schema missing offers/instance",
+          "severity": "High",
+          "description": "Course JSON-LD lacked hasCourseInstance and Offer fields required for richer eligibility.",
+          "recommendation": "Emit offers + CourseInstance (applied in this PR); add instructor when available."
+        },
+        {
+          "title": "Category ItemList used relative URLs",
+          "severity": "High",
+          "description": "ItemList elements overwrote API URLs with relative paths missing locale.",
+          "recommendation": "Use absoluteUrl(localePath(...)) (applied in this PR)."
+        }
+      ]
+    },
+    {
+      "name": "GEO / AI Search",
+      "score": 62,
+      "what_works": [
+        "Next SSR enables AI crawler readability",
+        "Docs have definition-first passages and sources"
+      ],
+      "findings": [
+        {
+          "title": "Live site unusable for AI citation",
+          "severity": "Critical",
+          "description": "Empty HTML means GPTBot/ClaudeBot/PerplexityBot/Googlebot get nothing to quote.",
+          "recommendation": "Restore SSR HTML first; then optimize passages on top money pages."
+        },
+        {
+          "title": "llms.txt missing on live; added in Next public/",
+          "severity": "Medium",
+          "description": "Google ignores llms.txt for ranking; useful for some non-Google assistants.",
+          "recommendation": "Keep llms.txt updated with hubs; do not treat as Google ranking lever."
+        },
+        {
+          "title": "Weak brand entity packaging",
+          "severity": "High",
+          "description": "Organization.sameAs empty; social channels mentioned in copy but not linked in schema.",
+          "recommendation": "Fill ORGANIZATION_SAME_AS with real profile URLs; pursue Wikipedia/Wikidata if eligible."
+        }
+      ]
+    },
+    {
+      "name": "Images",
+      "score": 40,
+      "what_works": ["Responsive sizes attributes often present"],
+      "findings": [
+        {
+          "title": "Default OG is SVG",
+          "severity": "Critical",
+          "description": "DEFAULT_OG_IMAGE points to logo-mark.svg.",
+          "recommendation": "Add og-default.png 1200x630 and update seo.ts + Organization logo."
+        },
+        {
+          "title": "Empty alt on content images",
+          "severity": "High",
+          "description": "Cards and banners commonly use alt=\"\".",
+          "recommendation": "Set alt from title/CMS alt field."
+        }
+      ]
+    }
+  ],
+  "action_plan": {
+    "phases": [
+      {
+        "name": "Phase 1: Critical Fixes",
+        "timeframe": "Week 1",
+        "items": [
+          "Restore HTML or cut over to Next",
+          "Purge casino spam + rotate credentials",
+          "Fix/regenerate sitemaps"
+        ]
+      },
+      {
+        "name": "Phase 2: High-Impact Improvements",
+        "timeframe": "Weeks 2-3",
+        "items": [
+          "Raster OG default",
+          "Conditional hreflang",
+          "Article bylines/dates",
+          "Image alts",
+          "Organization sameAs"
+        ]
+      },
+      {
+        "name": "Phase 3: Content & Authority",
+        "timeframe": "Month 2",
+        "items": [
+          "Passage citability on docs/pillars",
+          "Docs seoTitle backfill",
+          "Preferred Sources + community mentions"
+        ]
+      },
+      {
+        "name": "Phase 4: Monitoring & Iteration",
+        "timeframe": "Ongoing",
+        "items": [
+          "seo drift baselines",
+          "GSC spam/coverage watch",
+          "Monthly GEO spot-checks"
+        ]
+      }
+    ]
+  },
+  "artifacts": {
+    "findings_dir": "findings/",
+    "screenshots_dir": "screenshots/"
+  },
+  "live_probes": {
+    "homepage_status": 200,
+    "homepage_bytes": 0,
+    "llms_txt_status": 404,
+    "robots_bytes": 411,
+    "sitemap_index_valid": false,
+    "wp_posts_total": 290,
+    "latest_posts_casino_ratio": "19/20",
+    "domain_created": "2019-04-25",
+    "common_crawl_in_rankings": true
+  }
+}

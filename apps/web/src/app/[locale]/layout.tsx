@@ -22,7 +22,7 @@ export async function generateMetadata({
   const dict = getDictionary(locale);
   return pageMetadata({
     locale,
-    title: dict.brand,
+    title: `${dict.brand} — ${dict.tagline}`,
     description: dict.tagline,
     path: '/',
   });

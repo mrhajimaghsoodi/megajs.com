@@ -24,7 +24,8 @@ function mediaRemotePatterns(): NonNullable<NextConfig['images']>['remotePattern
 }
 
 const nextConfig: NextConfig = {
-  output: 'standalone',
+  // Docker/VPS images use standalone; Vercel provides its own tracing output.
+  ...(process.env.VERCEL ? {} : { output: 'standalone' as const }),
   compress: true,
   poweredByHeader: false,
   transpilePackages: ['@megajs/design-tokens', '@megajs/domain', '@megajs/sdk'],

@@ -9,17 +9,23 @@ import { isLocale, type Locale } from '@/lib/utils';
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{ q?: string }>;
 }): Promise<Metadata> {
   const { locale: raw } = await params;
+  const { q } = await searchParams;
   const locale = isLocale(raw) ? raw : 'fa';
   const dict = getDictionary(locale);
+  const hasQuery = Boolean((q ?? '').trim());
   return pageMetadata({
     locale,
     title: dict.learn.title,
     description: dict.learn.subtitle,
     path: '/learn',
+    // Search result URLs are thin duplicates — keep canonical hub indexable only
+    noIndex: hasQuery,
   });
 }
 export default async function LearnPage({
