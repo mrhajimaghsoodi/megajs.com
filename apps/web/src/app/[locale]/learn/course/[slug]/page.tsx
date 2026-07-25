@@ -114,11 +114,15 @@ export default async function CoursePage({
           description: summary,
           path: `/learn/course/${slug}`,
           image: course.coverUrl || course.bannerUrl,
+          accessTier: course.accessTier,
+          priceCents: course.priceCents,
+          salePriceCents: course.salePriceCents,
+          estimatedMinutes: course.estimatedMinutes,
         })}
       />
       <JsonLd
         data={breadcrumbJsonLd(locale, [
-          { name: 'Home', path: '/' },
+          { name: locale === 'fa' ? 'خانه' : 'Home', path: '/' },
           { name: dict.nav.learn, path: '/learn' },
           { name: title, path: `/learn/course/${slug}` },
         ])}

@@ -154,6 +154,17 @@ export function jsonLdScript(data: unknown) {
   return raw;
 }
 
+/**
+ * Public brand profiles for Organization.sameAs (GEO entity signals).
+ * Fill with real canonical profile URLs when available.
+ */
+export const ORGANIZATION_SAME_AS: string[] = [
+  // 'https://www.youtube.com/@…',
+  // 'https://www.aparat.com/…',
+  // 'https://www.instagram.com/…',
+  // 'https://github.com/…',
+].filter(Boolean);
+
 /** schema.org Organization — sitewide identity */
 export function organizationJsonLd(locale: string) {
   return {
@@ -162,7 +173,7 @@ export function organizationJsonLd(locale: string) {
     name: 'MEGA JS',
     url: absoluteUrl(localePath(locale, '/')),
     logo: absoluteUrl('/logo-mark.svg'),
-    sameAs: [] as string[],
+    ...(ORGANIZATION_SAME_AS.length ? { sameAs: ORGANIZATION_SAME_AS } : {}),
     inLanguage: locale === 'fa' ? 'fa-IR' : 'en-US',
   };
 }
@@ -218,13 +229,34 @@ export function courseJsonLd(opts: {
   description?: string;
   path: string;
   image?: string | null;
+  /** Access tier from catalog (`free` | paid tiers) */
+  accessTier?: string | null;
+  /** Price in cents; 0 / null treated as free when accessTier is free */
+  priceCents?: number | null;
+  salePriceCents?: number | null;
+  currency?: string;
+  estimatedMinutes?: number | null;
 }) {
+  const url = absoluteUrl(localePath(opts.locale, opts.path));
+  const isFree =
+    opts.accessTier === 'free' ||
+    opts.priceCents == null ||
+    opts.priceCents <= 0;
+  const amountCents =
+    !isFree &&
+    opts.salePriceCents != null &&
+    opts.salePriceCents > 0 &&
+    opts.salePriceCents < (opts.priceCents ?? 0)
+      ? opts.salePriceCents
+      : opts.priceCents;
+  const currency = opts.currency || (opts.locale === 'fa' ? 'IRR' : 'USD');
+
   return {
     '@context': 'https://schema.org',
     '@type': 'Course',
     name: opts.name,
     description: opts.description,
-    url: absoluteUrl(localePath(opts.locale, opts.path)),
+    url,
     provider: {
       '@type': 'Organization',
       name: 'MEGA JS',
@@ -232,5 +264,20 @@ export function courseJsonLd(opts: {
     },
     image: opts.image ? resolveMediaUrl(opts.image) : absoluteUrl('/logo-mark.svg'),
     inLanguage: opts.locale === 'fa' ? 'fa-IR' : 'en-US',
+    hasCourseInstance: {
+      '@type': 'CourseInstance',
+      courseMode: 'online',
+      ...(opts.estimatedMinutes && opts.estimatedMinutes > 0
+        ? { courseWorkload: `PT${Math.round(opts.estimatedMinutes)}M` }
+        : {}),
+    },
+    offers: {
+      '@type': 'Offer',
+      category: isFree ? 'Free' : 'Paid',
+      price: isFree ? 0 : Math.round((amountCents ?? 0) / 100),
+      priceCurrency: currency,
+      availability: 'https://schema.org/InStock',
+      url,
+    },
   };
 }

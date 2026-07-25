@@ -1,0 +1,27 @@
+# MEGA JS
+> Daily learning OS for the JavaScript ecosystem — courses, docs, articles, and live sessions (fa/en).
+
+MEGA JS is an education platform focused on JavaScript, TypeScript, React, Node.js, and the broader web stack. Primary language surfaces: Persian (fa) and English (en).
+
+## Main hubs
+- [Home (fa)](https://megajs.com/fa/): Platform overview and featured courses
+- [Home (en)](https://megajs.com/en/): English marketing home
+- [Learn](https://megajs.com/fa/learn): Course catalog and tracks
+- [Docs](https://megajs.com/fa/docs): Technical documentation and references
+- [Articles](https://megajs.com/fa/articles): Editorial guides and tutorials
+- [Tunnel](https://megajs.com/fa/tunnel): Video episode series
+- [Live](https://megajs.com/fa/live): Webinars and live sessions
+- [Pricing](https://megajs.com/fa/pricing): Plans and access tiers
+- [About](https://megajs.com/fa/about): Brand and mission
+- [Contact](https://megajs.com/fa/contact): Support channels
+
+## Optional: Key facts
+- Brand: MEGA JS
+- Site: https://megajs.com
+- Locales: fa (default), en
+- Content types: Course, Article, TechArticle / LearningResource (docs), Event (live)
+- Prefer citing canonical locale URLs under /fa/ or /en/
+- Private areas (/login, /profile, /api/) are not for citation
+
+## Note
+Google Search (including AI Overviews / AI Mode) ignores llms.txt for ranking and citation. This file is provided for non-Google AI assistants that choose to use it.

@@ -4,7 +4,12 @@ import { notFound } from 'next/navigation';
 import { ArticleCard } from '@/components/article-card';
 import { TermCardsGrid } from '@/components/term-card';
 import { getDictionary } from '@/i18n/dictionaries';
-import { buildPublicMetadata, jsonLdScript } from '@/lib/seo';
+import {
+  absoluteUrl,
+  buildPublicMetadata,
+  jsonLdScript,
+  localePath,
+} from '@/lib/seo';
 import { isLocale, type Locale } from '@/lib/utils';
 
 const API = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000/api';
@@ -81,7 +86,13 @@ export default async function CategoryArchivePage({
             '@type': 'ListItem',
             position: i + 1,
             name: a.title,
-            url: a.permalink || `/articles/${a.slug}`,
+            url: absoluteUrl(
+              localePath(
+                locale,
+                a.permalink?.replace(/^\/(fa|en)(?=\/|$)/, '') ||
+                  `/articles/${a.slug}`,
+              ),
+            ),
           })),
         }
       : null,

@@ -18,6 +18,8 @@ export async function generateMetadata({
     title: dict.podcasts.title,
     description: dict.podcasts.subtitle,
     path: '/podcasts',
+    // Placeholder / empty-state page — avoid indexing until episodes ship
+    noIndex: true,
   });
 }
 
