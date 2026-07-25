@@ -14,6 +14,7 @@ This folder is the onboarding source for any engineer joining the project.
 | [guides/CONTRIBUTING.md](guides/CONTRIBUTING.md) | Conventions for PRs and modules |
 | [guides/SKILLS.md](guides/SKILLS.md) | Installed agent skills inventory |
 | [guides/DEPLOYMENT.md](guides/DEPLOYMENT.md) | Private repo + VPS/domain + CI/CD deploy |
+| [guides/VERCEL.md](guides/VERCEL.md) | Deploy web + admin on Vercel (API separate) |
 | [guides/PANELS.md](guides/PANELS.md) | Admin + user panel map |
 | [guides/GO_LIVE_FA.md](guides/GO_LIVE_FA.md) | راهنمای فارسی صفر تا صد لانچ |
 | [guides/WHM_DEPLOY_FA.md](guides/WHM_DEPLOY_FA.md) | استقرار کنار وردپرس روی VPS با WHM/cPanel |
